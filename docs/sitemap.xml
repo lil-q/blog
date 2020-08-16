@@ -38,17 +38,32 @@
   </url>
   
   <url>
+    <loc>https://example.org/tags/basis/</loc>
+    <lastmod>2020-05-10T00:08:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/</loc>
+    <lastmod>2020-05-10T00:08:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</loc>
+    <lastmod>2020-05-10T00:08:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2020-05-05T19:30:17+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://example.org/picture/%E6%98%A5%E8%8A%B1/</loc>
     <lastmod>2020-03-17T13:15:18+08:00</lastmod>
   </url>
   
   <url>
     <loc>https://example.org/tags/algorithm/</loc>
-    <lastmod>2019-11-16T19:34:55+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://example.org/blog/</loc>
     <lastmod>2019-11-16T19:34:55+00:00</lastmod>
   </url>
   

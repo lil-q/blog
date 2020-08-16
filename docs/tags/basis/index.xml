@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Blogs on Homeward</title>
-    <link>https://example.org/blog/</link>
-    <description>Recent content in Blogs on Homeward</description>
+    <title>basis on Homeward</title>
+    <link>https://example.org/tags/basis/</link>
+    <description>Recent content in basis on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© {year}</copyright>
     <lastBuildDate>Sun, 10 May 2020 00:08:33 +0000</lastBuildDate>
     
-	<atom:link href="https://example.org/blog/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://example.org/tags/basis/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -38,18 +38,6 @@
 1.4 体系结构  应用层 ：为特定应用程序提供数据传输服务，例如 HTTP、DNS 等协议。数据单位为报文。 传输层 ：为进程提供通用数据传输服务。由于应用层协议很多，定义通用的传输层协议就可以支持不断增多的应用层协议。运输层包括两种协议：传输控制协议 TCP，提供面向连接、可靠的数据传输服务，数据单位为报文段；用户数据报协议 UDP，提供无连接、尽最大努力的数据传输服务，数据单位为用户数据报。TCP 主要提供完整性服务，UDP 主要提供及时性服务。 网络层 ：为主机提供数据传输服务。而传输层协议是为主机中的进程提供数据传输服务。网络层把传输层传递下来的报文段或者用户数据报封装成分组。 数据链路层 ：网络层针对的还是主机之间的数据传输服务，而主机之间可以有很多链路，链路层协议就是为同一链路的主机提供数据传输服务。数据链路层把网络层传下来的分组封装成帧。 物理层 ：考虑的是怎样在传输媒体上传输数据比特流，而不是指具体的传输媒体。物理层的作用是尽可能屏蔽传输媒体和通信手段的差异，使数据链路层感觉不到这些差异。  1. 协议 为进行网络中的数据交换而建立的规则、标准或约定称为网络协议。
 其中表示层和会话层用途如下：
  表示层 ：数据压缩、加密以及数据描述，这使得应用程序不必关心在各台主机中数据内部格式不同的问题。 会话层 ：建立及管理会话。  五层协议没有表示层和会话层，而是将这些功能留给应用程序开发者处。</description>
-    </item>
-    
-    <item>
-      <title>排序算法(Sorting algorithm)</title>
-      <link>https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</link>
-      <pubDate>Sat, 16 Nov 2019 19:34:55 +0000</pubDate>
-      
-      <guid>https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</guid>
-      <description>十种排序算法的python实现及复杂度分析
-分类 评价排序算法的几个指标：
- 时间复杂度：包括平均时间复杂度、最坏时间复杂度和最好时间复杂度。一般而言，好的性能是$O(nlog_2n)$，坏的性能是$O(n^2)$。对于一个排序理想的性能是O(n)，但平均而言不可能达到。基于比较的排序算法对大多数输入而言至少需要$O(nlog_2n)$。 空间复杂度：内存使用量 稳定性： 稳定排序算法会让原本有相等键值的纪录维持相对次序。也就是如果一个排序算法是稳定的，当有两个相等键值的纪录R和S，且在原本的列表中R出现在S之前，在排序过的列表中R也将会是在S之前。 依据排序的方法：插入、交换、选择、合并等等。  本文介绍了以下几种排序，推荐可视化网站visualgo，下文代码都采用数组作为输入。
-   排序方法 平均时间复杂度 最坏时间复杂度 最好时间复杂度 空间复杂度 稳定性     冒泡排序 $O(n^2)$ $O(n^2)$ $O(n)$ $O(1)$ 稳定   选择排序 $O(n^2)$ $O(n^2)$ $O(n^2)$ $O(1)$ 不稳定   插入排序 $O(n^2)$ $O(n^2)$ $O(n)$ $O(1)$ 稳定   堆排序 $O(nlog_2n)$ $O(nlog_2n)$ $O(nlog_2n)$ $O(1)$ 不稳定   归并排序 $O(nlog_2n)$ $O(nlog_2n)$ $O(nlog_2n)$ $O(n)$ 稳定   快速排序 $O(nlog_2n)$ $O(n^2)$ $O(nlog_2n)$ $O(log_2n)$ 不稳定   希尔排序 $O(n^{1.</description>
     </item>
     
   </channel>

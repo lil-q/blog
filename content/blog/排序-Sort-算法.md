@@ -8,7 +8,7 @@ toc: true
 
 十种排序算法的python实现及复杂度分析
 
-## 分类
+# 分类
 
 评价排序算法的几个指标：
 
@@ -44,7 +44,7 @@ toc: true
 数据分区：（无序区，有序区）。
 从无序区透过交换找出最大元素放到有序区前端。 
 
-![冒泡排序](Bubble_sort_animation.gif)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Bubble_sort_animation.gif" alt="冒泡排序" style="zoom: 50%;" />
 
 **流程**
 
@@ -53,7 +53,7 @@ toc: true
 3. 针对所有的元素重复以上的步骤，除了最后一个。
 4. 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。
 
-![冒泡流程](bubble_sort.gif)
+![冒泡流程](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/bubble_sort.gif)
 
 **代码**
 
@@ -89,7 +89,7 @@ def bubble_sorted(nums):
 
 数据分区：（有序区，无序区）。<br/>在无序区里找一个最小的元素跟在有序区的后面。对数组：比较得多，换得少。 
 
- ![选择排序](Selection_sort_animation.gif)
+ <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Selection_sort_animation.gif" alt="选择排序" style="zoom:50%;" />
 
 **流程**
 
@@ -97,7 +97,7 @@ def bubble_sorted(nums):
 2. 第i趟排序(i=1,2,3…n-1)开始时，当前有序区和无序区分别为R[1..i-1]和R(i..n）。该趟排序从当前无序区中-选出关键字最小的记录 R[k]，将它与无序区的第1个记录R交换，使R[1..i]和R[i+1..n)分别变为记录个数增加1个的新有序区和记录个数减少1个的新无序区；
 3. n-1趟结束，数组有序化了。
 
-![选择流程](selection_sort.gif)
+![选择流程](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/selection_sort.gif)
 
 **代码**
 
@@ -119,7 +119,7 @@ def selection_sorted(nums):
 
 数据分区：（有序区，无序区）。<br/>把无序区的第一个元素插入到有序区的合适的位置。对数组：比较得少，换得多。 
 
-![插入排序](Insertion_sort_animation.gif)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Insertion_sort_animation.gif" alt="插入排序" style="zoom:50%;" />
 
 **流程**
 
@@ -130,7 +130,7 @@ def selection_sorted(nums):
 5. 将新元素插入到该位置后；
 6. 重复步骤2~5。
 
-![插入流程](insertion_sort.gif)
+![插入流程](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/insertion_sort.gif)
 
 **代码**
 
@@ -154,7 +154,7 @@ def insertion_sorted(nums):
 数据分区：（最大堆，有序区）。
 从堆顶把根卸出来放在有序区之前，再恢复堆。 [关于堆](https://lil-q.github.io/2019/11/17/%E5%A0%86-heap/)
 
-![heap](Sorting_heapsort_anim.gif)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Sorting_heapsort_anim.gif" alt="heap" style="zoom:50%;" />
 
 **流程**
 
@@ -196,7 +196,7 @@ def heap_sorted(nums):
 把数据分为两段，从两段中逐个选最小的元素移入新数据段的末尾。
 该算法是采用分治法（Divide and Conquer）的一个非常典型的应用。  
 
-![merge](Merge_sort_animation2.gif)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Merge_sort_animation2.gif" alt="merge" style="zoom:50%;" />
 
 **流程**
 
@@ -204,7 +204,7 @@ def heap_sorted(nums):
 2. 对这两个子序列分别采用归并排序；
 3. 将两个排序好的子序列合并成一个最终的排序序列。
 
-![mergef](merge_sort.gif)
+![mergef](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/merge_sort.gif)
 
 **代码**
 
@@ -304,7 +304,7 @@ def msi(nums):
 数据分区：（小数，基准元素，大数）。
 在区间中随机挑选一个元素作基准，将小于基准的元素放在基准之前，大于基准的元素放在基准之后，再分别对小数区与大数区进行排序。 
 
-![quick](Sorting_quicksort_anim.gif)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Sorting_quicksort_anim.gif" alt="quick" style="zoom:50%;" />
 
 **流程**
 
@@ -312,7 +312,7 @@ def msi(nums):
 2. 重新排序数列，所有元素比基准值小的摆放在基准前面，所有元素比基准值大的摆在基准的后面（相同的数可以到任一边）。在这个分区退出之后，该基准就处于数列的中间位置。这个称为分区（partition）操作；
 3. 递归地（recursive）把小于基准值元素的子数列和大于基准值元素的子数列排序。
 
-![quicks](quick_sorted.gif)
+![quicks](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/quick_sorted.gif)
 
 **代码**
 
@@ -365,7 +365,7 @@ def quick_sorted_inp(nums, first, last):
 > 1. 插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率
 > 2. 但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位
 
-![shell](Sorting_shellsort_anim.gif)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Sorting_shellsort_anim.gif" alt="shell" style="zoom:50%;" />
 
 **流程**
 
@@ -410,7 +410,7 @@ def shell_sorted(nums):
 3. 对所有的计数累加（从C中的第一个元素开始，每一项和前一项相加）；
 4. 反向填充目标数组：将每个元素i放在新数组的第C(i)项，每放一个元素就将C(i)减去1。
 
-![countingsort](counting_sorted.gif)
+![countingsort](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/counting_sorted.gif)
 
 **代码**
 
@@ -445,7 +445,7 @@ def counting_sorted(nums):
 2. 从最低位开始取每个位组成radix数组；
 3. 对radix进行计数排序（利用计数排序适用于小范围数的特点）；
 
-![radix](radix_sorted.gif)
+![radix](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/radix_sorted.gif)
 
 **代码**
 
@@ -480,9 +480,9 @@ def radix_sorted(nums):
 3. 对每个不是空的桶进行排序；
 4. 从不是空的桶里把排好序的数据拼接起来。
 
-![bucket1](Bucket_sort_1.svg.png)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Bucket_sort_1.svg.png" alt="bucket1" style="zoom:67%;" />
 
-![bucket2](Bucket_sort_2.svg.png)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Bucket_sort_2.svg.png" alt="bucket2" style="zoom:67%;" />
 
 **代码**
 
