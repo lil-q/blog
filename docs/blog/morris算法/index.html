@@ -118,7 +118,7 @@
               
 <p>morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。</p>
 <p>对于二叉树的遍历，通常采用递归或者利用栈的迭代方法，两者的空间复杂度都为 $O\left ( N \right )$。morris 遍历可以将非递归遍历中的空间复杂度降为 $O\left ( 1 \right )$。</p>
-<h1 id="前序遍历">前序遍历</h1>
+<h2 id="前序遍历">前序遍历<a class="anchor" href="#前序遍历">#</a></h2>
 <p>以前序遍历为例子，比如leecode上的<a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">144. 二叉树的前序遍历</a>，先给出代码：</p>
 <pre><code class="language-java">class Solution {
     public List&lt;Integer&gt; preorderTraversal(TreeNode root) {
@@ -159,7 +159,7 @@
 </ol>
 <p>下图表示了前四轮循环：</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/20200501152328.jpg" alt=""></p>
-<h1 id="中序遍历">中序遍历</h1>
+<h2 id="中序遍历">中序遍历<a class="anchor" href="#中序遍历">#</a></h2>
 <p>同理我们可以实现中序遍历，类似利用栈实现中序遍历时是再出栈时输出节点，这里我们也是在处理完左子树后输出节点：</p>
 <pre><code class="language-java">class Solution {
     public List&lt;Integer&gt; inorderTraversal(TreeNode root) {
@@ -217,7 +217,7 @@
     }
 }
 </code></pre>
-<h1 id="后序遍历">后序遍历</h1>
+<h2 id="后序遍历">后序遍历<a class="anchor" href="#后序遍历">#</a></h2>
 <p>最后是后序遍历，后序遍历常用的方法是按照中右左的顺序遍历树，然后再反转输出：</p>
 <pre><code class="language-java">class Solution {
     public List&lt;Integer&gt; postorderTraversal(TreeNode root) {
@@ -248,7 +248,7 @@
     }
 }
 </code></pre>
-<h1 id="总结">总结</h1>
+<h2 id="总结">总结<a class="anchor" href="#总结">#</a></h2>
 <p>利用栈的迭代方法和 morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，morris 算法只是把节点信息存在了某个空节点（<code>tail.right</code>）从而避免了使用栈带来的空间开销。</p>
 
               
@@ -314,7 +314,14 @@
       
       <div class="toc-container">
           
-        <nav id="TableOfContents"></nav>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#前序遍历">前序遍历</a></li>
+    <li><a href="#中序遍历">中序遍历</a></li>
+    <li><a href="#后序遍历">后序遍历</a></li>
+    <li><a href="#总结">总结</a></li>
+  </ul>
+</nav>
       </div>
       
     </div>
