@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>2019-nCoV疫情数据可视化地图 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.21cc72bfb29c001b80f684a136b0bf799b60bebd4c2ae24b382a83a04abbb8db.css" integrity="sha256-Icxyv7KcABuA9oShNrC/eZtgvr1MKuJLOCqDoEq7uNs="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.org\/"
+      },
+      "articleSection" : "blog",
+      "name" : "2019-nCoV疫情数据可视化地图",
+      "headline" : "2019-nCoV疫情数据可视化地图",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-02-01 22:41:13 \u002b0000 UTC",
+      "dateModified" : "2020-02-01 22:41:13 \u002b0000 UTC",
+      "url" : "https:\/\/example.org\/blog\/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE\/",
+      "wordCount" : "272",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">2019-nCoV疫情数据可视化地图</h1>
+            <time datetime="2020-02-01 22:41:13 &#43;0000 UTC" class="post__date">Feb 1 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<h2 id="数据的获取">数据的获取<a class="anchor" href="#数据的获取">#</a></h2>
+<p>在学习<a href="https://blog.csdn.net/xufive/article/details/104093197">该博客</a>的数据爬取时发现数据似乎已经不再更新，所以重新在<a href="https://news.qq.com/zt2020/page/feiyan.htm?from=timeline&amp;isappinstalled=0">腾讯新闻网站</a>搜索相关数据。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/213627.png" alt="shuju" style="zoom:150%;" /></p>
+<p>使用<code>time</code>、<code>json</code>和<code>requests</code>获取数据。</p>
+<pre><code class="language-python">import time, json, requests
+url = 'https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5&amp;callback=&amp;_=%d'%int(time.time()*1000)
+data = json.loads(requests.get(url=url).json()['data'])
+print(data)
+</code></pre>
+<p>可以看到数据如下所示（省略部分内容）：</p>
+<pre><code class="language-python">{'chinaTotal': {'date': '02.01', 'confirm': '11890', 'suspect': '17988', 'dead': '259', 'heal': '269'}, 
+ 'lastUpdateTime': '2020-02-01 21:18:01', 
+ 'areaTree': 
+ 	[{'name': '中国', 
+      'children': [{'name': '湖北', 
+                    'children': [...], 
+                    'total': {'confirm': 7153, 'suspect': 0, 'dead': 249, 'heal': 166}, 
+                    'today': {'confirm': 1347, 'suspect': -49, 'dead': 49, 'heal': 15}}, 
+                   {'name': '浙江', 
+                    'children': [...], 
+                    'total': {'confirm': 599, 'suspect': 0, 'dead': 0, 'heal': 20}, 
+                    'today': {'confirm': 62, 'suspect': 0, 'dead': 0, 'heal': 7}}, ... 
+</code></pre>
+<p>我们只获取各个省份确诊人数的信息已经最后更新的时间。</p>
+<pre><code class="language-python">def catch_distribution():
+    
+    areaData = {}
+    url = 'https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5&amp;callback=&amp;_=%d'%int(time.time()*1000)
+    data = json.loads(requests.get(url=url).json()['data'])
+    # print(data)
+    
+    # 获取更新时间
+    lastUpdateTime = data['lastUpdateTime']
+    
+    # 找到中国信息
+    for item in data['areaTree']:
+    	if item['name'] == '中国':
+    		chinaData = item['children']
+    		break
+            
+    # 获取各个省份确诊的人数
+    for item in chinaData:
+        areaData[item['name']] = item['total']['confirm']
+    
+    return areaData, lastUpdateTime
+</code></pre>
+<h2 id="数据可视化">数据可视化<a class="anchor" href="#数据可视化">#</a></h2>
+<p>这里使用的是<a href="https://pyecharts.org/#/zh-cn/quickstart">pyecharts v1</a>，似乎腾讯新闻也是用的这个包。由于湖北人数远高于其他省份，<a href="https://zhuanlan.zhihu.com/p/104026698">使用连续型的视觉映射效果不好</a>，这里采用了分段式的，可以以10的整数幂为界限传入<code>pieces</code>，<code>time</code>参数即之前得到的最近更新时间。</p>
+<pre><code class="language-python">def map_visualmap(time, pieces) -&gt; Map:
+    c = (
+        Map()
+        .add(&quot;确诊人数&quot;, data.items(), &quot;china&quot;)
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title=&quot;全国各省份确诊人数分布\n截至: &quot; + time),
+            visualmap_opts=opts.VisualMapOpts(max_=5000, is_piecewise=True, pieces=pieces)
+        )
+    )
+    return c
+</code></pre>
+<h2 id="完整代码">完整代码<a class="anchor" href="#完整代码">#</a></h2>
+<pre><code class="language-python">import time
+import json
+import requests
+import numpy as np
+from pyecharts import options as opts
+from pyecharts.charts import Map
+
+
+def catch_distribution():
+
+    areaData = {}
+    url = 'https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5&amp;callback=&amp;_=%d' % int(
+        time.time()*1000)
+    data = json.loads(requests.get(url=url).json()['data'])
+    # 获取更新时间
+    lastUpdateTime = data['lastUpdateTime']
+    # 找到中国信息
+    for item in data['areaTree']:
+        if item['name'] == '中国':
+            chinaData = item['children']
+            break
+    # 获取各个省份确诊的人数
+    for item in chinaData:
+        areaData[item['name']] = item['total']['confirm']
+
+    return areaData, lastUpdateTime
+
+
+# 官网范例中的链式调用
+def map_visualmap(time, pieces, data) -&gt; Map:
+    c = (
+        Map()
+        .add(&quot;确诊人数&quot;, data.items(), &quot;china&quot;)
+        .set_global_opts(
+            title_opts=opts.TitleOpts(title=&quot;全国各省份确诊人数分布\n截至: &quot; + time),
+            visualmap_opts=opts.VisualMapOpts(
+                max_=5000, is_piecewise=True, pieces=pieces)
+        )
+    )
+    return c
+
+
+data, lastUpdateTime = catch_distribution()
+pieces = [
+    {&quot;min&quot;: 1000},
+    {&quot;min&quot;: 100, &quot;max&quot;: 1000},
+    {&quot;min&quot;: 10, &quot;max&quot;: 100},
+    {&quot;max&quot;: 10}
+]
+map1 = map_visualmap(lastUpdateTime, pieces, data)
+map1.render()
+</code></pre>
+<p>最后的效果如下，</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/2sd15400.png" alt="xiaoguo"></p>
+<p>运行后会在根目录下生成<a href="http://lil-q.gitee.io/demo/render.html">render.html</a></p>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://example.org/tags/visualization/">visualization</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://example.org/blog/%E5%BA%94%E7%94%A8%E4%B8%80%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">2019-nCoV疫情数据可视化地图</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >OpenCV-python学习笔记一</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#数据的获取">数据的获取</a></li>
+    <li><a href="#数据可视化">数据可视化</a></li>
+    <li><a href="#完整代码">完整代码</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

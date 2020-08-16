@@ -103,6 +103,36 @@
   </url>
   
   <url>
+    <loc>https://example.org/blog/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</loc>
+    <lastmod>2020-02-01T22:41:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/%E5%BA%94%E7%94%A8%E4%B8%80%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</loc>
+    <lastmod>2020-02-01T22:41:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/tags/visualization/</loc>
+    <lastmod>2020-02-01T22:41:13+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/tags/database/</loc>
+    <lastmod>2020-01-16T13:59:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/tags/sql/</loc>
+    <lastmod>2020-01-16T13:59:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/sql/</loc>
+    <lastmod>2020-01-16T13:59:07+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://example.org/tags/data-structure/</loc>
     <lastmod>2019-12-27T17:53:49+00:00</lastmod>
   </url>

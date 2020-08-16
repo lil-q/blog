@@ -49,6 +49,33 @@
     </item>
     
     <item>
+      <title>Visualization</title>
+      <link>https://example.org/tags/visualization/</link>
+      <pubDate>Sat, 01 Feb 2020 22:41:13 +0000</pubDate>
+      
+      <guid>https://example.org/tags/visualization/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>database</title>
+      <link>https://example.org/tags/database/</link>
+      <pubDate>Thu, 16 Jan 2020 13:59:07 +0000</pubDate>
+      
+      <guid>https://example.org/tags/database/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>SQL</title>
+      <link>https://example.org/tags/sql/</link>
+      <pubDate>Thu, 16 Jan 2020 13:59:07 +0000</pubDate>
+      
+      <guid>https://example.org/tags/sql/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>data structure</title>
       <link>https://example.org/tags/data-structure/</link>
       <pubDate>Fri, 27 Dec 2019 17:53:49 +0000</pubDate>
