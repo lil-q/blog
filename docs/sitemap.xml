@@ -58,6 +58,16 @@
   </url>
   
   <url>
+    <loc>https://example.org/tags/algorithm/</loc>
+    <lastmod>2020-05-01T14:51:08+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/morris%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2020-05-01T14:51:08+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://example.org/picture/%E6%98%A5%E8%8A%B1/</loc>
     <lastmod>2020-03-17T13:15:18+08:00</lastmod>
   </url>
@@ -90,11 +100,6 @@
   <url>
     <loc>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
     <lastmod>2020-02-09T15:57:11+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>https://example.org/tags/algorithm/</loc>
-    <lastmod>2019-11-16T19:34:55+00:00</lastmod>
   </url>
   
   <url>

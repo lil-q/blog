@@ -31,20 +31,20 @@
     </item>
     
     <item>
+      <title>algorithm</title>
+      <link>https://example.org/tags/algorithm/</link>
+      <pubDate>Fri, 01 May 2020 14:51:08 +0000</pubDate>
+      
+      <guid>https://example.org/tags/algorithm/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>OpenCV</title>
       <link>https://example.org/tags/opencv/</link>
       <pubDate>Sat, 22 Feb 2020 17:51:07 +0000</pubDate>
       
       <guid>https://example.org/tags/opencv/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>algorithm</title>
-      <link>https://example.org/tags/algorithm/</link>
-      <pubDate>Sat, 16 Nov 2019 19:34:55 +0000</pubDate>
-      
-      <guid>https://example.org/tags/algorithm/</guid>
       <description></description>
     </item>
     

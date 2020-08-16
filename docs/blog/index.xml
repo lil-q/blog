@@ -41,6 +41,15 @@
     </item>
     
     <item>
+      <title>morris算法</title>
+      <link>https://example.org/blog/morris%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Fri, 01 May 2020 14:51:08 +0000</pubDate>
+      
+      <guid>https://example.org/blog/morris%E7%AE%97%E6%B3%95/</guid>
+      <description>&lt;p&gt;morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。&lt;/p&gt;</description>
+    </item>
+    
+    <item>
       <title>OpenCV-python学习笔记五</title>
       <link>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/</link>
       <pubDate>Sat, 22 Feb 2020 17:51:07 +0000</pubDate>

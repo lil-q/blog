@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>morris算法 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.21cc72bfb29c001b80f684a136b0bf799b60bebd4c2ae24b382a83a04abbb8db.css" integrity="sha256-Icxyv7KcABuA9oShNrC/eZtgvr1MKuJLOCqDoEq7uNs="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.org\/"
+      },
+      "articleSection" : "blog",
+      "name" : "morris算法",
+      "headline" : "morris算法",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-05-01 14:51:08 \u002b0000 UTC",
+      "dateModified" : "2020-05-01 14:51:08 \u002b0000 UTC",
+      "url" : "https:\/\/example.org\/blog\/morris%E7%AE%97%E6%B3%95\/",
+      "wordCount" : "381",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">morris算法</h1>
+            <time datetime="2020-05-01 14:51:08 &#43;0000 UTC" class="post__date">May 1 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<p>morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。</p>
+<p>对于二叉树的遍历，通常采用递归或者利用栈的迭代方法，两者的空间复杂度都为 $O\left ( N \right )$。morris 遍历可以将非递归遍历中的空间复杂度降为 $O\left ( 1 \right )$。</p>
+<h1 id="前序遍历">前序遍历</h1>
+<p>以前序遍历为例子，比如leecode上的<a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">144. 二叉树的前序遍历</a>，先给出代码：</p>
+<pre><code class="language-java">class Solution {
+    public List&lt;Integer&gt; preorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; res = new LinkedList&lt;&gt;();
+        TreeNode cur = root; // 当前处理节点
+        TreeNode tail = null; // tail记录当前节点左子树的最右节点
+        while (cur != null) {
+            tail = cur.left;
+            if (tail != null) {
+                // 找到tail的位置
+                while (tail.right != null &amp;&amp; tail.right != cur) {
+                    tail = tail.right;
+                }
+                // tail没有连接，说明cur节点还没处理，输出这个节点
+                if (tail.right == null) {
+                    tail.right = cur;
+                    res.add(cur.val);
+                    cur = cur.left;
+                    continue;
+                } else { // tail连接了cur，说明已经处理完左子树，断开连接，保持树的原型
+                    tail.right = null;
+                }
+            } else {
+                res.add(cur.val);
+            }
+            // 左子树处理完了，开始处理右子树
+            cur = cur.right;
+        }
+        return res;
+    }
+}
+</code></pre>
+<p>我们用<code>cur</code>记录正在处理的节点，用<code>tail</code>记录<code>cur</code>节点左子树的最右节点，处理<code>cur</code>时有三个分支：</p>
+<ol>
+<li><code>cur.left == null</code>：没有左子树，直接输出<code>cur.val</code>，并开始处理右子树<code>cur = cur.rihgt</code>；</li>
+<li><code>cur.left != null</code>，<code>tail.right == null</code>：说明<code>cur</code>节点及其左子树还没处理，把<code>cur</code>连接到<code>tail</code>（相当于利用栈的迭代方法中的<code>.push()</code>方法），输出这个节点，开始处理左子树<code>cur = cur.left</code>；</li>
+<li><code>cur.left != null</code>，<code>tail.right == cur</code>：说明已经遍历完<code>cur</code>的左子树并返回<code>cur</code>，断开<code>tail</code>的连接（利用栈的迭代方法中<code>.pop()</code>方法），开始处理右子树<code>cur = cur.rihgt</code>。</li>
+</ol>
+<p>下图表示了前四轮循环：</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/20200501152328.jpg" alt=""></p>
+<h1 id="中序遍历">中序遍历</h1>
+<p>同理我们可以实现中序遍历，类似利用栈实现中序遍历时是再出栈时输出节点，这里我们也是在处理完左子树后输出节点：</p>
+<pre><code class="language-java">class Solution {
+    public List&lt;Integer&gt; inorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; res = new LinkedList&lt;&gt;();
+        TreeNode cur = root;
+        TreeNode tail = null;
+        while (cur != null) {
+            tail = cur.left;
+            if (tail != null) {
+                while (tail.right != null &amp;&amp; tail.right != cur) {
+                    tail = tail.right;
+                }
+                // 这里不再输出cur
+                if (tail.right == null) {
+                    tail.right = cur;
+                    cur = cur.left;
+                    continue;
+                } else {
+                    res.add(cur.val); // 处理完左子树再输出，保证左中右的顺序
+                    tail.right = null;
+                }
+            } else {
+                res.add(cur.val);
+            }
+            cur = cur.right;
+        }
+        return res;
+    }
+}
+</code></pre>
+<p>注意到三个分支中两支有相同操作，我们可以简化一些代码：</p>
+<pre><code class="language-java">class Solution {
+    public List&lt;Integer&gt; inorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; res = new LinkedList&lt;&gt;();
+        TreeNode cur = root;
+        TreeNode tail = null;
+        while (cur != null) {
+            tail = cur.left;
+            if (tail != null) {
+                while (tail.right != null &amp;&amp; tail.right != cur) {
+                    tail = tail.right;
+                }
+                if (tail.right == null) {
+                    tail.right = cur;
+                    cur = cur.left;
+                    continue;
+                } else {
+                    tail.right = null;
+                }
+            }
+            res.add(cur.val);
+            cur = cur.right;
+        }
+        return res;
+    }
+}
+</code></pre>
+<h1 id="后序遍历">后序遍历</h1>
+<p>最后是后序遍历，后序遍历常用的方法是按照中右左的顺序遍历树，然后再反转输出：</p>
+<pre><code class="language-java">class Solution {
+    public List&lt;Integer&gt; postorderTraversal(TreeNode root) {
+        List&lt;Integer&gt; res = new LinkedList&lt;&gt;();
+        TreeNode cur = root;
+        TreeNode tail = null;
+        while (cur != null) {
+            tail = cur.right;
+            if (tail != null) {
+                while (tail.left != null &amp;&amp; tail.left != cur) {
+                    tail = tail.left;
+                }
+                if (tail.left == null) {
+                    tail.left = cur;
+                    res.add(cur.val);
+                    cur = cur.right;
+                    continue;
+                } else {
+                    tail.left = null;
+                }
+            } else {
+                res.add(cur.val);
+            }
+            cur = cur.left;
+        }
+        Collections.reverse(res);
+        return res; 
+    }
+}
+</code></pre>
+<h1 id="总结">总结</h1>
+<p>利用栈的迭代方法和 morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，morris 算法只是把节点信息存在了某个空节点（<code>tail.right</code>）从而避免了使用栈带来的空间开销。</p>
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://example.org/tags/algorithm/">algorithm</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">OpenCV-python学习笔记五</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://example.org/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >计算机网络</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents"></nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>
