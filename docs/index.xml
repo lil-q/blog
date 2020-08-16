@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Homeward</title>
+    <link>https://example.org/</link>
+    <description>Recent content on Homeward</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© {year}</copyright>
+    <lastBuildDate>Sun, 16 Aug 2020 14:21:05 +0800</lastBuildDate>
+    
+	<atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Placeholder</title>
+      <link>https://example.org/essay/placeholder/</link>
+      <pubDate>Sun, 16 Aug 2020 14:21:05 +0800</pubDate>
+      
+      <guid>https://example.org/essay/placeholder/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>西湖</title>
+      <link>https://example.org/picture/%E8%A5%BF%E6%B9%96/</link>
+      <pubDate>Wed, 10 Jun 2020 10:59:27 +0800</pubDate>
+      
+      <guid>https://example.org/picture/%E8%A5%BF%E6%B9%96/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>春花</title>
+      <link>https://example.org/picture/%E6%98%A5%E8%8A%B1/</link>
+      <pubDate>Tue, 17 Mar 2020 13:15:18 +0800</pubDate>
+      
+      <guid>https://example.org/picture/%E6%98%A5%E8%8A%B1/</guid>
+      <description>三月十七日同妈妈于公园</description>
+    </item>
+    
+    <item>
+      <title>排序算法(Sorting algorithm)</title>
+      <link>https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sat, 16 Nov 2019 19:34:55 +0000</pubDate>
+      
+      <guid>https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</guid>
+      <description>十种排序算法的python实现及复杂度分析
+分类 评价排序算法的几个指标：
+ 时间复杂度：包括平均时间复杂度、最坏时间复杂度和最好时间复杂度。一般而言，好的性能是$O(nlog_2n)$，坏的性能是$O(n^2)$。对于一个排序理想的性能是O(n)，但平均而言不可能达到。基于比较的排序算法对大多数输入而言至少需要$O(nlog_2n)$。 空间复杂度：内存使用量 稳定性： 稳定排序算法会让原本有相等键值的纪录维持相对次序。也就是如果一个排序算法是稳定的，当有两个相等键值的纪录R和S，且在原本的列表中R出现在S之前，在排序过的列表中R也将会是在S之前。 依据排序的方法：插入、交换、选择、合并等等。  本文介绍了以下几种排序，推荐可视化网站visualgo，下文代码都采用数组作为输入。
+   排序方法 平均时间复杂度 最坏时间复杂度 最好时间复杂度 空间复杂度 稳定性     冒泡排序 $O(n^2)$ $O(n^2)$ $O(n)$ $O(1)$ 稳定   选择排序 $O(n^2)$ $O(n^2)$ $O(n^2)$ $O(1)$ 不稳定   插入排序 $O(n^2)$ $O(n^2)$ $O(n)$ $O(1)$ 稳定   堆排序 $O(nlog_2n)$ $O(nlog_2n)$ $O(nlog_2n)$ $O(1)$ 不稳定   归并排序 $O(nlog_2n)$ $O(nlog_2n)$ $O(nlog_2n)$ $O(n)$ 稳定   快速排序 $O(nlog_2n)$ $O(n^2)$ $O(nlog_2n)$ $O(log_2n)$ 不稳定   希尔排序 $O(n^{1.</description>
+    </item>
+    
+  </channel>
+</rss>

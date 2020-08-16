@@ -1,4 +1,4 @@
-# REMOVE THIS
+publishDir = "docs"
 
 # DO NOT REMOVE THIS
 theme = "hugo-theme-codex" 
