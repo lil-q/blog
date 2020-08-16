@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>OpenCV-python学习笔记一 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.21cc72bfb29c001b80f684a136b0bf799b60bebd4c2ae24b382a83a04abbb8db.css" integrity="sha256-Icxyv7KcABuA9oShNrC/eZtgvr1MKuJLOCqDoEq7uNs="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.org\/"
+      },
+      "articleSection" : "blog",
+      "name" : "OpenCV-python学习笔记一",
+      "headline" : "OpenCV-python学习笔记一",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-02-09 15:57:11 \u002b0000 UTC",
+      "dateModified" : "2020-02-09 15:57:11 \u002b0000 UTC",
+      "url" : "https:\/\/example.org\/blog\/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0\/",
+      "wordCount" : "786",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">OpenCV-python学习笔记一</h1>
+            <time datetime="2020-02-09 15:57:11 &#43;0000 UTC" class="post__date">Feb 9 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<p>18年结束毕业设计之后，对OpenCV接触很少了。那时使用的是C++，借由最近使用python较多，学习OpenCV-python算是一种温故。本文主要参考了<a href="http://codec.wang/opencv-python">OpenCV-Python图像处理教程</a>以及<a href="https://docs.opencv.org/4.2.0/index.html">官方文档</a>。</p>
+<h2 id="一图片">一、图片<a class="anchor" href="#一图片">#</a></h2>
+<p>需要注意图片的x，y轴排布，三通道以B-G-R排布，灰度图只有一个通道。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/opencv/1546842698102_gWO39TIUVK.jpg" alt=""></p>
+<h3 id="11-读取">1.1 读取<a class="anchor" href="#11-读取">#</a></h3>
+<pre><code class="language-python"># 加载灰度图
+img = cv2.imread('lena.jpg', 0)
+</code></pre>
+<ul>
+<li>参数1：图片的文件名
+<ul>
+<li>如果图片放在当前文件夹下，直接写文件名就行了，如&rsquo;lena.jpg&rsquo;</li>
+<li>否则需要给出绝对路径，如&rsquo;D:\OpenCVSamples\lena.jpg&rsquo;</li>
+</ul>
+</li>
+<li>参数2：读入方式，省略即采用默认值
+<ul>
+<li><code>cv2.IMREAD_COLOR</code>：彩色图，默认值(1)</li>
+<li><code>cv2.IMREAD_GRAYSCALE</code>：灰度图(0)</li>
+<li><code>cv2.IMREAD_UNCHANGED</code>：包含透明通道的彩色图(-1)</li>
+</ul>
+</li>
+</ul>
+<h3 id="12-显示">1.2 显示<a class="anchor" href="#12-显示">#</a></h3>
+<pre><code class="language-python"># 创建窗口
+cv2.namedWindow('lena2', cv2.WINDOW_NORMAL)
+</code></pre>
+<ul>
+<li>参数1：窗口名称</li>
+<li>参数2：窗口模式
+<ul>
+<li><code>cv2.WINDOW_AUTOSIZE</code>表示窗口大小自适应图片</li>
+<li><code>cv2.WINDOW_NORMAL</code>表示窗口大小可调整</li>
+</ul>
+</li>
+</ul>
+<pre><code class="language-python"># 显示图片
+cv2.imshow('lena', img)
+</code></pre>
+<ul>
+<li>参数1：窗口名称</li>
+<li>参数2：图片实例</li>
+</ul>
+<pre><code class="language-python"># 保持图片显示
+cv2.waitKey(0)
+</code></pre>
+<ul>
+<li>
+<p>参数：暂停时长，ms</p>
+<p>为0时，表示无限长。</p>
+</li>
+<li>
+<p>传回按键的ascii码, 如<code>ESC:27</code>、<code>s:115</code></p>
+</li>
+</ul>
+<h3 id="13-保存">1.3 保存<a class="anchor" href="#13-保存">#</a></h3>
+<pre><code class="language-python"># 保存图片
+cv2.imwrite('lena_gray.jpg', img)
+</code></pre>
+<ul>
+<li>参数1：是包含后缀名的文件名</li>
+</ul>
+<pre><code class="language-python">if cv2.waitKey(10000) == 115: 
+    cv2.imwrite('lena_gray.jpg', img)
+</code></pre>
+<ul>
+<li>显示10秒，当按下<code>s</code>时，保存图片</li>
+</ul>
+<pre><code class="language-python">if cv2.waitKey(10000) == ord('q'): 
+    cv2.imwrite('lena_gray.jpg', img)
+</code></pre>
+<ul>
+<li>也可以用<code>ord()</code>，按下<code>q</code>时，保存。</li>
+</ul>
+<h3 id="14-处理">1.4 处理<a class="anchor" href="#14-处理">#</a></h3>
+<p>OpenCV中很多简单的操作实际上是NumPy的操作，请参照<a href="https://lil-q.github.io/2020/02/20/OpenCV-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%9B%9B/">第四篇</a>。</p>
+<h4 id="1-像素">1. 像素</h4>
+<pre><code class="language-python">px = img[y, x]
+</code></pre>
+<ul>
+<li>先输入行，再输入列</li>
+<li>对于彩色图像会返回依次为B-G-R三个通道的值组成的列表，例如<code>[100, 110, 120]</code></li>
+<li>对于灰度图或者单通道图，只有一个值。例如<code>100</code></li>
+</ul>
+<pre><code class="language-python">px_blue = img[y, x, 0]
+px_green = img[y, x, 1]
+px_red = img[y, x, 2]
+</code></pre>
+<ul>
+<li>获取单通道值</li>
+</ul>
+<h4 id="2-属性">2. 属性</h4>
+<p><strong>（1）形状</strong></p>
+<pre><code class="language-python"># 彩色图像，返回一个包含行数（高度）、列数（宽度）和通道数的元组
+height, width, channels = img.shape
+# 灰度图，返回行数和列数的元组
+height, width = img.shape
+</code></pre>
+<p><strong>（2）数据类型</strong></p>
+<pre><code class="language-python">img.dtype
+</code></pre>
+<p>实际上<code>img.dtype</code>现实的是图像的深度<code>depth</code>，C++中<code>type</code>包含图像深度<code>depth</code>（低三位）和通道数<code>channel</code>（高三位）。<code>channel</code>可以是1，2，3，n。<code>depth</code>有以下可选：</p>
+<pre><code class="language-c++">// &lt;interface.h&gt;
+#define CV_8U   0
+#define CV_8S   1
+#define CV_16U  2
+#define CV_16S  3
+#define CV_32S  4
+#define CV_32F  5
+#define CV_64F  6
+#define CV_16F  7
+</code></pre>
+<ul>
+<li>数字表示一个像素占几位内存，<code>U</code>表示<code>unsigned</code>，<code>S</code>表示<code>signed</code>，F表示<code>float</code></li>
+</ul>
+<p><strong>（3）ROI (Region of Interest)</strong></p>
+<pre><code class="language-python"># 截取ROI
+roi = img[100:200, 200:300]
+</code></pre>
+<ul>
+<li>直接指定范围即可，上面表示行数为<code>100-200</code>，列数为<code>200-300</code>的区域</li>
+</ul>
+<p><strong>（4）通道分割和合并</strong></p>
+<pre><code class="language-python"># 分割
+b, g, r = cv2.split(img)
+# 合并
+img = cv2.merge((b, g, r))
+</code></pre>
+<p><code>split()</code>函数比较耗时，<strong>更高效的方式是用numpy中的索引</strong>，如提取B通道：</p>
+<pre><code class="language-python">b = img[:, :, 0]
+</code></pre>
+<p><strong>（5）颜色空间转换</strong></p>
+<pre><code class="language-python"># 转换图片类型
+cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+</code></pre>
+<ul>
+<li>参数2：<a href="https://docs.opencv.org/4.0.0/d8/d01/group__imgproc__color__conversions.html#ga397ae87e1288a81d2363b61574eb8cab">cv2.cvtColor()</a></li>
+<li>颜色转换其实是数学运算，如灰度化最常用的是：<code>gray=R*0.299+G*0.587+B*0.114</code></li>
+</ul>
+<h4 id="3-几何变换">3. 几何变换</h4>
+<p><strong>（1）缩放</strong></p>
+<pre><code class="language-python"># 按照指定的宽度、高度缩放图片
+res = cv2.resize(img, (132, 150))
+</code></pre>
+<ul>
+<li>参数2：顺序是宽度，高度；并非<code>.shape</code>中高度，宽度，通道的顺序</li>
+</ul>
+<pre><code class="language-python"># 按照比例缩放，如x,y轴均放大一倍
+res2 = cv2.resize(img, None, fx=2, fy=2, interpolation=cv2.INTER_LINEAR)
+</code></pre>
+<ul>
+<li><code>interpolation</code>，插值方法，默认是<code>INTER_LINEAR</code>，<a href="https://docs.opencv.org/4.0.0/da/d54/group__imgproc__transform.html#ga5bb5a1fea74ea38e1a5445ca803ff121">InterpolationFlags</a>：</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="left">Enumerator</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">INTER_NEAREST Python: cv.INTER_NEAREST</td>
+<td>nearest neighbor interpolation</td>
+</tr>
+<tr>
+<td align="left">INTER_LINEAR Python: cv.INTER_LINEAR</td>
+<td>bilinear interpolation</td>
+</tr>
+<tr>
+<td align="left">INTER_CUBIC Python: cv.INTER_CUBIC</td>
+<td>bicubic interpolation</td>
+</tr>
+<tr>
+<td align="left">INTER_AREA Python: cv.INTER_AREA</td>
+<td>resampling using pixel area relation. It may be a preferred method for image decimation, as it gives moire&rsquo;-free results. But when the image is zoomed, it is similar to the INTER_NEAREST method.</td>
+</tr>
+<tr>
+<td align="left">INTER_LANCZOS4 Python: cv.INTER_LANCZOS4</td>
+<td>Lanczos interpolation over 8x8 neighborhood</td>
+</tr>
+<tr>
+<td align="left">INTER_LINEAR_EXACT Python: cv.INTER_LINEAR_EXACT</td>
+<td>Bit exact bilinear interpolation</td>
+</tr>
+<tr>
+<td align="left">INTER_MAX Python: cv.INTER_MAX</td>
+<td>mask for interpolation codes</td>
+</tr>
+<tr>
+<td align="left">WARP_FILL_OUTLIERS Python: cv.WARP_FILL_OUTLIERS</td>
+<td>flag, fills all of the destination image pixels. If some of them correspond to outliers in the source image, they are set to zero</td>
+</tr>
+<tr>
+<td align="left">WARP_INVERSE_MAP Python: cv.WARP_INVERSE_MAP</td>
+<td>flag, inverse transformationFor example, <a href="https://docs.opencv.org/4.0.0/da/d54/group__imgproc__transform.html#gaa38a6884ac8b6e0b9bed47939b5362f3">linearPolar</a> or <a href="https://docs.opencv.org/4.0.0/da/d54/group__imgproc__transform.html#gaec3a0b126a85b5ca2c667b16e0ae022d">logPolar</a> transforms:flag is <strong>not</strong> set: dst(ρ,ϕ)=src(x,y)flag is set:</td>
+</tr>
+</tbody>
+</table>
+<p><strong>（2）翻转</strong></p>
+<pre><code class="language-python">dst = cv2.flip(img, 1)
+</code></pre>
+<ul>
+<li>参数2 = 0：垂直翻转(沿x轴)，参数2 &gt; 0: 水平翻转(沿y轴)，参数2 &lt; 0: 水平垂直翻转。</li>
+</ul>
+<p><strong>（3）平移</strong></p>
+<pre><code class="language-python"># 平移图片
+import numpy as np
+
+rows, cols = img.shape[:2]
+
+# 定义平移矩阵，需要是numpy的float32类型
+# x轴平移100，y轴平移50
+M = np.float32([[1, 0, 100], [0, 1, 50]])
+# 用仿射变换实现平移
+dst = cv2.warpAffine(img, M, (cols, rows))
+
+cv2.imshow('shift', dst)
+cv2.waitKey(0)
+</code></pre>
+<ul>
+<li><code>M</code>实际上是<a href="%5Bhttps://baike.baidu.com/item/%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2/4289056?fr=aladdin%5D(https://baike.baidu.com/item/%E4%BB%BF%E5%B0%84%E5%8F%98%E6%8D%A2/4289056?fr=aladdin)">仿射矩阵</a>去除了最后一行，由矩阵<code>A</code>和向量<code>b</code>组成，由于只做平移，<code>A = [[1, 0], [0, 1]]</code></li>
+</ul>
+<p><strong>（4）旋转</strong></p>
+<p>平移相当于旋转的一种特例，但是由于仿射变换比较复杂，一般直接找很难找到这个矩阵，OpenCV提供了根据变换前后三个点的对应关系来自动求解，<code>M=cv2.getAffineTransform(pos1,pos2)</code>，其中两个位置就是变换前后的对应位置关系。输出的就是仿射矩阵<code>M</code>。然后再使用函数<code>cv2.warpAffine()</code>。</p>
+<pre><code class="language-python">from matplotlib import pyplot as plt
+import cv2
+import numpy as np
+
+img = cv2.imread('aier.jpg')
+rows,cols = img.shape[:2]
+pts1 = np.float32([[50,50],[200,50],[50,200]])
+pts2 = np.float32([[10,100],[200,20],[100,250]])
+M = cv2.getAffineTransform(pts1,pts2)
+#第三个参数：变换后的图像大小
+res = cv2.warpAffine(img,M,(rows,cols))
+plt.subplot(121)
+plt.imshow(img[:,:,::-1])
+
+plt.subplot(122)
+plt.imshow(res[:,:,::-1])
+
+plt.show()
+</code></pre>
+<p>如果仅作旋转和缩放，可以使用 <code>cv2.getRotationMatrix2D()</code>函数来生成这个矩阵，该函数有三个参数：</p>
+<ul>
+<li>参数1：图片的旋转中心</li>
+<li>参数2：旋转角度(正：逆时针，负：顺时针)</li>
+<li>参数3：缩放比例，0.5表示缩小一半</li>
+</ul>
+<pre><code class="language-python"># 45°旋转图片并缩小一半
+M = cv2.getRotationMatrix2D((cols / 2, rows / 2), 45, 0.5)
+dst = cv2.warpAffine(img, M, (cols, rows))
+
+cv2.imshow('rotation', dst)
+cv2.waitKey(0)
+</code></pre>
+<p>关于仿射和透视请参照<a href="http://codec.wang/opencv-python-extra-warpaffine-warpperspective/">这里</a></p>
+<h2 id="二视频">二、视频<a class="anchor" href="#二视频">#</a></h2>
+<h3 id="21-摄像头">2.1 摄像头<a class="anchor" href="#21-摄像头">#</a></h3>
+<pre><code class="language-python"># 打开摄像头
+capture = cv2.VideoCapture(0)
+</code></pre>
+<ul>
+<li>参数：摄像头的编号</li>
+<li><code>capture</code>相当于创建的<code>VideoCapture</code>对象</li>
+</ul>
+<pre><code class="language-python"># 获取摄像头画面
+ret, frame = capture.read()
+</code></pre>
+<ul>
+<li>返回值<code>ret</code>：布尔值，表示当前这一帧是否获取正确</li>
+<li>返回值<code>frame</code>：一帧图像</li>
+</ul>
+<pre><code class="language-python"># 获取摄像头的一些属性，比如捕获的分辨率，亮度和对比度等
+cap.get(propId)
+# 修改属性值
+cap.set(propId,value)
+</code></pre>
+<ul>
+<li><code>propId</code>是<code>0~18</code>的数字，代表不同的属性，完整的属性列表：</li>
+</ul>
+<blockquote>
+<p><code>CV_CAP_PROP_POS_MSEC</code>: Current position of the video file in milliseconds.
+<code>CV_CAP_PROP_POS_FRAMES</code>: 0-based index of the frame to be decoded/captured next.
+<code>CV_CAP_PROP_POS_AVI_RATIO</code>: Relative position of the video file: 0 - start of the film, 1 - end of the film.
+<code>CV_CAP_PROP_FRAME_WIDTH</code>: Width of the frames in the video stream.
+<code>CV_CAP_PROP_FRAME_HEIGHT</code>: Height of the frames in the video stream.
+<code>CV_CAP_PROP_FPS</code>: Frame rate.
+<code>CV_CAP_PROP_FOURCC</code>: 4-character code of codec.
+<code>CV_CAP_PROP_FRAME_COUNT</code>: Number of frames in the video file.
+<code>CV_CAP_PROP_FORMAT</code>: Format of the Mat objects returned by retrieve() .
+<code>CV_CAP_PROP_MODE</code>: Backend-specific value indicating the current capture mode.
+<code>CV_CAP_PROP_BRIGHTNESS</code>: Brightness of the image (only for cameras).
+<code>CV_CAP_PROP_CONTRAST</code>: Contrast of the image (only for cameras).
+<code>CV_CAP_PROP_SATURATION</code>: Saturation of the image (only for cameras).
+<code>CV_CAP_PROP_HUE</code>: Hue of the image (only for cameras).
+<code>CV_CAP_PROP_GAIN</code>: Gain of the image (only for cameras).
+<code>CV_CAP_PROP_EXPOSURE</code>: Exposure (only for cameras).
+<code>CV_CAP_PROP_CONVERT_RGB</code>: Boolean flags indicating whether images should be converted to RGB.
+<code>CV_CAP_PROP_WHITE_BALANCE</code>: Currently unsupported
+<code>CV_CAP_PROP_RECTIFICATION</code>: Rectification flag for stereo cameras (note: only supported by DC1394 v 2.x backend cur- rently)</p>
+</blockquote>
+<h3 id="22-本地视频">2.2 本地视频<a class="anchor" href="#22-本地视频">#</a></h3>
+<pre><code class="language-python"># 播放本地视频
+capture = cv2.VideoCapture('demo_video.mp4')
+
+while(capture.isOpened()):
+    ret, frame = capture.read()
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+    cv2.imshow('frame', gray)
+    if cv2.waitKey(30) == ord('q'):
+        break
+</code></pre>
+<h3 id="23-录制视频">2.3 录制视频<a class="anchor" href="#23-录制视频">#</a></h3>
+<pre><code class="language-python">capture = cv2.VideoCapture(0)
+
+# 定义编码方式并创建VideoWriter对象
+fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+outfile = cv2.VideoWriter('output.avi', fourcc, 25., (640, 480))
+
+while(capture.isOpened()):
+    ret, frame = capture.read()
+
+    if ret:
+        outfile.write(frame)  # 写入文件
+        cv2.imshow('frame', frame)
+        if cv2.waitKey(1) == ord('q'):
+            break
+    else:
+        break
+</code></pre>
+<ul>
+<li>创建一个<code>VideoWriter</code>的对象，需要给它传入四个参数：
+<ul>
+<li>输出的文件名，如&rsquo;output.avi&rsquo;</li>
+<li>编码方式<a href="https://baike.baidu.com/item/fourcc/6168470?fr=aladdin">FourCC</a>码：<a href="http://www.fourcc.org/codecs.php">Video Codecs</a></li>
+<li>帧率<a href="https://baike.baidu.com/item/FPS/3227416">FPS</a></li>
+<li>要保存的分辨率大小</li>
+</ul>
+</li>
+</ul>
+<h3 id="24-视频处理">2.4 视频处理<a class="anchor" href="#24-视频处理">#</a></h3>
+<h4 id="特定颜色物体追踪">特定颜色物体追踪</h4>
+<p><strong>HSV</strong>是一个常用于颜色识别的模型，相比<strong>BGR</strong>更易区分颜色，转换模式用<code>COLOR_BGR2HSV</code>表示。</p>
+<blockquote>
+<p>OpenCV中色调H范围为[0,179]，饱和度S是[0,255]，明度V是[0,255]。虽然H的理论数值是0°~360°，但8位图像像素点的最大值是255，所以OpenCV中除以了2，某些软件可能使用不同的尺度表示，所以同其他软件混用时，记得归一化。</p>
+</blockquote>
+<p>使用HSV来只显示视频中蓝色物体的例子，步骤如下：</p>
+<ol>
+<li>捕获视频中的一帧</li>
+<li>从BGR转换到HSV</li>
+<li>提取蓝色范围的物体</li>
+<li>只显示蓝色物体</li>
+</ol>
+<pre><code class="language-python">import cv2
+import numpy as np
+
+capture = cv2.VideoCapture(0)
+
+# 蓝色的范围，不同光照条件下不一样，可灵活调整
+lower_blue = np.array([100, 100, 100])
+upper_blue = np.array([130, 255, 255])
+
+while(True):
+    # 1.捕获视频中的一帧
+    ret, frame = capture.read()
+
+    # 2.从BGR转换到HSV
+    hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+    # 3.inRange()：介于lower/upper之间的为白色，其余黑色
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+
+    # 4.只保留原图中的蓝色部分
+    res = cv2.bitwise_and(frame, frame, mask=mask)
+
+    cv2.imshow('frame', frame)
+    cv2.imshow('mask', mask)
+    cv2.imshow('res', res)
+
+    if cv2.waitKey(1) == ord('q'):
+        break
+</code></pre>
+<p>我房间比较暗，调低了点<code>lower_blue</code>中的饱和度和亮度，哆啦A梦如图：</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/2020-02-15_.png" alt=""></p>
+<h2 id="三滑动条">三、滑动条<a class="anchor" href="#三滑动条">#</a></h2>
+<pre><code class="language-python"># 创建一个名为test的窗口
+cv2.namedWindow('test')
+# 创建一个滑动条
+cv2.createTrackbar('R', 'test', 0, 255, nothing)
+</code></pre>
+<ul>
+<li>参数1：滑动条的名称</li>
+<li>参数2：所在窗口的名称</li>
+<li>参数3：当前的值</li>
+<li>参数4：最大值</li>
+<li>参数5：回调函数名称，回调函数默认有一个表示当前值的参数</li>
+</ul>
+<p>创建好之后，可以在回调函数中获取滑动条的值，也可以用<code>cv2.getTrackbarPos()</code>得到：</p>
+<pre><code class="language-python">r = cv2.getTrackbarPos('R', 'test')
+</code></pre>
+<ul>
+<li>参数1是滑动条的名称</li>
+<li>参数2是窗口的名称。</li>
+</ul>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol>
+<li><a href="https://github.com/ex2tron/OpenCV-Python-Tutorial">ex2tron</a></li>
+<li><a href="https://blog.csdn.net/m0_37167788/article/details/78603307">=&gt;</a></li>
+</ol>
+
+
+              
+                  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://example.org/tags/opencv/">opencv</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">排序算法</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >OpenCV-python学习笔记二</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一图片">一、图片</a>
+      <ul>
+        <li><a href="#11-读取">1.1 读取</a></li>
+        <li><a href="#12-显示">1.2 显示</a></li>
+        <li><a href="#13-保存">1.3 保存</a></li>
+        <li><a href="#14-处理">1.4 处理</a></li>
+      </ul>
+    </li>
+    <li><a href="#二视频">二、视频</a>
+      <ul>
+        <li><a href="#21-摄像头">2.1 摄像头</a></li>
+        <li><a href="#22-本地视频">2.2 本地视频</a></li>
+        <li><a href="#23-录制视频">2.3 录制视频</a></li>
+        <li><a href="#24-视频处理">2.4 视频处理</a></li>
+      </ul>
+    </li>
+    <li><a href="#三滑动条">三、滑动条</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

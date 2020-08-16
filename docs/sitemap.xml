@@ -63,6 +63,36 @@
   </url>
   
   <url>
+    <loc>https://example.org/tags/opencv/</loc>
+    <lastmod>2020-02-22T17:51:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/</loc>
+    <lastmod>2020-02-22T17:51:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%9B%9B/</loc>
+    <lastmod>2020-02-20T14:14:07+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89/</loc>
+    <lastmod>2020-02-19T13:00:33+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/</loc>
+    <lastmod>2020-02-17T14:44:55+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</loc>
+    <lastmod>2020-02-09T15:57:11+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://example.org/tags/algorithm/</loc>
     <lastmod>2019-11-16T19:34:55+00:00</lastmod>
   </url>

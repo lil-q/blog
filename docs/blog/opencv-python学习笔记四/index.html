@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>OpenCV-python学习笔记四 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.21cc72bfb29c001b80f684a136b0bf799b60bebd4c2ae24b382a83a04abbb8db.css" integrity="sha256-Icxyv7KcABuA9oShNrC/eZtgvr1MKuJLOCqDoEq7uNs="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.org\/"
+      },
+      "articleSection" : "blog",
+      "name" : "OpenCV-python学习笔记四",
+      "headline" : "OpenCV-python学习笔记四",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-02-20 14:14:07 \u002b0000 UTC",
+      "dateModified" : "2020-02-20 14:14:07 \u002b0000 UTC",
+      "url" : "https:\/\/example.org\/blog\/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%9B%9B\/",
+      "wordCount" : "352",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">OpenCV-python学习笔记四</h1>
+            <time datetime="2020-02-20 14:14:07 &#43;0000 UTC" class="post__date">Feb 20 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<h2 id="一opencv与numpy">一、OpenCV与NumPy<a class="anchor" href="#一opencv与numpy">#</a></h2>
+<p>OpenCV 读取一张图片，返回的实际上是一个<code>numpy.ndarray</code>类。所以一些对<code>numpy.ndarray</code>的操作可以直接对<code>cv2.imread()</code>返回的对象使用。</p>
+<pre><code class="language-python">import cv2
+import numpy as np
+
+img = cv2.imread('connelly.jpg')
+print(type(img)) # &lt;class 'numpy.ndarray'&gt;
+
+rows, cols = img.shape[:2]
+print(rows, cols) # 210 270
+</code></pre>
+<h3 id="11-访问和修改像素值">1.1 访问和修改像素值<a class="anchor" href="#11-访问和修改像素值">#</a></h3>
+<p>根据像素值的行和列坐标可以访问特定像素点。对于 BGR 图像，它返回一个蓝色、绿色、红色值数组。灰度图像，只返回相应的亮度。</p>
+<pre><code class="language-python">px = img[100, 120]
+img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+px_gray = img_gray[100, 120]
+print(px) # [130 131 181]
+print(px_gray) # 146
+</code></pre>
+<p>可以用同样的方式修改像素值。</p>
+<pre><code class="language-python">img[100, 120] = [255,255,255]
+</code></pre>
+<p>NumPy 是一个用于快速数组计算的优化库。因此，使用原生 python 的数组简单地访问每个像素值，并修改它将非常缓慢，不推荐这种方法。</p>
+<p>上述方法通常用于选择数组区域，例如前 5 行和最后 3 列。对于单个像素访问，但用 NumPy 数组的方法、<code>array.tem()</code>和<code>array.itemset()</code>会更适合。因为它总是返回一个标量。因此，如果想访问所有的 B，G，R 值，你需要为所有通道分别调用<code>array.tem()</code>。</p>
+<pre><code class="language-python"># 获取红色通道值
+print(img.item(100, 120, 2)) # 181
+
+# 修改红色通道值
+img.itemset((100, 120, 2), 255)
+</code></pre>
+<h3 id="12-访问图像属性">1.2 访问图像属性<a class="anchor" href="#12-访问图像属性">#</a></h3>
+<p>图像属性包括行数，列数和通道数，图像数据类型，像素数等。</p>
+<p><code>img.shape</code>可以访问图像的形状。 它返回一组行，列和通道的元组（如果图像是彩色的），如果图像是灰度，则返回的元组仅包含行数和列数。因此，检查加载的图像是灰度还是彩色图像是一种很好的方法。：</p>
+<pre><code class="language-python">print(img.shape) # (210, 270, 3)
+</code></pre>
+<p><code>img.size</code>访问的像素总数：</p>
+<pre><code class="language-python">print(img.size) # 170100
+</code></pre>
+<p>图像数据类型由<code>img.dtype</code>获得：</p>
+<pre><code class="language-python">print(img.dtype) # uint8
+</code></pre>
+<p><code>img.dtype</code>在调试时非常重要，因为 OpenCV-Python 代码中的大量错误是由无效的数据类型引起的。</p>
+<h3 id="13-提取roi">1.3 提取ROI<a class="anchor" href="#13-提取roi">#</a></h3>
+<p>ROI (Region of Interest) 即感兴趣的区域，</p>
+<pre><code class="language-python">roi = img[100:200, 200:300]
+</code></pre>
+<ul>
+<li>直接指定范围即可，上面表示行数为<code>100-200</code>，列数为<code>200-300</code>的区域</li>
+</ul>
+<h3 id="14-拆分和合并图像通道">1.4 拆分和合并图像通道<a class="anchor" href="#14-拆分和合并图像通道">#</a></h3>
+<p>有时需要在 B,G,R 通道图像上单独工作。需要将 BGR 图像分割为单个平面或者需要将这些单独的通道连接到 BGR 图像。可以通过以下方式完成：</p>
+<pre><code class="language-python">b,g,r = cv2.split(img)
+img = cv2.merge((b,g,r))
+</code></pre>
+<p><code>cv2.split()</code> 是一项代价昂贵的的操作（就运算时间而言）。所以只有在需要时才使用这个方法。否则请使用 Numpy 索引。</p>
+<pre><code class="language-python">b = img[:,:,0]
+</code></pre>
+<p>假设，想要将所有红色像素设为零，不需要像这样分割并将其等于零。 可以简单地使用 Numpy 索引，这样更快。</p>
+<pre><code class="language-python">img[:,:,2] = 0
+</code></pre>
+<h2 id="二图片亮度和对比度">二、图片亮度和对比度<a class="anchor" href="#二图片亮度和对比度">#</a></h2>
+<p>简单的改变图片的亮度和对比度可以是一个线性的过程：</p>
+<p>$$ g\left (i,j  \right )= \alpha \cdot f\left ( i,j \right )+\beta\tag{1} $$</p>
+<p>式子1 中 $ f\left ( i,j \right ) $ 相当于就是原图像每个像素点对应色彩或灰度的映射。直观上看，$ \alpha $ 决定了对比度，$ \alpha $ 越大，各像素之间的差别越大，对比度越大。$ \beta $ 决定了亮度，$ \beta $ 越大，各像素整体都变大，亮度提升了。</p>
+<p>但其实这种表述并不准确，因为在对图像进行线性处理时存在溢出的问题，当 $ \beta $ 值太大时，$ g\left (i,j  \right ) $ 由于超过数据类型的上限被 OpenCV 置为特定值（比如 CV_8U 会被置为 255）。对于灰度图，这些值都被置为相同值，相当于这部分像素点对比度调节完全失效了；对于三通道的彩色图，有一部分通道溢出，则会导致对比度比预期小的现象。</p>
+<p>另一个层面上，$ \alpha $ 的改变也影响了亮度，因为上式中 $ \alpha $ 的变化会统一的放大或缩小所有像素点的灰度值。当想要提高对比度时，如果不变化 $ \beta $ 的值，视觉上的”亮度“还是会提升。不妨把上式改写成如下式子：</p>
+<p>$$ g\left (i,j  \right )= \alpha \cdot \left (f\left ( i,j \right )-T  \right )+\beta\tag{2} $$</p>
+<p>当 $ \alpha $ 大于1时，式子2 表示将比 T 小的像素点的灰度值变得更小，把比 T 大的像素点的灰度值变得更大，这样当 T 值等于图像的平均灰度值（当然，是否就是平均灰度值也有待商榷）时就不会带来 $ \alpha $ 的改变影响亮度的问题了。式子1 实际上就是式子2 中 T 等于 0 的特例，所有像素点的灰度值都大于等于 0，所以整幅图像的亮度被 $ \alpha $ 影响了。</p>
+<p>完整的调整代码如下：</p>
+<pre><code class="language-python">import cv2
+import numpy as np
+
+img = cv2.imread('connelly.jpg')
+
+# 此处需注意，下面有说明
+res = np.uint8(np.clip((2 * (np.int16(img) - 60) + 50), 0, 255))
+tmp = np.hstack((img, res))  # 两张图片横向合并显示
+
+cv2.imshow('image', tmp)
+cv2.waitKey(0)
+</code></pre>
+<p>输出效果如下：</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/opencv/compare.jpg" alt=""></p>
+<p>在用 python 改变图片的亮度和对比度时，有两个问题需要注意，第一个问题是数据类型，式子中其实有一个乘法，这是极有可能出现溢出的，如果代码是这样<code>res = np.uint8(np.clip((2 * img - 60) + 50), 0, 255))</code>，就会出现这样的结果:</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/opencv/compare_wrong.jpg" alt=""></p>
+<p>解决的办法有两个，一是改变 img 的类型：使用<code>np.int16(img)</code>代替<code>img</code>；二是用浮点数<code>2.0</code>代替<code>2</code>，这样<code>2.0 * img</code>的数据类型会自动变成<code>float64</code>。</p>
+<pre><code class="language-python">print((2.0 * img).dtype) # float64
+</code></pre>
+<p>第二个问题是对于溢出 NumPy 和 OpenCV 的处理方式不同：</p>
+<pre><code class="language-python">x = np.uint8([250])
+y = np.uint8([10])
+print(cv2.add(x, y))  # 250 + 10 = 260 =&gt; 255 --255封顶
+print(x + y)  # 250 + 10 = 260 % 256 = 4 --会溢出
+</code></pre>
+<p>如果我们使用 NumPy 处理就需要使用<a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.clip.html#numpy.clip"><code>np.clip()</code></a>函数将数据限定在 0~255。</p>
+<h1 id="参考">参考</h1>
+<ol>
+<li><a href="https://www.numpy.org.cn/article/other/py_basic_ops.html#%E7%9B%AE%E6%A0%87">numpy</a></li>
+<li><a href="https://blog.csdn.net/abc20002929/article/details/40474807">opencv关于对比度和亮度的误解</a></li>
+<li><a href="https://docs.opencv.org/2.4/doc/tutorials/core/basic_linear_transform/basic_linear_transform.html#basic-linear-transform">OpenCV tutorial</a></li>
+</ol>
+
+
+              
+                  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://example.org/tags/opencv/">opencv</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">OpenCV-python学习笔记三</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >OpenCV-python学习笔记五</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一opencv与numpy">一、OpenCV与NumPy</a>
+      <ul>
+        <li><a href="#11-访问和修改像素值">1.1 访问和修改像素值</a></li>
+        <li><a href="#12-访问图像属性">1.2 访问图像属性</a></li>
+        <li><a href="#13-提取roi">1.3 提取ROI</a></li>
+        <li><a href="#14-拆分和合并图像通道">1.4 拆分和合并图像通道</a></li>
+      </ul>
+    </li>
+    <li><a href="#二图片亮度和对比度">二、图片亮度和对比度</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

@@ -1,5 +1,5 @@
 ---
-title: 排序算法(Sorting algorithm)
+title: 排序算法
 date: 2019-11-16 19:34:55
 tags: [algorithm]
 math: true
