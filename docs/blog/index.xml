@@ -118,6 +118,29 @@ $$ kernel_{b} = a\left[ \begin{matrix} 1 &amp;amp; 1 &amp;amp; 1 \newline 1 &amp
     </item>
     
     <item>
+      <title>图论</title>
+      <link>https://example.org/blog/%E5%9B%BE-graph/</link>
+      <pubDate>Fri, 27 Dec 2019 17:53:49 +0000</pubDate>
+      
+      <guid>https://example.org/blog/%E5%9B%BE-graph/</guid>
+      <description>生活不就是一张图吗？
+一、定义 图(Graph)用于表示物件与物件之间的关系，是图论的基本研究对象。一张图由一些小圆点（称为顶点或结点）和连结这些圆点的直线或曲线（称为边）组成。
+一个图 $G$ 是一个二元组，即序偶 $\langle V,E\rangle$ ，或记作 $G= \langle V,E\rangle$ ，其中 $V$ 是有限非空集合，称为 $G$ 的顶点集， $V$ 中的元素称为顶点或结点； $E$ 称为 $G$ 的边的集合， $\forall e_i \in E$ ，都有 $V$ 中的结点与之对应，称 $e_i$ 为 $G$ 的边。
+简单来说，就是图 $G$ 就是一个结点的集合 $V$ 和边的集合 $E$ ，其中任意一条边都可以表示为两个结点之间的关系。若 $e_i\in E$ 表示为 $\langle u,v\rangle$ ，则有 $u\in V , v\in V$ 。
+1.1 基本概念 无向图：每条边都是无向边的图。
+有向图：每条边都是有向边的图。
+有权图：每条边具有一定的权重(weight)，通常是一个数字
+无权图：每条边均没有权重，也可以理解为权为 1
+连通图：所有的点都有路径相连
+非连通图：存在某两个点没有路径相连
+混合图：在一个图中，有些边是有向边，另一些边是无向边，则该图为混合图。
+有限图：一个图的点集和边集都是有穷集的图。
+零图：边集为空集的图。
+平凡图：仅有一个结点而没有边构成的图。
+关联：若有 $e_i=(u,v)$ 且 $e_i\in E$ ，则称 $u$ 是和 $v$ 相关联的。</description>
+    </item>
+    
+    <item>
       <title>排序算法</title>
       <link>https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sat, 16 Nov 2019 19:34:55 +0000</pubDate>

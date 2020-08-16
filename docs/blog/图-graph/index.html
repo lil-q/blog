@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>图论 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.21cc72bfb29c001b80f684a136b0bf799b60bebd4c2ae24b382a83a04abbb8db.css" integrity="sha256-Icxyv7KcABuA9oShNrC/eZtgvr1MKuJLOCqDoEq7uNs="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/example.org\/"
+      },
+      "articleSection" : "blog",
+      "name" : "图论",
+      "headline" : "图论",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2019",
+      "datePublished": "2019-12-27 17:53:49 \u002b0000 UTC",
+      "dateModified" : "2019-12-27 17:53:49 \u002b0000 UTC",
+      "url" : "https:\/\/example.org\/blog\/%E5%9B%BE-graph\/",
+      "wordCount" : "1431",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">图论</h1>
+            <time datetime="2019-12-27 17:53:49 &#43;0000 UTC" class="post__date">Dec 27 2019</time> 
+          </header>
+          <article class="post__content">
+              
+<p>生活不就是一张图吗？</p>
+<!-- more -->
+<h2 id="一定义">一、定义<a class="anchor" href="#一定义">#</a></h2>
+<p><strong>图</strong>(Graph)用于表示物件与物件之间的关系，是<a href="https://zh.wikipedia.org/wiki/%E5%9C%96%E8%AB%96">图论</a>的基本研究对象。一张图由一些小圆点（称为<strong>顶点</strong>或<strong>结点</strong>）和连结这些圆点的直线或曲线（称为<strong>边</strong>）组成。</p>
+<p>一个图 $G$ 是一个二元组，即序偶 $\langle V,E\rangle$ ，或记作 $G= \langle V,E\rangle$ ，其中 $V$ 是有限非空集合，称为 $G$ 的顶点集， $V$ 中的元素称为顶点或结点； $E$ 称为 $G$ 的边的集合， $\forall e_i \in E$ ，都有 $V$ 中的结点与之对应，称 $e_i$ 为 $G$ 的边。</p>
+<p>简单来说，就是图 $G$ 就是一个结点的集合 $V$ 和边的集合 $E$ ，其中任意一条边都可以表示为两个结点之间的关系。若 $e_i\in E$ 表示为 $\langle u,v\rangle$ ，则有 $u\in V , v\in V$ 。</p>
+<h3 id="11-基本概念">1.1 基本概念<a class="anchor" href="#11-基本概念">#</a></h3>
+<p>无向图：每条边都是无向边的图。</p>
+<p>有向图：每条边都是有向边的图。</p>
+<p>有权图：每条边具有一定的权重(weight)，通常是一个数字</p>
+<p>无权图：每条边均没有权重，也可以理解为权为 1</p>
+<p>连通图：所有的点都有路径相连</p>
+<p>非连通图：存在某两个点没有路径相连</p>
+<p>混合图：在一个图中，有些边是有向边，另一些边是无向边，则该图为混合图。</p>
+<p>有限图：一个图的点集和边集都是有穷集的图。</p>
+<p>零图：边集为空集的图。</p>
+<p>平凡图：仅有一个结点而没有边构成的图。</p>
+<p>关联：若有 $e_i=(u,v)$ 且 $e_i\in E$ ，则称 $u$ 是和 $v$ 相关联的。</p>
+<p>孤立点：无边关联的点。</p>
+<p>自环：若一条边所关联的两个结点重合，则称此边为自环。</p>
+<p>邻接：关联于同一条边的两个点 $u$ 和 $v$ 称为邻接的；关联于同一个点的两条边 $e_1$ 和 $e_2$ 是邻接的（或相邻的）。</p>
+<h3 id="12-结点的度数">1.2 结点的度数<a class="anchor" href="#12-结点的度数">#</a></h3>
+<p>设图 $G= \langle V,E\rangle$ 为一个有向图， $v\in V$ ，关联于结点 $v$ 的 <strong>边</strong> 的条数，称为点 $v$ 的度数，记作 $\deg(v)$ 。</p>
+<p>注意：一个自环为它的端点增加 2 度。</p>
+<p>当图 $G= \langle V,E\rangle$ 为一个有向图， $v\in V$ ，称以 $v$ 作为始点的边数之和称为结点 $v$ 的出度，记为 $\deg^{+} (v)$ 。将以 $v$ 作为终点的边数之和称为结点 $v$ 的入度，记为 $\deg^{-} (v)$ 。称以 $v$ 作为端点的边数之和为结点 $v$ 的度数或度，记为 $\deg(v)$ 。</p>
+<p>显然， $\forall v\in V,\deg(v)=deg^{+} (v)+\deg^{-} (v)$ 。</p>
+<h3 id="13-子图的概念">1.3 子图的概念<a class="anchor" href="#13-子图的概念">#</a></h3>
+<p>设有图 $G= \langle V,E\rangle$ 和图 $G'= \langle V&rsquo;,E&rsquo;\rangle$ 。</p>
+<p>如果 $V&rsquo;\subseteq V,E&rsquo;\subseteq E$ ，则称 $G'$ 是 $G$ 的子图，记作 $G&rsquo;\subseteq G$ 。</p>
+<p>如果 $G&rsquo;\subsetneqq G$ ，即 $V&rsquo;\subset V$ 或 $E&rsquo;\subset E$ ，则称 $G'$ 是 $G$ 的真子图，记作 $G&rsquo;\subset G$ 。</p>
+<p>如果 $V'=V,E&rsquo;\subseteq E$ ，则称 $G'$ 是 $G$ 的生成子图。</p>
+<p>如果 $V&rsquo;'\subseteq V$ 且 $V&rsquo;&rsquo; \neq \varnothing$ ，以 $V'&lsquo;$ 为结点集，以两端点均在 $V'&lsquo;$ 中的边为边集的 $G$ 的子图，称为 $V'&lsquo;$ 导出的 $G$ 的子图，简称为 $V'&lsquo;$ 的导出子图。</p>
+<p>如果 $G'&lsquo;= \langle V&rsquo;',E&rsquo;'\rangle$ 使得 $E'&lsquo;=E-E'$ ，且 $V'&lsquo;$ 中仅包含 $E'&lsquo;$ 中的边所关联的结点，则称 $G'&lsquo;$ 是子图 $G'$ 相对于原图 $G$ 的补图。</p>
+<h3 id="14-特殊的图">1.4 特殊的图<a class="anchor" href="#14-特殊的图">#</a></h3>
+<p>树：边数比结点数少一的连通图。更多内容，详见 树相关基础。</p>
+<p>森林：由 $m$ 棵（ $m\ge 0$ ）互不相交的树组成的图。</p>
+<p>基环树：边数和点数相等的连通图。</p>
+<p>仙人掌：每条边至多属于一个简单环的无向连通图。</p>
+<p>在无向图中，关联一对顶点的边多于 $1$ 条，则称这些边为重边（平行边），重边的条数称为重数。</p>
+<p>简单图：不含重边和自环的图。</p>
+<p>多重图：含重边的图。</p>
+<p>完全图：每对不同的顶点之间都恰连有一条边相连的简单无向图。容易证明， $n$ 个顶点的完全图有 $\dfrac{n(n-1)}{2}$ 条边。</p>
+<p>竞赛图：通过在完全图中为每条边分配方向而获得的有向图。</p>
+<h2 id="二图的存储">二、图的存储<a class="anchor" href="#二图的存储">#</a></h2>
+<p>以下图作为例子。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/21cd2731928c7c13057eee000e3697de82ccc058.png" alt="edge lists" style="zoom: 67%;" /></p>
+<h3 id="21-直接存边">2.1 直接存边<a class="anchor" href="#21-直接存边">#</a></h3>
+<p>建立一个数组，数组里每个元素是图的一条边。</p>
+<p>这样做有个缺点，每次想要知道两个点之间是否有连边（或者说一条边是否存在），都需要在数组里进行一番查找。而且如果没有对边事先排序的话，就不能使用二分查找的方法（ $O(\log n)$ ），而是每次只能按顺序找（ $O(n)$ ），成本较高。</p>
+<p>什么时候会用到这个方法呢？最简单的一个例子是使用 Kruskal 算法求最小生成树的时候。</p>
+<pre><code class="language-python">[ [0,1], [0,6], [0,8], [1,4], [1,6], [1,9], [2,4], [2,6], [3,4], [3,5],
+[3,8], [4,5], [4,9], [7,8], [7,9] ]
+</code></pre>
+<h3 id="22-邻接矩阵">2.2 邻接矩阵<a class="anchor" href="#22-邻接矩阵">#</a></h3>
+<p>邻接矩阵的英文名是 adjacency matrix。它的形式是 <code>bool adj[n][n]</code> ，这里面 $n$ 是节点个数， $adj[i][j]$ 表示 $i$ 和 $j$ 之间是否有边。</p>
+<p>如果边有权值，也可以直接用 <code>int adj[n][n]</code> ，直接把边权存进去。</p>
+<p>它的优点是可以在 $O(1)$ 时间内得到一条边是否存在，缺点是需要占用 $O(n^2)$ 的空间。对于一个稀疏的图（边相对于点数的平方比较少）来说，用邻接矩阵来存的话，成本偏高。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/549bca1a52774846b25caff86d244d03ee63fd38.png" alt="matrix" style="zoom:50%;" /></p>
+<h3 id="23-邻接表">2.3 邻接表<a class="anchor" href="#23-邻接表">#</a></h3>
+<p>邻接表英文名是 adjacency list。它的形式是 <code>vector adj[n]</code> ，用 <code>adj[i]</code> 存以 $i$ 为起点的边。</p>
+<p>用 <code>vector</code> 无法科学地删除，所以常用 <code>list</code> 实现。</p>
+<p>它的特点是可以用来按顺序访问一个结点的出边（或者入边）。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/cc82379521bd84738e86d6cf9552738ca9138420.png" alt="linklist" style="zoom:50%;" /></p>
+<pre><code class="language-python">[ [1, 6, 8],
+  [0, 4, 6, 9],
+  [4, 6],
+  [4, 5, 8],
+  [1, 2, 3, 5, 9],
+  [3, 4],
+  [0, 1, 2],
+  [8, 9],
+  [0, 3, 7],
+  [1, 4, 7] ]
+</code></pre>
+<h2 id="三图的遍历">三、图的遍历<a class="anchor" href="#三图的遍历">#</a></h2>
+<p><strong>图的遍历</strong>问题分为四类：</p>
+<ul>
+<li>遍历完所有的<strong>边</strong>而不能有重复，即所谓“欧拉路径问题”（又名<a href="https://zh.wikipedia.org/wiki/%E4%B8%80%E7%AC%94%E7%94%BB%E9%97%AE%E9%A2%98">一笔画问题</a>）；</li>
+<li>遍历完所有的<strong>顶点</strong>而没有重复，即所谓“<a href="https://zh.wikipedia.org/wiki/%E5%93%88%E5%AF%86%E9%A0%93%E8%B7%AF%E5%BE%91%E5%95%8F%E9%A1%8C">哈密顿路径问题</a>”。</li>
+<li>遍历完所有的<strong>边</strong>而可以有重复，即所谓“<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E9%82%AE%E9%80%92%E5%91%98%E9%97%AE%E9%A2%98">中国邮递员问题</a>”；</li>
+<li>遍历完所有的<strong>顶点</strong>而可以重复，即所谓“<a href="https://zh.wikipedia.org/wiki/%E6%97%85%E8%A1%8C%E6%8E%A8%E9%94%80%E5%91%98%E9%97%AE%E9%A2%98">旅行推销员问题</a>”。</li>
+</ul>
+<p>对于第一和第三类问题已经得到了完满的解决，而第二和第四类问题则只得到了部分解决。</p>
+<p>第一类问题就是研究所谓的<a href="https://zh.wikipedia.org/wiki/%E6%AC%A7%E6%8B%89%E5%9B%BE">欧拉图</a>的性质，而第二类问题则是研究所谓的<a href="https://zh.wikipedia.org/wiki/%E5%93%88%E5%AF%86%E9%A1%BF%E5%9B%BE">哈密顿图</a>的性质。</p>
+<p>图的遍历方法有深度优先搜索法和广度(宽度)优先搜索法。以下图为例。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph1.png" alt="graph" style="zoom:67%;" /></p>
+<p>建立邻接表：</p>
+<pre><code class="language-python">adjacencylists = [[1, 2, 3],
+                  [0, 4, 5],
+                  [0, 6],
+                  [0, 6],
+                  [1, 5],
+                  [1, 4, 6],
+                  [2, 3, 5]]
+</code></pre>
+<h3 id="31-深度优先搜索">3.1 深度优先搜索<a class="anchor" href="#31-深度优先搜索">#</a></h3>
+<p><strong>深度优先搜索算法</strong>(Depth-First-Search，DFS)是一种用于遍历或搜索<strong>树</strong>或<strong>图</strong>的算法。沿着树的深度遍历树的节点，尽可能深的搜索树的分支。当节点v的所在边都己被探寻过，搜索将回溯到发现节点v的那条边的起始节点。这一过程一直进行到已发现从源节点可达的所有节点为止。如果还存在未被发现的节点，则选择其中一个作为源节点并重复以上过程，整个进程反复进行直到所有节点都被访问为止。属于盲目搜索。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph2.png" alt="graph2" style="zoom:67%;" /></p>
+<h3 id="32-广度优先搜索">3.2 广度优先搜索<a class="anchor" href="#32-广度优先搜索">#</a></h3>
+<p><strong>广度优先搜索算法</strong>(Breadth-First-Search，缩写为BFS)，又译作<strong>宽度优先搜索</strong>，或<strong>横向优先搜索</strong>，是一种图形搜索算法。简单的说，BFS是从<strong>根节点</strong>开始，沿着树的宽度遍历树的节点。如果所有节点均被访问，则算法中止。广度优先搜索的实现一般采用open-closed表。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph3.png" alt="graph3" style="zoom:67%;" /></p>
+<p><strong>Python的简易实现</strong></p>
+<pre><code class="language-python"># 设置总节点数
+num_vertexs = 7
+# 建立邻接表
+adjacencylists = [[1, 2, 3],
+                  [0, 4, 5],
+                  [0, 6],
+                  [0, 6],
+                  [1, 5],
+                  [1, 4, 6],
+                  [2, 3, 5]]
+
+class graph:
+	def __init__(self, num_vertexs, adjacencylists):
+		self.num_vertexs = num_vertexs
+		self.adjacencylists = adjacencylists
+
+	def dfs(self, start):
+        # 记录节点是否已经访问
+		visited = [False] * self.num_vertexs
+		res = []
+		def helper(v):	
+			if visited[v]:
+				return
+			visited[v] = True
+			res.append(v)
+			for i in self.adjacencylists[v]:
+				helper(i)
+		helper(start)
+		return res
+
+	def bfs(self, start):
+		visited = [False] * self.num_vertexs
+		visited[start] = True
+		res = [start,]
+		queue = [start,]
+		while queue:
+			cur = queue.pop(0)
+			for i in self.adjacencylists[cur]:
+				if  not visited[i]:
+					queue.append(i)
+					visited[i] = True
+					res.append(i)
+		return res
+    
+if __name__ == '__main__':    
+    # 实例化
+    graph = graph(num_vertexs, adjacencylists)
+
+    t1 = graph.dfs(0)
+    print(&quot;深度优先搜索：&quot;, t1)
+    t2 = graph.bfs(0)
+    print(&quot;广度优先搜索：&quot;, t2)
+</code></pre>
+<p>注意：这里用index表示节点名称，最后还需要映射出结果（假设0,1,2,3&hellip;分别对应A,B,C,D&hellip;下文会使用字典来实现邻接表，这样就不需要这一步了）：</p>
+<pre><code class="language-python">vertexs = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;]
+t3 = list(map(lambda x: vertexs[x], t1))
+print(&quot;深度优先搜索：&quot;, t3)
+t4 = list(map(lambda x: vertexs[x], t2))
+print(&quot;广度优先搜索：&quot;, t4)
+</code></pre>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph4.png" alt="graph2" style="zoom:67%;" /></p>
+<p>输出：</p>
+<pre><code class="language-python">深度优先搜索： [0, 1, 4, 5, 6, 2, 3]
+广度优先搜索： [0, 1, 2, 3, 4, 5, 6]
+深度优先搜索： ['A', 'B', 'E', 'F', 'G', 'C', 'D']
+广度优先搜索： ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+</code></pre>
+<h2 id="四最短路径算法">四、最短路径算法<a class="anchor" href="#四最短路径算法">#</a></h2>
+<h3 id="41-dijkstra算法">4.1 Dijkstra算法<a class="anchor" href="#41-dijkstra算法">#</a></h3>
+<p><strong>特点</strong></p>
+<p>Dijkstra 算法使用了广度优先搜索解决赋权有向图或者无向图的单源最短路径问题，算法最终得到一个最短路径树。该算法常用于路由算法或者作为其他图算法的一个子模块。Dijkstra 算法属于单源算法，即只能求出某点到其它点最短距离，并不能得出任意两点之间的最短距离，只能用权值为正数的图，存在负数时可能回陷入死循环。</p>
+<p><strong>流程</strong></p>
+<p>Dijkstra算法采用的是一种贪心的策略，声明一个数组distances来保存源点到各个顶点的最短距离和一个保存已经找到了最短路径的顶点的集合：nodes。以下图为例，假设求A点到其他点的距离。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph5.png" alt="graph2" style="zoom:67%;" /></p>
+<ol>
+<li>
+<p>初始化distances，原点 s 的路径权重被赋为 0 （dis[s] = 0）。把到其他顶点的路径长度设为无穷大。</p>
+<pre><code class="language-python">distances = {'A': 0, 'B': inf, 'C': inf, 'D': inf, 'E': inf, 'F': inf, 'G': inf} 
+</code></pre>
+</li>
+<li>
+<p>初始nodes，理论上集合nodes只有顶点s。这里创建了其他节点是方便之后的进堆操作，不用再考虑节点是否存在两种情况。</p>
+<pre><code class="language-python">nodes = [[0, 'A'], [inf, 'B'], [inf, 'C'], [inf, 'D'], [inf, 'E'], [inf, 'F'], [inf, 'G']]
+</code></pre>
+</li>
+<li>
+<p>从distances数组选择最小值，则该值就是源点s到该值对应的顶点的最短路径，并且把该点加入到nodes中。</p>
+<pre><code class="language-python">distances = {'A': 0, 'B': 4, 'C': 2, 'D': 3, 'E': inf, 'F': inf, 'G': inf} # 加入了A的近邻B，C，D
+nodes = [[2, 'C'], [3, 'D'], [4, 'B'], [inf, 'G'], [inf, 'E'], [inf, 'F']] # A被推出，更新B，C，D
+</code></pre>
+</li>
+<li>
+<p>重复这个过程，直到nodes为s空或nodes中的最小值是无穷大（与剩下的节点都不连通）时。</p>
+</li>
+</ol>
+<p><strong>代码</strong></p>
+<pre><code class="language-python">import heapq
+
+class Graph:
+    
+    def __init__(self):
+        self.vertices = {}
+        
+    def add_vertex(self, name, edges):
+        self.vertices[name] = edges
+    
+    def shortest_path(self, start, finish):
+        distances = {} # 记录各点到起点距离
+        previous = {}  # 记录先前路径，注意：对于求最小路径时，每个点的先前路径是唯一的。
+        nodes = [] # 优先队列
+
+        for vertex in self.vertices:
+            if vertex == start: # 原点 s 的路径权重被赋为 0 （dis[s] = 0）。把到其他顶点的路径长度设为无穷大。
+                distances[vertex] = 0
+                heapq.heappush(nodes, [0, vertex])
+            else:
+                distances[vertex] = float('inf')
+                heapq.heappush(nodes, [float('inf'), vertex])
+            previous[vertex] = None
+
+        while nodes:
+            smallest = heapq.heappop(nodes)[1] # pop优先队列的第一个节点
+            if smallest == finish: # 保存路径
+                path = []
+                cur = smallest
+                while cur: # 循环到起点，其先前节点为None，结束
+                    path.append(cur)
+                    cur = previous[cur]
+                path.reverse()
+            if distances[smallest] == float('inf'): # 剩余所有节点已不相邻
+                break      
+            for neighbor in self.vertices[smallest]: # 获取近邻节点
+                alt = distances[smallest] + self.vertices[smallest][neighbor] 
+                if alt &lt; distances[neighbor]: # 得到的路径比之前的近，则更新nodes，previous
+                    previous[neighbor] = smallest
+                    distances[neighbor] = alt
+                    for n in nodes:
+                        if n[1] == neighbor:
+                            n[0] = alt
+                            break
+                    heapq.heapify(nodes)
+            #print(distances,nodes)
+        return distances[finish], path
+        
+    def __str__(self):
+        return str(self.vertices)
+
+if __name__ == '__main__':
+    # 实例化，这个类需要依次传入所有边。
+    g = Graph()
+    g.add_vertex('A', {'B': 4, 'C': 2, 'D': 3})
+    g.add_vertex('B', {'A': 4, 'E': 2, 'F': 5})
+    g.add_vertex('C', {'A': 2, 'G': 1})
+    g.add_vertex('D', {'A': 3, 'G': 2})
+    g.add_vertex('E', {'B': 2, 'F': 4})
+    g.add_vertex('F', {'B': 5, 'E': 4, 'G': 3})
+    g.add_vertex('G', {'C': 1, 'D': 2, 'F': 3})
+    
+    print(g.shortest_path('A', 'G'))
+</code></pre>
+<h3 id="42-floyd-warshall算法">4.2 Floyd-Warshall算法<a class="anchor" href="#42-floyd-warshall算法">#</a></h3>
+<p><strong>特点</strong></p>
+<p><strong>Floyd-Warshall算法</strong>(Floyd-Warshall algorithm)，中文亦称<strong>弗洛伊德算法</strong>，是解决任意两点间的最短路径的一种算法，可以正确处理<strong>有向图</strong>或<strong>负权</strong>（但不可存在负权回路）的最短路径问题，同时也被用于计算有向图的传递闭包。</p>
+<p>Floyd 算法是一个经典的动态规划算法。</p>
+<p>设 $D_{i,j,k}$ 为从 $i$ 到 $j$ 的只以 $(i, j)$ 集合中的节点为中间节点的最短路径的长度。</p>
+<ol>
+<li>若最短路径经过点k，则 $D_{i,j,k}=D_{i,k,k-1}+D_{k,j,k-1}$；</li>
+<li>若最短路径不经过点k，则 $D_{i,j,k}=D_{i,j,k-1}$</li>
+</ol>
+<p>因此，$D_{i,j,k}=min(D_{i,j,k-1},D_{i,k,k-1}+D_{k,j,k-1})$。</p>
+<p>在实际算法中，为了节约空间，可以直接在原来空间上进行迭代，这样空间可降至二维。</p>
+<p><strong>流程</strong></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/1920px-Floyd-Warshall_example.svg.png" alt="graphh"></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/2019-12-30%20224429.png" alt="gg" style="zoom:150%;" /></p>
+<p>Floyd-Warshall算法的<a href="https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">时间复杂度</a>为 $O(N^{3})$，<a href="https://zh.wikipedia.org/wiki/%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">空间复杂度</a>为 $O(N^{2})$。</p>
+<p><strong>代码</strong></p>
+<pre><code class="language-python">def floyd(graph):
+    length = len(graph)
+    path = {}
+    # 建立初始路径path
+    for i in range(length):
+        path[i] = {}
+        for j in range(length):
+            if i != j and graph[i][j] != float('inf'):
+                path[i][j] = [i, j]
+    # i为选取的中间节点
+    for i in range(length):        
+        # j为中间节点i的前节点
+        for j in range(length):
+            if i == j:
+                continue
+            # k为中间节点i的后节点
+            for k in range(length):
+                if k == i or k == j:
+                    continue
+                new_len = graph[j][i] + graph[i][k]
+                if graph[j][k] &gt; new_len:
+                    graph[j][k] = new_len
+                    new_node = i
+                    # 合并路径
+                    path[j][k] = path[j][i][:-1] + path[i][k]
+    return graph, path
+
+if __name__ == '__main__':
+    ini = float('inf')
+    graph_list = [  
+                    [0, ini, -2, ini],
+                    [4, 0, 3, ini],
+                    [ini, ini, 0, 2],
+                    [ini, -1, ini, 0]
+                 ]
+    new_graph, path = floyd(graph_list)
+    print(new_graph, '\n\n\n', path)
+</code></pre>
+<h2 id="五生成树">五、生成树<a class="anchor" href="#五生成树">#</a></h2>
+<p>对连通<strong>图</strong>进行遍历，过程中所经过的边和顶点的组合可看做是一棵普通树，通常称为生成树。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/2-1Z106101951H4.gif" alt="连通图及其对应的生成树"></p>
+<p>a) 是一张连通图，b) 是其对应的 2 种生成树。</p>
+<p>连通图中，由于任意两顶点之间可能含有多条通路，遍历连通图的方式有多种，往往一张连通图可能有多种不同的生成树与之对应。</p>
+<p>连通图中的生成树必须满足以下 2 个条件：</p>
+<ol>
+<li>包含连通图中所有的顶点；</li>
+<li>任意两顶点之间有且仅有一条通路；</li>
+</ol>
+<p>因此，连通图的生成树具有这样的特征，即生成树中<code>边的数量 = 顶点数 - 1</code>。</p>
+<h3 id="51-prim算法">5.1 Prim算法<a class="anchor" href="#51-prim算法">#</a></h3>
+<p><strong>普里姆算法</strong>（Prim&rsquo;s algorithm），<strong>图论</strong>中的一种算法，可在加权连通图里搜索<strong>最小生成树</strong>。意即由此算法搜索到的<strong>边</strong>子集所构成的<strong>树</strong>中，不但包括了连通图里的所有<strong>顶点</strong>，且其所有边的权值之和亦为最小。</p>
+<p><strong>流程</strong></p>
+<ol>
+<li>输入：一个加权连通图，其中顶点集合为 V，边集合为 E</li>
+<li>初始化：Vnew = {x}，其中 x 为集合 V 中的任一节点(起始点)，Enew = {} 为空</li>
+<li>在集合 E 中选取权值最小的边 &lt;u, v&gt;，其中 u 为集合 Vnew 中的元素，而 v 不在 Vnew 集合当中，并且 v∈V (如果存在有多条满足前述条件即具有相同权值的边，则可任意选取其中之一）</li>
+<li>将 v 加入集合 Vnew 中，将 &lt;u, v&gt; 边加入集合 Enew 中</li>
+<li>重复步骤 3、4 直到 Vnew = V</li>
+</ol>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph6.png" alt="g" style="zoom:67%;" /></p>
+<p>时间复杂度：$O(V^2)$。</p>
+<p><strong>代码</strong></p>
+<pre><code class="language-python">def prim(graph, root):
+    assert type(graph)==dict
+
+    nodes = list(graph)
+    nodes.remove(root)
+    
+    visited = [root]
+    path = []
+    next = None
+
+    while nodes:
+        distance = float('inf') 
+        for s in visited:
+            for d in graph[s]:
+                if d in visited or s == d:
+                    continue
+                if graph[s][d] &lt; distance:
+                    distance = graph[s][d]
+                    pre = s
+                    next = d
+        path.append((pre, next))
+        visited.append(next)
+        nodes.remove(next)
+
+    return path
+
+if __name__ == '__main__':
+    ini = float('inf')
+    graph_dict = {  'A': {'A': ini, 'B': 4,   'C': 2,   'D': 3,   'E': ini, 'F': ini, 'G': ini},
+                    'B': {'A': 4,   'B': ini, 'C': ini, 'D': ini, 'E': 2,   'F': 5,   'G': ini},
+                    'C': {'A': 2,   'B': ini, 'C': ini, 'D': ini, 'E': ini, 'F': ini, 'G': 1  },
+                    'D': {'A': 3,   'B': ini, 'C': ini, 'D': ini, 'E': ini, 'F': ini, 'G': 2  },
+                    'E': {'A': ini, 'B': 2,   'C': ini, 'D': ini, 'E': ini, 'F': 4,   'G': ini},
+                    'F': {'A': ini, 'B': 5,   'C': ini, 'D': ini, 'E': 4,   'F': ini, 'G': 3  },
+                    'G': {'A': ini, 'B': ini, 'C': 1,   'D': 2,   'E': ini, 'F': 3,   'G': ini},
+                 }
+    path = prim(graph_dict, 'A')
+    print(&quot;path:&quot;, path)
+</code></pre>
+<p>可以看到输出顺序和上图是一致的：</p>
+<pre><code class="language-python">path: [('A', 'C'), ('C', 'G'), ('G', 'D'), ('G', 'F'), ('A', 'B'), ('B', 'E')]
+</code></pre>
+<h3 id="52-kruskal算法">5.2 Kruskal算法<a class="anchor" href="#52-kruskal算法">#</a></h3>
+<p><strong>Kruskal算法</strong>是一种用来查找最小生成树的算法，由Joseph Kruskal在1956年发表。基于<a href="https://lil-q.github.io/2020/01/02/%E6%9F%A5%E5%B9%B6%E9%9B%86-union-find-algorithm/">并查集</a>的数据结构。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/383px-MST_kruskal_en.gif" alt="kru" style="zoom:67%;" /></p>
+<p><strong>流程</strong></p>
+<ol>
+<li>新建图 $G$，$G$ 中拥有原图中相同的节点，但没有边</li>
+<li>将原图中所有的边按权值从小到大排序</li>
+<li>从权值最小的边开始，如果这条边连接的两个节点于图 $G$ 中不在同一个连通分量中，则添加这条边到图 $G$ 中</li>
+<li>重复3，直至图 $G$ 中所有的节点都在同一个连通分量中</li>
+</ol>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph7.png" alt="kur" style="zoom:67%;" /></p>
+<p><strong>代码</strong></p>
+<pre><code class="language-python">def find(id, p):
+	while p != id[p]:
+		id[p] = id[id[p]]
+		p = id[p]
+	return p
+
+def union(id, size, p, q):
+	root_p = find(id, p)
+	root_q = find(id, q)
+	if root_p != root_q:
+		if size[p] &lt; size[q]:
+			id[root_p] = root_q
+			size[q] += size[p]
+		else:
+			id[root_q] = root_p
+			size[p] += size[q]
+		
+
+def kruskal(graph):
+    assert type(graph)==dict
+
+    edges = [(graph[u][v], u, v) for u in graph for v in graph[u] if graph[u][v] != float('inf')]
+    path = []
+    id, size = {u:u for u in graph}, {u:0 for u in graph}
+    for _, u, v in sorted(edges):
+        if find(id, u) != find(id, v):
+            path.append((u, v))
+            union(id, size, u, v)
+    return path
+</code></pre>
+<p>输入与理论一致：</p>
+<pre><code class="language-python">path:  [('C', 'G'), ('A', 'C'), ('B', 'E'), ('D', 'G'), ('F', 'G'), ('A', 'B')]
+</code></pre>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol>
+<li><a href="https://github.com/lil-q/data-structures-python/tree/master/Graph"><strong>完整测试代码地址</strong></a></li>
+<li><a href="https://www.cnblogs.com/skywang12345/p/3691463.html">图的理论基础</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%9B%BE_(%E6%95%B0%E5%AD%A6)">wiki-graph</a></li>
+<li><a href="https://oi-wiki.org/graph/">oi-wiki</a></li>
+<li><a href="http://data.biancheng.net/view/202.html">生成树（生成森林）详解</a></li>
+<li><a href="https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs">Representing graphs</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">wiki-Floyd–Warshall</a></li>
+<li><a href="https://leetcode-cn.com/problems/course-schedule/solution/course-schedule-tuo-bu-pai-xu-bfsdfsliang-chong-fa/">一个小练习😀</a></li>
+</ol>
+
+
+              
+                  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    </ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">排序算法</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >OpenCV-python学习笔记一</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://example.org/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一定义">一、定义</a>
+      <ul>
+        <li><a href="#11-基本概念">1.1 基本概念</a></li>
+        <li><a href="#12-结点的度数">1.2 结点的度数</a></li>
+        <li><a href="#13-子图的概念">1.3 子图的概念</a></li>
+        <li><a href="#14-特殊的图">1.4 特殊的图</a></li>
+      </ul>
+    </li>
+    <li><a href="#二图的存储">二、图的存储</a>
+      <ul>
+        <li><a href="#21-直接存边">2.1 直接存边</a></li>
+        <li><a href="#22-邻接矩阵">2.2 邻接矩阵</a></li>
+        <li><a href="#23-邻接表">2.3 邻接表</a></li>
+      </ul>
+    </li>
+    <li><a href="#三图的遍历">三、图的遍历</a>
+      <ul>
+        <li><a href="#31-深度优先搜索">3.1 深度优先搜索</a></li>
+        <li><a href="#32-广度优先搜索">3.2 广度优先搜索</a></li>
+      </ul>
+    </li>
+    <li><a href="#四最短路径算法">四、最短路径算法</a>
+      <ul>
+        <li><a href="#41-dijkstra算法">4.1 Dijkstra算法</a></li>
+        <li><a href="#42-floyd-warshall算法">4.2 Floyd-Warshall算法</a></li>
+      </ul>
+    </li>
+    <li><a href="#五生成树">五、生成树</a>
+      <ul>
+        <li><a href="#51-prim算法">5.1 Prim算法</a></li>
+        <li><a href="#52-kruskal算法">5.2 Kruskal算法</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

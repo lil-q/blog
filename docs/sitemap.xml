@@ -103,6 +103,16 @@
   </url>
   
   <url>
+    <loc>https://example.org/tags/data-structure/</loc>
+    <lastmod>2019-12-27T17:53:49+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://example.org/blog/%E5%9B%BE-graph/</loc>
+    <lastmod>2019-12-27T17:53:49+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2019-11-16T19:34:55+00:00</lastmod>
   </url>

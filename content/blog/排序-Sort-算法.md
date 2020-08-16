@@ -527,10 +527,11 @@ def insertion_sorted(nums):
 
 桶排序、基数排序和计数排序都属于非比较类排序，其中计数排序和基数排序都用到了桶排序的思想。计数排序一共分了0，1，2...maxValue一共maxValue+1个桶，每个桶表示一个数；而基数排序则分了十个桶，从第一位开始递归桶排序。冒泡排序，选择排序，插入排序都是比较两个数然后交换。堆排序，归并排序，快速排序则是运用了分治的思想。
 
-[**完整代码**](https://github.com/lil-q/sorting-algorithm-python)
+
 
 ## 参考
 
-1.  [wiki](https://zh.wikipedia.org/wiki/排序算法) 
-2.  [数据结构与算法](https://github.com/amusi/Deep-Learning-Interview-Book/blob/master/docs/数据结构与算法.md) 
-3.  [十种排序算法](https://www.cnblogs.com/onepixel/p/7674659.html) 
+1.  [**完整代码**](https://github.com/lil-q/sorting-algorithm-python)
+2.  [wiki](https://zh.wikipedia.org/wiki/排序算法) 
+3.  [数据结构与算法](https://github.com/amusi/Deep-Learning-Interview-Book/blob/master/docs/数据结构与算法.md) 
+4.  [十种排序算法](https://www.cnblogs.com/onepixel/p/7674659.html) 
