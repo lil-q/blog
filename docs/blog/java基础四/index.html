@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>java-Collection | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.21cc72bfb29c001b80f684a136b0bf799b60bebd4c2ae24b382a83a04abbb8db.css" integrity="sha256-Icxyv7KcABuA9oShNrC/eZtgvr1MKuJLOCqDoEq7uNs="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "java-Collection",
+      "headline" : "java-Collection",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-03-30 18:34:55 \u002b0000 UTC",
+      "dateModified" : "2020-03-30 18:34:55 \u002b0000 UTC",
+      "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E5%9B%9B\/",
+      "wordCount" : "1413",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">java-Collection</h1>
+            <time datetime="2020-03-30 18:34:55 &#43;0000 UTC" class="post__date">Mar 30 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<p>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。</p>
+<blockquote>
+<p>源码基于java 13。</p>
+</blockquote>
+<h2 id="一collection">一、Collection<a class="anchor" href="#一collection">#</a></h2>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/javacollection.png" alt=""></p>
+<h2 id="二list">二、List<a class="anchor" href="#二list">#</a></h2>
+<p><code>List</code>接口，可以看到几个主要的接口方法：</p>
+<ul>
+<li>在末尾添加一个元素：<code>void add(E e)</code></li>
+<li>在指定索引添加一个元素：<code>void add(int index, E e)</code></li>
+<li>删除指定索引的元素：<code>int remove(int index)</code></li>
+<li>删除某个元素：<code>int remove(Object e)</code></li>
+<li>获取指定索引的元素：<code>E get(int index)</code></li>
+<li>获取链表大小（包含元素的个数）：<code>int size()</code></li>
+</ul>
+<p><code>List</code>接口允许我们添加重复的元素，即<code>List</code>内部的元素可以重复，<code>List</code>还允许添加<code>null</code>。调用<code>List.of()</code>，它返回的是一个<strong>只读</strong><code>List</code>：</p>
+<pre><code class="language-java">List&lt;Integer&gt; list = List.of(1, 2, 5);
+</code></pre>
+<p>但是<code>List.of()</code>方法不接受<code>null</code>值，如果传入<code>null</code>，会抛出<code>NullPointerException</code>异常。</p>
+<h3 id="21-list遍历">2.1 List遍历<a class="anchor" href="#21-list遍历">#</a></h3>
+<p><code>List</code>的遍历采用了迭代器的设计模式：</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/iterator.png" alt=""></p>
+<p><code>Iterable</code>接口声明如下：</p>
+<pre><code class="language-java">public interface Iterable&lt;T&gt; {
+    Iterator&lt;T&gt; iterator();
+}
+</code></pre>
+<p><code>Iterator</code>接口声明如下：</p>
+<pre><code class="language-java">public interface Iterator&lt;E&gt; {
+    // 判断是否还有下一个对象，如果有，则返回true，否则false
+    boolean hasNext(); 
+    // 返回集合的下个值，此方法只能在hasNext方法返回true时调用
+    E next(); 
+    // 删除集合的当前值，此方法也只能在hasNext方法返回true时调用
+    void remove();
+}
+</code></pre>
+<p><code>ListIterator</code>接口声明如下：</p>
+<pre><code class="language-java">public interface ListIterator&lt;E&gt; extends Iterator&lt;E&gt; {
+    // 支持双向移动
+    boolean hasNext();
+    E next();
+    boolean hasPrevious();
+    E previous();
+    // 产生相对于迭代器在列表中指向的当前位置的前一个和后一个元素的索引
+    int nextIndex();
+    int previousIndex();
+    void remove();
+    // 可以使用set()方法替换它访问过的最后一个元素
+    void set(E e);
+    // 可以使用add()方法在next()方法返回的元素之前或previous()方法返回的元素之后插入一个元素
+    void add(E e); 
+}
+</code></pre>
+<p>通过<code>Iterator</code>遍历<code>List</code>永远是最高效的方式。并且，由于<code>Iterator</code>遍历是如此常用，所以，Java的<code>for each</code>循环本身就可以帮我们使用<code>Iterator</code>遍历。</p>
+<pre><code class="language-java">import java.util.Iterator;
+import java.util.List;
+public class Main {
+    public static void main(String[] args) {
+        List&lt;String&gt; list = List.of(&quot;apple&quot;, &quot;pear&quot;, &quot;banana&quot;);
+        for (Iterator&lt;String&gt; it = list.iterator(); it.hasNext(); ) {
+            String s = it.next();
+            System.out.println(s);
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-java">import java.util.List;
+public class Main {
+    public static void main(String[] args) {
+        List&lt;String&gt; list = List.of(&quot;apple&quot;, &quot;pear&quot;, &quot;banana&quot;);
+        for (String s : list) {
+            System.out.println(s);
+        }
+    }
+}
+</code></pre>
+<h3 id="22-list和array转换">2.2 List和Array转换<a class="anchor" href="#22-list和array转换">#</a></h3>
+<h4 id="1-list---array">1. List -&gt; Array</h4>
+<p>给<code>toArray(T[])</code>传入一个类型相同的<code>Array</code>，<code>List</code>内部自动把元素复制到传入的<code>Array</code>中：</p>
+<pre><code class="language-java">import java.util.List;
+public class Main {
+    public static void main(String[] args) {
+        List&lt;Integer&gt; list = List.of(12, 34, 56);
+        Integer[] array = list.toArray(new Integer[3]);
+        for (Integer n : array) {
+            System.out.println(n);
+        }
+    }
+}
+</code></pre>
+<p><code>toArray(T[])</code>方法的泛型参数<code>&lt;T&gt;</code>并不是<code>List</code>接口定义的泛型参数<code>&lt;E&gt;</code>，所以，我们实际上可以传入其他类型的数组。</p>
+<pre><code class="language-java">Number[] array = list.toArray(new Number[3]);
+</code></pre>
+<p>如果传入的数组不够大，那么<code>List</code>内部会创建一个新的刚好够大的数组，填充后返回；如果传入的数组比<code>List</code>元素还要多，那么填充完元素后，剩下的数组元素一律填充<code>null</code>。实际上，最常用的是传入一个“恰好”大小的数组：</p>
+<pre><code class="language-java">Integer[] array = list.toArray(new Integer[list.size()]);
+</code></pre>
+<h4 id="2-array---list">2. Array -&gt; List</h4>
+<pre><code class="language-java">Integer[] array = { 1, 2, 3 };
+List&lt;Integer&gt; list = List.of(array);
+</code></pre>
+<p>对于JDK 11之前的版本，可以使用<code>Arrays.asList(T...)</code>方法把数组转换成<code>List</code>。</p>
+<h3 id="23-contains--indexof">2.3 contains() &amp; indexOf()<a class="anchor" href="#23-contains--indexof">#</a></h3>
+<p><code>List</code>内部按照放入元素的先后顺序存放，并且每个元素都可以通过索引确定自己的位置。<code>List</code>提供了<code>boolean contains(Object o)</code>方法来判断<code>List</code>是否包含某个指定元素。此外，<code>int indexOf(Object o)</code>方法可以返回某个元素的索引，如果元素不存在，就返回<code>-1</code>。</p>
+<p><code>List</code>内部并不是通过<code>==</code>判断两个元素是否相等，而是使用<code>equals()</code>方法判断两个元素是否相等，所以放入的实例必须要正确override。</p>
+<p>如果<code>this.name</code>为<code>null</code>，那么<code>equals()</code>方法会报错，因此，需要继续改写如下：</p>
+<pre><code class="language-java">public boolean equals(Object o) {
+    if (o instanceof Person) {
+        Person p = (Person) o;
+        boolean nameEquals = false;
+        if (this.name == null &amp;&amp; p.name == null) {
+            nameEquals = true;
+        }
+        if (this.name != null) {
+            nameEquals = this.name.equals(p.name);
+        }
+        return nameEquals &amp;&amp; this.age == p.age;
+    }
+    return false;
+}
+</code></pre>
+<p>如果<code>Person</code>有好几个引用类型的字段，上面的写法就太复杂了。要简化引用类型的比较，我们使用<code>Objects.equals()</code>静态方法：</p>
+<pre><code class="language-java">public boolean equals(Object o) {
+    if (o instanceof Person) {
+        Person p = (Person) o;
+        return Objects.equals(this.name, p.name) &amp;&amp; this.age == p.age;
+    }
+    return false;
+}
+</code></pre>
+<h3 id="24-list实现类">2.4 List实现类<a class="anchor" href="#24-list实现类">#</a></h3>
+<ul>
+<li>ArrayList：基于动态数组实现，支持随机访问。</li>
+<li>Vector：和 ArrayList 类似，但它是线程安全的。</li>
+<li>LinkedList：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。不仅如此，LinkedList 还可以用作栈、队列和双向队列。</li>
+</ul>
+<p>比较<code>ArrayList</code>和<code>LinkedList</code>：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">ArrayList</th>
+<th align="left">LinkedList</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">获取指定元素</td>
+<td align="left">速度很快</td>
+<td align="left">需要从头开始查找元素</td>
+</tr>
+<tr>
+<td align="left">添加元素到末尾</td>
+<td align="left">速度很快</td>
+<td align="left">速度很快</td>
+</tr>
+<tr>
+<td align="left">在指定位置添加/删除</td>
+<td align="left">需要移动元素</td>
+<td align="left">不需要移动元素</td>
+</tr>
+<tr>
+<td align="left">内存占用</td>
+<td align="left">少</td>
+<td align="left">较大</td>
+</tr>
+</tbody>
+</table>
+<p>通常情况下，我们总是优先使用<code>ArrayList</code>。</p>
+<h4 id="1-arraylist">1. ArrayList</h4>
+<pre><code class="language-java">public class ArrayList&lt;E&gt; extends AbstractList&lt;E&gt;
+        implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable
+{
+    private static final long serialVersionUID = 8683452581122892189L;
+
+    // Default initial capacity
+    private static final int DEFAULT_CAPACITY = 10;
+    ...
+</code></pre>
+<p>RandomAccess 接口标识着该类支持快速随机访问，java.io.Serializable是支持序列化接口。数组的默认大小为 10。</p>
+<p><strong>（1）扩容</strong></p>
+<p>添加元素时如果容量不够时，需要使用 grow() 方法进行扩容，新容量的大小默认为 <code>oldCapacity + (oldCapacity &gt;&gt; 1)</code>，也就是旧容量的 1.5 倍。当需求的容量大于它时，则会选用两个<code>list</code>长度之和作为新容量，扩容操作需要调用 <code>Arrays.copyOf()</code> 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。</p>
+<pre><code class="language-java">public boolean addAll(Collection&lt;? extends E&gt; c) {
+    Object[] a = c.toArray();
+    modCount++;
+    int numNew = a.length;
+    if (numNew == 0)
+        return false;
+    Object[] elementData;
+    final int s;
+    // 加入的数组长度大于剩余空数组长度
+    if (numNew &gt; (elementData = this.elementData).length - (s = size))
+        elementData = grow(s + numNew);
+    System.arraycopy(a, 0, elementData, s, numNew);
+    size = s + numNew;
+    return true;
+}
+
+private Object[] grow(int minCapacity) {
+    int oldCapacity = elementData.length;
+    if (oldCapacity &gt; 0 || elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA) {
+        int newCapacity = ArraysSupport.newLength(oldCapacity,
+                minCapacity - oldCapacity, /* minimum growth */
+                oldCapacity &gt;&gt; 1           /* preferred growth */);
+        return elementData = Arrays.copyOf(elementData, newCapacity);
+    } else {
+        return elementData = new Object[Math.max(DEFAULT_CAPACITY, minCapacity)];
+    }
+}
+
+private Object[] grow() {
+    return grow(size + 1);
+}
+</code></pre>
+<p>ArraySupport.class下的<code>newLength()</code>：</p>
+<pre><code class="language-java">public static int newLength(int oldLength, int minGrowth, int prefGrowth) {
+    // assert oldLength &gt;= 0
+    // assert minGrowth &gt; 0
+
+    int newLength = Math.max(minGrowth, prefGrowth) + oldLength;
+    if (newLength - MAX_ARRAY_LENGTH &lt;= 0) {
+        return newLength;
+    }
+    return hugeLength(oldLength, minGrowth); // 处理溢出情况
+}
+</code></pre>
+<p>Arrays.class下的<code>copyOf()</code>：</p>
+<pre><code class="language-java">@SuppressWarnings(&quot;unchecked&quot;)
+public static &lt;T&gt; T[] copyOf(T[] original, int newLength) {
+    return (T[]) copyOf(original, newLength, original.getClass());
+}
+
+@HotSpotIntrinsicCandidate
+    public static &lt;T,U&gt; T[] copyOf(U[] original, int newLength, Class&lt;? extends T[]&gt; newType) {
+        @SuppressWarnings(&quot;unchecked&quot;)
+        T[] copy = ((Object)newType == (Object)Object[].class)
+            ? (T[]) new Object[newLength]
+            : (T[]) Array.newInstance(newType.getComponentType(), newLength);
+        System.arraycopy(original, 0, copy, 0,
+                         Math.min(original.length, newLength));
+        return copy;
+    }
+</code></pre>
+<p>System.class下的<code>arraycopy()</code>：</p>
+<pre><code class="language-java">public static native void arraycopy(Object src,  int  srcPos,
+                                    Object dest, int destPos,
+                                    int length);
+</code></pre>
+<p><strong>（2）删除</strong></p>
+<p><code>remove()</code>调用了<code>fastRemove()</code>，其中调用 System.arraycopy() 将 index+1 后面的元素都复制到 index 位置上，该操作的时间复杂度为 O(N)，可以看到 ArrayList 删除元素的代价是非常高的。</p>
+<pre><code class="language-java">public E remove(int index) {
+    Objects.checkIndex(index, size);
+    final Object[] es = elementData;
+
+    @SuppressWarnings(&quot;unchecked&quot;) E oldValue = (E) es[index];
+    fastRemove(es, index);
+
+    return oldValue;
+}
+
+private void fastRemove(Object[] es, int i) {
+    modCount++;
+    final int newSize;
+    if ((newSize = size - 1) &gt; i)
+        System.arraycopy(es, i + 1, es, i, newSize - i);
+    es[size = newSize] = null;
+}
+</code></pre>
+<p><strong>（3）序列化</strong></p>
+<p>保存元素的数组 <code>elementData</code> 使用 <code>transient</code> 修饰，该关键字声明数组默认不会被序列化。也就是说 <code>elementData</code> 的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。</p>
+<pre><code class="language-java">transient Object[] elementData; // non-private to simplify nested class access
+</code></pre>
+<p>ArrayList 实现了 writeObject() 和 readObject() 来控制只序列化数组中有元素填充那部分内容。</p>
+<pre><code class="language-java">private void readObject(java.io.ObjectInputStream s)
+    throws java.io.IOException, ClassNotFoundException {
+
+    // Read in size, and any hidden stuff
+    s.defaultReadObject();
+
+    // Read in capacity
+    s.readInt(); // ignored
+
+    if (size &gt; 0) {
+        // like clone(), allocate array based upon size not capacity
+        SharedSecrets.getJavaObjectInputStreamAccess().checkArray(s, Object[].class, size);
+        Object[] elements = new Object[size];
+
+        // Read in all elements in the proper order.
+        for (int i = 0; i &lt; size; i++) {
+            elements[i] = s.readObject();
+        }
+
+        elementData = elements;
+    } else if (size == 0) {
+        elementData = EMPTY_ELEMENTDATA;
+    } else {
+        throw new java.io.InvalidObjectException(&quot;Invalid size: &quot; + size);
+    }
+}
+</code></pre>
+<pre><code class="language-java">private void writeObject(java.io.ObjectOutputStream s)
+    throws java.io.IOException {
+    // Write out element count, and any hidden stuff
+    int expectedModCount = modCount;
+    s.defaultWriteObject();
+
+    // Write out size as capacity for behavioral compatibility with clone()
+    s.writeInt(size);
+
+    // Write out all elements in the proper order.
+    for (int i=0; i&lt;size; i++) {
+        s.writeObject(elementData[i]);
+    }
+
+    if (modCount != expectedModCount) {
+        throw new ConcurrentModificationException();
+    }
+}
+</code></pre>
+<p>序列化时需要使用 ObjectOutputStream 的 writeObject() 将对象转换为字节流并输出。而 writeObject() 方法在传入的对象存在 writeObject() 的时候会去反射调用该对象的 writeObject() 来实现序列化。反序列化使用的是 ObjectInputStream 的 readObject() 方法，原理类似。</p>
+<pre><code class="language-java">ArrayList list = new ArrayList();
+ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+oos.writeObject(list);
+</code></pre>
+<p><strong>（4）fail-fast 机制</strong></p>
+<p>AbstractList.class中使用 <code>modCount</code> 来记录 <code>ArrayList</code> 结构发生变化的次数。结构发生变化是指添加或者删除至少一个元素的所有操作，或者是调整内部数组的大小，仅仅只是设置元素的值不算结构发生变化。</p>
+<pre><code class="language-java">protected transient int modCount = 0;
+</code></pre>
+<p>迭代器在调用<code>next()</code>、<code>remove()</code>方法时都是调用<code>checkForComodification()</code>方法，它检测<code>modCount == expectedModCount</code> ？ 若不等则抛出<code>ConcurrentModificationException</code>异常，从而产生fail-fast机制。</p>
+<p>有两种解决方案：</p>
+<ul>
+<li>在遍历过程中所有涉及到改变<code>modCount</code>值得地方全部加上<code>synchronized</code>或者直接使用<code>Collections.synchronizedList</code>（不推荐）；</li>
+<li>使用<code>CopyOnWriteArrayList</code>来替换<code>ArrayList</code>。</li>
+</ul>
+<p><strong>（5）toArray()</strong></p>
+<pre><code class="language-java">public Object[] toArray() {
+        return Arrays.copyOf(elementData, size);
+    }
+</code></pre>
+<p>注意到传入的<code>elementData</code>和返回值是<code>Object[]</code>，如果需要传回原格式：</p>
+<pre><code class="language-java">public &lt;T&gt; T[] toArray(T[] a) {
+        if (a.length &lt; size)
+            // Make a new array of a's runtime type, but my contents:
+            return (T[]) Arrays.copyOf(elementData, size, a.getClass()); // 利用反射
+        System.arraycopy(elementData, 0, a, 0, size);
+        if (a.length &gt; size)
+            a[size] = null;
+        return a;
+    }
+</code></pre>
+<h4 id="2-copyonwritearraylist">2. CopyOnWriteArrayList</h4>
+<p><strong>（1）读写分离</strong></p>
+<p>写操作在一个复制的数组上进行，读操作还是在原始数组中进行，读写分离，互不影响。</p>
+<p>写操作需要加锁，否则多线程写的时候会Copy出N个副本，防止并发写入时导致写入数据丢失。</p>
+<p>写操作结束之后需要把原始数组指向新的复制数组。</p>
+<pre><code class="language-java">public boolean add(E e) {
+    final ReentrantLock lock = this.lock;
+    // 获得锁
+    lock.lock();
+    try {
+        Object[] elements = getArray();
+        int len = elements.length;
+        // 复制新数组
+        Object[] newElements = Arrays.copyOf(elements, len + 1);
+        // 插入新值
+        newElements[len] = e;
+        // 原来的引用指向新的数组
+        setArray(newElements);
+        return true;
+    } finally {
+        // 释放锁
+        lock.unlock();
+    }
+}
+
+final void setArray(Object[] a) {
+    array = a;
+}Copy to clipboardErrorCopied
+@SuppressWarnings(&quot;unchecked&quot;)
+private E get(Object[] a, int index) {
+    return (E) a[index];
+}Copy to clipboardErrorCopied
+</code></pre>
+<p>使用CopyOnWriteMap需要注意两件事情：</p>
+<ol>
+<li>**减少扩容开销。**根据实际需要，初始化CopyOnWriteMap的大小，避免写时CopyOnWriteMap扩容的开销。</li>
+<li>**使用批量添加。**因为每次添加，容器每次都会进行复制，所以减少添加次数，可以减少容器的复制次数。如使用代码里的addBlackList方法。</li>
+</ol>
+<p><strong>（2）适用场景</strong></p>
+<p>CopyOnWriteArrayList 在写操作的同时允许读操作，大大提高了读操作的性能，因此很适合<strong>读多写少</strong>的应用场景。</p>
+<p>但是 CopyOnWriteArrayList 有其缺陷：</p>
+<ul>
+<li>**内存占用：**在写操作时需要复制一个新的数组，使得内存占用为原来的两倍左右；</li>
+<li>**数据不一致：**读操作不能读取实时性的数据，因为部分写操作的数据还未同步到读数组中。</li>
+</ul>
+<p>所以 CopyOnWriteArrayList <strong>不适合内存敏感以及对实时性要求很高</strong>的场景。</p>
+<p><strong>（3）CopyOnWriteArrayList &amp; Vector</strong></p>
+<p>Vector是增删改查方法都加了synchronized，保证同步，但是每个方法执行的时候都要去获得锁，性能就会大大下降，而CopyOnWriteArrayList 只是在增删改上加锁，但是读不加锁，在读方面的性能就好于Vector，CopyOnWriteArrayList支持读多写少的并发情况。</p>
+<h2 id="三set">三、Set<a class="anchor" href="#三set">#</a></h2>
+<p><code>Set</code>用于存储不重复的元素集合，它主要提供以下几个方法：</p>
+<ul>
+<li>将元素添加进<code>Set</code>：<code>boolean add(E e)</code></li>
+<li>将元素从<code>Set</code>删除：<code>boolean remove(Object e)</code></li>
+<li>判断是否包含元素：<code>boolean contains(Object e)</code></li>
+</ul>
+<p>有以下实现类：</p>
+<ul>
+<li>TreeSet：基于<strong>红黑树</strong>实现，支持有序性操作，例如根据一个范围查找元素的操作。但是查找效率不如 HashSet，HashSet 查找的时间复杂度为 O(1)，TreeSet 则为 O(logN)。</li>
+<li>HashSet：基于哈希表实现，支持快速查找，但不支持有序性操作。并且失去了元素的插入顺序信息，也就是说使用 Iterator 遍历 HashSet 得到的结果是不确定的。</li>
+<li>LinkedHashSet：具有 HashSet 的查找效率，并且内部使用双向链表维护元素的插入顺序。</li>
+</ul>
+<p><code>Set</code>接口并不保证有序，而<code>SortedSet</code>接口则保证元素是有序的：</p>
+<ul>
+<li><code>HashSet</code>是无序的，因为它实现了<code>Set</code>接口，并没有实现<code>SortedSet</code>接口；</li>
+<li><code>TreeSet</code>是有序的，因为它实现了<code>SortedSet</code>接口。</li>
+</ul>
+<h2 id="四queue">四、Queue<a class="anchor" href="#四queue">#</a></h2>
+<p><code>Queue</code>实际上是实现了一个先进先出（FIFO：First In First Out）的有序表，队列接口<code>Queue</code>定义了以下几个方法：</p>
+<ul>
+<li><code>int size()</code>：获取队列长度；</li>
+<li><code>boolean add(E)</code>/<code>boolean offer(E)</code>：添加元素到队尾；</li>
+<li><code>E remove()</code>/<code>E poll()</code>：获取队首元素并从队列中删除；</li>
+<li><code>E element()</code>/<code>E peek()</code>：获取队首元素但并不从队列中删除。</li>
+</ul>
+<p>对于具体的实现类，有的Queue有最大队列长度限制，有的Queue没有。注意到添加、删除和获取队列元素总是有两个方法，这是因为在添加或获取元素失败时，这两个方法的行为是不同的。我们用一个表格总结如下：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">throw Exception</th>
+<th align="left">返回false或null</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">添加元素到队尾</td>
+<td align="left">add(E e)</td>
+<td align="left">boolean offer(E e)</td>
+</tr>
+<tr>
+<td align="left">取队首元素并删除</td>
+<td align="left">E remove()</td>
+<td align="left">E poll()</td>
+</tr>
+<tr>
+<td align="left">取队首元素但不删除</td>
+<td align="left">E element()</td>
+<td align="left">E peek()</td>
+</tr>
+</tbody>
+</table>
+<h3 id="41-deque">4.1 Deque<a class="anchor" href="#41-deque">#</a></h3>
+<pre><code class="language-java">public interface Deque&lt;E&gt; extends Queue&lt;E&gt; {...}
+</code></pre>
+<p><code>Deque</code>实现了一个双端队列（Double Ended Queue），比较<code>Queue</code>和<code>Deque</code>出队和入队的方法：</p>
+<table>
+<thead>
+<tr>
+<th align="left"></th>
+<th align="left">Queue</th>
+<th>Deque</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">添加元素到队尾</td>
+<td align="left">add(E e) / offer(E e)</td>
+<td>addLast(E e) / offerLast(E e)</td>
+</tr>
+<tr>
+<td align="left">取队首元素并删除</td>
+<td align="left">E remove() / E poll()</td>
+<td>E removeFirst() / E pollFirst()</td>
+</tr>
+<tr>
+<td align="left">取队首元素但不删除</td>
+<td align="left">E element() / E peek()</td>
+<td>E getFirst() / E peekFirst()</td>
+</tr>
+<tr>
+<td align="left">添加元素到队首</td>
+<td align="left">无</td>
+<td>addFirst(E e) / offerFirst(E e)</td>
+</tr>
+<tr>
+<td align="left">取队尾元素并删除</td>
+<td align="left">无</td>
+<td>E removeLast() / E pollLast()</td>
+</tr>
+<tr>
+<td align="left">取队尾元素但不删除</td>
+<td align="left">无</td>
+<td>E getLast() / E peekLast()</td>
+</tr>
+</tbody>
+</table>
+<h3 id="42-stack">4.2 Stack<a class="anchor" href="#42-stack">#</a></h3>
+<p>栈（Stack）是一种后进先出（LIFO：Last In First Out）的数据结构，操作栈的元素的方法有：</p>
+<ul>
+<li>把元素压栈：<code>push(E)</code>；</li>
+<li>把栈顶的元素“弹出”：<code>pop(E)</code>；</li>
+<li>取栈顶元素但不弹出：<code>peek(E)</code>。</li>
+</ul>
+<p>用<code>Deque</code>可以实现<code>Stack</code>的功能，注意只调用<code>push()</code>/<code>pop()</code>/<code>peek()</code>方法，避免调用<code>Deque</code>的其他方法。实际上，以上都是对队首进行操作而不是队尾。</p>
+<p><a href="https://leetcode-cn.com/problems/remove-duplicate-letters/">leetcode 316. 去除重复字母</a></p>
+<pre><code class="language-java">class Solution {
+    public String removeDuplicateLetters(String s) {
+        LinkedList&lt;Character&gt; stack = new LinkedList&lt;&gt;();
+        int[] count = new int[26];
+        for (char ch : s.toCharArray()) count[ch - 'a'] += 1;
+        for (char ch : s.toCharArray()) {
+            if (stack.contains(ch)) {
+                count[ch - 'a'] -= 1;
+                continue;
+            }
+            while (!stack.isEmpty() &amp;&amp; stack.peek() &gt; ch &amp;&amp; count[stack.peek() - 'a'] &gt; 1) {
+                count[stack.pop() - 'a'] -= 1;
+            }
+            stack.push(ch);
+        }
+        StringBuilder res = new StringBuilder();
+        while (!stack.isEmpty()) res.append(stack.removeLast());
+        return res.toString();
+    }
+}
+</code></pre>
+<h4 id="stack的作用">Stack的作用</h4>
+<p>JVM在处理Java方法调用的时候就会通过栈这种数据结构维护方法调用的层次。JVM会创建方法调用栈，每调用一个方法时，先将参数压栈，然后执行对应的方法；当方法返回时，返回值压栈，调用方法通过出栈操作获得方法返回值。</p>
+<h3 id="43-queue实现类">4.3 Queue实现类<a class="anchor" href="#43-queue实现类">#</a></h3>
+<ul>
+<li>LinkedList：可以用它来实现双向队列。</li>
+<li>PriorityQueue：基于<strong>堆结构</strong>实现，可以用它来实现优先队列。</li>
+</ul>
+<h4 id="1-linkedlist">1. LinkedList</h4>
+<pre><code class="language-java">public class LinkedList&lt;E&gt;
+    extends AbstractSequentialList&lt;E&gt;
+    implements List&lt;E&gt;, Deque&lt;E&gt;, Cloneable, java.io.Serializable
+{
+    transient int size = 0;
+
+    // Pointer to first node.
+    transient Node&lt;E&gt; first;
+
+    // Pointer to last node.
+    transient Node&lt;E&gt; last;
+    ...
+</code></pre>
+<p>LinkedList()中的节点定义如下：</p>
+<pre><code class="language-java">private static class Node&lt;E&gt; {
+        E item;
+        Node&lt;E&gt; next;
+        Node&lt;E&gt; prev;
+
+        Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {
+            this.item = element;
+            this.next = next;
+            this.prev = prev;
+        }
+    }
+</code></pre>
+<h4 id="2-priorityqueue">2. PriorityQueue</h4>
+<p>PriorityQueue中堆结构默认是<strong>最小堆</strong>，如需实现最大堆，覆写<code>compare()</code>即可。父子节点的编号之间有如下关系：</p>
+<ul>
+<li>leftNo = parentNo * 2 + 1</li>
+<li>rightNo = parentNo * 2 + 2</li>
+<li>parentNo = (nodeNo - 1) / 2</li>
+</ul>
+<p>常见的topK问题使用最小堆来解决，相反的求最小的若干数则用最大堆。</p>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E5%AE%B9%E5%99%A8">CyC CS-Notes</a></li>
+<li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1265112034799552">lxf-wiki</a></li>
+<li><a href="https://stackoverflow.com/questions/29574436/what-does-java-util-arraysarraylist-mean">Array.asList() and List.of()</a></li>
+<li><a href="https://majing.io/posts/10000001141158">hashCode()实现</a></li>
+<li><a href="https://baijiahao.baidu.com/s?id=1638201147057831295&amp;wfr=spider&amp;for=pc">fail-fast</a></li>
+<li><a href="https://www.cnblogs.com/vinozly/p/5171227.html">Serializable</a></li>
+</ol>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/java/">java</a>
+    </li>
+    </ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%B8%89/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">java-反射和泛型</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >java-Map</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一collection">一、Collection</a></li>
+    <li><a href="#二list">二、List</a>
+      <ul>
+        <li><a href="#21-list遍历">2.1 List遍历</a></li>
+        <li><a href="#22-list和array转换">2.2 List和Array转换</a></li>
+        <li><a href="#23-contains--indexof">2.3 contains() &amp; indexOf()</a></li>
+        <li><a href="#24-list实现类">2.4 List实现类</a></li>
+      </ul>
+    </li>
+    <li><a href="#三set">三、Set</a></li>
+    <li><a href="#四queue">四、Queue</a>
+      <ul>
+        <li><a href="#41-deque">4.1 Deque</a></li>
+        <li><a href="#42-stack">4.2 Stack</a></li>
+        <li><a href="#43-queue实现类">4.3 Queue实现类</a></li>
+      </ul>
+    </li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

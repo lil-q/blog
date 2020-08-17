@@ -1,5 +1,5 @@
 ---
-title: OpenCV-python学习笔记二
+title: OpenCV-python-2
 date: 2020-02-17 14:44:55
 tags: [OpenCV]
 math: true

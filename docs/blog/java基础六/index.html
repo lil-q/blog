@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>java-I/O | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.21cc72bfb29c001b80f684a136b0bf799b60bebd4c2ae24b382a83a04abbb8db.css" integrity="sha256-Icxyv7KcABuA9oShNrC/eZtgvr1MKuJLOCqDoEq7uNs="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "java-I\/O",
+      "headline" : "java-I\/O",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-04-04 14:13:57 \u002b0000 UTC",
+      "dateModified" : "2020-04-04 14:13:57 \u002b0000 UTC",
+      "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E5%85%AD\/",
+      "wordCount" : "579",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">java-I/O</h1>
+            <time datetime="2020-04-04 14:13:57 &#43;0000 UTC" class="post__date">Apr 4 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<h2 id="一io">一、IO<a class="anchor" href="#一io">#</a></h2>
+<h3 id="11-file">1.1 File<a class="anchor" href="#11-file">#</a></h3>
+<ul>
+<li>创建<code>File f = new File(&quot;C:\\Windiws\\...&quot;)</code>对象本身不涉及IO操作，并不会导致任何磁盘操作；</li>
+<li>可以获取路径／绝对路径／规范路径：<code>getPath()</code>/<code>getAbsolutePath()</code>/<code>getCanonicalPath()</code>；</li>
+<li>可以获取目录的文件和子目录：<code>list()</code>/<code>listFiles()</code>；</li>
+<li><code>boolean mkdir()</code>：创建当前File对象表示的目录；</li>
+<li><code>boolean mkdirs()</code>：创建当前File对象表示的目录，并在必要时将不存在的父目录也创建出来；</li>
+<li><code>boolean delete()</code>：删除当前File对象表示的目录，当前目录必须为空才能删除成功。</li>
+</ul>
+<p>Java I/O 使用了<strong>装饰者模式</strong>来实现。以 InputStream 为例，</p>
+<ul>
+<li>InputStream 是抽象组件；</li>
+<li>FileInputStream 是 InputStream 的子类，属于具体组件，提供了字节流的输入操作；</li>
+<li>FilterInputStream 属于抽象装饰者，装饰者用于装饰组件，为组件提供额外的功能。例如 BufferedInputStream 为 FileInputStream 提供缓存的功能。</li>
+</ul>
+<p>实例化一个具有缓存功能的字节流对象时，只需要在 FileInputStream 对象上再套一层 BufferedInputStream 对象即可。</p>
+<h3 id="12-输入">1.2 输入<a class="anchor" href="#12-输入">#</a></h3>
+<p><code>InputStream</code>就是Java标准库提供的最基本的输入流。它位于<code>java.io</code>这个包里。<code>java.io</code>包提供了所有同步IO的功能。</p>
+<p><code>InputStream</code>并不是一个接口，而是一个抽象类，它是所有输入流的超类。这个抽象类定义的一个最重要的方法就是<code>int read()</code>：</p>
+<pre><code class="language-java">public abstract int read() throws IOException;
+</code></pre>
+<p>这个方法会读取输入流的下一个字节，并返回字节表示的<code>int</code>值（0~255）。如果已读到末尾，返回<code>-1</code>表示不能继续读取了。</p>
+<p><code>FileInputStream</code>是<code>InputStream</code>的一个子类，能从文件流中读取数据。使用<code>try(resource)</code>可以保证<code>InputStream</code>正确关闭（因为<code>InputStream</code>和<code>OutputStream</code>都实现了<code>java.lang.AutoCloseable</code>接口）。</p>
+<pre><code class="language-java">public void readFile() throws IOException {
+    try (InputStream input = new FileInputStream(&quot;src/readme.txt&quot;)) {
+        int n;
+        while ((n = input.read()) != -1) {
+            System.out.println(n);
+        }
+    } // 编译器在此自动为我们写入finally并调用close()
+}
+</code></pre>
+<h4 id="1-缓冲">1. 缓冲</h4>
+<p>在读取流的时候，一次读取一个字节并不是最高效的方法。很多流支持一次性读取多个字节到缓冲区，对于文件和网络流来说，利用缓冲区一次性读取多个字节效率往往要高很多。<code>InputStream</code>提供了两个重载方法来支持读取多个字节：</p>
+<ul>
+<li><code>int read(byte[] b)</code>：读取若干字节并填充到<code>byte[]</code>数组，返回读取的字节数</li>
+<li><code>int read(byte[] b, int off, int len)</code>：指定<code>byte[]</code>数组的偏移量和最大填充数</li>
+</ul>
+<p>利用上述方法一次读取多个字节时，需要先定义一个<code>byte[]</code>数组作为缓冲区<code>buffer</code>，<code>read()</code>方法会尽可能多地读取字节到缓冲区， 但不会超过缓冲区的大小。<code>read()</code>方法的返回值不再是字节的<code>int</code>值，而是返回实际读取了多少个字节。如果在读入到缓存区时遇到<code>-1</code>则会跳出循环，下一次调用<code>read()</code>时就会直接读到-1而退出。</p>
+<p>利用缓冲区一次读取多个字节的代码如下：</p>
+<pre><code class="language-java">public void readFile() throws IOException {
+    try (InputStream input = new FileInputStream(&quot;src/readme.txt&quot;)) {
+        // 定义1000个字节大小的缓冲区:
+        byte[] buffer = new byte[1000];
+        int n;
+        while ((n = input.read(buffer)) != -1) { // 读取到缓冲区
+            System.out.println(&quot;read &quot; + n + &quot; bytes.&quot;);
+        }
+    }
+}
+</code></pre>
+<h4 id="2-阻塞">2. 阻塞</h4>
+<p>在调用<code>InputStream</code>的<code>read()</code>方法读取数据时，我们说<code>read()</code>方法是阻塞（Blocking）的。因为程序要等<code>read()</code>方法返回后才能继续。因为读取IO流相比执行普通代码，速度会慢很多，因此，无法确定<code>read()</code>方法调用到底要花费多长时间。</p>
+<h3 id="13-输出">1.3 输出<a class="anchor" href="#13-输出">#</a></h3>
+<p><code>OutputStream</code>也是抽象类，它是所有输出流的超类。这个抽象类定义的一个最重要的方法就是<code>void write(int b)</code>，签名如下：</p>
+<pre><code class="language-java">public abstract void write(int b) throws IOException;
+</code></pre>
+<p>这个方法会写入一个字节到输出流。要注意的是，虽然传入的是<code>int</code>参数，但只会写入一个字节，即只写入<code>int</code>最低8位表示字节的部分（相当于<code>b &amp; 0xff</code>）。同样，可以用<code>OutputStream</code>提供的重载方法<code>void write(byte[])</code>来一次性写入若干字节：</p>
+<pre><code class="language-java">public void writeFile() throws IOException {
+    try (OutputStream output = new FileOutputStream(&quot;out/readme.txt&quot;)) {
+        output.write(&quot;Hello&quot;.getBytes(&quot;UTF-8&quot;)); // Hello
+    } // 编译器在此自动为我们写入finally并调用close()
+}
+</code></pre>
+<h4 id="1-flush">1. flush()</h4>
+<p><code>OutputStream</code>还提供了一个<code>flush()</code>方法，它的目的是将缓冲区的内容真正输出到目的地。向磁盘、网络写入数据的时候，出于效率的考虑，操作系统并不是输出一个字节就立刻写入到文件或者发送到网络，而是把输出的字节先放到内存的一个缓冲区里（本质上就是一个<code>byte[]</code>数组），等到缓冲区写满了，再一次性写入文件或者网络。对于很多IO设备来说，一次写一个字节和一次写1000个字节，花费的时间几乎是完全一样的，所以<code>OutputStream</code>有个<code>flush()</code>方法，能强制把缓冲区内容输出。</p>
+<p>通常情况下，我们不需要调用这个<code>flush()</code>方法，因为缓冲区写满了<code>OutputStream</code>会自动调用它，并且，在调用<code>close()</code>方法关闭<code>OutputStream</code>之前，也会自动调用<code>flush()</code>方法。例如聊天软件则需要把缓冲区的内容立刻发送出去。</p>
+<h4 id="2-复制文件">2. 复制文件</h4>
+<pre><code class="language-java">import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+
+public class CopyFile {
+
+	public static void main(String[] args) throws IOException {
+		if (args.length != 2) {
+			System.err.println(&quot;Usage:\n  java CopyFile.java &lt;source&gt; &lt;target&gt;&quot;);
+			System.exit(1);
+		}
+		copy(args[0], args[1]);
+	}
+
+	static void copy(String source, String target) throws IOException {
+		try(InputStream input = new FileInputStream(source);
+				OutputStream output = new FileOutputStream(target)) {
+			byte[] buffer = new byte[1000];
+			while (input.read(buffer) != -1) output.write(buffer);
+		}
+	}
+}
+</code></pre>
+<h3 id="14-classpath资源">1.4 classpath资源<a class="anchor" href="#14-classpath资源">#</a></h3>
+<p>把资源存储在classpath中可以避免文件路径依赖；<code>Class</code>对象的<code>getResourceAsStream()</code>可以从classpath中读取指定资源；根据classpath读取资源时，如果资源文件不存在，它将返回<code>null</code>，需要检查返回的<code>InputStream</code>是否为<code>null</code>。</p>
+<pre><code class="language-java">try (InputStream input = getClass().getResourceAsStream(&quot;/default.properties&quot;)) {
+    if (input != null) {
+        // TODO:
+    }
+}
+</code></pre>
+<h3 id="15-序列化">1.5 序列化<a class="anchor" href="#15-序列化">#</a></h3>
+<p><strong>对象序列化</strong>是一个用于将对象状态转换为字节流的过程，可以将其保存到磁盘文件中或通过网络发送到任何其他程序；从字节流创建对象的相反的过程称为<strong>反序列化</strong>。而创建的字节流是与平台无关的，在一个平台上序列化的对象可以在不同的平台上反序列化。一个Java对象要能序列化，必须实现一个特殊的<code>java.io.Serializable</code>接口，它的定义如下：</p>
+<pre><code class="language-java">public interface Serializable {}
+</code></pre>
+<p><code>Serializable</code>接口没有定义任何方法，它是一个空接口。这样的空接口称为“标记接口”（Marker Interface），实现了标记接口的类仅仅是给自身贴了个“标记”，并没有增加任何方法。</p>
+<h4 id="1-序列化">1. 序列化</h4>
+<p>把一个Java对象变为<code>byte[]</code>数组，需要使用<code>ObjectOutputStream</code>。它负责把一个Java对象写入一个字节流：</p>
+<pre><code class="language-java">import java.io.*;
+import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) throws IOException {
+        // 模拟一个输出文件
+        ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+        try (ObjectOutputStream output = new ObjectOutputStream(buffer)) {
+            // 写入int:
+            output.writeInt(12345);
+            // 写入String:
+            output.writeUTF(&quot;Hello&quot;);
+            // 写入Object:
+            output.writeObject(Double.valueOf(123.456));
+        }
+        System.out.println(Arrays.toString(buffer.toByteArray()));
+    }
+}
+</code></pre>
+<p><code>ObjectOutputStream</code>既可以写入基本类型，如<code>int</code>，<code>boolean</code>，也可以写入<code>String</code>（以UTF-8编码），还可以写入实现了<code>Serializable</code>接口的<code>Object</code>。因为写入<code>Object</code>时需要大量的类型信息，所以写入的内容很大。</p>
+<h4 id="2-反序列化">2. 反序列化</h4>
+<p>和<code>ObjectOutputStream</code>相反，<code>ObjectInputStream</code>负责从一个字节流读取Java对象：</p>
+<pre><code class="language-java">try (ObjectInputStream input = new ObjectInputStream(...)) {
+    int n = input.readInt();
+    String s = input.readUTF();
+    Double d = (Double) input.readObject();
+}
+</code></pre>
+<p>除了能读取基本类型和<code>String</code>类型外，调用<code>readObject()</code>可以直接返回一个<code>Object</code>对象。要把它变成一个特定类型，必须强制转型。</p>
+<p><code>readObject()</code>可能抛出的异常有：</p>
+<ul>
+<li><code>ClassNotFoundException</code>：没有找到对应的Class；</li>
+<li><code>InvalidClassException</code>：Class不匹配。</li>
+</ul>
+<p>为了避免这种class定义变动导致的不兼容，Java的序列化允许class定义一个特殊的<code>serialVersionUID</code>静态变量，用于标识Java类的序列化“版本”，通常可以由IDE自动生成。如果增加或修改了字段，可以改变<code>serialVersionUID</code>的值，这样就能自动阻止不匹配的class版本：</p>
+<pre><code class="language-java">public class Person implements Serializable {
+    private static final long serialVersionUID = 2709425275741743919L;
+}
+</code></pre>
+<p>反序列化时，由JVM直接构造出Java对象，<strong>不调用构造方法</strong>，构造方法内部的代码，在反序列化时根本不可能执行。这是存在一定安全隐患的。</p>
+<h4 id="3-transient">3. transient</h4>
+<p>transient 关键字可以使一些属性不会被序列化。</p>
+<p>ArrayList 中存储数据的数组 elementData 是用 transient 修饰的，因为这个数组是动态扩展的，并不是所有的空间都被使用，因此就不需要所有的内容都被序列化。通过重写序列化和反序列化方法，使得可以只序列化数组中有内容的那部分数据。</p>
+<h4 id="4-安全性">4. 安全性</h4>
+<p>Java本身提供的基于对象的序列化和反序列化机制既存在安全性问题，也存在兼容性问题。更好的序列化方法是通过JSON这样的通用数据结构来实现，只输出基本类型（包括String）的内容，而不存储任何与代码相关的信息。</p>
+<h3 id="16-字节流">1.6 字节流<a class="anchor" href="#16-字节流">#</a></h3>
+<h4 id="1-reader">1. reader</h4>
+<p>以上讲到的都是字符流，<code>Reader</code>是Java的IO库提供的另一个输入流接口，是一个字符流，即以<code>char</code>为单位读取，<code>java.io.Reader</code>是所有字符输入流的超类，它最主要的方法是：</p>
+<pre><code class="language-java">public int read() throws IOException;
+</code></pre>
+<p>这个方法读取字符流的下一个字符，并返回字符表示的<code>int</code>，范围是<code>0</code>~<code>65535</code>。如果已读到末尾，返回<code>-1</code>。</p>
+<p><code>Reader</code>定义了所有字符输入流的超类：</p>
+<ul>
+<li><code>FileReader</code>实现了文件字符流输入，使用时需要指定编码；</li>
+<li><code>CharArrayReader</code>和<code>StringReader</code>可以在内存中模拟一个字符流输入。</li>
+</ul>
+<p><code>Reader</code>是基于<code>InputStream</code>构造的：可以通过<code>InputStreamReader</code>在指定编码的同时将任何<code>InputStream</code>转换为<code>Reader</code>。</p>
+<h4 id="2-writer">2. writer</h4>
+<p><code>Writer</code>定义了所有字符输出流的超类：</p>
+<ul>
+<li><code>FileWriter</code>实现了文件字符流输出；</li>
+<li><code>CharArrayWriter</code>和<code>StringWriter</code>在内存中模拟一个字符流输出。</li>
+</ul>
+<p>使用<code>try (resource)</code>保证<code>Writer</code>正确关闭。</p>
+<p><code>Writer</code>是基于<code>OutputStream</code>构造的，可以通过<code>OutputStreamWriter</code>将<code>OutputStream</code>转换为<code>Writer</code>，转换时需要指定编码。</p>
+<h2 id="二正则表达式">二、正则表达式<a class="anchor" href="#二正则表达式">#</a></h2>
+<p><strong>单个字符的匹配规则如下：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">正则表达式</th>
+<th align="left">规则</th>
+<th align="left">可以匹配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>A</code></td>
+<td align="left">指定字符</td>
+<td align="left"><code>A</code></td>
+</tr>
+<tr>
+<td align="left"><code>\u548c</code></td>
+<td align="left">指定Unicode字符</td>
+<td align="left"><code>和</code></td>
+</tr>
+<tr>
+<td align="left"><code>.</code></td>
+<td align="left">任意字符</td>
+<td align="left"><code>a</code>，<code>b</code>，<code>&amp;</code>，<code>0</code></td>
+</tr>
+<tr>
+<td align="left"><code>\d</code></td>
+<td align="left">数字0~9</td>
+<td align="left"><code>0</code>~<code>9</code></td>
+</tr>
+<tr>
+<td align="left"><code>\w</code></td>
+<td align="left">大小写字母，数字和下划线</td>
+<td align="left"><code>a</code>~<code>z</code>，<code>A</code>~<code>Z</code>，<code>0</code>~<code>9</code>，<code>_</code></td>
+</tr>
+<tr>
+<td align="left"><code>\s</code></td>
+<td align="left">空格、Tab键</td>
+<td align="left">空格，Tab</td>
+</tr>
+<tr>
+<td align="left"><code>\D</code></td>
+<td align="left">非数字</td>
+<td align="left"><code>a</code>，<code>A</code>，<code>&amp;</code>，<code>_</code>，……</td>
+</tr>
+<tr>
+<td align="left"><code>\W</code></td>
+<td align="left">非\w</td>
+<td align="left"><code>&amp;</code>，<code>@</code>，<code>中</code>，……</td>
+</tr>
+<tr>
+<td align="left"><code>\S</code></td>
+<td align="left">非\s</td>
+<td align="left"><code>a</code>，<code>A</code>，<code>&amp;</code>，<code>_</code>，……</td>
+</tr>
+</tbody>
+</table>
+<p><strong>多个字符的匹配规则如下：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">正则表达式</th>
+<th align="left">规则</th>
+<th align="left">可以匹配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left"><code>A*</code></td>
+<td align="left">任意个数字符</td>
+<td align="left">空，<code>A</code>，<code>AA</code>，<code>AAA</code>，……</td>
+</tr>
+<tr>
+<td align="left"><code>A+</code></td>
+<td align="left">至少1个字符</td>
+<td align="left"><code>A</code>，<code>AA</code>，<code>AAA</code>，……</td>
+</tr>
+<tr>
+<td align="left"><code>A?</code></td>
+<td align="left">0个或1个字符</td>
+<td align="left">空，<code>A</code></td>
+</tr>
+<tr>
+<td align="left"><code>A{3}</code></td>
+<td align="left">指定个数字符</td>
+<td align="left"><code>AAA</code></td>
+</tr>
+<tr>
+<td align="left"><code>A{2,3}</code></td>
+<td align="left">指定范围个数字符</td>
+<td align="left"><code>AA</code>，<code>AAA</code></td>
+</tr>
+<tr>
+<td align="left"><code>A{2,}</code></td>
+<td align="left">至少n个字符</td>
+<td align="left"><code>AA</code>，<code>AAA</code>，<code>AAAA</code>，……</td>
+</tr>
+<tr>
+<td align="left"><code>A{0,3}</code></td>
+<td align="left">最多n个字符</td>
+<td align="left">空，<code>A</code>，<code>AA</code>，<code>AAA</code></td>
+</tr>
+</tbody>
+</table>
+<p>给定一个匹配规则，加上<code>?</code>后就变成了非贪婪匹配。</p>
+<p><strong>复杂匹配规则主要有：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="left">正则表达式</th>
+<th align="left">规则</th>
+<th align="left">可以匹配</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">^</td>
+<td align="left">开头</td>
+<td align="left">字符串开头</td>
+</tr>
+<tr>
+<td align="left">$</td>
+<td align="left">结尾</td>
+<td align="left">字符串结束</td>
+</tr>
+<tr>
+<td align="left">[ABC]</td>
+<td align="left">[…]内任意字符</td>
+<td align="left">A，B，C</td>
+</tr>
+<tr>
+<td align="left">[A-F0-9xy]</td>
+<td align="left">指定范围的字符</td>
+<td align="left"><code>A</code>，……，<code>F</code>，<code>0</code>，……，<code>9</code>，<code>x</code>，<code>y</code></td>
+</tr>
+<tr>
+<td align="left"><code>[^A-F]</code></td>
+<td align="left">指定范围外的任意字符</td>
+<td align="left">非<code>A</code>~<code>F</code></td>
+</tr>
+<tr>
+<td align="left">ABlCDlEF</td>
+<td align="left">AB或CD或EF</td>
+<td align="left"><code>AB</code>，<code>CD</code>，<code>EF</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="21-分组匹配">2.1 分组匹配<a class="anchor" href="#21-分组匹配">#</a></h3>
+<p><code>String.matches()</code>方法内部调用的就是<code>Pattern</code>和<code>Matcher</code>类的方法。但是反复使用<code>String.matches()</code>对同一个正则表达式进行多次匹配效率较低，因为每次都会创建出一样的<code>Pattern</code>对象。完全可以先创建出一个<code>Pattern</code>对象，然后反复使用，就可以实现编译一次，多次匹配：</p>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        Pattern pattern = Pattern.compile(&quot;(\\d{3,4})\\-(\\d{7,8})&quot;);
+        pattern.matcher(&quot;010-12345678&quot;).matches(); // true
+        pattern.matcher(&quot;021-123456&quot;).matches(); // true
+        pattern.matcher(&quot;022#1234567&quot;).matches(); // false
+        // 获得Matcher对象:
+        Matcher matcher = pattern.matcher(&quot;010-12345678&quot;);
+        if (matcher.matches()) {
+            String whole = matcher.group(0); // &quot;010-12345678&quot;, 0表示匹配的整个字符串
+            String area = matcher.group(1); // &quot;010&quot;, 1表示匹配的第1个子串
+            String tel = matcher.group(2); // &quot;12345678&quot;, 2表示匹配的第2个子串
+            System.out.println(area);
+            System.out.println(tel);
+        }
+    }
+}
+</code></pre>
+<h3 id="22-搜索和替换">2.2 搜索和替换<a class="anchor" href="#22-搜索和替换">#</a></h3>
+<pre><code class="language-java">public String render(Map&lt;String, Object&gt; data) {
+		Matcher m = pattern.matcher(template);
+		StringBuilder sb = new StringBuilder();
+		
+		while (m.find()) { // 搜索到含有匹配项的子串则返回
+			m.appendReplacement(sb, data.get(m.group(1)).toString()); // 替换并添加到sb末尾
+		}
+		m.appendTail(sb); // 添加最后的子串
+		return sb.toString();
+	}
+</code></pre>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/java/">java</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">java-Map</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/java-%E5%B9%B6%E5%8F%91/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >java-并发</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一io">一、IO</a>
+      <ul>
+        <li><a href="#11-file">1.1 File</a></li>
+        <li><a href="#12-输入">1.2 输入</a></li>
+        <li><a href="#13-输出">1.3 输出</a></li>
+        <li><a href="#14-classpath资源">1.4 classpath资源</a></li>
+        <li><a href="#15-序列化">1.5 序列化</a></li>
+        <li><a href="#16-字节流">1.6 字节流</a></li>
+      </ul>
+    </li>
+    <li><a href="#二正则表达式">二、正则表达式</a>
+      <ul>
+        <li><a href="#21-分组匹配">2.1 分组匹配</a></li>
+        <li><a href="#22-搜索和替换">2.2 搜索和替换</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

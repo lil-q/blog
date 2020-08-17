@@ -27,7 +27,8 @@
 二、查询(SELECT) Select 查询某些属性列（specific columns）的语法。
 SELECT column（列名）, another_column, … FROM mytable（表名）;  Select 查询所有列。
 SELECT * FROM mytable（表名）;  三、条件查询 (WHERE) 条件查询语法。WHERE
-SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_condition AND/OR …;     Operator（关键字） Condition（意思） SQL Example(例子）     =, !=, &amp;lt; &amp;lt;=, &amp;gt;, &amp;gt;= Standard numerical operators 基础的 大于，等于等比较 col_name !</description>
+SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_condition AND/OR …;  参考下表：
+   Operator（关键字） Condition（意思） SQL Example(例子）     =, !=, &amp;lt; &amp;lt;=, &amp;gt;, &amp;gt;= Standard numerical operators 基础的 大于，等于等比较 col_name !</description>
     </item>
     
   </channel>

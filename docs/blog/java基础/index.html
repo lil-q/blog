@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>java-基础 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.21cc72bfb29c001b80f684a136b0bf799b60bebd4c2ae24b382a83a04abbb8db.css" integrity="sha256-Icxyv7KcABuA9oShNrC/eZtgvr1MKuJLOCqDoEq7uNs="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "java-基础",
+      "headline" : "java-基础",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-03-20 19:33:14 \u002b0000 UTC",
+      "dateModified" : "2020-03-20 19:33:14 \u002b0000 UTC",
+      "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80\/",
+      "wordCount" : "2015",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">java-基础</h1>
+            <time datetime="2020-03-20 19:33:14 &#43;0000 UTC" class="post__date">Mar 20 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/javase1.png" style="zoom:50%;" /></p>
+<ul>
+<li>JVM–java virtual machine
+JVM 是整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。</li>
+<li>JRE – java runtime environment
+JRE 是指 java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。</li>
+<li>JDK – java development kit
+JDK 是 java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。</li>
+</ul>
+<h2 id="一数据类型">一、数据类型<a class="anchor" href="#一数据类型">#</a></h2>
+<h3 id="11-基本类型">1.1 基本类型<a class="anchor" href="#11-基本类型">#</a></h3>
+<ul>
+<li>byte/8  [-128 ~ 127]</li>
+<li>char/16</li>
+<li>short/16  [-32768 ~ 32767]</li>
+<li>int/32  [-2147483648 ~ 2147483647]</li>
+<li>float/32</li>
+<li>long/64  [-9223372036854775808 ~ 9223372036854775807]</li>
+<li>double/64</li>
+<li>boolean/~</li>
+</ul>
+<p>Java语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要1 bit，但是通常JVM内部会把<code>boolean</code>表示为4字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</p>
+<h3 id="12-包装类型">1.2 包装类型<a class="anchor" href="#12-包装类型">#</a></h3>
+<p>基本类型都有对应的包装类型，基本类型与其对应的包装类型之间的赋值使用自动装箱与拆箱完成。</p>
+<pre><code class="language-java">Integer x = 2;     // 装箱 调用了 Integer.valueOf(2)
+int y = x;         // 拆箱 调用了 X.intValue()
+</code></pre>
+<h3 id="13-缓存池">1.3 缓存池<a class="anchor" href="#13-缓存池">#</a></h3>
+<p>new Integer(123) 与 Integer.valueOf(123) 的区别在于：</p>
+<ul>
+<li>new Integer(123) 每次都会新建一个对象；</li>
+<li>Integer.valueOf(123) 会使用缓存池中的对象，多次调用会取得同一个对象的引用。</li>
+</ul>
+<p>编译器会在自动装箱过程调用 valueOf() 方法，因此多个值相同且值在缓存池范围内的 Integer 实例使用自动装箱来创建，那么就会引用相同的对象。</p>
+<pre><code class="language-java">Integer m = 123;
+Integer n = 123;
+System.out.println(m == n); // true
+</code></pre>
+<p>基本类型对应的缓冲池如下：</p>
+<ul>
+<li>boolean values true and false</li>
+<li>all byte values</li>
+<li>short values between -128 and 127</li>
+<li>int values between -128 and 127</li>
+<li>char in the range \u0000 to \u007F</li>
+</ul>
+<p>在使用这些基本类型对应的包装类型时，如果该数值范围在缓冲池范围内，就可以直接使用缓冲池中的对象。</p>
+<h3 id="14-数组">1.4 数组<a class="anchor" href="#14-数组">#</a></h3>
+<h4 id="1-初始化">1. 初始化</h4>
+<p>Java语言中数组必须先初始化，然后才可以使用。</p>
+<ul>
+<li>
+<p>**静态初始化：**<code>arrayName = new type[]{element1,element2,element3...};</code></p>
+<p>简化写法：<code>type[] arrayName = {element1,element2,element3...};</code></p>
+</li>
+<li>
+<p>**动态初始化：**<code>arrayName = new type[length];</code></p>
+</li>
+</ul>
+<p>数组完成初始化后，内存空间中针对该数组的各个元素就有个一个默认值：</p>
+<ul>
+<li>基本数据类型的整数类型（<code>byte</code>、<code>short</code>、<code>int</code>、<code>long</code>）默认值是<code>0</code>；</li>
+<li>基本数据类型的浮点类型（<code>float</code>、<code>double</code>）默认值是<code>0.0</code>；</li>
+<li>基本数据类型的字符类型（<code>char</code>）默认值是<code>'\u0000'</code>；</li>
+<li>基本数据类型的布尔类型（<code>boolean</code>）默认值是<code>false</code>；</li>
+<li>类型的引用类型（类、数组、接口、<code>String</code>）默认值是<code>null</code>。</li>
+</ul>
+<p>**注意：**不要同时使用静态初始化和动态初始化，也就是说，不要在进行数组初始化时，既指定数组的长度，也为每个数组元素分配初始值。一旦数组完成初始化，数组在内存中所占的空间将被固定下来，所以数组的长度将不可改变。</p>
+<h4 id="2-打印数组内容">2. 打印数组内容</h4>
+<p>Java标准库提供了类方法<code>Arrays.toString()</code>，可以快速打印数组内容。</p>
+<h4 id="3-排序">3. 排序</h4>
+<p>调用JDK提供的<code>Arrays.sort()</code>可以原地升序排序。如需降序：</p>
+<pre><code class="language-java">Arrays.sort(a, Collections.reverseOrder());
+</code></pre>
+<h2 id="二运算">二、运算<a class="anchor" href="#二运算">#</a></h2>
+<h3 id="21-运算优先级">2.1 运算优先级<a class="anchor" href="#21-运算优先级">#</a></h3>
+<p>在Java的计算表达式中，运算优先级从高到低依次是：</p>
+<ul>
+<li><code>()</code></li>
+<li><code>!</code> <code>~</code> <code>++</code> <code>--</code></li>
+<li><code>*</code> <code>/</code> <code>%</code></li>
+<li><code>+</code> <code>-</code></li>
+<li><code>&lt;&lt;</code> <code>&gt;&gt;</code> <code>&gt;&gt;&gt;</code></li>
+<li><code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> <code>instanceof</code></li>
+<li><code>==</code> <code>!=</code></li>
+<li><code>&amp;</code></li>
+<li><code>^</code></li>
+<li><code>|</code></li>
+<li><code>&amp;&amp;</code></li>
+<li><code>||</code></li>
+<li><code>? :</code></li>
+<li><code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code></li>
+</ul>
+<h3 id="22-位运算">2.2 位运算<a class="anchor" href="#22-位运算">#</a></h3>
+<p>位操作（Bit Manipulation）是程序设计中对位模式或二进制数的一元和二元操作。在许多古老的微处理器上，位运算比加减运算略快，通常位运算比乘除法运算要快很多。在现代架构中，情况并非如此：位运算的运算速度通常与加法运算相同（仍然快于乘法运算）。</p>
+<p><a href="https://leetcode-cn.com/problems/er-jin-zhi-zhong-1de-ge-shu-lcof/">1. 面试题15. 二进制中1的个数</a></p>
+<pre><code class="language-java">// 解一：
+public class Solution {
+    public int hammingWeight(int n) {
+        int res = 0;
+        while (n != 0) {
+            res += n &amp; 1; // 只计算一位
+            n &gt;&gt;&gt;= 1; // &gt;&gt;&gt; 符号位一起移动，&gt;&gt; 符号位不移动
+        }
+        return res;
+    }
+}
+// 解二：巧用 n&amp;(n−1)
+public class Solution {
+    public int hammingWeight(int n) {
+        int res = 0;
+        while (n != 0) {
+            res++;
+            n &amp;= n - 1;
+        }
+        return res;
+    }
+}
+</code></pre>
+<p><a href="https://leetcode-cn.com/problems/shu-zhi-de-zheng-shu-ci-fang-lcof/">2. 快速幂</a></p>
+<pre><code class="language-java">class Solution {
+    public double myPow(double x, int n) {
+        if (n == 0) return 1;
+        double p = 1;
+        long m = n; // int 最小值转为正数会溢出，需要转为 long
+        if (m &lt; 0) {
+            x = 1 / x;
+            m = -m;
+        }
+        while (m &gt; 0) {
+            if ((m &amp; 1) == 1) p *= x;
+            x *= x;
+            m &gt;&gt;&gt;= 1;
+        }
+        return p;
+    }
+}
+</code></pre>
+<p><a href="">更多题解</a></p>
+<h3 id="23-整数运算">2.3 整数运算<a class="anchor" href="#23-整数运算">#</a></h3>
+<h4 id="1-隐式类型转换">1. 隐式类型转换</h4>
+<p><code>short</code>和<code>int</code>计算，结果总是<code>int</code>，原因是<code>short</code>首先自动被转型为<code>int</code>：</p>
+<pre><code class="language-java">short s = 1234;
+int i = 123456;
+int x = s + i; // s自动转型为int
+</code></pre>
+<p>因为字面量 1 是 int 类型，它比 short 类型精度要高，因此不能隐式地将 int 类型向下转型为 short 类型。</p>
+<pre><code class="language-java">short s1 = 1;
+// s1 = s1 + 1;
+</code></pre>
+<p>但是使用 += 或者 ++ 运算符会执行隐式类型转换。</p>
+<pre><code class="language-java">s1 += 1;
+s1++;
+</code></pre>
+<p>上面的语句相当于将 s1 + 1 的计算结果进行了向下转型：</p>
+<pre><code class="language-java">s1 = (short) (s1 + 1);
+</code></pre>
+<h4 id="2-强制类型转换">2. 强制类型转换</h4>
+<p>可以将结果强制转型，即将大范围的整数转型为小范围的整数。强制转型使用<code>(类型)</code>，例如，将<code>int</code>强制转型为<code>short</code>：</p>
+<pre><code class="language-java">int i = 12345;
+short s = (short) i; // 12345
+</code></pre>
+<p>要注意，超出范围的强制转型会得到错误的结果，原因是转型时，<code>int</code>的两个高位字节直接被扔掉，仅保留了低位的两个字节。</p>
+<h4 id="3-溢出">3. 溢出</h4>
+<p>为了防止溢出，有些题目会设置答案求余数的要求，如<a href="https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/">面试题10- I. 斐波那契数列</a>要求答案需要取模 1e9+7（1000000007），这个数小于<code>int</code>最大值的一半，利用循环取余: $$ (x + y) \odot p = (x \odot p + y \odot p) \odot p $$。</p>
+<pre><code class="language-java">class Solution {
+    public int fib(int n) {
+        int a = 0, b = 1, sum;
+        for(int i = 0; i &lt; n; i++){
+            sum = (a + b) % 1000000007;
+            a = b;
+            b = sum;
+        }
+        return a;
+    }
+}
+</code></pre>
+<h3 id="24-浮点数运算">2.4 浮点数运算<a class="anchor" href="#24-浮点数运算">#</a></h3>
+<p>浮点类型的数就是小数，因为小数用科学计数法表示的时候，小数点是可以“浮动”的，如$$1234.5$$可以表示成$$12.345x10^{2}$$，也可以表示成$$1.2345x10^{3}$$，所以称为浮点数。</p>
+<p>下面是定义浮点数的例子：</p>
+<pre><code class="language-java">float f1 = 3.14f;
+float f2 = 3.14e38f; // 科学计数法表示的3.14x10^38
+double d = 1.79e308;
+double d2 = -1.79e308;
+double d3 = 4.9e-324; // 科学计数法表示的4.9x10^-324
+</code></pre>
+<p>**对于<code>float</code>类型，需要加上<code>f</code>后缀。**浮点数可表示的范围非常大，<code>float</code>类型可最大表示$$3.4x10^{38}$$，而<code>double</code>类型可最大表示$$1.79x10^{308}$$。</p>
+<p>Java 不能隐式执行向下转型，因为这会使得精度降低。</p>
+<pre><code class="language-java">// float f = 1.1;
+</code></pre>
+<p><code>1.1</code> 字面量属于 double 类型，不能直接将 1.1 直接赋值给 float 变量，因为这是向下转型。</p>
+<h4 id="1-浮点数的不准确性">1. 浮点数的不准确性</h4>
+<p>浮点数运算和整数运算相比，只能进行加减乘除这些数值计算，不能做位运算和移位运算。</p>
+<p>在计算机中，浮点数虽然表示的范围大，但是，浮点数有个非常重要的特点，就是浮点数常常<strong>无法精确表示</strong>。</p>
+<p>浮点数<code>0.1</code>在计算机中就无法精确表示，因为十进制的<code>0.1</code>换算成二进制是一个无限循环小数，很显然，无论使用<code>float</code>还是<code>double</code>，都只能存储一个<code>0.1</code>的近似值。但是，<code>0.5</code>这个浮点数又可以精确地表示。（乘以若干个2后能成为整数的才能准确表示）</p>
+<h3 id="25-布尔运算">2.5 布尔运算<a class="anchor" href="#25-布尔运算">#</a></h3>
+<h4 id="1-短路运算">1. 短路运算</h4>
+<p>布尔运算的一个重要特点是短路运算。如果一个布尔运算的表达式能提前确定结果，则后续的计算不再执行，直接返回结果。</p>
+<p>因为<code>false &amp;&amp; x</code>的结果总是<code>false</code>，无论<code>x</code>是<code>true</code>还是<code>false</code>，因此，与运算在确定第一个值为<code>false</code>后，不再继续计算，而是直接返回<code>false</code>。</p>
+<h4 id="2-三元运算符">2. 三元运算符</h4>
+<p>Java还提供一个三元运算符<code>b ? x : y</code>，它根据第一个布尔表达式的结果，分别返回后续两个表达式之一的计算结果。</p>
+<h2 id="三string">三、String<a class="anchor" href="#三string">#</a></h2>
+<p>String 被声明为 final，因此它不可被继承。(Integer 等包装类也不能被继承）</p>
+<p>在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 <code>coder</code> 来标识使用了哪种编码。</p>
+<pre><code class="language-java">public final class String
+    implements java.io.Serializable, Comparable&lt;String&gt;, CharSequence {
+    /** The value is used for character storage. */
+    private final byte[] value;
+
+    /** The identifier of the encoding used to encode the bytes in {@code value}. */
+    private final byte coder;
+}
+</code></pre>
+<p>value 数组被声明为 final，这意味着 value 数组初始化之后就不能再引用其它数组。并且 String 内部没有改变 value 数组的方法，因此可以保证 String 不可变。</p>
+<h3 id="31-编码">3.1 编码<a class="anchor" href="#31-编码">#</a></h3>
+<p>在Java中，<code>char</code>类型实际上就是两个字节的<code>Unicode</code>编码。如果我们要手动把字符串转换成其他编码，可以这样做：</p>
+<pre><code class="language-java">byte[] b1 = &quot;Hello&quot;.getBytes(); // 按系统默认编码转换，不推荐
+byte[] b2 = &quot;Hello&quot;.getBytes(&quot;UTF-8&quot;); // 按UTF-8编码转换
+byte[] b2 = &quot;Hello&quot;.getBytes(&quot;GBK&quot;); // 按GBK编码转换
+byte[] b3 = &quot;Hello&quot;.getBytes(StandardCharsets.UTF_8); // 按UTF-8编码转换
+</code></pre>
+<p>注意：转换编码后，就不再是<code>char</code>类型，而是<code>byte</code>类型表示的数组。</p>
+<p>如果要把已知编码的<code>byte[]</code>转换为<code>String</code>，可以这样做：</p>
+<pre><code class="language-java">byte[] b = ...
+String s1 = new String(b, &quot;GBK&quot;); // 按GBK转换
+String s2 = new String(b, StandardCharsets.UTF_8); // 按UTF-8转换
+</code></pre>
+<p>始终牢记：Java的<code>String</code>和<code>char</code>在内存中总是以Unicode编码表示。</p>
+<h3 id="32-不可变的好处">3.2 不可变的好处<a class="anchor" href="#32-不可变的好处">#</a></h3>
+<p><strong>1. 可以缓存 hash 值</strong></p>
+<p>因为 String 的 hash 值经常被使用，例如 String 用做 HashMap 的 key。不可变的特性可以使得 hash 值也不可变，因此只需要进行一次计算。</p>
+<p><strong>2. String Pool 的需要</strong></p>
+<p>如果一个 String 对象已经被创建过了，那么就会从 String Pool 中取得引用。只有 String 是不可变的，才可能使用 String Pool。</p>
+<p><strong>3. 安全性</strong></p>
+<p>String 经常作为参数，String 不可变性可以保证参数不可变。例如在作为网络连接参数的情况下如果 String 是可变的，那么在网络连接过程中，String 被改变，改变 String 的那一方以为现在连接的是其它主机，而实际情况却不一定是。</p>
+<p><strong>4. 线程安全</strong></p>
+<p>String 不可变性天生具备线程安全，可以在多个线程中安全地使用。</p>
+<h3 id="33-stringbuffer--stringbuilder">3.3 StringBuffer &amp; StringBuilder<a class="anchor" href="#33-stringbuffer--stringbuilder">#</a></h3>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        var sb = new StringBuilder(1024);
+        sb.append(&quot;Mr &quot;)
+          .append(&quot;Bob&quot;)
+          .append(&quot;!&quot;)
+          .insert(0, &quot;Hello, &quot;);
+        System.out.println(sb.toString());
+    }
+}
+</code></pre>
+<p><strong>1. 可变性</strong></p>
+<ul>
+<li>String 不可变</li>
+<li>StringBuffer 和 StringBuilder 可变</li>
+</ul>
+<p><strong>2. 线程安全</strong></p>
+<ul>
+<li>String 不可变，因此是线程安全的</li>
+<li>StringBuilder 不是线程安全的</li>
+<li>StringBuffer 是线程安全的，内部使用 synchronized 进行同步</li>
+</ul>
+<p><code>StringBuffer</code>，这是Java早期的一个<code>StringBuilder</code>的线程安全版本，它通过同步来保证多个线程操作<code>StringBuffer</code>也是安全的，但是同步会带来执行速度的下降。现在完全没有必要使用<code>StringBuffer</code>。</p>
+<h3 id="34-stringjoiner">3.4 StringJoiner<a class="anchor" href="#34-stringjoiner">#</a></h3>
+<pre><code class="language-java">import java.util.StringJoiner;
+
+public class Main {
+    public static void main(String[] args) {
+        String[] names = {&quot;Bob&quot;, &quot;Alice&quot;, &quot;Grace&quot;};
+        var sj = new StringJoiner(&quot;, &quot;, &quot;Hello &quot;, &quot;!&quot;);// 分隔符。头，尾
+        for (String name : names) {
+            sj.add(name);
+        }
+        System.out.println(sj.toString());
+    }
+}
+</code></pre>
+<h3 id="35-string-pool">3.5 String Pool<a class="anchor" href="#35-string-pool">#</a></h3>
+<p>字符串常量池（String Pool）保存着所有字符串字面量（literal strings），这些字面量在编译时期就确定。不仅如此，还可以使用 String 的 intern() 方法在运行过程将字符串添加到 String Pool 中。</p>
+<p>当一个字符串调用 intern() 方法时，如果 String Pool 中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回 String Pool 中字符串的引用；否则，就会在 String Pool 中添加一个新的字符串，并返回这个新字符串的引用。</p>
+<p>下面示例中，s1 和 s2 采用 new String() 的方式新建了两个不同字符串，而 s3 和 s4 是通过 s1.intern() 方法取得同一个字符串引用。intern() 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。</p>
+<pre><code class="language-java">String s1 = new String(&quot;aaa&quot;);
+String s2 = new String(&quot;aaa&quot;);
+System.out.println(s1 == s2);           // false
+String s3 = s1.intern();
+String s4 = s1.intern();
+System.out.println(s3 == s4);           // true
+</code></pre>
+<p>如果是采用 &ldquo;bbb&rdquo; 这种字面量的形式创建字符串，会自动地将字符串放入 String Pool 中。</p>
+<pre><code class="language-java">String s5 = &quot;bbb&quot;;
+String s6 = &quot;bbb&quot;;
+System.out.println(s5 == s6);  // true
+</code></pre>
+<h3 id="36-new-stringabc">3.6 new String(&ldquo;abc&rdquo;)<a class="anchor" href="#36-new-stringabc">#</a></h3>
+<p>使用这种方式一共会创建两个字符串对象（前提是 String Pool 中还没有 &ldquo;abc&rdquo; 字符串对象）。</p>
+<ul>
+<li>&ldquo;abc&rdquo; 属于字符串字面量，因此编译时期会在 String Pool 中创建一个字符串对象，指向这个 &ldquo;abc&rdquo; 字符串字面量；</li>
+<li>而使用 new 的方式会在堆中创建一个字符串对象。</li>
+</ul>
+<h3 id="37-常用方法">3.7 常用方法<a class="anchor" href="#37-常用方法">#</a></h3>
+<pre><code class="language-java">import java.util.Arrays;
+
+public class Main {
+    public static void main(String[] args) {
+        String s1 = &quot;hello&quot;;
+        String s2 = &quot;HELLO&quot;.toLowerCase();
+        // 判断相同
+        System.out.println(s1 == s2); // false
+        System.out.println(s1.equals(s2)); // true
+        // 判断为空
+        System.out.println(&quot;&quot;.isEmpty()); // true
+        System.out.println(&quot;  &quot;.isEmpty()); // false
+        // 判断为空白
+        System.out.println(&quot;  \n&quot;.isBlank()); // true
+        System.out.println(&quot; Hello &quot;.isBlank()); // false
+        // 移除空白
+        //   移除字符串首尾空白字符。空白字符包括空格，\t，\r，\n，
+        //   trim()并没有改变字符串的内容，而是返回了一个新字符串。
+        System.out.println(&quot;  \tHello\r\n &quot;.trim()); // &quot;Hello&quot; 
+        //   类似中文的空格字符\u3000也会被移除
+        System.out.println(&quot;\u3000Hello\u3000&quot;.strip()); // &quot;Hello&quot;
+        System.out.println(&quot;\u3000Hello\u3000&quot;.stripLeading()); // &quot;Hello &quot;
+        System.out.println(&quot;\u3000Hello\u3000&quot;.stripTrailing()); // &quot; Hello&quot; 
+        // 子串
+        //   注意到contains()方法的参数是CharSequence而不是String，因为CharSequence是String的父类。
+        System.out.println(&quot;Hello&quot;.contains(&quot;ll&quot;)); // true 
+        System.out.println(&quot;Hello&quot;.indexOf(&quot;l&quot;)); // 2
+        System.out.println(&quot;Hello&quot;.lastIndexOf(&quot;l&quot;)); // 3
+        System.out.println(&quot;Hello&quot;.startsWith(&quot;He&quot;)); // true
+        System.out.println(&quot;Hello&quot;.endsWith(&quot;lo&quot;)); // true
+        System.out.println(&quot;Hello&quot;.substring(2)); // &quot;llo&quot;
+        System.out.println(&quot;Hello&quot;.substring(2, 4)); // &quot;ll&quot;
+        // 替换子串
+        System.out.println(&quot;Hello&quot;.replace(&quot;el&quot;, &quot;a&quot;)); // &quot;Halo&quot;
+        // 分割字符串
+        System.out.println(Arrays.toString(&quot;A,B,C,D&quot;.split(&quot;,&quot;))); // [A, B, C, D]
+        // 拼接字符串
+        String[] arr = {&quot;A&quot;, &quot;B&quot;, &quot;C&quot;};
+        System.out.println(String.join(&quot;, &quot;, arr)); // &quot;A, B, C&quot;
+        // 类型转换
+        System.out.println(String.valueOf(123)); // &quot;123&quot;
+        System.out.println(String.valueOf(new Object())); // &quot;java.lang.Object@5caf905d&quot;
+        System.out.println(Integer.parseInt(&quot;123&quot;)); // 123
+        System.out.println(Integer.parseInt(&quot;ff&quot;, 16)); // 按十六进制转换，255
+        //   如果修改了char[]数组，String并不会改变
+        //   new String(char[])并不会直接引用传入的char[]数组，而是会复制一份
+        char[] cs = &quot;Hello&quot;.toCharArray(); // String -&gt; char[]
+        String s = new String(cs); // char[] -&gt; String
+        // 翻转
+        System.out.println(new StringBuilder(s).reverse().toString()); // olleH
+        // 判断是否为数字
+        char ch = s.charAt(1); // e
+        System.out.println(Character.isDigit(ch)); // false
+    }
+}
+</code></pre>
+<h2 id="四核心类">四、核心类<a class="anchor" href="#四核心类">#</a></h2>
+<h3 id="41-包装类型">4.1 包装类型<a class="anchor" href="#41-包装类型">#</a></h3>
+<p>Java核心库为每种基本类型都提供了对应的包装类型：</p>
+<table>
+<thead>
+<tr>
+<th align="left">基本类型</th>
+<th align="left">对应的引用类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">boolean</td>
+<td align="left">java.lang.Boolean</td>
+</tr>
+<tr>
+<td align="left">byte</td>
+<td align="left">java.lang.Byte</td>
+</tr>
+<tr>
+<td align="left">short</td>
+<td align="left">java.lang.Short</td>
+</tr>
+<tr>
+<td align="left">int</td>
+<td align="left">java.lang.Integer</td>
+</tr>
+<tr>
+<td align="left">long</td>
+<td align="left">java.lang.Long</td>
+</tr>
+<tr>
+<td align="left">float</td>
+<td align="left">java.lang.Float</td>
+</tr>
+<tr>
+<td align="left">double</td>
+<td align="left">java.lang.Double</td>
+</tr>
+<tr>
+<td align="left">char</td>
+<td align="left">java.lang.Character</td>
+</tr>
+</tbody>
+</table>
+<h4 id="1-auto-boxing">1. Auto Boxing</h4>
+<p>因为<code>int</code>和<code>Integer</code>可以互相转换：</p>
+<pre><code class="language-java">int i = 100;
+Integer n = Integer.valueOf(i);
+int x = n.intValue();
+</code></pre>
+<p>所以，Java编译器可以帮助我们自动在<code>int</code>和<code>Integer</code>之间转型：</p>
+<pre><code class="language-java">Integer n = 100; // 编译器自动使用Integer.valueOf(int)
+int x = n; // 编译器自动使用Integer.intValue()
+</code></pre>
+<p>这种直接把<code>int</code>变为<code>Integer</code>的赋值写法，称为自动装箱（Auto Boxing），反过来，把<code>Integer</code>变为<code>int</code>的赋值写法，称为自动拆箱（Auto Unboxing）。</p>
+<p>自动装箱和自动拆箱只发生在编译阶段，目的是为了少写代码。装箱和拆箱会影响代码的执行效率，因为编译后的<code>class</code>代码是严格区分基本类型和引用类型的。并且，自动拆箱执行时可能会报<code>NullPointerException</code>（比如对null自动拆箱）。</p>
+<h4 id="2-静态工厂方法">2. 静态工厂方法</h4>
+<p>因为<code>Integer.valueOf()</code>可能始终返回同一个<code>Integer</code>实例（为了节省内存，<code>Integer.valueOf()</code>对于较小的数，始终返回相同的实例），因此，在我们自己创建<code>Integer</code>的时候，以下两种方法：</p>
+<ul>
+<li>方法1：<code>Integer n = new Integer(100);</code></li>
+<li>方法2：<code>Integer n = Integer.valueOf(100);</code></li>
+</ul>
+<p>方法2更好，因为方法1总是创建新的<code>Integer</code>实例，方法2把内部优化留给<code>Integer</code>的实现者去做，即使在当前版本没有优化，也有可能在下一个版本进行优化。</p>
+<p>我们把能创建“新”对象的静态方法称为<strong>静态工厂方法</strong>。<code>Integer.valueOf()</code>就是静态工厂方法，它尽可能地返回缓存的实例以节省内存。</p>
+<h3 id="42-枚举类型">4.2 枚举类型<a class="anchor" href="#42-枚举类型">#</a></h3>
+<pre><code class="language-java">enum Weekday {
+    SUN, MON, TUE, WED, THU, FRI, SAT;
+}
+</code></pre>
+<h4 id="1-enum定义枚举的好处">1. enum定义枚举的好处</h4>
+<ul>
+<li><code>enum</code>常量本身带有类型信息，即<code>Weekday.SUN</code>类型是<code>Weekday</code>，编译器会自动检查出类型错误。</li>
+<li>不可能引用到非枚举的值，因为无法通过编译。</li>
+<li>不同类型的枚举不能互相比较或者赋值，因为类型不符。</li>
+</ul>
+<h4 id="2-enum和class的区别">2. enum和class的区别</h4>
+<ul>
+<li><code>enum</code>类型的每个常量在JVM中只有一个唯一实例，所以可以直接用<code>==</code>比较；</li>
+<li>定义的<code>enum</code>类型总是继承自<code>java.lang.Enum</code>，且无法被继承；</li>
+<li>只能定义出<code>enum</code>的实例，而无法通过<code>new</code>操作符创建<code>enum</code>的实例；</li>
+<li>定义的每个实例都是引用类型的唯一实例；</li>
+<li>可以将<code>enum</code>类型用于<code>switch</code>语句。</li>
+</ul>
+<h4 id="3-name">3. name()</h4>
+<p>返回常量名，例如：</p>
+<pre><code class="language-java">String s = Weekday.SUN.name(); // &quot;SUN&quot;
+</code></pre>
+<h4 id="4-ordinal">4. ordinal()</h4>
+<p>返回定义的常量的顺序，从0开始计数，例如：</p>
+<pre><code class="language-java">int n = Weekday.MON.ordinal(); // 1
+</code></pre>
+<h2 id="五方法">五、方法<a class="anchor" href="#五方法">#</a></h2>
+<p>方法的名字的第一个单词应以小写字母作为开头，后面的单词则用大写字母开头写，不使用连接符。</p>
+<p>下划线可能出现在 JUnit 测试方法名称中用以分隔名称的逻辑组件。例如 <code>testPop_emptyStack</code>。</p>
+<h3 id="51-参数">5.1 参数<a class="anchor" href="#51-参数">#</a></h3>
+<h4 id="1-参数传递">1. 参数传递</h4>
+<p>Java的参数传递完全等同于赋值运算符的操作。<a href="https://www.zhihu.com/question/31203609">[3]</a></p>
+<ul>
+<li>对于基本类型，赋值运算符会直接改变变量的值，原来的值被覆盖掉。</li>
+<li>对于引用类型，赋值运算符会改变引用中所保存的地址，原来的地址被覆盖掉。<strong>但是原来的对象不会被改变（重要）。</strong></li>
+</ul>
+<h4 id="2-可变参数">2. 可变参数</h4>
+<p>可变参数用<code>类型...</code>定义，可变参数相当于数组类型，可以把可变参数改写为<code>String[]</code>类型，但是，调用方需要自己先构造<code>String[]</code>，比较麻烦。另外可变参数可以保证无法传入<code>null</code>，因为传入0个参数时，接收到的实际值是一个空数组而不是<code>null</code></p>
+<h3 id="52-构造方法">5.2 构造方法<a class="anchor" href="#52-构造方法">#</a></h3>
+<p>一个构造方法可以调用其他构造方法，这样做的目的是便于代码复用。调用其他构造方法的语法是<code>this(…)</code>。</p>
+<h3 id="53-初始化顺序">5.3 初始化顺序<a class="anchor" href="#53-初始化顺序">#</a></h3>
+<p>对象在class文件加载完毕，以及为各成员在方法区开辟好内存空间之后，就开始所谓“初始化&quot;的步骤</p>
+<ol>
+<li><strong>基类静态代码块，基类静态成员字段</strong>（并列优先级，按代码中出现先后顺序执行）（只有第次加载类时执行</li>
+<li><strong>派生类静态代码块，派生类静态成员字段</strong>（并列优先级，按代码中出现先后顺序执行）（只有第次加载类时执行）</li>
+<li><strong>基类普通代码块，基类普通成员字段</strong>（并列优先级，按代码中出现先后顺序执行）</li>
+<li><strong>基类构造函数</strong></li>
+<li><strong>派生类普通代码块，派生类普通成员字段</strong>（并列优先级，按代码中出现先后顺序执行）</li>
+<li><strong>派生类构造函数</strong></li>
+</ol>
+<p><strong>静态代码块：</strong></p>
+<ol>
+<li>它是<strong>随着类的加载而执行，只执行一次，并优先于主函数</strong>。具体说，<strong>静态代码块是由类调用</strong>的。类调用时，先执行静态代码块，然后才执行主函数的。</li>
+<li><strong>静态代码块其实就是给类初始化的，而构造代码块是给对象初始化的</strong>。</li>
+<li>静态代码块中的变量是局部变量，与普通函数中的局部变量性质没有区别。</li>
+</ol>
+<p><strong>构造代码块：</strong></p>
+<ol>
+<li>构造代码块的作用是给对象进行初始化。</li>
+<li><strong>对象一建立就运行构造代码块了，而且优先于构造函数执行</strong>。这里要强调一下，有对象建立，才会运行构造代码块，类不能调用构造代码块的，而且<strong>构造代码块与构造函数的执行顺序是前者先于后者执行</strong>。</li>
+<li>构造代码块与构造函数的区别是：<strong>构造代码块是给所有对象进行统一初始化，而构造函数是给对应的对象初始化</strong>，因为构造函数是可以多个的，运行哪个构造函数就会建立什么样的对象，但无论建立哪个对象，都会先执行相同的构造代码块。也就是说，构造代码块中定义的是不同对象共性的初始化内容。</li>
+</ol>
+<p><strong>构造函数：</strong></p>
+<ol>
+<li><strong>对象一建立，就会调用与之相应的构造函数</strong>，也就是说，不建立对象，构造函数时不会运行的。</li>
+<li>构造函数的作用是用于给对象进行初始化。</li>
+<li>一个对象建立，构造函数只运行一次，而一般方法可以被该对象调用多次。</li>
+</ol>
+<h3 id="54-流程控制">5.4 流程控制<a class="anchor" href="#54-流程控制">#</a></h3>
+<h4 id="1-输入">1. 输入</h4>
+<pre><code class="language-java">import java.util.Scanner; // 导入类
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in); // 创建Scanner对象
+        System.out.print(&quot;Input your name: &quot;); // 打印提示
+        String name = scanner.nextLine(); // 读取一行输入并获取字符串
+        System.out.print(&quot;Input your age: &quot;); // 打印提示
+        int age = scanner.nextInt(); // 读取一行输入并获取整数
+        System.out.printf(&quot;Hi, %s, you are %d\n&quot;, name, age); // 格式化输出
+    }
+}
+</code></pre>
+<h4 id="2-输出">2. 输出</h4>
+<p><code>println</code>是print line的缩写，表示输出并换行。因此，如果输出后不想换行，可以用<code>print()</code>。格式化输出使用<code>System.out.printf()</code>，通过使用占位符<code>%?</code>，<code>printf()</code>可以把后面的参数格式化成指定格式</p>
+<p>Java的格式化功能提供了多种占位符，可以把各种数据类型“格式化”成指定的字符串：</p>
+<table>
+<thead>
+<tr>
+<th align="left">占位符</th>
+<th align="left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">%d</td>
+<td align="left">格式化输出整数</td>
+</tr>
+<tr>
+<td align="left">%x</td>
+<td align="left">格式化输出十六进制整数</td>
+</tr>
+<tr>
+<td align="left">%f</td>
+<td align="left">格式化输出浮点数</td>
+</tr>
+<tr>
+<td align="left">%e</td>
+<td align="left">格式化输出科学计数法表示的浮点数</td>
+</tr>
+<tr>
+<td align="left">%s</td>
+<td align="left">格式化字符串</td>
+</tr>
+</tbody>
+</table>
+<h4 id="3-if-语句">3. if 语句</h4>
+<ul>
+<li>
+<p>多个<code>if ... else</code>串联要特别注意判断顺序；</p>
+</li>
+<li>
+<p>要注意<code>if</code>的边界条件；</p>
+</li>
+<li>
+<p>要注意浮点数判断相等不能直接用<code>==</code>运算符；</p>
+<p>应该用<code>if (Math.abs(x - 0.1) &lt; 0.00001) {...}</code></p>
+</li>
+<li>
+<p>引用类型判断内容相等要使用<code>equals()</code>，注意避免<code>NullPointerException</code>。</p>
+<p>应该用<code>if (s1 != null &amp;&amp; s1.equals(&quot;hello&quot;)) {...}</code></p>
+</li>
+</ul>
+<h4 id="4-switch-语句">4. switch 语句</h4>
+<ul>
+<li><code>switch</code>的计算结果必须是<strong>整型、字符串或枚举类型</strong>；</li>
+<li><code>case</code>语句具有<strong>穿透性</strong>，注意千万不要漏写<code>break</code>；</li>
+<li>总是写上<code>default</code>，建议打开<code>missing default</code>警告；</li>
+<li>从Java 14开始，<code>switch</code>语句正式升级为表达式，不再需要<code>break</code>，并且允许使用<code>yield</code>返回值。</li>
+</ul>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        String fruit = &quot;orange&quot;;
+        int opt = switch (fruit) {
+            case &quot;apple&quot; -&gt; 1;
+            case &quot;pear&quot;, &quot;mango&quot; -&gt; 2;
+            default -&gt; {
+                int code = fruit.hashCode();
+                yield code; // switch语句返回值
+            }
+        };
+        System.out.println(&quot;opt = &quot; + opt);
+    }
+}
+</code></pre>
+<h3 id="55-关键字">5.5 关键字<a class="anchor" href="#55-关键字">#</a></h3>
+<h4 id="1-final">1. final</h4>
+<p><strong>1. 数据</strong></p>
+<p>声明数据为常量，可以是编译时常量，也可以是在运行时被初始化后不能被改变的常量。</p>
+<ul>
+<li>对于基本类型，final 使数值不变；</li>
+<li>对于引用类型，final 使引用不变，也就不能引用其它对象，但是被引用的对象本身是可以修改的。</li>
+</ul>
+<pre><code class="language-java">final int x = 1;
+// x = 2;  // cannot assign value to final variable 'x'
+final A y = new A();
+y.a = 1;
+</code></pre>
+<p><strong>2. 方法</strong></p>
+<p>声明方法不能被子类重写。</p>
+<p>private 方法隐式地被指定为 final，如果在子类中定义的方法和基类中的一个 private 方法签名相同，此时子类的方法不是重写基类方法，而是在子类中定义了一个新的方法。</p>
+<p><strong>3. 类</strong></p>
+<p>声明类不允许被继承。</p>
+<h4 id="2-static">2. static</h4>
+<p><strong>1. 静态变量</strong></p>
+<ul>
+<li>静态变量：又称为类变量，也就是说这个变量属于类的，类所有的实例都共享静态变量，可以直接通过类名来访问它。静态变量在内存中只存在一份。</li>
+<li>实例变量：每创建一个实例就会产生一个实例变量，它与该实例同生共死。</li>
+</ul>
+<pre><code class="language-java">public class A {
+
+    private int x;         // 实例变量
+    private static int y;  // 静态变量
+
+    public static void main(String[] args) {
+        // int x = A.x;  // Non-static field 'x' cannot be referenced from a static context
+        A a = new A();
+        int x = a.x;
+        int y = A.y;
+    }
+}
+</code></pre>
+<p><strong>2. 静态方法</strong></p>
+<p>静态方法在类加载的时候就存在了，它不依赖于任何实例。所以静态方法必须有实现，也就是说它不能是抽象方法。</p>
+<pre><code class="language-java">public abstract class A {
+    public static void func1(){
+    }
+    // public abstract static void func2();  // Illegal combination of modifiers: 'abstract' and 'static'
+}
+</code></pre>
+<p>只能访问所属类的静态字段和静态方法，方法中不能有 this 和 super 关键字，因此这两个关键字与具体对象关联。</p>
+<pre><code class="language-java">public class A {
+
+    private static int x;
+    private int y;
+
+    public static void func1(){
+        int a = x;
+        // int b = y;  // Non-static field 'y' cannot be referenced from a static context
+        // int b = this.y;     // 'A.this' cannot be referenced from a static context
+    }
+}
+</code></pre>
+<p><strong>3. 静态语句块</strong></p>
+<p>静态语句块在类初始化时运行一次。</p>
+<pre><code class="language-java">public class A {
+    static {
+        System.out.println(&quot;123&quot;);
+    }
+
+    public static void main(String[] args) {
+        A a1 = new A();
+        A a2 = new A();
+    }
+}
+// 123
+</code></pre>
+<p><strong>4. 静态内部类</strong></p>
+<p>非静态内部类依赖于外部类的实例，也就是说需要先创建外部类实例，才能用这个实例去创建非静态内部类。而静态内部类不需要。</p>
+<pre><code class="language-java">public class OuterClass {
+
+    class InnerClass {
+    }
+
+    static class StaticInnerClass {
+    }
+
+    public static void main(String[] args) {
+        // InnerClass innerClass = new InnerClass(); // 'OuterClass.this' cannot be referenced from a static context
+        OuterClass outerClass = new OuterClass();
+        InnerClass innerClass = outerClass.new InnerClass();
+        StaticInnerClass staticInnerClass = new StaticInnerClass();
+    }
+}
+</code></pre>
+<p>静态内部类不能访问外部类的非静态的变量和方法。</p>
+<p><strong>5. 静态导包</strong></p>
+<p>在使用静态变量和方法时不用再指明 ClassName，从而简化代码，但可读性大大降低。</p>
+<pre><code class="language-java">import static com.xxx.ClassName.*
+</code></pre>
+<h3 id="56-stream">5.6 stream<a class="anchor" href="#56-stream">#</a></h3>
+<p>Stream API的特点是：</p>
+<ul>
+<li>Stream API提供了一套新的流式处理的抽象序列；</li>
+<li>Stream API支持函数式编程和链式操作；</li>
+<li>Stream可以表示无限序列，并且大多数情况下是惰性求值的。</li>
+</ul>
+<h4 id="1-lambda">1. lambda</h4>
+<p>从Java 8开始，我们可以用Lambda表达式替换单方法接口<code>FunctionalInterface</code>，如果只有一行<code>return xxx</code>的代码，完全可以用更简单的写法：</p>
+<pre><code class="language-java">Arrays.sort(array, (s1, s2) -&gt; s1.compareTo(s2));
+</code></pre>
+<p>返回值的类型也是由编译器自动推断的，这里推断出的返回值是<code>int</code>，因此，只要返回<code>int</code>，编译器就不会报错。</p>
+<p><strong><a href="https://leetcode-cn.com/problems/zui-xiao-de-kge-shu-lcof/">面试题40. 最小的k个数</a></strong></p>
+<pre><code class="language-java">public ArrayList&lt;Integer&gt; GetLeastNumbers_Solution(int[] nums, int k) {
+    if (k &gt; nums.length || k &lt;= 0)
+        return new ArrayList&lt;&gt;();
+    PriorityQueue&lt;Integer&gt; maxHeap = new PriorityQueue&lt;&gt;((o1, o2) -&gt; o2 - o1);
+    for (int num : nums) {
+        maxHeap.add(num);
+        if (maxHeap.size() &gt; k)
+            maxHeap.poll();
+    }
+    return new ArrayList&lt;&gt;(maxHeap);
+}
+</code></pre>
+<h4 id="2-方法引用">2. 方法引用</h4>
+<p>如果某个方法<strong>签名</strong>和<strong>返回类型</strong>恰好一致，就可以直接传入方法引用。对于实例方法有一个隐含的<code>this</code>参数，比如<code>String</code>类的<code>compareTo()</code>方法在实际调用的时候，第一个隐含参数总是传入<code>this</code>。</p>
+<h4 id="3-stream创建">3. stream创建</h4>
+<p>创建<code>Stream</code>的方法有 ：</p>
+<p><strong>1. 通过指定元素、指定数组、指定<code>Collection</code>创建<code>Stream</code>:</strong></p>
+<pre><code class="language-java">Stream&lt;String&gt; stream = Stream.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;);
+Stream&lt;String&gt; stream1 = Arrays.stream(new String[] { &quot;A&quot;, &quot;B&quot;, &quot;C&quot; });
+Stream&lt;String&gt; stream2 = List.of(&quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;).stream();
+</code></pre>
+<p><strong>2. 通过<code>Supplier</code>创建<code>Stream</code>，可以是无限序列：</strong></p>
+<pre><code class="language-java">import java.util.function.*;
+import java.util.stream.*;
+
+public class Main {
+    public static void main(String[] args) {
+        Stream&lt;Integer&gt; natual = Stream.generate(new NatualSupplier());
+        // 注意：无限序列必须先变成有限序列再打印:
+        natual.limit(20).forEach(System.out::println);
+    }
+}
+
+class NatualSupplier implements Supplier&lt;Integer&gt; {
+    int n = 0;
+    public Integer get() {
+        n++;
+        return n;
+    }
+}
+</code></pre>
+<p><strong>3. 通过其他类的相关方法创建：</strong></p>
+<p>创建<code>Stream</code>的第三种方法是通过一些API提供的接口，直接获得<code>Stream</code>。</p>
+<p>例如，<code>Files</code>类的<code>lines()</code>方法可以把一个文件变成一个<code>Stream</code>，每个元素代表文件的一行内容：</p>
+<pre><code class="language-java">try (Stream&lt;String&gt; lines = Files.lines(Paths.get(&quot;/path/to/file.txt&quot;))) {
+    ...
+}
+</code></pre>
+<p>此方法对于按行遍历文本文件十分有用。</p>
+<p>另外，正则表达式的<code>Pattern</code>对象有一个<code>splitAsStream()</code>方法，可以直接把一个长字符串分割成<code>Stream</code>序列而不是数组：</p>
+<pre><code class="language-java">Pattern p = Pattern.compile(&quot;\\s+&quot;);
+Stream&lt;String&gt; s = p.splitAsStream(&quot;The quick brown fox jumps over the lazy dog&quot;);
+s.forEach(System.out::println);
+</code></pre>
+<p>基本类型的<code>Stream</code>有<code>IntStream</code>、<code>LongStream</code>和<code>DoubleStream</code>。</p>
+<h4 id="4-map">4. map()</h4>
+<p><code>map()</code>方法接收的对象是<code>Function</code>接口对象，它定义了一个<code>apply()</code>方法，负责把一个<code>T</code>类型转换成<code>R</code>类型：</p>
+<pre><code class="language-java">&lt;R&gt; Stream&lt;R&gt; map(Function&lt;? super T, ? extends R&gt; mapper);
+</code></pre>
+<h4 id="5-filter">5. filter()</h4>
+<p>使用<code>filter()</code>方法可以对一个<code>Stream</code>的每个元素进行测试，通过测试的元素被过滤后生成一个新的<code>Stream</code>。</p>
+<pre><code class="language-java">.filter(p -&gt; p.score &gt;= 60); // 找出及格的人
+</code></pre>
+<h4 id="6-reduce">6. reduce()</h4>
+<p><code>map()</code>和<code>filter()</code>都是<code>Stream</code>的转换方法，而<code>Stream.reduce()</code>则是<code>Stream</code>的一个聚合方法，它可以把一个<code>Stream</code>的所有元素按照聚合函数聚合成一个结果：</p>
+<pre><code class="language-java">.reduce(0, (acc, n) -&gt; acc + n); // 累加
+.reduce(0, (acc, n) -&gt; acc * n); // 累乘
+</code></pre>
+<h4 id="7-collect">7. collect()</h4>
+<p>把<code>Stream</code>的每个元素收集到<code>List</code>的方法是调用<code>collect()</code>并传入<code>Collectors.toList()</code>对象，它实际上是一个<code>Collector</code>实例，通过类似<code>reduce()</code>的操作，把每个元素添加到一个收集器中（实际上是<code>ArrayList</code>）。类似的，<code>collect(Collectors.toSet())</code>可以把<code>Stream</code>的每个元素收集到<code>Set</code>中。</p>
+<h4 id="8-toarray">8. toArray()</h4>
+<p>把Stream的元素输出为数组和输出为List类似，我们只需要调用<code>toArray()</code>方法，并传入数组的“构造方法”：</p>
+<pre><code class="language-java">List&lt;String&gt; list = List.of(&quot;Apple&quot;, &quot;Banana&quot;, &quot;Orange&quot;);
+String[] array = list.stream().toArray(String[]::new);
+</code></pre>
+<p>注意到传入的“构造方法”是<code>String[]::new</code>，它的签名实际上是<code>IntFunction</code>定义的<code>String[] apply(int)</code>，即传入<code>int</code>参数，获得<code>String[]</code>数组的返回值。</p>
+<h4 id="9-tomap">9. toMap()</h4>
+<pre><code class="language-java">public class Main {
+    public static void main(String[] args) {
+        Stream&lt;String&gt; stream = Stream.of(&quot;APPL:Apple&quot;, &quot;MSFT:Microsoft&quot;);
+        Map&lt;String, String&gt; map = stream
+                .collect(Collectors.toMap(
+                        // 把元素s映射为key:
+                        s -&gt; s.substring(0, s.indexOf(':')),
+                        // 把元素s映射为value:
+                        s -&gt; s.substring(s.indexOf(':') + 1)));
+        System.out.println(map);
+    }
+}
+</code></pre>
+<h1 id="参考">参考</h1>
+<ol>
+<li><a href="https://github.com/CyC2018/CS-Notes">CyC CS-Notes</a></li>
+<li><a href="https://www.liaoxuefeng.com/">廖雪峰的官方网站</a></li>
+<li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744">lxf-wiki</a></li>
+<li><a href="https://www.zhihu.com/question/31203609">值传递还是引用传递</a></li>
+<li><a href="https://www.zhihu.com/question/49196023">初始化顺序</a></li>
+<li><a href="https://www.cnblogs.com/Qian123/p/5713440.html">静态代码块、构造代码块、构造函数</a></li>
+</ol>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/java/">java</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">OpenCV-python-5</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%8C/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >java-面向对象和异常处理</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一数据类型">一、数据类型</a>
+      <ul>
+        <li><a href="#11-基本类型">1.1 基本类型</a></li>
+        <li><a href="#12-包装类型">1.2 包装类型</a></li>
+        <li><a href="#13-缓存池">1.3 缓存池</a></li>
+        <li><a href="#14-数组">1.4 数组</a></li>
+      </ul>
+    </li>
+    <li><a href="#二运算">二、运算</a>
+      <ul>
+        <li><a href="#21-运算优先级">2.1 运算优先级</a></li>
+        <li><a href="#22-位运算">2.2 位运算</a></li>
+        <li><a href="#23-整数运算">2.3 整数运算</a></li>
+        <li><a href="#24-浮点数运算">2.4 浮点数运算</a></li>
+        <li><a href="#25-布尔运算">2.5 布尔运算</a></li>
+      </ul>
+    </li>
+    <li><a href="#三string">三、String</a>
+      <ul>
+        <li><a href="#31-编码">3.1 编码</a></li>
+        <li><a href="#32-不可变的好处">3.2 不可变的好处</a></li>
+        <li><a href="#33-stringbuffer--stringbuilder">3.3 StringBuffer &amp; StringBuilder</a></li>
+        <li><a href="#34-stringjoiner">3.4 StringJoiner</a></li>
+        <li><a href="#35-string-pool">3.5 String Pool</a></li>
+        <li><a href="#36-new-stringabc">3.6 new String(&ldquo;abc&rdquo;)</a></li>
+        <li><a href="#37-常用方法">3.7 常用方法</a></li>
+      </ul>
+    </li>
+    <li><a href="#四核心类">四、核心类</a>
+      <ul>
+        <li><a href="#41-包装类型">4.1 包装类型</a></li>
+        <li><a href="#42-枚举类型">4.2 枚举类型</a></li>
+      </ul>
+    </li>
+    <li><a href="#五方法">五、方法</a>
+      <ul>
+        <li><a href="#51-参数">5.1 参数</a></li>
+        <li><a href="#52-构造方法">5.2 构造方法</a></li>
+        <li><a href="#53-初始化顺序">5.3 初始化顺序</a></li>
+        <li><a href="#54-流程控制">5.4 流程控制</a></li>
+        <li><a href="#55-关键字">5.5 关键字</a></li>
+        <li><a href="#56-stream">5.6 stream</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>
