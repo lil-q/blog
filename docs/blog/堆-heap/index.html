@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>堆 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.77a2b610aebcb8c1822692584b5194b6ac5bd48772b2578ca5736502faa37189.css" integrity="sha256-d6K2EK68uMGCJpJYS1GUtqxb1IdysleMpXNlAvqjcYk="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "堆",
+      "headline" : "堆",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2019",
+      "datePublished": "2019-11-17 15:49:44 \u002b0000 UTC",
+      "dateModified" : "2019-11-17 15:49:44 \u002b0000 UTC",
+      "url" : "https:\/\/lil-q.github.io\/blog\/%E5%A0%86-heap\/",
+      "wordCount" : "181",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">堆</h1>
+            <time datetime="2019-11-17 15:49:44 &#43;0000 UTC" class="post__date">Nov 17 2019</time> 
+          </header>
+          <article class="post__content">
+              
+<p>经过努力，最值总会冒上来的！</p>
+<h2 id="一定义">一、定义<a class="anchor" href="#一定义">#</a></h2>
+<ol>
+<li>在通常情况下，使用列表储存堆，堆树是一颗<a href="https://www.zhihu.com/question/36134980/answer/87490177">完全二叉树</a>，二项堆和斐波那契堆不属于二叉树</li>
+<li>堆树中某个节点的值总是不大于或不小于其孩子节点的值</li>
+<li>堆树中每个节点的子树都是堆树</li>
+</ol>
+<p>当父节点的键值总是大于或等于任何一个子节点的键值时为最大堆。 当父节点的键值总是小于或等于任何一个子节点的键值时为最小堆。 本文以最大堆作为例子，最小堆类似。</p>
+<h2 id="二堆的建立">二、堆的建立<a class="anchor" href="#二堆的建立">#</a></h2>
+<p>堆的建立并不建立一个新的树，而是对数组进行原地改动，第一个数（index=0）为完全二叉树的level 0，即根，第二个数和第三个数为level 1，以此类推。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/%E5%BB%BA%E5%A0%86.png" alt="建堆"></p>
+<p>由于数组是升序数组，我们直接得到了最小堆。但是如果要进行升序排序，算法上需要建立最大堆。也就是说，当原数组是升序时，堆排序算法遇到了最坏情况。本文也以这种情况作为例子。</p>
+<pre><code class="language-python">nums=[1,2,3,4,5]
+</code></pre>
+<h3 id="21-堆的维护">2.1 堆的维护<a class="anchor" href="#21-堆的维护">#</a></h3>
+<p>上图的根节点是1，小于子节点，那么这显然违反了最大堆的性质，这时候需要让该元素在最大堆中逐级下降，维护最大堆的性质。处理一次维护的代码如下：</p>
+<pre><code class="language-python">def adjust_heap(idx, max_len,nums):
+    left = 2 * idx + 1
+    right = 2 * idx + 2
+    max_loc = idx
+    if left &lt; max_len and nums[max_loc] &lt; nums[left]:
+        max_loc = left
+    if right &lt; max_len and nums[max_loc] &lt; nums[right]:
+        max_loc = right
+    if max_loc != idx:
+        nums[idx], nums[max_loc] = nums[max_loc], nums[idx]
+        adjust_heap(max_loc, max_len,nums)
+</code></pre>
+<h3 id="22-建立最大堆">2.2 建立最大堆<a class="anchor" href="#22-建立最大堆">#</a></h3>
+<ol>
+<li>自底向上处理， 因为数组<code>list[n//2,n]</code>中的所有元素都在堆树的叶节点中，因此可以看成只包含一个元素的堆， 无需维护。其中<code>n=len(list)</code>；</li>
+<li>从<code>index=n//2-1</code>开始，直到<code>index=0</code>，对每一个节点或根进行一次维护。</li>
+</ol>
+<p><em>注意：一次维护并不是最多只交换一次，而是交换到某节点满足最大堆条件或者<code>index&gt;=n</code>为止。</em></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/heapflow.png" alt="heapflow"></p>
+<pre><code class="language-python">def build_heap(nums):    
+    n = len(nums)
+    for i in range(n // 2 - 1, -1, -1):
+        adjust_heap(i, n,nums)
+    return nums
+heap=build_heap(nums)
+print(&quot;heap:&quot;,heap)
+#输出：heap: [5, 4, 3, 1, 2]
+</code></pre>
+<h2 id="三最大堆中插入节点">三、最大堆中插入节点<a class="anchor" href="#三最大堆中插入节点">#</a></h2>
+<p>最大堆的插入节点的思想就是先在堆的最后添加一个节点，也就是在<code>list.append()</code>，然后沿着堆树上升。跟最大堆的初始建立过程大致相同。</p>
+<pre><code class="language-python">def heap_insert(heap,num):
+    heap=heap+[num]
+    n=len(heap)
+    i=n-1
+    while i&gt;0 and heap[(i-1)//2]&lt;num:
+        heap[i]=heap[(i-1)//2]
+        i=(i-1)//2
+    heap[i]=num
+    return heap
+heap=heap_insert(heap,6)
+print(&quot;heapIns:&quot;,heap)
+#输出：heapIns: [6, 4, 5, 1, 2, 3]
+</code></pre>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/heapinsert.png" alt="charu"></p>
+<h2 id="四最大堆节点的删除">四、最大堆节点的删除<a class="anchor" href="#四最大堆节点的删除">#</a></h2>
+<p>对一个节点的删除就是交换该节点和最后一个叶子节点的值，然后从该节点开始一次<code>adjust_heap()</code>：</p>
+<pre><code class="language-python">def heap_delete(heap,idx):
+    n=len(heap)
+    heap[idx],heap[-1]=heap[-1],heap[idx]
+    adjust_heap(idx, n - 1,heap)
+    heap.pop()
+    return heap
+heap=heap_delete(heap,0)
+print(&quot;heapDel:&quot;,heap)
+#输出：heapDel: [5, 4, 3, 1, 2]
+</code></pre>
+<h2 id="五堆排序">五、堆排序<a class="anchor" href="#五堆排序">#</a></h2>
+<p>特殊地，当我们交换根和最后一个叶子节点时，就能够提出最大值，并且存放在<code>index=-1</code>的位置。然后再对前n-1个数组成的最大堆进行该处理，以此类推，最终完成堆排序。</p>
+<pre><code class="language-python">def heap_sorted(heap):
+    for i in range(1, len(heap)):
+        heap[0], heap[-i] = heap[-i], heap[0]
+        adjust_heap(0, n - i,heap)
+    return heap
+heapSort=heap_sorted(heap)
+print(&quot;heapSort:&quot;,heapSort)
+#输出：heapSort: [1, 2, 3, 4, 5]
+</code></pre>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol>
+<li><a href="https://leetcode-cn.com/problems/kth-largest-element-in-an-array/solution/pai-xu-by-powcai-2/">top K</a></li>
+</ol>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    </ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">排序算法</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/%E6%A0%91-tree/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >树</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一定义">一、定义</a></li>
+    <li><a href="#二堆的建立">二、堆的建立</a>
+      <ul>
+        <li><a href="#21-堆的维护">2.1 堆的维护</a></li>
+        <li><a href="#22-建立最大堆">2.2 建立最大堆</a></li>
+      </ul>
+    </li>
+    <li><a href="#三最大堆中插入节点">三、最大堆中插入节点</a></li>
+    <li><a href="#四最大堆节点的删除">四、最大堆节点的删除</a></li>
+    <li><a href="#五堆排序">五、堆排序</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

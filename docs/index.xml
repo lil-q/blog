@@ -22,6 +22,52 @@
     </item>
     
     <item>
+      <title>MySQL</title>
+      <link>https://lil-q.github.io/blog/mysql/</link>
+      <pubDate>Fri, 17 Jul 2020 16:16:51 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/mysql/</guid>
+      <description>/maɪ ˌɛskjuːˈɛl/
+一、索引 **优势：**减少 I/O 次数，加快检索速度；根据索引分组和排序，可以加快分组和排序；
+**劣势：**索引本身也是表，因此会占用存储空间，一般来说，索引表占用的空间的数据表的1.5倍；索引表的维护和创建需要时间成本，这个成本随着数据量增大而增大；构建索引会降低数据表的修改操作（删除，添加，修改）的效率，因为在修改数据表的同时还需要修改索引表。
+常见的索引类型有：主键索引、唯一索引、普通索引、全文索引、组合索引
+**（1）主键索引：**即主索引，根据主键pk_clolum（length）建立索引，不允许重复，不允许空值
+ALTER TABLE &#39;table_name&#39; ADD PRIMARY KEY pk_index(&#39;col&#39;)；  （2）唯一索引：用来建立索引的列的值必须是唯一的，允许空值
+ALTER TABLE &#39;table_name&#39; ADD UNIQUE index_name(&#39;col&#39;)；  **（3）普通索引：**用表中的普通列构建的索引，没有任何限制
+ALTER TABLE &#39;table_name&#39; ADD INDEX index_name(&#39;col&#39;)；  **（4）全文索引：**用大文本对象的列构建的索引
+ALTER TABLE &#39;table_name&#39; ADD FULLTEXT INDEX ft_index(&#39;col&#39;)；  **（5）组合索引：**用多个列组合构建的索引，这多个列中的值不允许有空值
+ALTER TABLE &#39;table_name&#39; ADD INDEX index_name(&#39;col1&#39;,&#39;col2&#39;,&#39;col3&#39;)；  1.1 实现原理 1. B+ 数 B 树（B-tree）是一种自平衡的树，能够保持数据有序。这种数据结构能够让查找数据、顺序访问、插入数据及删除的动作，都在对数时间内完成。B 树，概括来说是一个一般化的二叉查找树（binary search tree）一个节点可以拥有2个以上的子节点。与自平衡二叉查找树不同，B 树适用于读写相对大的数据块的存储系统，例如磁盘。B 树减少定位记录时所经历的中间过程，从而加快存取速度。B 树这种数据结构可以用来描述外部存储。这种数据结构常被应用在数据库和文件系统的实现上。
+B+ 树是一种树数据结构，通常用于数据库和操作系统的文件系统中。B+ 树的特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反。
+请参考这篇文章
+B+ 树与B 树最大的不同是内部结点不保存数据，只用于索引，所有数据（或者说记录）都保存在叶子结点中。</description>
+    </item>
+    
+    <item>
+      <title>数据库原理</title>
+      <link>https://lil-q.github.io/blog/%E6%95%B0%E6%8D%AE%E5%BA%93/</link>
+      <pubDate>Thu, 16 Jul 2020 20:30:14 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E6%95%B0%E6%8D%AE%E5%BA%93/</guid>
+      <description>就像操作系统屏蔽了硬件访问复杂性那样，数据库屏蔽了数据访问的复杂性。
+一、事务 事务指的是满足 ACID 特性的一组操作，可以通过 Commit 提交一个事务，也可以使用 Rollback 进行回滚。
+1.1 ACID 1. 原子性 事务被视为不可分割的最小单元，事务的所有操作要么全部提交成功，要么全部失败回滚。
+回滚可以用回滚日志（Undo Log）来实现，回滚日志记录着事务所执行的修改操作，在回滚时反向执行这些修改操作即可。
+2. 一致性 数据库在事务执行前后都保持一致性状态。在一致性状态下，所有事务对同一个数据的读取结果都是相同的。
+3. 隔离性 一个事务所做的修改在最终提交以前，对其它事务是不可见的。
+4. 持久性 一旦事务提交，则其所做的修改将会永远保存到数据库中。即使系统发生崩溃，事务执行的结果也不能丢失。
+系统发生奔溃可以用重做日志（Redo Log）进行恢复，从而实现持久性。与回滚日志记录数据的逻辑修改不同，重做日志记录的是数据页的物理修改。
+1.2 关系   一致性，保证事务的执行结果正确：
+ 无并发：事务串行执行，隔离性一定能够满足；只需满足原子性。 有并发：多个事务并行执行，事务不仅要满足隔离性；还需要满足原子性。    持久性，应对系统崩溃。
+  二、并发一致性问题 在并发环境下，事务的隔离性很难保证，因此会出现很多并发一致性问题。
+1. 丢失修改 丢失修改指一个事务的更新操作被另外一个事务的更新操作替换。
+例如：T1 和 T2 两个事务都对一个数据进行修改，T1 先修改并提交生效，T2 随后修改，T2 的修改覆盖了 T1 的修改。
+2. 读脏数据 读脏数据指在不同的事务下，当前事务可以读到另外事务未提交的数据。
+例如：T1 修改一个数据但未提交，T2 随后读取这个数据。如果 T1 撤销了这次修改，那么 T2 读取的数据是脏数据。
+3. 不可重复读 不可重复读指在一个事务内多次读取同一数据集合。在这一事务还未结束前，另一事务也访问了该同一数据集合并做了修改，由于第二个事务的修改，第一次事务的两次读取的数据可能不一致。
+例如：T2 读取一个数据，T1 对该数据做了修改。如果 T2 再次读取这个数据，此时读取的结果和第一次读取的结果不同。</description>
+    </item>
+    
+    <item>
       <title>java-虚拟机</title>
       <link>https://lil-q.github.io/blog/java-%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
       <pubDate>Tue, 07 Jul 2020 11:17:47 +0000</pubDate>
@@ -204,6 +250,25 @@ Person p = new Student(); if (p instanceof Student) { // 只有判断成功才�
     </item>
     
     <item>
+      <title>回溯算法</title>
+      <link>https://lil-q.github.io/blog/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sun, 08 Mar 2020 13:12:02 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</guid>
+      <description>“想回到过去，试着让故事继续”
+回溯 回溯（backtracking）是暴力搜索法中的一种。
+对于某些计算问题而言，回溯法是一种可以找出所有（或一部分）解的一般性算法，尤其适用于约束满足问题。
+ 约束满足问题：在解决约束满足问题时，我们逐步构造更多的候选解，并且在确定某一部分候选解不可能补全成正确解之后放弃继续搜索这个部分候选解本身及其可以拓展出的子候选解，转而测试其他的部分候选解。
+ 回溯法采用试错的思想，它尝试分步的去解决一个问题。在分步执行的过程中，当它通过尝试发现现有的分步答案不能得到有效的正确的解答的时候，它将撤销上一步甚至是上几步的计算，再通过其它的可能的分步解答再次尝试寻找问题的答案，找到答案即算法运行至终止条件。
+回溯法通常用最简单的递归方法来实现，在反复重复上述的步骤后可能出现两种情况：
+ 找到一个可能存在的正确的答案 在尝试了所有可能的分步方法后宣告该问题没有答案  在最坏的情况下，回溯法会导致一次复杂度为指数时间的计算。
+典型的回溯 leetcode 46. 全排列：给定一个没有重复数字的序列，返回其所有可能的全排列。
+示例:
+输入: [1,2,3] 输出: [ [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1] ]  用比较通用的回溯算法可以这样解答：
+class Solution: def permute(self, nums: List[int]) -&amp;gt; List[List[int]]: size = len(nums) res = [] # 记录已经选择过的数 visited = set() def backtrack(numList, visited): # 当所有数字都选完了，终止 if len(visited) == size: res.append(numList[:]) # 注意深拷贝和浅拷贝的问题 return # 遍历所有可能的选择 for i in range(size): # 如果这个数已在前面出现过了，跳过 if i in visited: continue visited.</description>
+    </item>
+    
+    <item>
       <title>OpenCV-python-5</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/</link>
       <pubDate>Sat, 22 Feb 2020 17:51:07 +0000</pubDate>
@@ -303,6 +368,21 @@ SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_c
     </item>
     
     <item>
+      <title>查并集</title>
+      <link>https://lil-q.github.io/blog/%E6%9F%A5%E5%B9%B6%E9%9B%86-union-find-algorithm/</link>
+      <pubDate>Thu, 02 Jan 2020 12:54:02 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E6%9F%A5%E5%B9%B6%E9%9B%86-union-find-algorithm/</guid>
+      <description>查并集的进化之路
+一、定义 并查集是一种树形的数据结构，顾名思义，它用于处理一些不交集的 合并 及 查询 问题。 它支持两种操作：
+ 查找（Find）：确定某个元素处于哪个子集； 合并（Union）：将两个子集合并成一个集合。  也就是说，不支持集合的分离、删除。
+二、Quick-Find算法 以下图为例，连通关系为[(1,2), (0, 1), (0, 3), (4, 7), (5, 6), (5, 7), (7, 8), (8, 9)]。
+首先初始化所有节点，认为它们属于一个组，因此不连通的节点必然就属于不同的组：
+   element 0 1 2 3 4 5 6 7 8 9     group number / id 0 1 2 3 4 5 6 7 8 9    输入pair(1, 2)，则将所有group number为0和1的element改为一致（都为0或都为1，这里以较小值为例）。
+   element 0 1 2 3 4 5 6 7 8 9     group number / id 0 1 1 3 4 5 6 7 8 9    输入pair(0， 1)，这里就需要把element 1和element 2的group number都改为0，：</description>
+    </item>
+    
+    <item>
       <title>图论</title>
       <link>https://lil-q.github.io/blog/%E5%9B%BE-graph/</link>
       <pubDate>Fri, 27 Dec 2019 17:53:49 +0000</pubDate>
@@ -319,6 +399,36 @@ SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_c
 连通图：所有的点都有路径相连
 非连通图：存在某两个点没有路径相连
 邻接：关联于同一条边的两个点 $u$ 和 $v$ 称为邻接的；关联于同一个点的两条边 $e_1$ 和 $e_2$ 是邻接的（或相邻的）。</description>
+    </item>
+    
+    <item>
+      <title>树</title>
+      <link>https://lil-q.github.io/blog/%E6%A0%91-tree/</link>
+      <pubDate>Wed, 04 Dec 2019 21:53:50 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E6%A0%91-tree/</guid>
+      <description>之所以叫树是因为他看起来像一棵倒挂的树
+一、定义 树（tree）是一种抽象数据类型（ADT）或是实现这种抽象数据类型的数据结构，用来模拟具有树状结构性质的数据集合。它是由 n（n&amp;gt;0）个有限节点组成一个具有层次关系的集合。把它叫做“树”是因为它看起来像一棵倒挂的树，也就是说它是根朝上，而叶朝下的。它具有以下的特点：
+ 每个节点都只有有限个子节点或无子节点 没有父节点的节点称为根节点 每一个非根节点有且只有一个父节点 除了根节点外，每个子节点可以分为多个不相交的子树 树里面没有环路(cycle)  术语
+ 节点的度(Degree)：一个节点含有的子树的个数称为该节点的度 树的度(Degree of tree)：一棵树中，最大的节点度称为树的度 叶节点(Leaf)：度为零的节点 分支节点(Branch node)：度不为零的节点 父节点(Parent)：若一个节点含有子节点，则这个节点称为其子节点的父节点 子节点(child)：一个节点含有的子树的根节点称为该节点的子节点 兄弟节点(siblings)：具有相同父节点的节点互称为兄弟节点 层次(level)：从根开始定义起，根为第1层，根的子节点为第2层，以此类推 深度(depth)：对于任意节点n,n的深度为从根到n的唯一路径长，根的深度为0 高度(height)：对于任意节点n,n的高度为从n到一片树叶的最长路径长，所有树叶的高度为0 节点的祖先(ancestor)：从根到该节点所经分支上的所有节点 森林(forest)：由m（m&amp;gt;=0）棵互不相交的树的集合称为森林  分类
+本文将介绍二叉树(Binary tree)、二叉搜索树(Binary search tree)和字典树(Trie)。关于AVL树(AVL tree)、红黑树(Red–black tree)和Ｂ树(B-tree)，不做深入探讨。
+这里区分一下完全二叉树、满二叉树、完美二叉树:
+ 完全二叉树：最后一层的叶子节点均需在最左边 满二叉树：满足完全二叉树性质，树中除了叶子节点，每个节点都有两个子节点 完美二叉树：满足满二叉树性质，树的叶子节点铺满最后一层  二、二叉树 二叉树（英语：Binary tree）是每个节点最多只有两个分支（即不存在分支度大于2的节点）的树结构。通常分支被称作“左子树”或“右子树”。二叉树的分支具有左右次序，不能随意颠倒。
+# 建一个单节点 class Node(object): def __init__(self, value): self.val = value self.left = None #左节点 self.right = None #右节点 &#39;&#39;&#39; # 建一个二叉树 # 1 # / \ # 2 3 # / \ / \ # 4 5 6 7 &#39;&#39;&#39; root = Node(1) stack = [root] value = 2 for i in range(3): cur = stack.</description>
+    </item>
+    
+    <item>
+      <title>堆</title>
+      <link>https://lil-q.github.io/blog/%E5%A0%86-heap/</link>
+      <pubDate>Sun, 17 Nov 2019 15:49:44 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E5%A0%86-heap/</guid>
+      <description>经过努力，最值总会冒上来的！
+一、定义  在通常情况下，使用列表储存堆，堆树是一颗完全二叉树，二项堆和斐波那契堆不属于二叉树 堆树中某个节点的值总是不大于或不小于其孩子节点的值 堆树中每个节点的子树都是堆树  当父节点的键值总是大于或等于任何一个子节点的键值时为最大堆。 当父节点的键值总是小于或等于任何一个子节点的键值时为最小堆。 本文以最大堆作为例子，最小堆类似。
+二、堆的建立 堆的建立并不建立一个新的树，而是对数组进行原地改动，第一个数（index=0）为完全二叉树的level 0，即根，第二个数和第三个数为level 1，以此类推。
+由于数组是升序数组，我们直接得到了最小堆。但是如果要进行升序排序，算法上需要建立最大堆。也就是说，当原数组是升序时，堆排序算法遇到了最坏情况。本文也以这种情况作为例子。
+nums=[1,2,3,4,5]  2.1 堆的维护 上图的根节点是1，小于子节点，那么这显然违反了最大堆的性质，这时候需要让该元素在最大堆中逐级下降，维护最大堆的性质。处理一次维护的代码如下：
+def adjust_heap(idx, max_len,nums): left = 2 * idx + 1 right = 2 * idx + 2 max_loc = idx if left &amp;lt; max_len and nums[max_loc] &amp;lt; nums[left]: max_loc = left if right &amp;lt; max_len and nums[max_loc] &amp;lt; nums[right]: max_loc = right if max_loc != idx: nums[idx], nums[max_loc] = nums[max_loc], nums[idx] adjust_heap(max_loc, max_len,nums)  2.</description>
     </item>
     
     <item>

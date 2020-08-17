@@ -22,6 +22,25 @@
     </item>
     
     <item>
+      <title>回溯算法</title>
+      <link>https://lil-q.github.io/blog/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</link>
+      <pubDate>Sun, 08 Mar 2020 13:12:02 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/</guid>
+      <description>“想回到过去，试着让故事继续”
+回溯 回溯（backtracking）是暴力搜索法中的一种。
+对于某些计算问题而言，回溯法是一种可以找出所有（或一部分）解的一般性算法，尤其适用于约束满足问题。
+ 约束满足问题：在解决约束满足问题时，我们逐步构造更多的候选解，并且在确定某一部分候选解不可能补全成正确解之后放弃继续搜索这个部分候选解本身及其可以拓展出的子候选解，转而测试其他的部分候选解。
+ 回溯法采用试错的思想，它尝试分步的去解决一个问题。在分步执行的过程中，当它通过尝试发现现有的分步答案不能得到有效的正确的解答的时候，它将撤销上一步甚至是上几步的计算，再通过其它的可能的分步解答再次尝试寻找问题的答案，找到答案即算法运行至终止条件。
+回溯法通常用最简单的递归方法来实现，在反复重复上述的步骤后可能出现两种情况：
+ 找到一个可能存在的正确的答案 在尝试了所有可能的分步方法后宣告该问题没有答案  在最坏的情况下，回溯法会导致一次复杂度为指数时间的计算。
+典型的回溯 leetcode 46. 全排列：给定一个没有重复数字的序列，返回其所有可能的全排列。
+示例:
+输入: [1,2,3] 输出: [ [1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1] ]  用比较通用的回溯算法可以这样解答：
+class Solution: def permute(self, nums: List[int]) -&amp;gt; List[List[int]]: size = len(nums) res = [] # 记录已经选择过的数 visited = set() def backtrack(numList, visited): # 当所有数字都选完了，终止 if len(visited) == size: res.append(numList[:]) # 注意深拷贝和浅拷贝的问题 return # 遍历所有可能的选择 for i in range(size): # 如果这个数已在前面出现过了，跳过 if i in visited: continue visited.</description>
+    </item>
+    
+    <item>
       <title>排序算法</title>
       <link>https://lil-q.github.io/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sat, 16 Nov 2019 19:34:55 +0000</pubDate>
