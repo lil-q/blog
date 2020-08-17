@@ -3,6 +3,8 @@ title: java-基础
 date: 2020-03-20 19:33:14
 tags: [java]
 toc: true
+description: "java数据类型运算方法"
+keywords: [java, stream]
 ---
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/javase1.png" style="zoom:50%;" />

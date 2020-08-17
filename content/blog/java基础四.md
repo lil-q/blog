@@ -3,6 +3,8 @@ title: java-Collection
 date: 2020-03-30 18:34:55
 tags: [java, source code]
 toc: true
+description: "java List Set Queue"
+keywords: [java, List, Set, Queue]
 ---
 
 容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。

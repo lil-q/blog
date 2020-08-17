@@ -6,8 +6,8 @@
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="java并发内存模型线程池线程安全锁优化">
+  <meta name="keywords" content="jmm , java , concurrency">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,7 +50,7 @@
       "articleSection" : "blog",
       "name" : "java-并发",
       "headline" : "java-并发",
-      "description" : "",
+      "description" : "java并发内存模型线程池线程安全锁优化",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -61,8 +61,8 @@
       "datePublished": "2020-04-28 19:37:01 \u002b0000 UTC",
       "dateModified" : "2020-04-28 19:37:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E5%B9%B6%E5%8F%91\/",
-      "wordCount" : "1551",
-      "keywords" : ["Blog"]
+      "wordCount" : "1555",
+      "keywords" : ["jmm", "java", "concurrency", "Blog"]
     }
   
   </script>
@@ -131,7 +131,7 @@
 <p>Java内存模型规定了所有的变量都存储在<strong>主内存</strong>（ Main Memory，与硬件的主内存同名，但物理上它仅是虚拟机内存的一部分）。每条线程还有自己的<strong>工作内存</strong>（ Working Memory，可与前面讲的处理器高速缓存类比），线程的工作内存中保存了被该线程使用的变量的主内存<strong>副本</strong>，线程对变量的所有操作（读取、赋值等）都必须在工作内存中进行，而<strong>不能直接读写主内存中的数据</strong>。不同的线程之间也无法直接访问对方工作内存中的变量，线程间变量值的传递均需要通过主内存来完成（如果局部变量是一个 reference 类型，它引用的对象在Java堆中可被各个线程共享，但是 reference 本身在 Java 栈的局部变量表中是线程私有的）。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/java-concurrent/concurrent_2.png" alt="conc_1"  /></p>
 <h3 id="21-内存间交互操作">2.1 内存间交互操作<a class="anchor" href="#21-内存间交互操作">#</a></h3>
-<p>Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作。Java虚拟机实现时必须保证下面提及的每一种操作都是原子的、不可再分的（对于 double和long类型的变量来说， load、 store、read 和 write 操作在某些平台r上允许有例外）。</p>
+<p>Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作。Java虚拟机实现时必须保证下面提及的每一种操作都是原子的、不可再分的（对于 double 和 long 类型的变量来说， load、 store、read 和 write 操作在某些平台r上允许有例外）。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/java-concurrent/concurrent_3.png" alt="conc_1"  /></p>
 <ul>
 <li>lock：作用于主内存的变量，标识为一条线程独占。</li>
@@ -144,7 +144,7 @@
 <li>write：作用于主内存的变量，在 store 之后执行，把值放入主内存的变量中。</li>
 </ul>
 <h3 id="22-volatile">2.2 volatile<a class="anchor" href="#22-volatile">#</a></h3>
-<p>关键字 volatile 可以说是Java虚拟机提供的最轻量级的同步机制，它将具备两项特性：一是保证此变量<strong>对所有线程的可见性</strong>，这里的“可见性”是指当一条线程修改了这个变量的值，新值对于其他线程来说是可以立即得知的。而普通变量并不能做到这一点，普通变量的值在线程间传递时均需要通过主内存来完成。二是<strong>禁止指令重排序优化</strong>，有 volatile 修饰的变量，赋值后多执行了一个内存屏障操作，指重排序时不能把后面的指令重排序到内存屏障之前的位置。</p>
+<p>关键字 volatile 可以说是 Java 虚拟机提供的最轻量级的同步机制，它将具备两项特性：一是保证此变量<strong>对所有线程的可见性</strong>，这里的“可见性”是指当一条线程修改了这个变量的值，新值对于其他线程来说是可以立即得知的。而普通变量并不能做到这一点，普通变量的值在线程间传递时均需要通过主内存来完成。二是<strong>禁止指令重排序优化</strong>，有 volatile 修饰的变量，赋值后多执行了一个内存屏障操作，指重排序时不能把后面的指令重排序到内存屏障之前的位置。</p>
 <p>只有一个处理器访问内存时，并不需要内存屏障；但如果有两个或更多处理器访问同一块内存，且其中有一个在观测另一个，就需要内存屏障来保证一致性了。</p>
 <h4 id="规则">规则</h4>
 <ol>
@@ -297,7 +297,7 @@ Thread thread = new Thread(ft);
 <li>对线程进行一些简单的管理，比如：延时执行、定时循环执行的策略等，运用线程池都能进行很好的实现。</li>
 </ol>
 <h4 id="2-线程池饱和策略">2. 线程池饱和策略</h4>
-<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurrentv2.png"  /></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurrentv2.png" style="zoom:150%;" /></p>
 <p>1、如果当前运行的线程少于<code>corePoolSize</code>，则创建新线程来执行任务（需要获取全局锁）；
 2、如果运行的线程等于或多于<code>corePoolSize</code>，则将任务加入 BlockingQueue ；
 3、如果无法将任务加入 BlockingQueue （队列已满），则在非 corePool 中创建新的线程来处理任务（需要获取全局锁）；
@@ -673,7 +673,7 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 <li>CyclicBarrier一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行，可以重用；</li>
 <li>Semaphore其实和锁有点类似，它一般用于控制对某组资源的访问权限。</li>
 </ul>
-<p>[其他一些组件](<a href="https://cyc2018.github.io/CS-Notes/#/notes/Java">https://cyc2018.github.io/CS-Notes/#/notes/Java</a> 并发?id=八、juc-其它组件)</p>
+<p><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E5%B9%B6%E5%8F%91?id=%E5%85%AB%E3%80%81juc-%E5%85%B6%E5%AE%83%E7%BB%84%E4%BB%B6">其他一些组件</a></p>
 <h2 id="八多线程开发良好的实践">八、多线程开发良好的实践<a class="anchor" href="#八多线程开发良好的实践">#</a></h2>
 <ul>
 <li>给线程起个有意义的名字，这样可以方便找 Bug。</li>
@@ -719,7 +719,7 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/morris%E7%AE%97%E6%B3%95/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >morris算法</a>
+      <span class="pagination__title" >Morris 算法</a>
     </a>
   
 </div>

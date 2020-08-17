@@ -4,6 +4,8 @@ date: 2020-02-19 13:00:33
 tags: [OpenCV]
 math: true
 toc: true
+description: "OpenCV-python图片混合和形态学操作"
+keywords: [OpenCV, python, ori]
 ---
 
 ## 一、图片混合
@@ -66,7 +68,7 @@ cv2.imshow("dst",img1)
 cv2.waitKey(10000)
 ```
 
-![](https://qttblog.oss-cn-hangzhou.aliyuncs.com/opencv/2020-02-20%20124157.png)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/opencv/2020-02-20%20124157.png" style="zoom:50%;" />
 
 ## 二、形态学操作
 

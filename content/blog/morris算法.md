@@ -1,8 +1,11 @@
 ---
-title: morris算法
+title: Morris 算法
 date: 2020-05-01 14:51:08
 tags: [algorithm]
 toc: true
+math: true
+description: "Morris算法前序中序后序遍历二叉搜索树"
+keywords: [Morris, 二叉树, 遍历, BST]
 ---
 
 morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。

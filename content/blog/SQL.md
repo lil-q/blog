@@ -3,6 +3,8 @@ title: SQL
 date: 2020-01-16 13:59:07
 tags: [database, SQL]
 toc: true
+description: "SQL基础知识"
+keywords: [database, sql, 题解]
 ---
 
 SQL基础语句快查

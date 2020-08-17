@@ -3,6 +3,8 @@ title: java-并发
 date: 2020-04-28 19:37:01
 tags: [java, jvm]
 toc: true
+description: "java并发内存模型线程池线程安全锁优化"
+keywords: [jmm, java, concurrency]
 ---
 
 计算机的运算速度与它的存储和通信子系统的速度差距太大，大量的时间都花费在磁盘 I/O、网络通信或者数据库访问上。高效并发能能更好的利用计算机的性能。另一方面，一个服务器要同时对多个客户端提供服务。衡量一个服务性能的高低好坏，每秒事务处理数（Transaction Per Second，TPS）是重要的指标之一，其与程序的并发能力有着密切关系。[题解](https://lil-q.github.io/2020/05/02/多线程题解/)
@@ -31,7 +33,7 @@ Java内存模型规定了所有的变量都存储在**主内存**（ Main Memory
 
 ### 2.1 内存间交互操作
 
-Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作。Java虚拟机实现时必须保证下面提及的每一种操作都是原子的、不可再分的（对于 double和long类型的变量来说， load、 store、read 和 write 操作在某些平台r上允许有例外）。
+Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作。Java虚拟机实现时必须保证下面提及的每一种操作都是原子的、不可再分的（对于 double 和 long 类型的变量来说， load、 store、read 和 write 操作在某些平台r上允许有例外）。
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/java-concurrent/concurrent_3.png" alt="conc_1"  />
 
@@ -46,7 +48,7 @@ Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互
 
 ### 2.2 volatile
 
-关键字 volatile 可以说是Java虚拟机提供的最轻量级的同步机制，它将具备两项特性：一是保证此变量**对所有线程的可见性**，这里的“可见性”是指当一条线程修改了这个变量的值，新值对于其他线程来说是可以立即得知的。而普通变量并不能做到这一点，普通变量的值在线程间传递时均需要通过主内存来完成。二是**禁止指令重排序优化**，有 volatile 修饰的变量，赋值后多执行了一个内存屏障操作，指重排序时不能把后面的指令重排序到内存屏障之前的位置。
+关键字 volatile 可以说是 Java 虚拟机提供的最轻量级的同步机制，它将具备两项特性：一是保证此变量**对所有线程的可见性**，这里的“可见性”是指当一条线程修改了这个变量的值，新值对于其他线程来说是可以立即得知的。而普通变量并不能做到这一点，普通变量的值在线程间传递时均需要通过主内存来完成。二是**禁止指令重排序优化**，有 volatile 修饰的变量，赋值后多执行了一个内存屏障操作，指重排序时不能把后面的指令重排序到内存屏障之前的位置。
 
 只有一个处理器访问内存时，并不需要内存屏障；但如果有两个或更多处理器访问同一块内存，且其中有一个在观测另一个，就需要内存屏障来保证一致性了。
 
@@ -265,7 +267,7 @@ public void run() {
 
 #### 2. 线程池饱和策略
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurrentv2.png"  />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurrentv2.png" style="zoom:150%;" />
 
 1、如果当前运行的线程少于`corePoolSize`，则创建新线程来执行任务（需要获取全局锁）；
 2、如果运行的线程等于或多于`corePoolSize`，则将任务加入 BlockingQueue ；
@@ -804,7 +806,7 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 * CyclicBarrier一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行，可以重用；
 * Semaphore其实和锁有点类似，它一般用于控制对某组资源的访问权限。
 
-[其他一些组件](https://cyc2018.github.io/CS-Notes/#/notes/Java 并发?id=八、juc-其它组件)
+[其他一些组件](https://cyc2018.github.io/CS-Notes/#/notes/Java%20并发?id=八、juc-其它组件)
 
 ## 八、多线程开发良好的实践
 

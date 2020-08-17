@@ -4,6 +4,8 @@ date: 2020-02-17 14:44:55
 tags: [OpenCV]
 math: true
 toc: true
+description: "OpenCV-python滤波图像预处理阈值分割"
+keywords: [OpenCV, python, ori, Otsu]
 ---
 
 ## 一、滤波

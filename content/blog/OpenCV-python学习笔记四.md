@@ -4,6 +4,8 @@ date: 2020-02-20 14:14:07
 tags: [OpenCV]
 math: true
 toc: true
+description: "OpenCV-python和Numpy分析图片亮度和对比度"
+keywords: [OpenCV, python, Numpy]
 ---
 
 ## 一、OpenCV与NumPy

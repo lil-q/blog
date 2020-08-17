@@ -6,8 +6,8 @@
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="OpenCV-python图片混合和形态学操作">
+  <meta name="keywords" content="OpenCV , python , ori">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,7 +50,7 @@
       "articleSection" : "blog",
       "name" : "OpenCV-python-3",
       "headline" : "OpenCV-python-3",
-      "description" : "",
+      "description" : "OpenCV-python图片混合和形态学操作",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -62,7 +62,7 @@
       "dateModified" : "2020-02-19 13:00:33 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89\/",
       "wordCount" : "262",
-      "keywords" : ["Blog"]
+      "keywords" : ["OpenCV", "python", "ori", "Blog"]
     }
   
   </script>
@@ -161,7 +161,7 @@ img1[:rows, :cols] = dst  # 融合后放在原图上
 cv2.imshow(&quot;dst&quot;,img1)
 cv2.waitKey(10000)
 </code></pre>
-<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/opencv/2020-02-20%20124157.png" alt=""></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/opencv/2020-02-20%20124157.png" style="zoom:50%;" /></p>
 <h2 id="二形态学操作">二、形态学操作<a class="anchor" href="#二形态学操作">#</a></h2>
 <h3 id="21-腐蚀膨胀">2.1 腐蚀膨胀<a class="anchor" href="#21-腐蚀膨胀">#</a></h3>
 <p>腐蚀的效果是把图片”变瘦”，其原理是在原图的小区域内取局部最小值。因为是二值化图，只有 0 和 255 ，所以小区域内有一个是 0 该像素点就为 0 。</p>

@@ -3,6 +3,8 @@ title: 树
 date: 2019-12-04 21:53:50
 tags: [data structure]
 toc: true
+description: "常见的树结构二叉树二叉搜索树"
+keywords: [tree, BST, 二叉搜索树]
 ---
 
 之所以叫树是因为他看起来像一棵倒挂的树

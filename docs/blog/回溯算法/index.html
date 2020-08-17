@@ -6,8 +6,8 @@
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="回溯算法的一些细节和题解">
+  <meta name="keywords" content="backtracking , 回溯算法 , 备忘录">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,7 +50,7 @@
       "articleSection" : "blog",
       "name" : "回溯算法",
       "headline" : "回溯算法",
-      "description" : "",
+      "description" : "回溯算法的一些细节和题解",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -61,8 +61,8 @@
       "datePublished": "2020-03-08 13:12:02 \u002b0000 UTC",
       "dateModified" : "2020-03-08 13:12:02 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95\/",
-      "wordCount" : "1263",
-      "keywords" : ["Blog"]
+      "wordCount" : "1266",
+      "keywords" : ["backtracking", "回溯算法", "备忘录", "Blog"]
     }
   
   </script>
@@ -175,16 +175,16 @@
 </code></pre>
 <p>全排列问题能很好的体现回溯的特点：</p>
 <ul>
-<li>**试错：**判断当前数是否在前面出现过</li>
-<li>**分步：**遍历所有数</li>
+<li><strong>试错</strong>：判断当前数是否在前面出现过</li>
+<li><strong>分步</strong>：遍历所有数</li>
 <li><strong>执行</strong>：添加一位数字，并记录该数字为以访问</li>
-<li>**撤销：**推出递归后需要撤销之前的改动以安全地进入下一个循环</li>
-<li>**终止条件：**所有数都已遍历，或者临时数组长度等于原数组</li>
+<li><strong>撤销</strong>：推出递归后需要撤销之前的改动以安全地进入下一个循环</li>
+<li><strong>终止条件</strong>：所有数都已遍历，或者临时数组长度等于原数组</li>
 </ul>
 <h2 id="八皇后问题">八皇后问题<a class="anchor" href="#八皇后问题">#</a></h2>
 <p>在经典的教科书中，<a href="https://zh.wikipedia.org/wiki/%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98"><strong>八皇后问题</strong></a>展示了回溯法的用例。</p>
 <p><strong>八皇后问题</strong>是一个以国际象棋为背景的问题：如何能够在8×8的国际象棋棋盘上放置八个皇后，使得任何一个皇后都无法直接吃掉其他的皇后？为了达到此目的，任两个皇后都不能处于同一条横行、纵行或斜线上。</p>
-<p>![](2020-03-08 142051.png)</p>
+<p>![](<a href="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/2020-03-08">https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/2020-03-08</a> 142051.png)</p>
 <p>上图就是其中的一个解，八个皇后在8x8棋盘上共有4,426,165,368（$\binom{64}{8}$）种摆放方法，但只有92个<strong>互不相同</strong>的解。如果将旋转和对称的解归为一种的话，则一共有12个独立解。<a href="https://zh.wikipedia.org/wiki/%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98">wiki有完整解</a></p>
 <h3 id="n皇后">N皇后<a class="anchor" href="#n皇后">#</a></h3>
 <p><a href="https://leetcode-cn.com/problems/n-queens/">leetcode 51. N皇后</a>是八皇后问题的推广：如何将 <em>n</em> 个皇后放置在 <em>n</em>×<em>n</em> 的棋盘上，并且使皇后彼此之间不能相互攻击。</p>
@@ -365,10 +365,10 @@ p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。</
         return res
 </code></pre>
 <p>原理如下图：</p>
-<p><img src="backtrack-2.png" alt=""></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/backtrack-2.png" alt=""></p>
 <h2 id="备忘录">备忘录<a class="anchor" href="#备忘录">#</a></h2>
-<p>简单回溯法的时间复杂度通常是指数级别的。比如正则表达式使用回溯法求解的时间复杂度为$$O\left ( (T+P)2^{T+\frac{P}{2}} \right )$$，<code>T</code> 和 <code>P</code> 分别表示匹配串和模式串的长度，<code>2</code>则是因为当出现<code>*</code>时，我们分两步试错。</p>
-<p>N皇后问题的时间复杂度为$$O\left ( N！ \right )$$，假设N足够大，第一个皇后有<code>N</code>种可能，第二个有<code>N-2</code>或<code>N-3</code>种可能，第三个有<code>N-4</code>、<code>N-5</code>或<code>N-6</code>种可能&hellip;&hellip;总的来说时间复杂度是$$O\left ( N！ \right )$$。</p>
+<p>简单回溯法的时间复杂度通常是指数级别的。比如正则表达式使用回溯法求解的时间复杂度为 $O\left ( (T+P)2^{T+\frac{P}{2}} \right )$，<code>T</code> 和 <code>P</code> 分别表示匹配串和模式串的长度，<code>2</code>则是因为当出现<code>*</code>时，我们分两步试错。</p>
+<p>N皇后问题的时间复杂度为 $O\left ( N！ \right )$，假设N足够大，第一个皇后有<code>N</code>种可能，第二个有<code>N-2</code>或<code>N-3</code>种可能，第三个有<code>N-4</code>、<code>N-5</code>或<code>N-6</code>种可能&hellip;&hellip;总的来说时间复杂度是 $O\left ( N！ \right )$。</p>
 <p>实际上，回溯法的很多递归都是重复的，引用备忘录可以在递归到重复的情况时，直接读取备忘录中的值，而不再执行一次深度可能很深的递归。下面是备忘录的一个例子：</p>
 <p><a href="https://leetcode-cn.com/problems/wildcard-matching/"><strong>leetcode 44. 通配符匹配</strong></a></p>
 <p>给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 &lsquo;?&rsquo; 和 &lsquo;*&rsquo; 的通配符匹配。</p>
@@ -505,7 +505,7 @@ class Solution:
         return res
 </code></pre>
 <br>
-<p><strong>来一把雀魂放松一下吧~</strong></p>
+<p><strong>结束了！来一把雀魂放松一下吧~</strong></p>
 <ol>
 <li>总共有36张牌，每张牌是1~9。每个数字4张牌。</li>
 <li>你手里有其中的14张牌，如果这14张牌满足如下条件，即算作和牌</li>

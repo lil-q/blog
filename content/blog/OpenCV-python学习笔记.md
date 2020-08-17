@@ -4,6 +4,8 @@ date: 2020-02-09 15:57:11
 tags: [OpenCV]
 math: true
 toc: true
+description: "OpenCV-python处理图片和视频"
+keywords: [OpenCV, python, ori]
 ---
 
 18年结束毕业设计之后，对OpenCV接触很少了。那时使用的是C++，借由最近使用python较多，学习OpenCV-python算是一种温故。本文主要参考了[OpenCV-Python图像处理教程](http://codec.wang/opencv-python)以及[官方文档](https://docs.opencv.org/4.2.0/index.html)。

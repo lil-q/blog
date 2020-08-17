@@ -6,8 +6,8 @@
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="MySQL基础知识">
+  <meta name="keywords" content="database , mysql">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,7 +50,7 @@
       "articleSection" : "blog",
       "name" : "MySQL",
       "headline" : "MySQL",
-      "description" : "",
+      "description" : "MySQL基础知识",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -62,7 +62,7 @@
       "dateModified" : "2020-07-17 16:16:51 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/mysql\/",
       "wordCount" : "375",
-      "keywords" : ["Blog"]
+      "keywords" : ["database", "mysql", "Blog"]
     }
   
   </script>
@@ -118,22 +118,22 @@
               
 <p>/maɪ ˌɛskjuːˈɛl/</p>
 <h2 id="一索引">一、索引<a class="anchor" href="#一索引">#</a></h2>
-<p>**优势：**减少 I/O 次数，加快检索速度；根据索引分组和排序，可以加快分组和排序；</p>
-<p>**劣势：**索引本身也是表，因此会占用存储空间，一般来说，索引表占用的空间的数据表的1.5倍；索引表的维护和创建需要时间成本，这个成本随着数据量增大而增大；构建索引会降低数据表的修改操作（删除，添加，修改）的效率，因为在修改数据表的同时还需要修改索引表。</p>
+<p><strong>优势</strong>：减少 I/O 次数，加快检索速度；根据索引分组和排序，可以加快分组和排序；</p>
+<p><strong>劣势</strong>：索引本身也是表，因此会占用存储空间，一般来说，索引表占用的空间的数据表的1.5倍；索引表的维护和创建需要时间成本，这个成本随着数据量增大而增大；构建索引会降低数据表的修改操作（删除，添加，修改）的效率，因为在修改数据表的同时还需要修改索引表。</p>
 <p>常见的索引类型有：主键索引、唯一索引、普通索引、全文索引、组合索引</p>
-<p>**（1）主键索引：**即主索引，根据主键pk_clolum（length）建立索引，<strong>不允许重复，不允许空值</strong></p>
+<p><strong>（1）主键索引</strong>：即主索引，根据主键pk_clolum（length）建立索引，<strong>不允许重复，不允许空值</strong></p>
 <pre><code class="language-sql">ALTER TABLE 'table_name' ADD PRIMARY KEY pk_index('col')；
 </code></pre>
-<p><strong>（2）唯一索引：<strong>用来建立索引的列的值必须是</strong>唯一的，允许空值</strong></p>
+<p><strong>（2）唯一索引</strong>：用来建立索引的列的值必须是<strong>唯一的，允许空值</strong></p>
 <pre><code class="language-sql">ALTER TABLE 'table_name' ADD UNIQUE index_name('col')；
 </code></pre>
-<p>**（3）普通索引：**用表中的普通列构建的索引，没有任何限制</p>
+<p><strong>（3）普通索引</strong>：用表中的普通列构建的索引，没有任何限制</p>
 <pre><code class="language-sql">ALTER TABLE 'table_name' ADD INDEX index_name('col')；
 </code></pre>
-<p>**（4）全文索引：**用大文本对象的列构建的索引</p>
+<p><strong>（4）全文索引</strong>：用大文本对象的列构建的索引</p>
 <pre><code class="language-sql">ALTER TABLE 'table_name' ADD FULLTEXT INDEX ft_index('col')；
 </code></pre>
-<p>**（5）组合索引：**用多个列组合构建的索引，这多个列中的值不允许有空值</p>
+<p><strong>（5）组合索引</strong>：用多个列组合构建的索引，这多个列中的值不允许有空值</p>
 <pre><code class="language-sql">ALTER TABLE 'table_name' ADD INDEX index_name('col1','col2','col3')；
 </code></pre>
 <h3 id="11-实现原理">1.1 实现原理<a class="anchor" href="#11-实现原理">#</a></h3>
@@ -336,6 +336,9 @@ customer_id_selectivity: 0.0373
     
     <li class="tag__item">
         <a class="tag__link" href="https://lil-q.github.io/tags/database/">database</a>
+    </li>
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/sql/">sql</a>
     </li></ul>
 
  <div class="pagination">

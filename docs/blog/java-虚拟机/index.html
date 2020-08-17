@@ -6,8 +6,8 @@
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
-  <meta name="description" content="">
-  <meta name="keywords" content="">
+  <meta name="description" content="java内存垃圾回收类加载机制">
+  <meta name="keywords" content="jvm , java , GC">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -50,7 +50,7 @@
       "articleSection" : "blog",
       "name" : "java-虚拟机",
       "headline" : "java-虚拟机",
-      "description" : "",
+      "description" : "java内存垃圾回收类加载机制",
       "inLanguage" : "en-US",
       "author" : "",
       "creator" : "",
@@ -62,7 +62,7 @@
       "dateModified" : "2020-07-07 11:17:47 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E8%99%9A%E6%8B%9F%E6%9C%BA\/",
       "wordCount" : "959",
-      "keywords" : ["Blog"]
+      "keywords" : ["jvm", "java", "GC", "Blog"]
     }
   
   </script>
@@ -320,10 +320,10 @@
 <p><strong>(1) 静态绑定</strong></p>
 <p>在程序执行前方法已经被绑定（也就是说在编译过程中就已经知道这个方法到底是哪个类中的方法），针对java简单的可以理解为程序<strong>编译期</strong>的绑定。所有<strong>私有方法</strong>、<strong>静态方法</strong>、<strong>构造器</strong>及<strong>初始化方法</strong><code>&lt;clinit&gt;</code>都是采用静态绑定机制。在编译器阶段就已经指明了调用方法在常量池中的符号引用，JVM运行的时候只需要进行一次<strong>常量池解析</strong>即可。</p>
 <ul>
-<li>**private：**不能被继承，只能通过这个类自身的对象来调用；</li>
-<li>**final：**可以被继承，但不能被覆写，子类对象调用的是父类中所定义的final方法；</li>
-<li>**static：**可以被子类继承，不能被子类重写（覆盖），但是可以被子类<a href="https://blog.csdn.net/zhangjk1993/article/details/24066085">隐藏</a>；</li>
-<li>**构造方法：**不能被继承。</li>
+<li><strong>private</strong>：不能被继承，只能通过这个类自身的对象来调用；</li>
+<li><strong>final</strong>：可以被继承，但不能被覆写，子类对象调用的是父类中所定义的final方法；</li>
+<li><strong>static</strong>：可以被子类继承，不能被子类重写（覆盖），但是可以被子类<a href="https://blog.csdn.net/zhangjk1993/article/details/24066085">隐藏</a>；</li>
+<li><strong>构造方法</strong>：不能被继承。</li>
 </ul>
 <p>对于<strong>成员变量</strong>（实例变量和类变量）也是采用<strong>静态绑定</strong>，子类的对象(由父类的引用handle)调用到的是父类的成员变量。解决办法是将成员变量封装成方法getter形式。这是因为静态绑定是有很多的好处，它可以让我们在<strong>编译期</strong>就发现程序中的错误，而不是在<strong>运行期</strong>。这样就可以提高程序的运行效率！</p>
 <p><strong>(2) 动态绑定</strong></p>

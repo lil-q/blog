@@ -3,6 +3,8 @@ title: java-反射和泛型
 date: 2020-03-27 22:45:02
 tags: [java]
 toc: true
+description: "java反射泛型动态代理"
+keywords: [java, 反射, 泛型, 动态代理]
 ---
 
 ## 一、反射

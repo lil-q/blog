@@ -4,6 +4,8 @@ date: 2019-12-27 17:53:49
 tags: [data structure]
 math: true
 toc: true
+description: "图论及最短路径算法最小生成树算法"
+keywords: [graph, Dijkstra, Floyd-Warshall, Prim, Kruskal]
 ---
 
 生活不就是一张图吗？

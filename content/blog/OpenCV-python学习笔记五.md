@@ -4,6 +4,8 @@ date: 2020-02-22 17:51:07
 tags: [OpenCV]
 math: true
 toc: true
+description: "OpenCV-python图像梯度和边缘检测"
+keywords: [OpenCV, python, soble, canny, scharr, lapiacian]
 ---
 
 ## 一、图像梯度

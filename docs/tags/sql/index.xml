@@ -1,16 +1,37 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>SQL on Homeward</title>
+    <title>sql on Homeward</title>
     <link>https://lil-q.github.io/tags/sql/</link>
-    <description>Recent content in SQL on Homeward</description>
+    <description>Recent content in sql on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© {year}</copyright>
-    <lastBuildDate>Thu, 16 Jan 2020 13:59:07 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 17 Jul 2020 16:16:51 +0000</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/tags/sql/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>MySQL</title>
+      <link>https://lil-q.github.io/blog/mysql/</link>
+      <pubDate>Fri, 17 Jul 2020 16:16:51 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/mysql/</guid>
+      <description>/maɪ ˌɛskjuːˈɛl/
+一、索引 优势：减少 I/O 次数，加快检索速度；根据索引分组和排序，可以加快分组和排序；
+劣势：索引本身也是表，因此会占用存储空间，一般来说，索引表占用的空间的数据表的1.5倍；索引表的维护和创建需要时间成本，这个成本随着数据量增大而增大；构建索引会降低数据表的修改操作（删除，添加，修改）的效率，因为在修改数据表的同时还需要修改索引表。
+常见的索引类型有：主键索引、唯一索引、普通索引、全文索引、组合索引
+（1）主键索引：即主索引，根据主键pk_clolum（length）建立索引，不允许重复，不允许空值
+ALTER TABLE &#39;table_name&#39; ADD PRIMARY KEY pk_index(&#39;col&#39;)；  （2）唯一索引：用来建立索引的列的值必须是唯一的，允许空值
+ALTER TABLE &#39;table_name&#39; ADD UNIQUE index_name(&#39;col&#39;)；  （3）普通索引：用表中的普通列构建的索引，没有任何限制
+ALTER TABLE &#39;table_name&#39; ADD INDEX index_name(&#39;col&#39;)；  （4）全文索引：用大文本对象的列构建的索引
+ALTER TABLE &#39;table_name&#39; ADD FULLTEXT INDEX ft_index(&#39;col&#39;)；  （5）组合索引：用多个列组合构建的索引，这多个列中的值不允许有空值
+ALTER TABLE &#39;table_name&#39; ADD INDEX index_name(&#39;col1&#39;,&#39;col2&#39;,&#39;col3&#39;)；  1.1 实现原理 1. B+ 数 B 树（B-tree）是一种自平衡的树，能够保持数据有序。这种数据结构能够让查找数据、顺序访问、插入数据及删除的动作，都在对数时间内完成。B 树，概括来说是一个一般化的二叉查找树（binary search tree）一个节点可以拥有2个以上的子节点。与自平衡二叉查找树不同，B 树适用于读写相对大的数据块的存储系统，例如磁盘。B 树减少定位记录时所经历的中间过程，从而加快存取速度。B 树这种数据结构可以用来描述外部存储。这种数据结构常被应用在数据库和文件系统的实现上。
+B+ 树是一种树数据结构，通常用于数据库和操作系统的文件系统中。B+ 树的特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反。
+请参考这篇文章
+B+ 树与B 树最大的不同是内部结点不保存数据，只用于索引，所有数据（或者说记录）都保存在叶子结点中。</description>
+    </item>
     
     <item>
       <title>SQL</title>
