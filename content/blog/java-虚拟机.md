@@ -536,7 +536,7 @@ Java 虚拟机还要对对象进行必要的设置，例如这个对象是哪个
 
 ## 参考
 
-1. [CyC CS-Notes](https://cyc2018.github.io/CS-Notes/#/notes/Java 虚拟机?id=类加载过程)
+1. [CyC CS-Notes](https://cyc2018.github.io/CS-Notes/#/notes/Java%20虚拟机?id=类加载过程)
 2. [Java静态绑定与动态绑定](https://blog.csdn.net/zhangjk1993/article/details/24066085)
 3. [Java动态绑定机制的内幕](https://zhuanlan.zhihu.com/p/24317613)
 4. 《深入理解java虚拟机》
