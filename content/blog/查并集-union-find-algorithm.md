@@ -1,7 +1,7 @@
 ---
 title: 查并集
 date: 2020-01-02 12:54:02
-tags: [data structure]
+tags: [data-structure]
 toc: true
 description: "查并集基础知识"
 keywords: [union find algorithm]

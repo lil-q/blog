@@ -1,7 +1,7 @@
 ---
 title: 堆
 date: 2019-11-17 15:49:44
-tags: [data structure]
+tags: [data-structure]
 toc: true
 description: "堆的建立插入节点删除节点堆排序"
 keywords: [heap, 堆排序, heapify]

@@ -1,7 +1,7 @@
 ---
 title: java-Collection
 date: 2020-03-30 18:34:55
-tags: [java, source code]
+tags: [java, source-code]
 toc: true
 description: "java List Set Queue"
 keywords: [java, List, Set, Queue]
