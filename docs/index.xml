@@ -157,18 +157,6 @@ import time, json, requests url = &#39;https://view.inews.qq.com/g2/getOnsInfo?n
     </item>
     
     <item>
-      <title>2019-nCoV疫情数据可视化地图</title>
-      <link>https://lil-q.github.io/blog/%E5%BA%94%E7%94%A8%E4%B8%80%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</link>
-      <pubDate>Sat, 01 Feb 2020 22:41:13 +0000</pubDate>
-      
-      <guid>https://lil-q.github.io/blog/%E5%BA%94%E7%94%A8%E4%B8%80%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</guid>
-      <description>数据的获取 在学习该博客的数据爬取时发现数据似乎已经不再更新，所以重新在腾讯新闻网站搜索相关数据。
-使用time、json和requests获取数据。
-import time, json, requests url = &#39;https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5&amp;amp;callback=&amp;amp;_=%d&#39;%int(time.time()*1000) data = json.loads(requests.get(url=url).json()[&#39;data&#39;]) print(data)  可以看到数据如下所示（省略部分内容）：
-{&#39;chinaTotal&#39;: {&#39;date&#39;: &#39;02.01&#39;, &#39;confirm&#39;: &#39;11890&#39;, &#39;suspect&#39;: &#39;17988&#39;, &#39;dead&#39;: &#39;259&#39;, &#39;heal&#39;: &#39;269&#39;}, &#39;lastUpdateTime&#39;: &#39;2020-02-01 21:18:01&#39;, &#39;areaTree&#39;: [{&#39;name&#39;: &#39;中国&#39;, &#39;children&#39;: [{&#39;name&#39;: &#39;湖北&#39;, &#39;children&#39;: [...], &#39;total&#39;: {&#39;confirm&#39;: 7153, &#39;suspect&#39;: 0, &#39;dead&#39;: 249, &#39;heal&#39;: 166}, &#39;today&#39;: {&#39;confirm&#39;: 1347, &#39;suspect&#39;: -49, &#39;dead&#39;: 49, &#39;heal&#39;: 15}}, {&#39;name&#39;: &#39;浙江&#39;, &#39;children&#39;: [...], &#39;total&#39;: {&#39;confirm&#39;: 599, &#39;suspect&#39;: 0, &#39;dead&#39;: 0, &#39;heal&#39;: 20}, &#39;today&#39;: {&#39;confirm&#39;: 62, &#39;suspect&#39;: 0, &#39;dead&#39;: 0, &#39;heal&#39;: 7}}, .</description>
-    </item>
-    
-    <item>
       <title>SQL</title>
       <link>https://lil-q.github.io/blog/sql/</link>
       <pubDate>Thu, 16 Jan 2020 13:59:07 +0000</pubDate>
