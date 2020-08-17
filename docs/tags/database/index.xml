@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>database on Homeward</title>
-    <link>https://example.org/tags/database/</link>
+    <link>https://lil-q.github.io/tags/database/</link>
     <description>Recent content in database on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© {year}</copyright>
     <lastBuildDate>Thu, 16 Jan 2020 13:59:07 +0000</lastBuildDate>
     
-	<atom:link href="https://example.org/tags/database/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://lil-q.github.io/tags/database/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>SQL</title>
-      <link>https://example.org/blog/sql/</link>
+      <link>https://lil-q.github.io/blog/sql/</link>
       <pubDate>Thu, 16 Jan 2020 13:59:07 +0000</pubDate>
       
-      <guid>https://example.org/blog/sql/</guid>
+      <guid>https://lil-q.github.io/blog/sql/</guid>
       <description>SQL基础语句快查
 原教程地址：http://www.xuesql.cn/
 一、定义 1.1 什么是SQL SQL, 全称为Structured Query Language（结构化查询语言)。 要讲SQL就绕不开database(数据库), 平时所说的数据库，一般就是指的 Relational database(关系型数据库)。

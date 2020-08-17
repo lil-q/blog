@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Essays on Homeward</title>
-    <link>https://example.org/essay/</link>
+    <link>https://lil-q.github.io/essay/</link>
     <description>Recent content in Essays on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© {year}</copyright>
     <lastBuildDate>Sun, 16 Aug 2020 14:21:05 +0800</lastBuildDate>
     
-	<atom:link href="https://example.org/essay/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://lil-q.github.io/essay/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Placeholder</title>
-      <link>https://example.org/essay/placeholder/</link>
+      <link>https://lil-q.github.io/essay/placeholder/</link>
       <pubDate>Sun, 16 Aug 2020 14:21:05 +0800</pubDate>
       
-      <guid>https://example.org/essay/placeholder/</guid>
+      <guid>https://lil-q.github.io/essay/placeholder/</guid>
       <description></description>
     </item>
     

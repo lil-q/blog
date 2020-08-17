@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>basis on Homeward</title>
-    <link>https://example.org/tags/basis/</link>
+    <link>https://lil-q.github.io/tags/basis/</link>
     <description>Recent content in basis on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© {year}</copyright>
     <lastBuildDate>Sun, 10 May 2020 00:08:33 +0000</lastBuildDate>
     
-	<atom:link href="https://example.org/tags/basis/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://lil-q.github.io/tags/basis/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>操作系统</title>
-      <link>https://example.org/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://lil-q.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Sun, 10 May 2020 00:08:33 +0000</pubDate>
       
-      <guid>https://example.org/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://lil-q.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description>&lt;p&gt;操作系统是配置在计算机硬件上的第一层软件，是对硬件系统的首次扩充。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>计算机网络</title>
-      <link>https://example.org/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+      <link>https://lil-q.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
       <pubDate>Tue, 05 May 2020 19:30:17 +0000</pubDate>
       
-      <guid>https://example.org/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+      <guid>https://lil-q.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
       <description>网络把主机连接起来，而互连网（internet）是把多种不同的网络连接起来，因此互连网是网络的网络。
 一、概述 1.1 主机之间的通信方式   客户-服务器（C/S）：客户是服务的请求方，服务器是服务的提供方。
   对等（P2P）：不区分客户和服务器。

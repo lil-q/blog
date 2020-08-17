@@ -2,49 +2,49 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Homeward</title>
-    <link>https://example.org/</link>
+    <link>https://lil-q.github.io/</link>
     <description>Recent content on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© {year}</copyright>
     <lastBuildDate>Sun, 16 Aug 2020 14:21:05 +0800</lastBuildDate>
     
-	<atom:link href="https://example.org/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://lil-q.github.io/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Placeholder</title>
-      <link>https://example.org/essay/placeholder/</link>
+      <link>https://lil-q.github.io/essay/placeholder/</link>
       <pubDate>Sun, 16 Aug 2020 14:21:05 +0800</pubDate>
       
-      <guid>https://example.org/essay/placeholder/</guid>
+      <guid>https://lil-q.github.io/essay/placeholder/</guid>
       <description></description>
     </item>
     
     <item>
       <title>西湖</title>
-      <link>https://example.org/picture/%E8%A5%BF%E6%B9%96/</link>
+      <link>https://lil-q.github.io/picture/%E8%A5%BF%E6%B9%96/</link>
       <pubDate>Wed, 10 Jun 2020 10:59:27 +0800</pubDate>
       
-      <guid>https://example.org/picture/%E8%A5%BF%E6%B9%96/</guid>
+      <guid>https://lil-q.github.io/picture/%E8%A5%BF%E6%B9%96/</guid>
       <description></description>
     </item>
     
     <item>
       <title>操作系统</title>
-      <link>https://example.org/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://lil-q.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Sun, 10 May 2020 00:08:33 +0000</pubDate>
       
-      <guid>https://example.org/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://lil-q.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description>&lt;p&gt;操作系统是配置在计算机硬件上的第一层软件，是对硬件系统的首次扩充。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>计算机网络</title>
-      <link>https://example.org/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
+      <link>https://lil-q.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</link>
       <pubDate>Tue, 05 May 2020 19:30:17 +0000</pubDate>
       
-      <guid>https://example.org/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
+      <guid>https://lil-q.github.io/blog/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/</guid>
       <description>网络把主机连接起来，而互连网（internet）是把多种不同的网络连接起来，因此互连网是网络的网络。
 一、概述 1.1 主机之间的通信方式   客户-服务器（C/S）：客户是服务的请求方，服务器是服务的提供方。
   对等（P2P）：不区分客户和服务器。
@@ -60,28 +60,28 @@
     
     <item>
       <title>morris算法</title>
-      <link>https://example.org/blog/morris%E7%AE%97%E6%B3%95/</link>
+      <link>https://lil-q.github.io/blog/morris%E7%AE%97%E6%B3%95/</link>
       <pubDate>Fri, 01 May 2020 14:51:08 +0000</pubDate>
       
-      <guid>https://example.org/blog/morris%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://lil-q.github.io/blog/morris%E7%AE%97%E6%B3%95/</guid>
       <description>&lt;p&gt;morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。&lt;/p&gt;</description>
     </item>
     
     <item>
       <title>春花</title>
-      <link>https://example.org/picture/%E6%98%A5%E8%8A%B1/</link>
+      <link>https://lil-q.github.io/picture/%E6%98%A5%E8%8A%B1/</link>
       <pubDate>Tue, 17 Mar 2020 13:15:18 +0800</pubDate>
       
-      <guid>https://example.org/picture/%E6%98%A5%E8%8A%B1/</guid>
+      <guid>https://lil-q.github.io/picture/%E6%98%A5%E8%8A%B1/</guid>
       <description>三月十七日同妈妈于公园</description>
     </item>
     
     <item>
       <title>OpenCV-python学习笔记五</title>
-      <link>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/</link>
+      <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/</link>
       <pubDate>Sat, 22 Feb 2020 17:51:07 +0000</pubDate>
       
-      <guid>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/</guid>
+      <guid>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/</guid>
       <description>一、图像梯度 在谈及梯度之前需要先找到函数，图片是二维的离散函数，二维意味着需要找到求梯度的方向，离散意味着对于图片的梯度不是导数而是差分。下式就是按照水平从左到右方向每隔一个像素点求差分：
 $$ \Delta f\left ( i,j \right )=f\left ( i+1,j \right )-f\left ( i,j \right ) $$
 1.1 Prewitt operator 将上式用卷积的方式处理是就可以是有下面这个卷积核（Prewitt 边缘检测算子）：
@@ -93,10 +93,10 @@ $$ Sobel_{x} = \frac{1}{9}\left[ \begin{matrix} -1 &amp;amp; 0 &amp;amp; 1 \newl
     
     <item>
       <title>OpenCV-python学习笔记四</title>
-      <link>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%9B%9B/</link>
+      <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%9B%9B/</link>
       <pubDate>Thu, 20 Feb 2020 14:14:07 +0000</pubDate>
       
-      <guid>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%9B%9B/</guid>
+      <guid>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%9B%9B/</guid>
       <description>一、OpenCV与NumPy OpenCV 读取一张图片，返回的实际上是一个numpy.ndarray类。所以一些对numpy.ndarray的操作可以直接对cv2.imread()返回的对象使用。
 import cv2 import numpy as np img = cv2.imread(&#39;connelly.jpg&#39;) print(type(img)) # &amp;lt;class &#39;numpy.ndarray&#39;&amp;gt; rows, cols = img.shape[:2] print(rows, cols) # 210 270  1.1 访问和修改像素值 根据像素值的行和列坐标可以访问特定像素点。对于 BGR 图像，它返回一个蓝色、绿色、红色值数组。灰度图像，只返回相应的亮度。
 px = img[100, 120] img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY) px_gray = img_gray[100, 120] print(px) # [130 131 181] print(px_gray) # 146  可以用同样的方式修改像素值。
@@ -106,10 +106,10 @@ img[100, 120] = [255,255,255]  NumPy 是一个用于快速数组计算的优化�
     
     <item>
       <title>OpenCV-python学习笔记三</title>
-      <link>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89/</link>
+      <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89/</link>
       <pubDate>Wed, 19 Feb 2020 13:00:33 +0000</pubDate>
       
-      <guid>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89/</guid>
+      <guid>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89/</guid>
       <description>一、图片混合 1.1 图像混合 图像混合cv2.addWeighted()要求两幅图片的形状（高度/宽度/通道数）必须相同，$ \omega_{1} $ 和 $ \omega_{2} $ 分别为两幅图像的权重，b 则是一个偏置：
 $$ dst = \omega_{1}\times img1+\omega_{2}\times img2 + b $$
 img1 = cv2.imread(&#39;img1_name.jpg&#39;) img2 = cv2.imread(&#39;img2_name.png&#39;) res = cv2.addWeighted(img1, 0.6, img2, 0.4, 0)  特别的，当 $ \omega_{1} $ 和 $ \omega_{2} $ 都为1，b 为 0 时，就是两张图片相加。可以用cv2.add()函数。numpy 中可以直接用res = img1 + img2相加，但这两者的结果并不相同：
@@ -118,10 +118,10 @@ x = np.uint8([250]) y = np.uint8([10]) print(cv2.add(x, y)) # 250 + 10 = 260 =&a
     
     <item>
       <title>OpenCV-python学习笔记二</title>
-      <link>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
+      <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
       <pubDate>Mon, 17 Feb 2020 14:44:55 +0000</pubDate>
       
-      <guid>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
+      <guid>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
       <description>一、滤波 滤波是一种卷积操作，常用于图像的预处理。低通滤波器就是允许低频信号通过，在图像中边缘和噪点都相当于高频部分，所以低通滤波器用于去除噪点、平滑和模糊图像。高通滤波器则反之，用来增强图像边缘，进行锐化处理。
  低通滤波器是模糊 高通滤波器是锐化  常见噪声有椒盐噪声和高斯噪声，椒盐噪声可以理解为斑点，随机出现在图像中的黑点或白点；高斯噪声可以理解为拍摄图片时由于光照等原因造成的噪声。
 1.1 均值滤波 均值滤波是一种最简单的滤波处理，它取的是卷积核区域内元素的均值，用cv2.blur()实现，如3×3的卷积核：
@@ -132,10 +132,10 @@ $$ kernel_{b} = a\left[ \begin{matrix} 1 &amp;amp; 1 &amp;amp; 1 \newline 1 &amp
     
     <item>
       <title>OpenCV-python学习笔记一</title>
-      <link>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
+      <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Sun, 09 Feb 2020 15:57:11 +0000</pubDate>
       
-      <guid>https://example.org/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
+      <guid>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
       <description>18年结束毕业设计之后，对OpenCV接触很少了。那时使用的是C++，借由最近使用python较多，学习OpenCV-python算是一种温故。本文主要参考了OpenCV-Python图像处理教程以及官方文档。
 一、图片 需要注意图片的x，y轴排布，三通道以B-G-R排布，灰度图只有一个通道。
 1.1 读取 # 加载灰度图 img = cv2.imread(&#39;lena.jpg&#39;, 0)   参数1：图片的文件名  如果图片放在当前文件夹下，直接写文件名就行了，如&amp;rsquo;lena.jpg&amp;rsquo; 否则需要给出绝对路径，如&amp;rsquo;D:\OpenCVSamples\lena.jpg&amp;rsquo;   参数2：读入方式，省略即采用默认值  cv2.IMREAD_COLOR：彩色图，默认值(1) cv2.IMREAD_GRAYSCALE：灰度图(0) cv2.IMREAD_UNCHANGED：包含透明通道的彩色图(-1)    1.2 显示 # 创建窗口 cv2.namedWindow(&#39;lena2&#39;, cv2.WINDOW_NORMAL)   参数1：窗口名称 参数2：窗口模式  cv2.WINDOW_AUTOSIZE表示窗口大小自适应图片 cv2.WINDOW_NORMAL表示窗口大小可调整    # 显示图片 cv2.imshow(&#39;lena&#39;, img)   参数1：窗口名称 参数2：图片实例  # 保持图片显示 cv2.waitKey(0)    参数：暂停时长，ms
@@ -146,10 +146,10 @@ $$ kernel_{b} = a\left[ \begin{matrix} 1 &amp;amp; 1 &amp;amp; 1 \newline 1 &amp
     
     <item>
       <title>2019-nCoV疫情数据可视化地图</title>
-      <link>https://example.org/blog/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</link>
+      <link>https://lil-q.github.io/blog/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</link>
       <pubDate>Sat, 01 Feb 2020 22:41:13 +0000</pubDate>
       
-      <guid>https://example.org/blog/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</guid>
+      <guid>https://lil-q.github.io/blog/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</guid>
       <description>数据的获取 在学习该博客的数据爬取时发现数据似乎已经不再更新，所以重新在腾讯新闻网站搜索相关数据。
 使用time、json和requests获取数据。
 import time, json, requests url = &#39;https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5&amp;amp;callback=&amp;amp;_=%d&#39;%int(time.time()*1000) data = json.loads(requests.get(url=url).json()[&#39;data&#39;]) print(data)  可以看到数据如下所示（省略部分内容）：
@@ -158,10 +158,10 @@ import time, json, requests url = &#39;https://view.inews.qq.com/g2/getOnsInfo?n
     
     <item>
       <title>2019-nCoV疫情数据可视化地图</title>
-      <link>https://example.org/blog/%E5%BA%94%E7%94%A8%E4%B8%80%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</link>
+      <link>https://lil-q.github.io/blog/%E5%BA%94%E7%94%A8%E4%B8%80%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</link>
       <pubDate>Sat, 01 Feb 2020 22:41:13 +0000</pubDate>
       
-      <guid>https://example.org/blog/%E5%BA%94%E7%94%A8%E4%B8%80%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</guid>
+      <guid>https://lil-q.github.io/blog/%E5%BA%94%E7%94%A8%E4%B8%80%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE/</guid>
       <description>数据的获取 在学习该博客的数据爬取时发现数据似乎已经不再更新，所以重新在腾讯新闻网站搜索相关数据。
 使用time、json和requests获取数据。
 import time, json, requests url = &#39;https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5&amp;amp;callback=&amp;amp;_=%d&#39;%int(time.time()*1000) data = json.loads(requests.get(url=url).json()[&#39;data&#39;]) print(data)  可以看到数据如下所示（省略部分内容）：
@@ -170,10 +170,10 @@ import time, json, requests url = &#39;https://view.inews.qq.com/g2/getOnsInfo?n
     
     <item>
       <title>SQL</title>
-      <link>https://example.org/blog/sql/</link>
+      <link>https://lil-q.github.io/blog/sql/</link>
       <pubDate>Thu, 16 Jan 2020 13:59:07 +0000</pubDate>
       
-      <guid>https://example.org/blog/sql/</guid>
+      <guid>https://lil-q.github.io/blog/sql/</guid>
       <description>SQL基础语句快查
 原教程地址：http://www.xuesql.cn/
 一、定义 1.1 什么是SQL SQL, 全称为Structured Query Language（结构化查询语言)。 要讲SQL就绕不开database(数据库), 平时所说的数据库，一般就是指的 Relational database(关系型数据库)。
@@ -188,10 +188,10 @@ SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_c
     
     <item>
       <title>图论</title>
-      <link>https://example.org/blog/%E5%9B%BE-graph/</link>
+      <link>https://lil-q.github.io/blog/%E5%9B%BE-graph/</link>
       <pubDate>Fri, 27 Dec 2019 17:53:49 +0000</pubDate>
       
-      <guid>https://example.org/blog/%E5%9B%BE-graph/</guid>
+      <guid>https://lil-q.github.io/blog/%E5%9B%BE-graph/</guid>
       <description>生活不就是一张图吗？
 一、定义 图(Graph)用于表示物件与物件之间的关系，是图论的基本研究对象。一张图由一些小圆点（称为顶点或结点）和连结这些圆点的直线或曲线（称为边）组成。
 一个图 $G$ 是一个二元组，即序偶 $\langle V,E\rangle$ ，或记作 $G= \langle V,E\rangle$ ，其中 $V$ 是有限非空集合，称为 $G$ 的顶点集， $V$ 中的元素称为顶点或结点； $E$ 称为 $G$ 的边的集合， $\forall e_i \in E$ ，都有 $V$ 中的结点与之对应，称 $e_i$ 为 $G$ 的边。
@@ -207,10 +207,10 @@ SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_c
     
     <item>
       <title>排序算法</title>
-      <link>https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</link>
+      <link>https://lil-q.github.io/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</link>
       <pubDate>Sat, 16 Nov 2019 19:34:55 +0000</pubDate>
       
-      <guid>https://example.org/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</guid>
+      <guid>https://lil-q.github.io/blog/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95/</guid>
       <description>十种排序算法的python实现及复杂度分析
 分类 评价排序算法的几个指标：
  时间复杂度：包括平均时间复杂度、最坏时间复杂度和最好时间复杂度。一般而言，好的性能是$O(nlog_2n)$，坏的性能是$O(n^2)$。对于一个排序理想的性能是O(n)，但平均而言不可能达到。基于比较的排序算法对大多数输入而言至少需要$O(nlog_2n)$。 空间复杂度：内存使用量 稳定性： 稳定排序算法会让原本有相等键值的纪录维持相对次序。也就是如果一个排序算法是稳定的，当有两个相等键值的纪录R和S，且在原本的列表中R出现在S之前，在排序过的列表中R也将会是在S之前。 依据排序的方法：插入、交换、选择、合并等等。  本文介绍了以下几种排序，推荐可视化网站visualgo，下文代码都采用数组作为输入。

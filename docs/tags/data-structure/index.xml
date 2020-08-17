@@ -2,22 +2,22 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>data structure on Homeward</title>
-    <link>https://example.org/tags/data-structure/</link>
+    <link>https://lil-q.github.io/tags/data-structure/</link>
     <description>Recent content in data structure on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© {year}</copyright>
     <lastBuildDate>Fri, 27 Dec 2019 17:53:49 +0000</lastBuildDate>
     
-	<atom:link href="https://example.org/tags/data-structure/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://lil-q.github.io/tags/data-structure/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>图论</title>
-      <link>https://example.org/blog/%E5%9B%BE-graph/</link>
+      <link>https://lil-q.github.io/blog/%E5%9B%BE-graph/</link>
       <pubDate>Fri, 27 Dec 2019 17:53:49 +0000</pubDate>
       
-      <guid>https://example.org/blog/%E5%9B%BE-graph/</guid>
+      <guid>https://lil-q.github.io/blog/%E5%9B%BE-graph/</guid>
       <description>生活不就是一张图吗？
 一、定义 图(Graph)用于表示物件与物件之间的关系，是图论的基本研究对象。一张图由一些小圆点（称为顶点或结点）和连结这些圆点的直线或曲线（称为边）组成。
 一个图 $G$ 是一个二元组，即序偶 $\langle V,E\rangle$ ，或记作 $G= \langle V,E\rangle$ ，其中 $V$ 是有限非空集合，称为 $G$ 的顶点集， $V$ 中的元素称为顶点或结点； $E$ 称为 $G$ 的边的集合， $\forall e_i \in E$ ，都有 $V$ 中的结点与之对应，称 $e_i$ 为 $G$ 的边。

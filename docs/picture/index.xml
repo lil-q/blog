@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pictures on Homeward</title>
-    <link>https://example.org/picture/</link>
+    <link>https://lil-q.github.io/picture/</link>
     <description>Recent content in Pictures on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>© {year}</copyright>
     <lastBuildDate>Wed, 10 Jun 2020 10:59:27 +0800</lastBuildDate>
     
-	<atom:link href="https://example.org/picture/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="https://lil-q.github.io/picture/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>西湖</title>
-      <link>https://example.org/picture/%E8%A5%BF%E6%B9%96/</link>
+      <link>https://lil-q.github.io/picture/%E8%A5%BF%E6%B9%96/</link>
       <pubDate>Wed, 10 Jun 2020 10:59:27 +0800</pubDate>
       
-      <guid>https://example.org/picture/%E8%A5%BF%E6%B9%96/</guid>
+      <guid>https://lil-q.github.io/picture/%E8%A5%BF%E6%B9%96/</guid>
       <description></description>
     </item>
     
     <item>
       <title>春花</title>
-      <link>https://example.org/picture/%E6%98%A5%E8%8A%B1/</link>
+      <link>https://lil-q.github.io/picture/%E6%98%A5%E8%8A%B1/</link>
       <pubDate>Tue, 17 Mar 2020 13:15:18 +0800</pubDate>
       
-      <guid>https://example.org/picture/%E6%98%A5%E8%8A%B1/</guid>
+      <guid>https://lil-q.github.io/picture/%E6%98%A5%E8%8A%B1/</guid>
       <description>三月十七日同妈妈于公园</description>
     </item>
     
