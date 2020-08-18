@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "447",
+      "wordCount" : "515",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -146,7 +146,7 @@
 <h4 id="4-传播时延"><strong>4. 传播时延</strong></h4>
 <p>电磁波在信道中传播所需要花费的时间，电磁波传播的速度接近光速。</p>
 <h3 id="14-体系结构">1.4 体系结构<a class="anchor" href="#14-体系结构">#</a></h3>
-<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web3.png" style="zoom: 80%;" /></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web3.png"  /></p>
 <ul>
 <li><strong>应用层</strong> ：为特定应用程序提供数据传输服务，例如 HTTP、DNS 等协议。数据单位为报文。</li>
 <li><strong>传输层</strong> ：为进程提供通用数据传输服务。由于应用层协议很多，定义通用的传输层协议就可以支持不断增多的应用层协议。运输层包括两种协议：传输控制协议 TCP，提供面向连接、可靠的数据传输服务，数据单位为报文段；用户数据报协议 UDP，提供无连接、尽最大努力的数据传输服务，数据单位为用户数据报。TCP 主要提供完整性服务，UDP 主要提供及时性服务。</li>
@@ -301,6 +301,16 @@
 <h4 id="4-快恢复">4. 快恢复</h4>
 <p>在这种情况下，只是丢失个别报文段，而不是网络拥塞。因此执行快恢复，令 ssthresh = cwnd / 2 ，cwnd = ssthresh，注意到此时直接进入拥塞避免。</p>
 <p>慢开始和快恢复的快慢指的是 cwnd 的设定值，而不是 cwnd 的增长速率。慢开始 cwnd 设定为 1，而快恢复 cwnd 设定为 ssthresh。</p>
+<h3 id="45-mtu--mss">4.5 MTU &amp; MSS<a class="anchor" href="#45-mtu--mss">#</a></h3>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/webnew1.png" alt="mssmtu"></p>
+<p><strong>最大传输单元</strong>（<strong>M</strong>aximum <strong>T</strong>ransmission <strong>U</strong>nit，<strong>MTU</strong>）：在 TCP/IP 协议族中，指的是 <strong>IP 数据报</strong>能经过一个<strong>物理网络</strong>的最大报文长度，其中包括了 IP 首部(从 20 个字节到 60 个字节不等)，一般以太网的 MTU 设为 1500 bytes，如果数据大于 1500 bytes，需要分片才能完成发送，这些分片有一个共同点，即 IP Header ID 相同。</p>
+<p><strong>最大报文段大小</strong>（<strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize，<strong>MSS</strong>）：指的是 <strong>TCP</strong> 提交给 <strong>IP 层</strong>的最大数据报长度，其中不包括 TCP 首部长度。<strong>MSS 由 TCP 链接的过程中由双方协商得出</strong>（取较小值），其中 SYN 字段中的选项部分包括了这个信息。如果 MSS + TCP 首部 + IP 首部大于 MTU，那么 IP 报文就会分片，如果小于，那么就可以不需要分片正常发送。</p>
+<p><strong>IP</strong> 和 <strong>TCP</strong> 具有分片的能力，而 UDP 没有，比如应用层中的 DNS 协议在发现报文大于 512 字节时会使用 TCP 来传输。</p>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol>
+<li><a href="https://www.imperva.com/blog/mtu-mss-explained/">MTU &amp; MSS</a></li>
+<li><a href="https://www.zhihu.com/question/68641339">关于分片</a></li>
+</ol>
 
 
               
@@ -403,8 +413,10 @@
         <li><a href="#42-tcp-的四次挥手">4.2 TCP 的四次挥手</a></li>
         <li><a href="#43-tcp-流量控制">4.3 TCP 流量控制</a></li>
         <li><a href="#44-tcp-拥塞控制">4.4 TCP 拥塞控制</a></li>
+        <li><a href="#45-mtu--mss">4.5 MTU &amp; MSS</a></li>
       </ul>
     </li>
+    <li><a href="#参考">参考</a></li>
   </ul>
 </nav>
       </div>
