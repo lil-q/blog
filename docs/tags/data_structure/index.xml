@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data_structure on Homeward</title>
+    <link>https://lil-q.github.io/tags/data_structure/</link>
+    <description>Recent content in data_structure on Homeward</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© {year}</copyright>
+    <lastBuildDate>Thu, 02 Jan 2020 12:54:02 +0000</lastBuildDate>
+    
+	<atom:link href="https://lil-q.github.io/tags/data_structure/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>查并集</title>
+      <link>https://lil-q.github.io/blog/%E6%9F%A5%E5%B9%B6%E9%9B%86-union-find-algorithm/</link>
+      <pubDate>Thu, 02 Jan 2020 12:54:02 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E6%9F%A5%E5%B9%B6%E9%9B%86-union-find-algorithm/</guid>
+      <description>查并集的进化之路
+一、定义 并查集是一种树形的数据结构，顾名思义，它用于处理一些不交集的 合并 及 查询 问题。 它支持两种操作：
+ 查找（Find）：确定某个元素处于哪个子集； 合并（Union）：将两个子集合并成一个集合。  也就是说，不支持集合的分离、删除。
+二、Quick-Find算法 以下图为例，连通关系为[(1,2), (0, 1), (0, 3), (4, 7), (5, 6), (5, 7), (7, 8), (8, 9)]。
+首先初始化所有节点，认为它们属于一个组，因此不连通的节点必然就属于不同的组：
+   element 0 1 2 3 4 5 6 7 8 9     group number / id 0 1 2 3 4 5 6 7 8 9    输入pair(1, 2)，则将所有group number为0和1的element改为一致（都为0或都为1，这里以较小值为例）。
+   element 0 1 2 3 4 5 6 7 8 9     group number / id 0 1 1 3 4 5 6 7 8 9    输入pair(0， 1)，这里就需要把element 1和element 2的group number都改为0，：</description>
+    </item>
+    
+    <item>
+      <title>图论</title>
+      <link>https://lil-q.github.io/blog/%E5%9B%BE-graph/</link>
+      <pubDate>Fri, 27 Dec 2019 17:53:49 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E5%9B%BE-graph/</guid>
+      <description>生活不就是一张图吗？
+一、定义 图(Graph)用于表示物件与物件之间的关系，是图论的基本研究对象。一张图由一些小圆点（称为顶点或结点）和连结这些圆点的直线或曲线（称为边）组成。
+一个图 $G$ 是一个二元组，即序偶 $\langle V,E\rangle$ ，或记作 $G= \langle V,E\rangle$ ，其中 $V$ 是有限非空集合，称为 $G$ 的顶点集， $V$ 中的元素称为顶点或结点； $E$ 称为 $G$ 的边的集合， $\forall e_i \in E$ ，都有 $V$ 中的结点与之对应，称 $e_i$ 为 $G$ 的边。
+简单来说，就是图 $G$ 就是一个结点的集合 $V$ 和边的集合 $E$ ，其中任意一条边都可以表示为两个结点之间的关系。若 $e_i\in E$ 表示为 $\langle u,v\rangle$ ，则有 $u\in V , v\in V$ 。
+1.1 基本概念 无向图：每条边都是无向边的图。
+有向图：每条边都是有向边的图。
+有权图：每条边具有一定的权重(weight)，通常是一个数字
+无权图：每条边均没有权重，也可以理解为权为 1
+连通图：所有的点都有路径相连
+非连通图：存在某两个点没有路径相连
+邻接：关联于同一条边的两个点 $u$ 和 $v$ 称为邻接的；关联于同一个点的两条边 $e_1$ 和 $e_2$ 是邻接的（或相邻的）。</description>
+    </item>
+    
+    <item>
+      <title>树</title>
+      <link>https://lil-q.github.io/blog/%E6%A0%91-tree/</link>
+      <pubDate>Wed, 04 Dec 2019 21:53:50 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E6%A0%91-tree/</guid>
+      <description>之所以叫树是因为他看起来像一棵倒挂的树
+一、定义 树（tree）是一种抽象数据类型（ADT）或是实现这种抽象数据类型的数据结构，用来模拟具有树状结构性质的数据集合。它是由 n（n&amp;gt;0）个有限节点组成一个具有层次关系的集合。把它叫做“树”是因为它看起来像一棵倒挂的树，也就是说它是根朝上，而叶朝下的。它具有以下的特点：
+ 每个节点都只有有限个子节点或无子节点 没有父节点的节点称为根节点 每一个非根节点有且只有一个父节点 除了根节点外，每个子节点可以分为多个不相交的子树 树里面没有环路(cycle)  术语
+ 节点的度(Degree)：一个节点含有的子树的个数称为该节点的度 树的度(Degree of tree)：一棵树中，最大的节点度称为树的度 叶节点(Leaf)：度为零的节点 分支节点(Branch node)：度不为零的节点 父节点(Parent)：若一个节点含有子节点，则这个节点称为其子节点的父节点 子节点(child)：一个节点含有的子树的根节点称为该节点的子节点 兄弟节点(siblings)：具有相同父节点的节点互称为兄弟节点 层次(level)：从根开始定义起，根为第1层，根的子节点为第2层，以此类推 深度(depth)：对于任意节点n,n的深度为从根到n的唯一路径长，根的深度为0 高度(height)：对于任意节点n,n的高度为从n到一片树叶的最长路径长，所有树叶的高度为0 节点的祖先(ancestor)：从根到该节点所经分支上的所有节点 森林(forest)：由m（m&amp;gt;=0）棵互不相交的树的集合称为森林  分类
+本文将介绍二叉树(Binary tree)、二叉搜索树(Binary search tree)和字典树(Trie)。关于AVL树(AVL tree)、红黑树(Red–black tree)和Ｂ树(B-tree)，不做深入探讨。
+这里区分一下完全二叉树、满二叉树、完美二叉树:
+ 完全二叉树：最后一层的叶子节点均需在最左边 满二叉树：满足完全二叉树性质，树中除了叶子节点，每个节点都有两个子节点 完美二叉树：满足满二叉树性质，树的叶子节点铺满最后一层  二、二叉树 二叉树（英语：Binary tree）是每个节点最多只有两个分支（即不存在分支度大于2的节点）的树结构。通常分支被称作“左子树”或“右子树”。二叉树的分支具有左右次序，不能随意颠倒。
+# 建一个单节点 class Node(object): def __init__(self, value): self.val = value self.left = None #左节点 self.right = None #右节点 &#39;&#39;&#39; # 建一个二叉树 # 1 # / \ # 2 3 # / \ / \ # 4 5 6 7 &#39;&#39;&#39; root = Node(1) stack = [root] value = 2 for i in range(3): cur = stack.</description>
+    </item>
+    
+    <item>
+      <title>堆</title>
+      <link>https://lil-q.github.io/blog/%E5%A0%86-heap/</link>
+      <pubDate>Sun, 17 Nov 2019 15:49:44 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E5%A0%86-heap/</guid>
+      <description>经过努力，最值总会冒上来的！
+一、定义  在通常情况下，使用列表储存堆，堆树是一颗完全二叉树，二项堆和斐波那契堆不属于二叉树 堆树中某个节点的值总是不大于或不小于其孩子节点的值 堆树中每个节点的子树都是堆树  当父节点的键值总是大于或等于任何一个子节点的键值时为最大堆。 当父节点的键值总是小于或等于任何一个子节点的键值时为最小堆。 本文以最大堆作为例子，最小堆类似。
+二、堆的建立 堆的建立并不建立一个新的树，而是对数组进行原地改动，第一个数（index=0）为完全二叉树的level 0，即根，第二个数和第三个数为level 1，以此类推。
+由于数组是升序数组，我们直接得到了最小堆。但是如果要进行升序排序，算法上需要建立最大堆。也就是说，当原数组是升序时，堆排序算法遇到了最坏情况。本文也以这种情况作为例子。
+nums=[1,2,3,4,5]  2.1 堆的维护 上图的根节点是1，小于子节点，那么这显然违反了最大堆的性质，这时候需要让该元素在最大堆中逐级下降，维护最大堆的性质。处理一次维护的代码如下：
+def adjust_heap(idx, max_len,nums): left = 2 * idx + 1 right = 2 * idx + 2 max_loc = idx if left &amp;lt; max_len and nums[max_loc] &amp;lt; nums[left]: max_loc = left if right &amp;lt; max_len and nums[max_loc] &amp;lt; nums[right]: max_loc = right if max_loc != idx: nums[idx], nums[max_loc] = nums[max_loc], nums[idx] adjust_heap(max_loc, max_len,nums)  2.</description>
+    </item>
+    
+  </channel>
+</rss>

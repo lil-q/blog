@@ -1,7 +1,7 @@
 ---
 title: 树
 date: 2019-12-04 21:53:50
-tags: [data-structure]
+tags: [data_structure]
 toc: true
 description: "常见的树结构二叉树二叉搜索树"
 keywords: [tree, BST, 二叉搜索树]

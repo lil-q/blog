@@ -444,8 +444,8 @@ public static void main(String[] args) {
 }
 </code></pre>
 <h4 id="2-破坏双亲委派">2. 破坏双亲委派</h4>
-<p>例如 JNDI 服务，它的代码由启动类加载器来完成加载，但是同时又需要调用**由其他厂商实现并部署在应用程序的 ClassPath 下的 JNDI 服务提供者接口（Service Provider Interface，SPI）**的代码，启动类加载器是无法加载这些代码的。</p>
-<p>为解决这一困境，java 引入了线程上下文加载器（Thread Context ClassLoader）。这个类加载器可以通过<code>java.lang.Thread</code>类的<code>setContextClassLoader() </code>方法设置，如果创建线程时未设置，将会从<code>java.lang.Thread</code>类继承一个，如果全局范围内都没有设置，则默认为应用程序类加载器。</p>
+<p>例如 JNDI 服务，它的代码由启动类加载器来完成加载，但是同时又需要调用由其他厂商实现并部署在应用程序的 ClassPath 下的 JNDI <strong>服务提供者接口</strong>（<strong>S</strong>ervice <strong>P</strong>rovider <strong>I</strong>nterface，<strong>SPI</strong>）的代码，启动类加载器是无法加载这些代码的。</p>
+<p>为解决这一困境，java 引入了<strong>线程上下文加载器</strong>（Thread Context ClassLoader）。这个类加载器可以通过<code>java.lang.Thread</code>类的<code>setContextClassLoader() </code>方法设置，如果创建线程时未设置，将会从<code>java.lang.Thread</code>类继承一个，如果全局范围内都没有设置，则默认为应用程序类加载器。</p>
 <h2 id="五对象创建">五、对象创建<a class="anchor" href="#五对象创建">#</a></h2>
 <h3 id="51-分配内存">5.1 分配内存<a class="anchor" href="#51-分配内存">#</a></h3>
 <p>在类加载检查通过后，接下来虚拟机将为新生对象分配内存。对象所需内存的大小在类加载完成后便<strong>可完全确定</strong>，为对象分配空间的任务实际上便等同于把一块<strong>确定大小的内存块从 Java 堆中划分出来</strong>。</p>

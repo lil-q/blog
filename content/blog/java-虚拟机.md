@@ -502,9 +502,9 @@ public abstract class ClassLoader {
 
 #### 2. 破坏双亲委派
 
-例如 JNDI 服务，它的代码由启动类加载器来完成加载，但是同时又需要调用**由其他厂商实现并部署在应用程序的 ClassPath 下的 JNDI 服务提供者接口（Service Provider Interface，SPI）**的代码，启动类加载器是无法加载这些代码的。
+例如 JNDI 服务，它的代码由启动类加载器来完成加载，但是同时又需要调用由其他厂商实现并部署在应用程序的 ClassPath 下的 JNDI **服务提供者接口**（**S**ervice **P**rovider **I**nterface，**SPI**）的代码，启动类加载器是无法加载这些代码的。
 
-为解决这一困境，java 引入了线程上下文加载器（Thread Context ClassLoader）。这个类加载器可以通过`java.lang.Thread`类的`setContextClassLoader() `方法设置，如果创建线程时未设置，将会从`java.lang.Thread`类继承一个，如果全局范围内都没有设置，则默认为应用程序类加载器。
+为解决这一困境，java 引入了**线程上下文加载器**（Thread Context ClassLoader）。这个类加载器可以通过`java.lang.Thread`类的`setContextClassLoader() `方法设置，如果创建线程时未设置，将会从`java.lang.Thread`类继承一个，如果全局范围内都没有设置，则默认为应用程序类加载器。
 
 ## 五、对象创建
 
