@@ -61,7 +61,7 @@
       "datePublished": "2019-12-04 21:53:50 \u002b0000 UTC",
       "dateModified" : "2019-12-04 21:53:50 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%A0%91-tree\/",
-      "wordCount" : "715",
+      "wordCount" : "758",
       "keywords" : ["tree", "BST", "二叉搜索树", "Blog"]
     }
   
@@ -485,7 +485,10 @@ def postorderTraversalIter(root):
 <p><strong>AVL树</strong>是最早被发明的自平衡二叉查找树。在AVL树中，任一节点对应的两棵子树的最大高度差为1，因此它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下的时间复杂度都是O(log n)。增加和删除元素的操作则可能需要借由一次或多次树旋转，以实现树的重新平衡。</p>
 <p>节点的<strong>平衡因子</strong>是它的左子树的高度减去它的右子树的高度（有时相反）。带有平衡因子1、0或 -1的节点被认为是平衡的。带有平衡因子 -2或2的节点被认为是不平衡的，并需要重新平衡这个树。平衡因子可以直接存储在每个节点中，或从可能存储在节点中的子树高度计算出来。</p>
 <p>AVL树的基本操作一般涉及运作同在不平衡的二叉查找树所运作的同样的算法。但是要进行预先或随后做一次或多次所谓的&quot;AVL旋转&rdquo;。</p>
-<h2 id="七黑红树">七、黑红树<a class="anchor" href="#七黑红树">#</a></h2>
+<h2 id="七红黑树">七、红黑树<a class="anchor" href="#七红黑树">#</a></h2>
+<p>在理解红黑树之前需要对 <strong>2-3-4 树</strong>有一定的了解，2-3-4 树在计算机科学中是阶为 4 的 B 树。大体上同 B 树一样，2-3-4 树是可以用做字典的一种<strong>自平衡</strong>数据结构。它可以在 O(log <em>n</em>) 时间内查找、插入和删除，这里的 <em>n</em> 是树中元素的数目。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/treenew1.png" alt="234tree"></p>
+<p>2-3-4 树在多数编程语言中实现起来相对困难，因为在树上的操作涉及大量的特殊情况。红黑树实现起来更简单一些，所以可以用它来替代。注意上图（叶子节点未画出）中用红点标记的位置，与下图红黑树对比就能大概了解 2-3-4 树转换成红黑树的过程。</p>
 <p><strong>红黑树</strong>是每个节点都带有颜色属性的二叉查找树，颜色为红色或黑色。在二叉查找树强制一般要求以外，对于任何有效的红黑树我们增加了如下的额外要求：</p>
 <ol>
 <li>节点是红色或黑色。</li>
@@ -497,6 +500,10 @@ def postorderTraversalIter(root):
 <p>下面是一个具体的红黑树的图例：</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/675px-Red-black_tree_example.svg.png" alt="rbt"></p>
 <p>操作有变色，左旋，右旋。</p>
+<h3 id="红黑树--平衡二叉树">红黑树 &amp; 平衡二叉树<a class="anchor" href="#红黑树--平衡二叉树">#</a></h3>
+<p>红黑树本质上是 2-3-4 树将 3-节点 和 4-节点又转换成 2-节点后形成的二叉搜索树。3-节点 和 4-节点转换后是不平衡的，这就导致了红黑树并不像平衡二叉树那样严格平衡；不过由于 2-3-4 树本身具备的自平衡特性，红黑树的深度与平衡二叉树的差距并不大。<strong>查询</strong>效率红黑树稍差于平衡二叉树。</p>
+<p>对于<strong>插入</strong>和<strong>删除</strong>操作，不管是红黑树还是平衡二叉树，旋转操作的复杂度都是 O(1) 且两者维护一次平衡最差情况下都需要 O(log n) 的时间复杂度，但是普遍情况下由于红黑树对于平衡的不严格要求，其旋转的次数要少于平衡二叉树，<strong>插入</strong>与<strong>删除</strong>的效率略高于平衡二叉树。</p>
+<p>总体上，红黑树的性能优于平衡二叉树，<strong>其优势本质上是用空间换时间</strong>。</p>
 <h2 id="八树堆">八、树堆<a class="anchor" href="#八树堆">#</a></h2>
 <p><strong>树堆</strong>（Treap）是二叉排序树（Binary Sort Tree）与堆（Heap）结合产生的一种拥有堆性质的二叉排序树。</p>
 <p>但是这里要注意两点，第一点是Treap和二叉堆有一点不同，就是二叉堆必须是完全二叉树，而Treap并不一定是；第二点是Treap并不严格满足平衡二叉排序树（AVL树）的要求，即树堆中每个节点的左右子树高度之差的绝对值可能会超过1，只是近似满足平衡二叉排序树的性质。</p>
@@ -510,6 +517,8 @@ def postorderTraversalIter(root):
 <li><a href="https://zhuanlan.zhihu.com/p/26418233">二叉树怎样序列化才能重建</a></li>
 <li><a href="https://python123.io/index/topics/data_structure/binary_tree">Python 数据结构入门 - 二叉搜索树</a></li>
 <li><a href="https://leetcode-cn.com/problems/implement-trie-prefix-tree/solution/pythonjian-dan-shi-xian-by-powcai/">trie</a></li>
+<li><a href="https://blog.csdn.net/asdfsadfasdfsa/article/details/86500552">2-3-4树到红黑树</a></li>
+<li><a href="https://www.zhihu.com/question/19856999">红黑树比平衡树高效在哪？</a></li>
 </ol>
 
 
@@ -593,7 +602,11 @@ def postorderTraversalIter(root):
     <li><a href="#四字典树">四、字典树</a></li>
     <li><a href="#五b-树--b-树">五、B 树 &amp; B+ 树</a></li>
     <li><a href="#六avl树">六、AVL树</a></li>
-    <li><a href="#七黑红树">七、黑红树</a></li>
+    <li><a href="#七红黑树">七、红黑树</a>
+      <ul>
+        <li><a href="#红黑树--平衡二叉树">红黑树 &amp; 平衡二叉树</a></li>
+      </ul>
+    </li>
     <li><a href="#八树堆">八、树堆</a></li>
     <li><a href="#参考">参考</a></li>
   </ul>
