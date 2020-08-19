@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>design_pattern on Homeward</title>
+    <link>https://lil-q.github.io/tags/design_pattern/</link>
+    <description>Recent content in design_pattern on Homeward</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>© {year}</copyright>
+    <lastBuildDate>Tue, 12 May 2020 23:30:13 +0000</lastBuildDate>
+    
+	<atom:link href="https://lil-q.github.io/tags/design_pattern/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>设计模式-创建型</title>
+      <link>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B/</link>
+      <pubDate>Tue, 12 May 2020 23:30:13 +0000</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B/</guid>
+      <description>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。
+一、单例(Singleton) 单例模式属于创建型设计模式，确保一个类只有一个实例，并提供该实例的全局访问点。
+实现: 使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现。
+1.1 懒汉式——线程不安全 所谓懒汉就是私有静态变量 uniqueInstance 被延迟实例化（lazy loading），这样做的好处是，如果没有用到该类，那么就不会实例化 uniqueInstance，从而节约资源。
+这个实现在多线程环境下是不安全的，如果多个线程能够同时进入 if (uniqueInstance == null) ，并且此时 uniqueInstance == null，那么会有多个线程执行 uniqueInstance = new Singleton(); 语句，这将导致实例化多次 uniqueInstance。
+public class Singleton { private static Singleton uniqueInstance; private Singleton(){} public static Singleton newInstance(){ if(uniqueInstance == null) uniqueInstance = new Singleton(); return uniqueInstance; } }  1.2 懒汉式——线程安全 为了解决线程安全的问题，我们可以直接在newInstance()方法上面直接加上一把synchronized同步锁。那么在一个时间点只能有一个线程能够进入该方法，从而避免了实例化多次 uniqueInstance。
+但是当一个线程进入该方法之后，其它试图进入该方法的线程都必须等待，即使 uniqueInstance 已经被实例化了。这会让线程阻塞时间过长，因此该方法有性能问题，不推荐使用。
+public static synchronized Singleton newInstance(){ if(uniqueInstance == null) uniqueInstance = new Singleton(); return uniqueInstance; }  1.</description>
+    </item>
+    
+  </channel>
+</rss>

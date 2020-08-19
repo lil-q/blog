@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>设计模式-创建型 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.90b5007688d9661bb8a3c179e17156ae3f54efa01088ed1cd0364235af826683.css" integrity="sha256-kLUAdojZZhu4o8F54XFWrj9U76AQiO0c0DZCNa&#43;CZoM="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "设计模式-创建型",
+      "headline" : "设计模式-创建型",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-05-12 23:30:13 \u002b0000 UTC",
+      "dateModified" : "2020-05-12 23:30:13 \u002b0000 UTC",
+      "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B\/",
+      "wordCount" : "645",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">设计模式-创建型</h1>
+            <time datetime="2020-05-12 23:30:13 &#43;0000 UTC" class="post__date">May 12 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<p>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。</p>
+<h2 id="一单例singleton">一、单例(Singleton)<a class="anchor" href="#一单例singleton">#</a></h2>
+<p>单例模式属于创建型设计模式，确保一个类只有一个实例，并提供该实例的全局访问点。</p>
+<p>实现: <strong>使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现</strong>。</p>
+<h3 id="11-懒汉式线程不安全">1.1 懒汉式——线程不安全<a class="anchor" href="#11-懒汉式线程不安全">#</a></h3>
+<p>所谓懒汉就是私有静态变量 <code>uniqueInstance</code> 被延迟实例化（lazy loading），这样做的好处是，如果没有用到该类，那么就不会实例化 <code>uniqueInstance</code>，从而节约资源。</p>
+<p>这个实现在多线程环境下是不安全的，如果多个线程能够同时进入 <code>if (uniqueInstance == null)</code> ，并且此时 <code>uniqueInstance == null</code>，那么会有多个线程执行 <code>uniqueInstance = new Singleton();</code> 语句，这将导致实例化多次 <code>uniqueInstance</code>。</p>
+<pre><code class="language-java">public class Singleton {
+    private static Singleton uniqueInstance;
+
+    private Singleton(){}
+
+    public static Singleton newInstance(){
+        if(uniqueInstance == null)
+            uniqueInstance = new Singleton();
+        return uniqueInstance;
+    }
+}
+</code></pre>
+<h3 id="12-懒汉式线程安全">1.2 懒汉式——线程安全<a class="anchor" href="#12-懒汉式线程安全">#</a></h3>
+<p>为了解决线程安全的问题，我们可以直接在<code>newInstance()</code>方法上面直接加上一把<code>synchronized</code>同步锁。那么在一个时间点只能有一个线程能够进入该方法，从而避免了实例化多次 <code>uniqueInstance</code>。</p>
+<p>但是当一个线程进入该方法之后，其它试图进入该方法的线程都必须等待，即使 <code>uniqueInstance</code> 已经被实例化了。这会让线程阻塞时间过长，因此该方法有性能问题，<strong>不推荐使用</strong>。</p>
+<pre><code class="language-java">public static synchronized Singleton newInstance(){
+    if(uniqueInstance == null)
+        uniqueInstance = new Singleton();
+    return uniqueInstance;
+}
+</code></pre>
+<h3 id="13-饿汉式线程安全">1.3 饿汉式——线程安全<a class="anchor" href="#13-饿汉式线程安全">#</a></h3>
+<p>饿汉式就是 : 采取直接实例化 <code>uniqueInstance</code> 的方式，这样就不会产生线程不安全问题。</p>
+<p>这种方式比较常用，它基于 <strong>classloader 机制</strong>避免了多线程的同步问题，但容易产生垃圾对象(丢失了延迟实例化带来的节约资源的好处)。</p>
+<pre><code class="language-java">public class Singleton {
+    // 急切的创建了uniqueInstance, 所以叫饿汉式
+    private static Singleton uniqueInstance = new Singleton();
+
+    private Singleton(){
+    }
+
+    public static Singleton newInstance(){
+        return uniqueInstance;
+    }
+
+    // 如果我们只是想调用 Singleton.getStr(...)，
+    // 本来是没有必要生成 Singleton 实例的，但是饿汉式已经生成了
+    public static String getStr(String str) {return &quot;hello&quot; + str;}
+}
+</code></pre>
+<h3 id="14-双重校验锁-线程安全">1.4 双重校验锁-线程安全<a class="anchor" href="#14-双重校验锁-线程安全">#</a></h3>
+<p><code>uniqueInstance</code> 只需要被实例化一次，之后就可以直接使用了。<strong>加锁操作只需要对实例化那部分的代码进行</strong>，只有当<code>uniqueInstance</code> 没有被实例化时，才需要进行加锁。</p>
+<p>双重校验锁先判断 <code>uniqueInstance</code>是否已经被实例化，如果没有被实例化，那么才对实例化语句进行加锁。</p>
+<pre><code class="language-java">public class Singleton {
+    // 必须使用 volatile，使用 volatile 可以禁止 JVM 的指令重排，保证在多线程环境下也能正常运行
+    private volatile static Singleton uniqueInstance;
+
+    private Singleton() {}
+
+    public static Singleton newInstance() {
+        if (uniqueInstance == null) {
+            synchronized (Singleton.class) {
+                // 这一次判断也是必须的，不然会有并发问题
+                if (uniqueInstance == null) {
+                    uniqueInstance = new Singleton();
+                }
+            }
+        }
+        return uniqueInstance;
+    }
+}
+</code></pre>
+<p>内层的第二次<code>if (uniqueInstance == null)</code>也是必须的。如果不加，当有两个线程都进入 if 语句块内，虽然在 if 语句块内有加锁操作，但是两个线程都会执行 <code>uniqueInstance = new Singleton()</code>，只是先后的问题。</p>
+<p><code>volatile</code> 关键字修饰也是很有必要的，<strong>使用 volatile 可以禁止 JVM 的指令重排，保证在多线程环境下也能正常运行</strong>。 <code>uniqueInstance = new Singleton();</code> 这段代码其实是分为三步执行：</p>
+<ol>
+<li>为 <code>uniqueInstance</code> 分配内存空间；</li>
+<li>初始化 <code>uniqueInstance</code>；</li>
+<li>将 <code>uniqueInstance</code> 指向分配的内存地址。</li>
+</ol>
+<p>但是由于 JVM 具有<strong>指令重排</strong>的特性，执行顺序有可能变成 <code>1&gt;3&gt;2</code>。指令重排在单线程环境下不会出现问题，但是在多线程环境下会导致一个线程获得还没有初始化的实例。例如，线程 <code>T1</code> 执行了 1 和 3，此时 <code>T2</code> 调用 <code>newInstance()</code> 后发现 <code>uniqueInstance</code> 不为空，因此返回 <code>uniqueInstance</code>，但此时 <code>uniqueInstance</code> 还未被初始化。</p>
+<h3 id="15-静态嵌套类实现">1.5 静态嵌套类实现<a class="anchor" href="#15-静态嵌套类实现">#</a></h3>
+<p>也叫做延迟初始化占位类模式。当 <code>Singleton</code> 类加载时，<strong>静态嵌套类 Holder 没有被加载进内存</strong>。只有当调用 <code>newInstance()</code> 方法从而触发 <code>Holder.uniqueInstance</code> 时 <code>Holder</code> 才会被加载，此时初始化 <code>uniqueInstance</code> 实例，并且 JVM 能确保 <code>uniqueInstance</code><strong>只被实例化一次</strong>。</p>
+<p>这种方式不仅具有延迟初始化的好处，而且由 JVM 提供了对线程安全的支持。</p>
+<pre><code class="language-java">public class Singleton {
+    
+    private Singleton() {}
+
+    private static class Holder {
+        private static final Singleton uniqueInstance = new Singleton();
+    }
+    
+    public static Singleton newInstance() {
+        return Holder.uniqueInstance;
+    }
+}
+</code></pre>
+<h3 id="16-枚举类">1.6 枚举类<a class="anchor" href="#16-枚举类">#</a></h3>
+<p>该实现可以防止反射攻击。在其它实现中，通过 setAccessible() 方法可以将私有构造函数的访问级别设置为 public，然后调用构造函数从而实例化对象，如果要防止这种攻击，需要在构造函数中添加防止多次实例化的代码。该实现是由 JVM 保证只会实例化一次，因此不会出现上述的反射攻击。</p>
+<p>**该实现在多次序列化和序列化之后，不会得到多个实例。**而其它实现需要使用 transient 修饰所有字段，并且实现序列化和反序列化的方法。</p>
+<pre><code class="language-java">public enum Singleton {
+
+    INSTANCE;
+
+    private String objName;
+
+    public String getObjName() {
+        return objName;
+    }
+
+    public void setObjName(String objName) {
+        this.objName = objName;
+    }
+
+    public static void main(String[] args) {
+
+        // 单例测试
+        Singleton firstSingleton = Singleton.INSTANCE;
+        firstSingleton.setObjName(&quot;firstName&quot;);
+        System.out.println(firstSingleton.getObjName());
+        Singleton secondSingleton = Singleton.INSTANCE;
+        secondSingleton.setObjName(&quot;secondName&quot;);
+        System.out.println(firstSingleton.getObjName());
+        System.out.println(secondSingleton.getObjName());
+
+        // 反射获取实例测试
+        try {
+            Singleton[] enumConstants = Singleton.class.getEnumConstants();
+            for (Singleton enumConstant : enumConstants) {
+                System.out.println(enumConstant.getObjName());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}
+</code></pre>
+<pre><code class="language-txt">firstName
+secondName
+secondName
+secondName
+</code></pre>
+<h2 id="二工厂factory">二、工厂(Factory)<a class="anchor" href="#二工厂factory">#</a></h2>
+<p>如果使用<code>new</code>的方式来创建对象的话，<code>new</code>出来的这个对象和当前客户端(调用方)就<strong>耦合</strong>了，也就是说当前客户端(调用方)<strong>依赖着</strong>这个<code>new</code>出来的对象。工厂模式的好处就是<strong>解耦</strong>，这样对后续代码的修改，多方的合作都会带来好处。</p>
+<p>工厂模式可以分成三类：</p>
+<ul>
+<li>简单工厂模式</li>
+<li>工厂方法模式</li>
+<li>抽象工厂模式</li>
+</ul>
+<p>简单工厂模式是在工厂方法模式上<strong>缩减</strong>，抽象工厂模式是在工厂方法模式上再<strong>增强</strong>。</p>
+<h3 id="21-简单工厂simple-factory">2.1 简单工厂(Simple Factory)<a class="anchor" href="#21-简单工厂simple-factory">#</a></h3>
+<p>简单工厂把实例化的操作单独放到一个类中，这个类就成为简单工厂类，让简单工厂类来决定应该用哪个具体子类来实例化。</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>屏蔽产品的具体实现，调用者只关心产品的接口。</li>
+<li>实现简单</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>增加产品，需要修改工厂类，不符合开放-封闭原则</li>
+<li>工厂类集中了所有实例的创建逻辑，违反了高内聚责任分配原则</li>
+</ol>
+<h3 id="22-工厂factory">2.2 工厂(Factory)<a class="anchor" href="#22-工厂factory">#</a></h3>
+<p>定义一个用于创建对象的接口，让子类决定实例化哪个类。工厂方法使一个类的实例化延迟到其子类。</p>
+<p><strong>优点：</strong></p>
+<ol>
+<li>继承了简单工厂模式的优点</li>
+<li>符合开放-封闭原则</li>
+</ol>
+<p><strong>缺点：</strong></p>
+<ol>
+<li>增加产品，需要增加新的工厂类，导致系统类的个数成对增加，在一定程度上增加了系统的复杂性。</li>
+</ol>
+<h3 id="23-抽象工厂abstract-factory">2.3 抽象工厂(Abstract Factory)<a class="anchor" href="#23-抽象工厂abstract-factory">#</a></h3>
+<p>为创建一组相关或相互依赖的对象提供一个接口，而且无需指定它们的具体类。</p>
+<p>抽象工厂模式创建的是<strong>对象家族</strong>，也就是很多对象而不是一个对象，并且这些对象是相关的，也就是说必须一起创建出来。而工厂方法模式只是用于创建一个对象，这和抽象工厂模式有很大不同。</p>
+<p><strong>优点</strong>：</p>
+<ul>
+<li>多了一层抽象，减少了工厂的数量。</li>
+</ul>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>难以扩展<strong>产品族</strong>。</li>
+</ul>
+<h2 id="三建造者builder">三、建造者(Builder)<a class="anchor" href="#三建造者builder">#</a></h2>
+<p>建造者模式与抽象工厂模式有点相似，但是建造者模式返回一个完整的复杂产品，而抽象工厂模式返回一系列相关的产品；在抽象工厂模式中，客户端通过选择具体工厂来生成所需对象，而在建造者模式中，客户端通过指定具体建造者类型并指导Director类如何去生成对象，<strong>侧重于一步步构造一个复杂对象</strong>，然后将结果返回。如果将抽象工厂模式看成一个汽车配件生产厂，生成不同类型的汽车配件，那么建造者模式就是一个汽车组装厂，通过对配件进行组装返回一辆完整的汽车。</p>
+<p>一个很常用的 Builder 就是 <code>StringBuilder()</code>：</p>
+<pre><code class="language-java">public class AbstractStringBuilder {
+    protected char[] value;
+
+    protected int count;
+
+    public AbstractStringBuilder(int capacity) {
+        count = 0;
+        value = new char[capacity];
+    }
+
+    public AbstractStringBuilder append(char c) {
+        ensureCapacityInternal(count + 1);
+        value[count++] = c;
+        return this;
+    }
+
+    private void ensureCapacityInternal(int minimumCapacity) {
+        // overflow-conscious code
+        if (minimumCapacity - value.length &gt; 0)
+            expandCapacity(minimumCapacity);
+    }
+
+    void expandCapacity(int minimumCapacity) {
+        int newCapacity = value.length * 2 + 2;
+        if (newCapacity - minimumCapacity &lt; 0)
+            newCapacity = minimumCapacity;
+        if (newCapacity &lt; 0) {
+            if (minimumCapacity &lt; 0) // overflow
+                throw new OutOfMemoryError();
+            newCapacity = Integer.MAX_VALUE;
+        }
+        value = Arrays.copyOf(value, newCapacity);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class StringBuilder extends AbstractStringBuilder {
+    public StringBuilder() {
+        super(16);
+    }
+
+    @Override
+    public String toString() {
+        // Create a copy, don't share the array
+        return new String(value, 0, count);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Client {
+    public static void main(String[] args) {
+        StringBuilder sb = new StringBuilder();
+        final int count = 26;
+        for (int i = 0; i &lt; count; i++) {
+            sb.append((char) ('a' + i));
+        }
+        System.out.println(sb.toString());
+    }
+}
+</code></pre>
+<h2 id="四原型prototype">四、原型(Prototype)<a class="anchor" href="#四原型prototype">#</a></h2>
+<p>原型模式要求对象实现一个可以“克隆”自身的接口，这样就可以<strong>通过复制一个实例对象本身来创建一个新的实例</strong>。这样一来，通过原型实例创建新的对象，就不再需要关心这个实例本身的类型，只要实现了克隆自身的方法，就可以通过这个方法来获取新的对象，而无须再去通过new来创建。</p>
+<pre><code class="language-java">public abstract class Prototype {
+    abstract Prototype myClone();
+}
+</code></pre>
+<pre><code class="language-java">public class ConcretePrototype extends Prototype {
+
+    private String filed;
+
+    public ConcretePrototype(String filed) {
+        this.filed = filed;
+    }
+
+    @Override
+    Prototype myClone() {
+        return new ConcretePrototype(filed);
+    }
+
+    @Override
+    public String toString() {
+        return filed;
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Client {
+    public static void main(String[] args) {
+        Prototype prototype = new ConcretePrototype(&quot;abc&quot;);
+        Prototype clone = prototype.myClone();
+        System.out.println(clone.toString());
+    }
+}
+</code></pre>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol start="2">
+<li><a href="https://blog.csdn.net/iispring/article/details/46490319">Java中的嵌套类、内部类、静态内部类</a></li>
+<li><a href="https://www.zhihu.com/question/27125796">工厂模式</a></li>
+<li><a href="https://www.jianshu.com/p/4dcc723b676e">建造者模式</a></li>
+</ol>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/design_pattern/">design_pattern</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">操作系统</span>
+    </a>
+  
+
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/java-%E8%99%9A%E6%8B%9F%E6%9C%BA/">
+      <span class="pagination__label">Next Post</span>
+      <span class="pagination__title" >java-虚拟机</a>
+    </a>
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>© 2020</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一单例singleton">一、单例(Singleton)</a>
+      <ul>
+        <li><a href="#11-懒汉式线程不安全">1.1 懒汉式——线程不安全</a></li>
+        <li><a href="#12-懒汉式线程安全">1.2 懒汉式——线程安全</a></li>
+        <li><a href="#13-饿汉式线程安全">1.3 饿汉式——线程安全</a></li>
+        <li><a href="#14-双重校验锁-线程安全">1.4 双重校验锁-线程安全</a></li>
+        <li><a href="#15-静态嵌套类实现">1.5 静态嵌套类实现</a></li>
+        <li><a href="#16-枚举类">1.6 枚举类</a></li>
+      </ul>
+    </li>
+    <li><a href="#二工厂factory">二、工厂(Factory)</a>
+      <ul>
+        <li><a href="#21-简单工厂simple-factory">2.1 简单工厂(Simple Factory)</a></li>
+        <li><a href="#22-工厂factory">2.2 工厂(Factory)</a></li>
+        <li><a href="#23-抽象工厂abstract-factory">2.3 抽象工厂(Abstract Factory)</a></li>
+      </ul>
+    </li>
+    <li><a href="#三建造者builder">三、建造者(Builder)</a></li>
+    <li><a href="#四原型prototype">四、原型(Prototype)</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>
