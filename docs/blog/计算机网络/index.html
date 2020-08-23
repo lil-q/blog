@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "594",
+      "wordCount" : "652",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -148,11 +148,22 @@
 <h4 id="4-体系结构">4. 体系结构</h4>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web3.png"  /></p>
 <ul>
-<li><strong>应用层</strong> ：为特定应用程序提供数据传输服务，例如 HTTP、DNS 等协议。数据单位为报文。</li>
-<li><strong>传输层</strong> ：为进程提供通用数据传输服务。由于应用层协议很多，定义通用的传输层协议就可以支持不断增多的应用层协议。运输层包括两种协议：传输控制协议 TCP，提供面向连接、可靠的数据传输服务，数据单位为报文段；用户数据报协议 UDP，提供无连接、尽最大努力的数据传输服务，数据单位为用户数据报。TCP 主要提供完整性服务，UDP 主要提供及时性服务。</li>
-<li><strong>网络层</strong> ：为主机提供数据传输服务。而传输层协议是为主机中的进程提供数据传输服务。网络层把传输层传递下来的报文段或者用户数据报封装成分组。</li>
-<li><strong>数据链路层</strong> ：网络层针对的还是主机之间的数据传输服务，而主机之间可以有很多链路，链路层协议就是为同一链路的主机提供数据传输服务。数据链路层把网络层传下来的分组封装成帧。</li>
-<li><strong>物理层</strong> ：考虑的是怎样在传输媒体上传输数据比特流，而不是指具体的传输媒体。物理层的作用是尽可能屏蔽传输媒体和通信手段的差异，使数据链路层感觉不到这些差异。</li>
+<li>
+<p><strong>应用层</strong> ：为特定<strong>应用程序</strong>提供数据传输服务，例如 HTTP、DNS 等协议。数据单位为报文。</p>
+</li>
+<li>
+<p><strong>传输层</strong> ：为<strong>进程</strong>提供<strong>通用的</strong>数据传输服务。由于应用层协议很多，定义通用的传输层协议就可以支持不断增多的应用层协议。运输层包括两种协议：<strong>传输控制协议 TCP</strong>，提供面向连接、可靠的数据传输服务，数据单位为报文段；<strong>用户数据报协议 UDP</strong>，提供无连接、尽最大努力的数据传输服务，数据单位为用户数据报。TCP 主要提供完整性服务，UDP 主要提供及时性服务。</p>
+<p>以上为<strong>端到端</strong>，以下为<strong>点到点</strong>：</p>
+</li>
+<li>
+<p><strong>网络层</strong> ：为<strong>主机</strong>提供数据传输服务。而传输层协议是为主机中的进程提供数据传输服务。网络层把传输层传递下来的报文段或者用户数据报封装成<strong>分组</strong>。</p>
+</li>
+<li>
+<p><strong>数据链路层</strong> ：网络层针对的还是主机之间的数据传输服务，而主机之间可以有很多链路，链路层协议就是为同一链路的主机提供数据传输服务。数据链路层把网络层传下来的分组<strong>封装成帧</strong>。</p>
+</li>
+<li>
+<p><strong>物理层</strong> ：考虑如何在传输媒体上传输数据比特流，而不是指具体的传输媒体。物理层的作用是尽可能屏蔽传输媒体和通信手段的差异，使数据链路层感觉不到这些差异。</p>
+</li>
 </ul>
 <p><strong>（1）协议</strong></p>
 <p>为进行网络中的数据交换而建立的规则、标准或约定称为网络协议。</p>
@@ -250,10 +261,10 @@
 <h2 id="四传输层">四、传输层<a class="anchor" href="#四传输层">#</a></h2>
 <p><strong>UDP 和 TCP 的特点</strong></p>
 <ul>
-<li>用户数据报协议 UDP（User Datagram Protocol）是<strong>无连接</strong>的，尽<strong>最大可能</strong>交付，<strong>没有拥塞控制</strong>，<strong>面向报文</strong>（对于应用程序传下来的报文<strong>不合并也不拆分</strong>，只是添加 UDP 首部），支持<strong>一对一</strong>、<strong>一对多</strong>、<strong>多对一</strong>和<strong>多对多</strong>的交互通信。</li>
-<li>传输控制协议 TCP（Transmission Control Protocol）是<strong>面向连接</strong>的，提供<strong>可靠</strong>交付，有<strong>流量控制</strong>，<strong>拥塞控制</strong>，提供<strong>全双工通信</strong>，<strong>面向字节流</strong>（把应用层传下来的报文看成字节流，把字节流<strong>组织成大小不等的数据块</strong>），每一条 TCP 连接只能是<strong>点对点</strong>的（一对一）。</li>
+<li><strong>用户数据报协议</strong>（<strong>U</strong>ser <strong>D</strong>atagram <strong>P</strong>rotocol，<strong>UDP</strong>）是<strong>无连接</strong>的，尽<strong>最大可能</strong>交付，<strong>没有拥塞控制</strong>，<strong>面向报文</strong>（对于应用程序传下来的报文<strong>不合并也不拆分</strong>，只是添加 UDP 首部），支持<strong>一对一</strong>、<strong>一对多</strong>、<strong>多对一</strong>和<strong>多对多</strong>的交互通信。</li>
+<li><strong>传输控制协议</strong>（<strong>T</strong>ransmission <strong>C</strong>ontrol <strong>P</strong>rotocol，<strong>TCP</strong>）是<strong>面向连接</strong>的，提供<strong>可靠</strong>交付，有<strong>流量控制</strong>，<strong>拥塞控制</strong>，提供<strong>全双工通信</strong>，<strong>面向字节流</strong>（把应用层传下来的报文看成字节流，把字节流<strong>组织成大小不等的数据块</strong>），每一条 TCP 连接只能是<strong>点对点</strong>的（一对一）。</li>
 </ul>
-<h3 id="41-tcp三次握手">4.1 TCP三次握手<a class="anchor" href="#41-tcp三次握手">#</a></h3>
+<h3 id="41-tcp-三次握手">4.1 TCP 三次握手<a class="anchor" href="#41-tcp-三次握手">#</a></h3>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web6.png" alt=""></p>
 <ul>
 <li>首先服务器处于 LISTEN（监听）状态，等待客户的连接请求。</li>
@@ -265,7 +276,7 @@
 <p><strong>三次握手的原因</strong></p>
 <p>第三次握手是为了防止失效的连接请求到达服务器，让服务器<strong>错误打开重复连接</strong>。</p>
 <p>客户端发送的连接请求如果在网络中滞留，那么就会隔很长一段时间才能收到服务器端发回的连接确认。客户端等待一个超时重传时间之后，就会重新请求连接。但是这个滞留的连接请求最后还是会到达服务器，如果不进行三次握手，那么服务器就会打开两个连接。如果有第三次握手，客户端会忽略服务器之后发送的对滞留连接请求的连接确认，不进行第三次握手，因此就不会再次打开连接。</p>
-<h3 id="42-tcp-的四次挥手">4.2 TCP 的四次挥手<a class="anchor" href="#42-tcp-的四次挥手">#</a></h3>
+<h3 id="42-tcp-四次挥手">4.2 TCP 四次挥手<a class="anchor" href="#42-tcp-四次挥手">#</a></h3>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web7.png" alt=""></p>
 <p>序号和确认号的规则比较简单； ACK 在连接建立之后都为 1。</p>
 <ul>
@@ -283,25 +294,51 @@
 <li>确保最后一个确认报文能够到达。如果服务器没收到客户端发送来的确认报文，那么就会重新发送连接释放请求报文，客户端等待一段时间就是为了处理这种情况的发生。</li>
 <li>等待一段时间是为了让本连接持续时间内所产生的所有报文都从网络中消失，使得下一个新的连接不会出现旧的连接请求报文。</li>
 </ul>
-<h3 id="43-tcp-流量控制">4.3 TCP 流量控制<a class="anchor" href="#43-tcp-流量控制">#</a></h3>
-<p>流量控制是为了控制发送方发送速率，保证接收方来得及接收。</p>
-<p>接收方发送的确认报文中的窗口字段可以用来控制发送方窗口大小，从而影响发送方的发送速率。将窗口字段设置为 0，则发送方不能发送数据。</p>
-<h3 id="44-tcp-拥塞控制">4.4 TCP 拥塞控制<a class="anchor" href="#44-tcp-拥塞控制">#</a></h3>
-<p>如果网络出现拥塞，分组将会丢失，此时发送方会继续重传，从而导致网络拥塞程度更高。因此当出现拥塞时，应当控制发送方的速率。这一点和流量控制很像，但是出发点不同。流量控制是为了让接收方能来得及接收，而拥塞控制是为了降低整个网络的拥塞程度。</p>
-<p>TCP 主要通过四个算法来进行拥塞控制：慢开始、拥塞避免、快重传、快恢复。</p>
-<p>发送方需要维护一个叫做拥塞窗口（cwnd）的状态变量，注意拥塞窗口与发送方窗口的区别：拥塞窗口只是一个状态变量，实际决定发送方能发送多少数据的是发送方窗口。</p>
-<h4 id="1-慢开始">1. 慢开始</h4>
+<h3 id="43-tcp-流量控制--拥塞控制">4.3 TCP 流量控制 &amp; 拥塞控制<a class="anchor" href="#43-tcp-流量控制--拥塞控制">#</a></h3>
+<p><strong>流量控制</strong>和<strong>拥塞控制</strong>共同决定了发送的速率，<code>发送窗口 = min(拥塞窗口，接收窗口)</code>。</p>
+<h4 id="1-流量控制">1. 流量控制</h4>
+<p><strong>点对点</strong>通信量的控制，流量控制要做的是抑制发送端发送数据的速率，以便使接收端来得及接收 。</p>
+<p><strong>发送窗口</strong>（swnd）和<strong>接收窗口</strong>（rwnd）中所存放的字节数都放在操作系统内存缓冲区中，操作系统缓冲区的调整能影响窗口的大小。TCP 通过让接收方指明希望从发送方接收的数据大小（窗口大小）来进行流量控制。如果窗口大小为 0 时，就会阻止发送方给接收方传递数据，直到窗口变为非 0 为止，这段时间<strong>窗口关闭</strong>。</p>
+<p>窗口关闭是存在潜在风险的：接收方处理完数据后，会向发送方通告一个窗口非 0 的 ACK 报文，如果这个通告窗口的 ACK 报文在网络中丢失，就会导致发送方一直等待接收方的非 0 窗口通知，接收方也一直等待发送方的数据，如不采取措施，就会形成相互等待的<strong>死锁</strong>。</p>
+<p>为了解决死锁问题，TCP 为每个连接设置一个<strong>持续定时器</strong>，只要 TCP 连接一方收到对方的零窗口通知，就启动持续计时器。如果持续计时器超时，就会发送<strong>窗口探测（Window probe）报文</strong>，而对方在收到这个探测报文后，给出当时的接收窗口大小：</p>
+<ul>
+<li>接收窗口不为 0，死锁的局面就被打破了；</li>
+<li>接收窗口仍然为 0，那么收到这个报文的一方会重新启动持续计时器；</li>
+<li>接受窗口连续三次为 0，TCP 实现可能会发 <code>RST</code> 报文来中断连接。</li>
+</ul>
+<h4 id="2-拥塞控制">2. 拥塞控制</h4>
+<p>作用于<strong>网络</strong>，它是防止过多的数据注入到网络中，避免出现网络负载过大的情况。拥塞控制是一个<strong>全局性</strong>的过程，涉及到所有的主机、路由器，以及与降低网络传输性能有关的所有因素。</p>
+<p>如果网络出现拥塞，分组将会丢失，此时发送方会继续重传，从而导致网络拥塞程度更高。因此当出现拥塞时，应当控制发送方的速率。这一点和流量控制很像，但是出发点不同。流量控制是为了让<strong>接收方能来得及接收</strong>，而拥塞控制是为了<strong>降低整个网络的拥塞程度</strong>。</p>
+<p>发送方需要维护一个叫做<strong>拥塞窗口</strong>（cwnd）的状态变量，TCP 主要通过四个算法来进行拥塞控制：慢开始、拥塞避免、快重传、快恢复。</p>
+<p><strong>（1）慢开始</strong></p>
 <p>发送的最初执行慢开始，令 cwnd = 1，发送方只能发送 1 个报文段；当收到确认后，将 cwnd 加倍，因此之后发送方能够发送的报文段数量为：2、4、8 &hellip;</p>
-<h4 id="2-拥塞避免">2. 拥塞避免</h4>
-<p>注意到慢开始每个轮次都将 cwnd 加倍，这样会让 cwnd 增长速度非常快，从而使得发送方发送的速度增长速度过快，网络拥塞的可能性也就更高。设置一个慢开始门限 ssthresh，当 cwnd &gt;= ssthresh 时，进入拥塞避免，每个轮次只将 cwnd 加 1。</p>
+<p><strong>（2）拥塞避免</strong></p>
+<p>注意到慢开始每个轮次都将 cwnd 加倍，这样会让 cwnd 增长速度非常快，从而使得发送方发送的速度增长速度过快，网络拥塞的可能性也就更高。设置一个慢开始门限（<strong>s</strong>low <strong>s</strong>tart <strong>thresh</strong>old，<strong>ssthresh</strong>），当 cwnd &gt;= ssthresh 时，进入拥塞避免，每个轮次只将 cwnd 加 1。</p>
 <p>如果出现了超时，则令 ssthresh = cwnd / 2，然后重新执行慢开始。</p>
-<h4 id="3-快重传">3. 快重传</h4>
-<p>在接收方，要求每次接收到报文段都应该对最后一个已收到的有序报文段进行确认。例如已经接收到 M1 和 M2，此时收到 M4，应当发送对 M2 的确认。</p>
-<p>在发送方，如果收到三个重复确认，那么可以知道下一个报文段丢失，此时执行快重传，立即重传下一个报文段。例如收到三个 M2，则 M3 丢失，立即重传 M3。</p>
-<h4 id="4-快恢复">4. 快恢复</h4>
-<p>在这种情况下，只是丢失个别报文段，而不是网络拥塞。因此执行快恢复，令 ssthresh = cwnd / 2 ，cwnd = ssthresh，注意到此时直接进入拥塞避免。</p>
-<p>慢开始和快恢复的快慢指的是 cwnd 的设定值，而不是 cwnd 的增长速率。慢开始 cwnd 设定为 1，而快恢复 cwnd 设定为 ssthresh。</p>
-<h3 id="45-mtu--mss">4.5 MTU &amp; MSS<a class="anchor" href="#45-mtu--mss">#</a></h3>
+<p><strong>（3）快重传</strong></p>
+<p>当网络出现拥塞，就会发生数据包重传，重传机制主要有两种：<strong>超时重传</strong>和<strong>快速重传</strong>。</p>
+<p><strong>超时重传</strong></p>
+<p>重新慢开始（会造成网络卡顿）：</p>
+<ul>
+<li><code>ssthresh = cwnd/2</code></li>
+<li><code>cwnd = 1</code></li>
+</ul>
+<p><strong>快速重传</strong></p>
+<p>在接收方，要求每次接收到报文段都应该对最后一个已收到的有序报文段进行确认。例如已经接收到 M1 和 M2，此时收到 M4，应当发送对 M2 的确认。在发送方，如果收到<strong>三个重复确认</strong>，那么可以知道下一个报文段丢失，此时执行快重传，立即重传下一个报文段。例如收到三个 M2，则 M3 丢失，立即重传 M3，之后：</p>
+<ul>
+<li><code>cwnd = cwnd/2</code></li>
+<li><code>ssthresh = cwnd</code></li>
+<li>进入快速恢复算法</li>
+</ul>
+<p><strong>（4）快恢复</strong></p>
+<p>快速重传和快速恢复算法一般同时使用，在<code>cwnd = cwnd/2</code> &amp;  <code>ssthresh = cwnd</code>之后：</p>
+<ul>
+<li>拥塞窗口 <code>cwnd = ssthresh + n</code> （ 确认有 n 个数据包已接受）</li>
+<li>重传丢失的数据包</li>
+<li>如果再收到重复的 ACK，那么 cwnd 增加 1</li>
+<li>如果收到新数据的 ACK 后，设置 cwnd 为 ssthresh，接着就进入了拥塞避免算法</li>
+</ul>
+<h3 id="44-mtu--mss">4.4 MTU &amp; MSS<a class="anchor" href="#44-mtu--mss">#</a></h3>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/webnew1.png" alt="mssmtu"></p>
 <p><strong>最大传输单元</strong>（<strong>M</strong>aximum <strong>T</strong>ransmission <strong>U</strong>nit，<strong>MTU</strong>）：在 TCP/IP 协议族中，指的是 <strong>IP 数据报</strong>能经过一个<strong>物理网络</strong>的最大报文长度，其中包括了 IP 首部(从 20 个字节到 60 个字节不等)，一般以太网的 MTU 设为 1500 bytes，如果数据大于 1500 bytes，需要分片才能完成发送，这些分片有一个共同点，即 IP Header ID 相同。</p>
 <p><strong>最大报文段大小</strong>（<strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize，<strong>MSS</strong>）：指的是 <strong>TCP</strong> 提交给 <strong>IP 层</strong>的最大数据报长度，其中不包括 TCP 首部长度。<strong>MSS 由 TCP 链接的过程中由双方协商得出</strong>（取较小值），其中 SYN 字段中的选项部分包括了这个信息。如果 MSS + TCP 首部 + IP 首部大于 MTU，那么 IP 报文就会分片，如果小于，那么就可以不需要分片正常发送。</p>
@@ -331,6 +368,7 @@
 <li><a href="https://www.imperva.com/blog/mtu-mss-explained/">MTU &amp; MSS</a></li>
 <li><a href="https://www.zhihu.com/question/68641339">关于分片</a></li>
 <li><a href="https://segmentfault.com/a/1190000013712747">sokect通信原理</a></li>
+<li><a href="https://www.nowcoder.com/discuss/414727?type=all&amp;order=time&amp;pos=&amp;page=1&amp;channel=1013&amp;source_id=search_all">图解TCP 重传、滑动窗口、流量控制、拥塞控制</a></li>
 </ol>
 
 
@@ -427,11 +465,10 @@
     </li>
     <li><a href="#四传输层">四、传输层</a>
       <ul>
-        <li><a href="#41-tcp三次握手">4.1 TCP三次握手</a></li>
-        <li><a href="#42-tcp-的四次挥手">4.2 TCP 的四次挥手</a></li>
-        <li><a href="#43-tcp-流量控制">4.3 TCP 流量控制</a></li>
-        <li><a href="#44-tcp-拥塞控制">4.4 TCP 拥塞控制</a></li>
-        <li><a href="#45-mtu--mss">4.5 MTU &amp; MSS</a></li>
+        <li><a href="#41-tcp-三次握手">4.1 TCP 三次握手</a></li>
+        <li><a href="#42-tcp-四次挥手">4.2 TCP 四次挥手</a></li>
+        <li><a href="#43-tcp-流量控制--拥塞控制">4.3 TCP 流量控制 &amp; 拥塞控制</a></li>
+        <li><a href="#44-mtu--mss">4.4 MTU &amp; MSS</a></li>
       </ul>
     </li>
     <li><a href="#五应用层">五、应用层</a>
