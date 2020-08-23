@@ -6,7 +6,7 @@
     <description>Recent content in Pictures on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>© {year}</copyright>
+    <copyright>{year} © lil-q</copyright>
     <lastBuildDate>Wed, 10 Jun 2020 10:59:27 +0800</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/picture/index.xml" rel="self" type="application/rss+xml" />

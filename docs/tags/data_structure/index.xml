@@ -6,7 +6,7 @@
     <description>Recent content in data_structure on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>© {year}</copyright>
+    <copyright>{year} © lil-q</copyright>
     <lastBuildDate>Thu, 02 Jan 2020 12:54:02 +0000</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/tags/data_structure/index.xml" rel="self" type="application/rss+xml" />

@@ -6,7 +6,7 @@
     <description>Recent content in algorithm on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>© {year}</copyright>
+    <copyright>{year} © lil-q</copyright>
     <lastBuildDate>Fri, 01 May 2020 14:51:08 +0000</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/tags/algorithm/index.xml" rel="self" type="application/rss+xml" />

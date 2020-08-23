@@ -7,7 +7,7 @@ theme = "hugo-theme-codex"
 title = "Homeward"
 languageCode = "en-us"
 baseURL = "https://lil-q.github.io/"
-copyright = "© {year}"
+copyright = "{year} © lil-q"
 
 # Add your Disqus shortname here.
 # disqusShortname = ""
