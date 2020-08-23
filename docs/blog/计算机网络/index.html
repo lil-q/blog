@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "572",
+      "wordCount" : "603",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -320,11 +320,17 @@
 <p><strong>数字证书认证机构</strong>（<strong>C</strong>ertificate <strong>A</strong>uthority，<strong>CA</strong>）是负责发放和管理<strong>数字证书</strong>的权威机构</p>
 </blockquote>
 <h3 id="52-socket">5.2 socket<a class="anchor" href="#52-socket">#</a></h3>
+<p><strong>Socket</strong> 是在应用层和传输层之间的一个<strong>抽象层</strong>，它把 TCP/IP 层复杂的操作抽象为几个简单的接口，供应用层调用实现进程在网络中的通信。Socket 起源于 UNIX，在 UNIX 一切皆文件的思想下，进程间通信就被冠名为<code>文件描述符（file descriptor）</code>，Socket 是一种<strong>打开—读/写—关闭</strong>模式的实现，服务器和客户端各自维护一个文件，在建立连接打开后，可以向文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/webnew2.png" alt="socket" style="zoom:125%;" /></p>
+<p>TCP/IP 只是一个协议栈，就像操作系统的运行机制一样，必须要具体实现，同时还要提供对外的操作接口。就像操作系统会提供标准的编程接口，比如 Win32 编程接口一样，TCP/IP 也必须对外提供编程接口，这就是 Socket。</p>
+<p>Socket 跟 TCP/IP 并没有必然的联系。Socket 编程接口在设计的时候，就希望也能适应其他的网络协议。所以，Socket 的出现只是可以更方便的使用 TCP/IP 协议栈而已，其对 TCP/IP 进行了抽象，形成了几个最基本的函数接口。比如 create，listen，accept，connect，read 和 write 等。不同语言都有对应的建立Socket服务端和客户端的库。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/webnew3.png" alt="s2"></p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
 <li><a href="https://blog.csdn.net/cream66/article/details/104920732?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param">网站访问全过程</a></li>
 <li><a href="https://www.imperva.com/blog/mtu-mss-explained/">MTU &amp; MSS</a></li>
 <li><a href="https://www.zhihu.com/question/68641339">关于分片</a></li>
+<li><a href="https://segmentfault.com/a/1190000013712747">sokect通信原理</a></li>
 </ol>
 
 
