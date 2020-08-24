@@ -61,7 +61,7 @@
       "datePublished": "2020-05-10 00:08:33 \u002b0000 UTC",
       "dateModified" : "2020-05-10 00:08:33 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F\/",
-      "wordCount" : "463",
+      "wordCount" : "462",
       "keywords" : ["operating system", "Blog"]
     }
   
@@ -136,7 +136,7 @@
 <h4 id="4-异步">4. 异步</h4>
 <p>异步指进程不是一次性执行完毕，而是走走停停，以不可知的速度向前推进。</p>
 <h3 id="12-主要功能">1.2 主要功能<a class="anchor" href="#12-主要功能">#</a></h3>
-<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/os/os1.png"  /></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/os/os1.png" style="zoom:150%;" /></p>
 <h4 id="1-进程管理">1. 进程管理</h4>
 <p>处理机的分配和运行都是以进程为基本单位。</p>
 <ol>
@@ -221,8 +221,7 @@
 <li>同步：多个进程因为合作产生的直接制约关系，使得进程有一定的先后执行关系。</li>
 <li>互斥：多个进程在同一时刻只有一个进程能进入临界区。</li>
 </ul>
-<p><strong>临界区</strong></p>
-<p>对临界资源进行访问的那段代码称为临界区。</p>
+<p><strong>临界区</strong>：对临界资源进行访问的那段代码称为临界区。</p>
 <p>为了互斥访问临界资源，每个进程在进入临界区之前，需要先进行检查。</p>
 <pre><code class="language-java">// 临界区伪代码
 entry section        
