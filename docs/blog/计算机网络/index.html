@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "652",
+      "wordCount" : "661",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -240,7 +240,8 @@
 <p>如果主机 A 知道主机 B 的 IP 地址，但是 ARP 高速缓存中没有该 IP 地址到 MAC 地址的映射，此时主机 A 通过<strong>广播</strong>的方式发送 ARP 请求分组，主机 B 收到该请求后会发送 ARP 响应分组给主机 A 告知其 MAC 地址，随后主机 A 向其高速缓存中写入主机 B 的 IP 地址到 MAC 地址的映射。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web5.png" alt=""></p>
 <h3 id="33-网际控制报文协议-icmp">3.3 网际控制报文协议 ICMP<a class="anchor" href="#33-网际控制报文协议-icmp">#</a></h3>
-<p>ICMP 是为了更有效地转发 IP 数据报和提高交付成功的机会。它封装在 IP 数据报中，但是不属于高层协议。</p>
+<p><strong>ICMP</strong>（<strong>I</strong>nternet <strong>C</strong>ontrol <strong>M</strong>essage <strong>P</strong>rotocol) 是为了更有效地转发 IP 数据报和提高交付成功的机会。它封装在 IP 数据报中，但是不属于高层协议。</p>
+<p>ICMP 是 TCP/IP 协议族的一个子协议，用于在 IP 主机，路由器之间传递控制消息，控制消息是指网络通不通、主机是否可达、路由器是否可用等网络本身的消息。</p>
 <h3 id="34-虚拟专用网vpn">3.4 虚拟专用网VPN<a class="anchor" href="#34-虚拟专用网vpn">#</a></h3>
 <p>由于 IP 地址的紧缺，一个机构能申请到的 IP 地址数往往远小于本机构所拥有的主机数。并且一个机构并不需要把所有的主机接入到外部的互联网中，机构内的计算机可以使用仅在本机构有效的 IP 地址（专用地址）。</p>
 <p>VPN 使用公用的互联网作为本机构各专用网之间的通信载体。专用指机构内的主机只与本机构内的其它主机通信；虚拟指实际上并不是物理上的专用网，而是经过公用的互联网并加密实现的。</p>
