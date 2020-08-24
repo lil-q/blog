@@ -31,9 +31,9 @@
 一、概述 超文本传输协议（HTTP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。HTTP是万维网的数据通信的基础。
 表现层状态转换（REST）本身并没有创造新的技术、组件或服务，而隐藏在 RESTful 背后的理念就是使用 Web 的现有特征和能力， 更好地使用现有 Web 标准中的一些准则和约束。虽然 REST 本身受 Web 技术的影响很深， 但是理论上 REST 架构风格并不是绑定在 HTTP 上，只不过目前 HTTP 是唯一与 REST 相关的实例。
 1.1 URI 统一资源标识符（Uniform Resource Identifier，URI）是一个用于标识某一互联网资源名称的字符串。URI的最常见的形式是统一资源定位符（Uniform Resource Locator，URL），经常指定为非正式的网址。更罕见的用法是统一资源名称（Uniform Resource Name，URN），其目的是通过提供一种途径。用于在特定的名字空间资源的标识，以补充网址。在RESTful架构中 URI 不应该有动词，动词应该放在HTTP协议中。
-“资源”是一种信息实体，它可以有多种外在表现形式。“资源”具体呈现出来的形式，叫做它的&amp;quot;表现层&amp;rdquo;（Representation）。URI只代表资源的实体，不代表它的形式。严格地说，有些网址最后的 &amp;ldquo;.html&amp;rdquo; 后缀名是不必要的，因为这个后缀名表示格式，属于&amp;quot;表现层&amp;quot;范畴，而 URI 应该只代表&amp;quot;资源&amp;quot;的位置。它的具体表现形式，应该在 HTTP 请求的头信息中用 Accept 和 Content-Type 字段指定，这两个字段才是对&amp;quot;表现层&amp;quot;的描述。
+资源是一种信息实体，它可以有多种外在表现形式。“资源”具体呈现出来的形式，叫做它的&amp;quot;表现层&amp;rdquo;（Representation）。URI只代表资源的实体，不代表它的形式。严格地说，有些网址最后的 &amp;ldquo;.html&amp;rdquo; 后缀名是不必要的，因为这个后缀名表示格式，属于&amp;quot;表现层&amp;quot;范畴，而 URI 应该只代表&amp;quot;资源&amp;quot;的位置。它的具体表现形式，应该在 HTTP 请求的头信息中用 Accept 和 Content-Type 字段指定，这两个字段才是对&amp;quot;表现层&amp;quot;的描述。
 因为不同的版本，可以理解成同一种资源的不同表现形式，所以应该采用同一个 URI。版本号可以在 HTTP 请求头信息的 Accept 字段中进行区分（参见Versioning REST Services）：
-1.2 如何理解 RESTful REST 本身受 Web 技术的影响很深，可以借助 WEB 来理解 RESTful。网站是采用客户端/服务器模式，建立在分布式体系上，通过互联网通信，具有高延时（high latency）、高并发等特点的一种软件。简单来说 REST 就是是用名词（URL） 表示资源，用动词（GET用来获取资源，POST用来新建资源（也可以用于更新资源），PUT用来更新资源，DELETE用来删除资源）操作表示对资源状态的转换。比如在使用 spring boot 实现一个 WEB 应用时：</description>
+1.2 如何理解 RESTful REST 本身受 Web 技术的影响很深，可以借助 WEB 来理解 RESTful。网站是采用客户端/服务器模式，建立在分布式体系上，通过互联网通信，具有高延时（high latency）、高并发等特点的一种软件。表现层（Representation）的含义是把资源具体的形式呈现出来。表现层上的网站交互就是客户端获取或修改服务器端储存的资源，而这些获取或修改的操作就是资源的状态转换。具体的实现很简单</description>
     </item>
     
     <item>
