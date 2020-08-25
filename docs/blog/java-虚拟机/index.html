@@ -167,7 +167,7 @@
 <p>Java 虚拟机使用该算法来判断对象是否可被回收，GC Roots 一般包含以下内容：</p>
 <ul>
 <li>虚拟机栈中<strong>局部变量表</strong>中引用的对象，如各线程所调用的方法堆栈中使用到的参数，局部变量，临时变量等；</li>
-<li>本地方法栈中 **JNI（Native 方法）**引用的对象</li>
+<li>本地方法栈中 <strong>JNI</strong>（Native 方法）引用的对象</li>
 <li>方法区中类<strong>静态属性引用</strong>的对象，如 java 类的引用类型静态变量；</li>
 <li>方法区中的<strong>常量引用</strong>的对象，如字符串常量池（String Table）内的引用；</li>
 <li>虚拟机<strong>内部的引用</strong>，如基本类型对应的 Class 对象；</li>

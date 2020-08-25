@@ -47,7 +47,7 @@ if (p instanceof Student) {
 
 ### 1.3 Override & Overload
 
-**1. 重写（Override）**
+#### 1. 重写（Override）
 
 存在于继承体系中，指子类实现了一个与父类在方法声明上完全相同的一个方法。
 
@@ -152,7 +152,7 @@ public static void main(String[] args) {
 
 在子类的覆写方法中，如果要调用父类的被覆写的方法，可以通过`super`来调用。
 
-2. 重载（Overlode）**
+#### 2. 重载（Overlode）
 
 Override和Overload不同的是，如果方法签名如果不同，就是Overload，Overload方法是一个新方法；如果方法签名相同，并且返回值也相同，就是`Override`。
 

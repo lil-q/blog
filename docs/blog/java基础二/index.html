@@ -61,7 +61,7 @@
       "datePublished": "2020-03-23 14:08:20 \u002b0000 UTC",
       "dateModified" : "2020-03-23 14:08:20 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%8C\/",
-      "wordCount" : "1030",
+      "wordCount" : "1031",
       "keywords" : ["error", "java", "OOP", "Blog"]
     }
   
@@ -178,7 +178,7 @@ if (p instanceof Student) {
 </code></pre>
 <p>从Java 14开始，判断<code>instanceof</code>后，可以直接转型为指定变量，避免再次强制转型。</p>
 <h3 id="13-override--overload">1.3 Override &amp; Overload<a class="anchor" href="#13-override--overload">#</a></h3>
-<p><strong>1. 重写（Override）</strong></p>
+<h4 id="1-重写override">1. 重写（Override）</h4>
 <p>存在于继承体系中，指子类实现了一个与父类在方法声明上完全相同的一个方法。</p>
 <p>为了满足里式替换原则，重写有以下三个限制：</p>
 <ul>
@@ -273,9 +273,7 @@ class D extends C {
 }
 </code></pre>
 <p>在子类的覆写方法中，如果要调用父类的被覆写的方法，可以通过<code>super</code>来调用。</p>
-<ol start="2">
-<li>重载（Overlode）**</li>
-</ol>
+<h4 id="2-重载overlode">2. 重载（Overlode）</h4>
 <p>Override和Overload不同的是，如果方法签名如果不同，就是Overload，Overload方法是一个新方法；如果方法签名相同，并且返回值也相同，就是<code>Override</code>。</p>
 <h3 id="14-object方法">1.4 Object方法<a class="anchor" href="#14-object方法">#</a></h3>
 <p>因为所有的<code>class</code>最终都继承自<code>Object</code>，而<code>Object</code>定义了几个重要的方法：</p>
