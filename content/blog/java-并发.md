@@ -7,7 +7,7 @@ description: "java并发内存模型线程池线程安全锁优化"
 keywords: [jmm, java, concurrency]
 ---
 
-计算机的运算速度与它的存储和通信子系统的速度差距太大，大量的时间都花费在磁盘 I/O、网络通信或者数据库访问上。高效并发能能更好的利用计算机的性能。另一方面，一个服务器要同时对多个客户端提供服务。衡量一个服务性能的高低好坏，每秒事务处理数（Transaction Per Second，TPS）是重要的指标之一，其与程序的并发能力有着密切关系。[题解](https://lil-q.github.io/2020/05/02/多线程题解/)
+计算机的运算速度与它的存储和通信子系统的速度差距太大，大量的时间都花费在磁盘 I/O、网络通信或者数据库访问上。高效并发能能更好的利用计算机的性能。另一方面，一个服务器要同时对多个客户端提供服务。衡量一个服务性能的高低好坏，每秒事务处理数（Transaction Per Second，TPS）是重要的指标之一，其与程序的并发能力有着密切关系。
 
 ## 一、硬件的效率和一致性
 
@@ -19,7 +19,7 @@ keywords: [jmm, java, concurrency]
 
 为了解决一致性的问题，需要各个处理器访问缓存时都遵循一些**协议**，在读写时要根据协议来进行操作。
 
-除了増加高速缓存之外，为了使处理器内部的运算单元能尽量被充分利用，处理器可能会对输入代码进行**乱序执行（Out-Of-Order Execution）优化**，处理器会在计算之后将乱序执行的结果重组，保证该结果与顺序执行的结果是**一致**的，但并不保证程序中各个语句计算的先后顺序与输入代码中的顺序一致，因此如果存在一个计算任务依赖另外一个计算任务的中间结果，那么其顺序性并不能靠代码的先后顺序来保证。与处理器的乱序执行优化类似，Java 虚拟机的即时编译器中也有**指令重排序（ Instruction Reorder）优化**。
+除了増加高速缓存之外，为了使处理器内部的运算单元能尽量被充分利用，处理器可能会对输入代码进行**乱序执行（Out-Of-Order Execution）优化**，让指令的执行能够尽可能的并行起来。处理器会在计算之后将乱序执行的结果重组，保证该结果与顺序执行的结果是**一致**的，但并不保证程序中各个语句计算的先后顺序与输入代码中的顺序一致，因此如果存在一个计算任务依赖另外一个计算任务的中间结果，那么其顺序性并不能靠代码的先后顺序来保证。与处理器的乱序执行优化类似，Java 虚拟机的即时编译器中也有**指令重排序（ Instruction Reorder）优化**。
 
 ## 二、Java 内存模型
 
@@ -66,7 +66,7 @@ Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互
 
 ### 2.3 三个特性
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/jvmv2.png"  />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurency1.png" style="zoom:150%;" />
 
 #### 1. 原子性
 
@@ -267,7 +267,7 @@ public void run() {
 
 #### 2. 线程池饱和策略
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurrentv2.png" style="zoom:150%;" />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency2.png" style="zoom:150%;" />
 
 1、如果当前运行的线程少于`corePoolSize`，则创建新线程来执行任务（需要获取全局锁）；
 2、如果运行的线程等于或多于`corePoolSize`，则将任务加入 BlockingQueue ；
