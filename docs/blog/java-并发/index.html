@@ -61,7 +61,7 @@
       "datePublished": "2020-04-28 19:37:01 \u002b0000 UTC",
       "dateModified" : "2020-04-28 19:37:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E5%B9%B6%E5%8F%91\/",
-      "wordCount" : "1539",
+      "wordCount" : "1536",
       "keywords" : ["jmm", "java", "concurrency", "Blog"]
     }
   
@@ -240,9 +240,7 @@ Thread thread = new Thread(ft);
 <p>通过调用<code>start()</code>启动一个新线程；一个线程对象只能调用一次<code>start()</code>方法；必须调用<code>Thread</code>实例的<code>start()</code>方法才能启动新线程，<code>start()</code>方法内部调用了一个<code>private native void start0()</code>方法，<code>native</code>修饰符表示这个方法是由JVM虚拟机内部的C代码实现的。</p>
 <h3 id="31-基础">3.1 基础<a class="anchor" href="#31-基础">#</a></h3>
 <h4 id="1-daemon">1. Daemon</h4>
-<p>守护线程是程序运行时在后台提供服务的线程，不属于程序中不可或缺的部分。</p>
-<p>当所有非守护线程结束时，程序也就终止，同时会杀死所有守护线程。</p>
-<p>main() 属于非守护线程。</p>
+<p>守护线程是程序运行时在后台提供服务的线程，不属于程序中不可或缺的部分。当所有非守护线程结束时，程序也就终止，同时会杀死所有守护线程。比如<code>main()</code>就属于非守护线程。</p>
 <p>在线程启动之前使用<code>setDaemon()</code>方法可以将一个线程设置为守护线程。</p>
 <pre><code class="language-java">public static void main(String[] args) {
     Thread thread = new Thread(new MyRunnable());
@@ -269,12 +267,12 @@ Thread thread = new Thread(ft);
 <h3 id="32-状态">3.2 状态<a class="anchor" href="#32-状态">#</a></h3>
 <p>一个线程只能处于一种状态，并且这里的线程状态特指 Java 虚拟机的线程状态，不能反映线程在特定操作系统下的状态。</p>
 <ul>
-<li>New：新创建的线程，尚未执行；</li>
-<li>Runnable：运行中的线程，正在执行<code>run()</code>方法的Java代码；</li>
-<li>Blocked：运行中的线程，因为某些操作被阻塞而挂起；</li>
-<li>Waiting：运行中的线程，因为某些操作在等待中；</li>
-<li>Timed Waiting：运行中的线程，因为执行<code>sleep()</code>方法正在计时等待；</li>
-<li>Terminated：线程已终止，因为<code>run()</code>方法执行完毕。</li>
+<li><strong>New</strong>：新创建的线程，尚未执行；</li>
+<li><strong>Runnable</strong>：运行中的线程，正在执行<code>run()</code>方法的Java代码；</li>
+<li><strong>Blocked</strong>：运行中的线程，因为某些操作被阻塞而挂起；</li>
+<li><strong>Waiting</strong>：运行中的线程，因为某些操作在等待中；</li>
+<li><strong>Timed Waiting</strong>：运行中的线程，因为执行<code>sleep()</code>方法正在计时等待；</li>
+<li><strong>Terminated</strong>：线程已终止，因为<code>run()</code>方法执行完毕。</li>
 </ul>
 <h3 id="33-中断">3.3 中断<a class="anchor" href="#33-中断">#</a></h3>
 <p>一个线程执行完毕之后会自动结束，如果在运行过程中发生异常也会提前结束。</p>
