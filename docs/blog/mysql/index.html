@@ -61,7 +61,7 @@
       "datePublished": "2020-07-17 16:16:51 \u002b0000 UTC",
       "dateModified" : "2020-07-17 16:16:51 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/mysql\/",
-      "wordCount" : "417",
+      "wordCount" : "400",
       "keywords" : ["database", "mysql", "Blog"]
     }
   
@@ -283,8 +283,8 @@ customer_id_selectivity: 0.0373
 <h3 id="51-聚簇索引和非聚簇索引">5.1 聚簇索引和非聚簇索引<a class="anchor" href="#51-聚簇索引和非聚簇索引">#</a></h3>
 <p>主键索引的叶子节点存放的是<strong>整行数据</strong>，而非主键索引的叶子节点存放的是<strong>主键的值</strong>。主键索引也被称为<strong>聚簇索引</strong>，而非主键索引也被称为<strong>二级索引</strong>。</p>
 <ul>
-<li>如果查询语句是 <code>select * from table where ID = 100</code>，即主键查询的方式，则只需要搜索 ID 这棵 B+树；</li>
-<li>如果查询语句是 <code>select * from table where k = 1</code>，即非主键的查询方式，则先搜索k索引树，得到ID=100，再到ID索引树搜索一次，这个过程也被称为<strong>回表</strong>。</li>
+<li>主键查询：只需要搜索主键的 B+ 树，可直接得到；</li>
+<li>非主键查询：先搜索索引树，得到主键的值，再到主键索引树搜索一次，这个过程也被称为<strong>回表</strong>。</li>
 </ul>
 <p><strong>聚簇索引表：<strong>表数据是和主键</strong>一起存储</strong>的，主键索引的叶结点存储行数据(包含了主键值)，二级索引的叶结点存储行的主键值。使用的是 B+ 树作为索引的存储结构，非叶子节点都是索引关键字，但非叶子节点中的关键字中不存储对应记录的具体内容或内容地址。叶子节点上的数据是主键与具体记录(数据内容)。</p>
 <p><strong>非聚簇索引表：<strong>表数据和索引是</strong>分成两部分存储</strong>的，主键索引和二级索引存储上没有任何区别。使用 B+ 树作为索引的存储结构，所有的节点都是索引，叶子节点存储的是索引+索引对应的记录的数据。</p>
@@ -292,7 +292,7 @@ customer_id_selectivity: 0.0373
 <ol>
 <li>当需要取出<strong>一定范围内</strong>的数据时，用聚簇索引也比用非聚簇索引好；</li>
 <li>当通过聚簇索引查找目标数据时理论上比非聚簇索引要快，因为非聚簇索引定位到对应主键时还要多一次目标记录寻址,即多一次I/O；</li>
-<li>使用覆盖索引扫描的查询可以直接使用叶子节点中的主键值。</li>
+<li>使用<a href="https://juejin.im/post/6844903967365791752">覆盖索引</a>扫描的查询可以直接使用叶子节点中的主键值。</li>
 </ol>
 <p><strong>聚簇索引的缺点</strong></p>
 <ol>

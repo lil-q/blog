@@ -61,7 +61,7 @@
       "datePublished": "2020-04-28 19:37:01 \u002b0000 UTC",
       "dateModified" : "2020-04-28 19:37:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E5%B9%B6%E5%8F%91\/",
-      "wordCount" : "1555",
+      "wordCount" : "1539",
       "keywords" : ["jmm", "java", "concurrency", "Blog"]
     }
   
@@ -116,7 +116,7 @@
           </header>
           <article class="post__content">
               
-<p>计算机的运算速度与它的存储和通信子系统的速度差距太大，大量的时间都花费在磁盘 I/O、网络通信或者数据库访问上。高效并发能能更好的利用计算机的性能。另一方面，一个服务器要同时对多个客户端提供服务。衡量一个服务性能的高低好坏，每秒事务处理数（Transaction Per Second，TPS）是重要的指标之一，其与程序的并发能力有着密切关系。</p>
+<p>计算机的运算速度与它的存储和通信子系统的速度差距太大，大量的时间都花费在磁盘 I/O、网络通信或者数据库访问上。高效并发能能更好的利用计算机的性能。</p>
 <h2 id="一硬件的效率和一致性">一、硬件的效率和一致性<a class="anchor" href="#一硬件的效率和一致性">#</a></h2>
 <p>由于计算机的存储设备与处理器的运算速度有着几个数量级的差距，所以现代计算机系统都不得不加入一层或多层读写速度尽可能接近处理器运算速度的**高速缓存（ Cache）**来作为内存与处理器之间的缓冲：将运算需要使用的数据复制到缓存中，让运算能快速进行，当运算结束后再从缓存同步回内存之中，这样处理器就无须等待缓慢的内存读写了。</p>
 <p>基于高速缓存的存储交互很好地解决了处理器与内存速度之间的矛盾，但是也为计算机系统带来更高的复杂度，它引入了一个新的问题：<strong>缓存一致性（ Cache Coherence）</strong>。在多路处理器系统中，每个处理器都有自己的高速缓存，而它们又共享同一主内存（ Main Memory），这种系统称为共享内存多核系统（ Shared Memory Multiprocessors System），如下图所示。<strong>当多个处理器的运算任务都涉及同一块主内存区域时，将可能导致各自的缓存数据不一致。</strong></p>
@@ -144,7 +144,11 @@
 <li>write：作用于主内存的变量，在 store 之后执行，把值放入主内存的变量中。</li>
 </ul>
 <h3 id="22-volatile">2.2 volatile<a class="anchor" href="#22-volatile">#</a></h3>
-<p>关键字 volatile 可以说是 Java 虚拟机提供的最轻量级的同步机制，它将具备两项特性：一是保证此变量<strong>对所有线程的可见性</strong>，这里的“可见性”是指当一条线程修改了这个变量的值，新值对于其他线程来说是可以立即得知的。而普通变量并不能做到这一点，普通变量的值在线程间传递时均需要通过主内存来完成。二是<strong>禁止指令重排序优化</strong>，有 volatile 修饰的变量，赋值后多执行了一个内存屏障操作，指重排序时不能把后面的指令重排序到内存屏障之前的位置。</p>
+<p>关键字 volatile 可以说是 Java 虚拟机提供的最轻量级的同步机制，它将具备两项特性：</p>
+<ol>
+<li>保证此变量<strong>对所有线程的可见性</strong>，当一条线程修改了这个变量的值，新值对于其他线程来说是可以立即得知的。</li>
+<li><strong>禁止指令重排序优化</strong>，有 volatile 修饰的变量，赋值后多执行了一个<strong>内存屏障</strong>操作，指重排序时不能把后面的指令重排序到内存屏障之前的位置。</li>
+</ol>
 <p>只有一个处理器访问内存时，并不需要内存屏障；但如果有两个或更多处理器访问同一块内存，且其中有一个在观测另一个，就需要内存屏障来保证一致性了。</p>
 <h4 id="规则">规则</h4>
 <ol>
@@ -283,12 +287,13 @@ Thread thread = new Thread(ft);
 <p>调用 Executor 的 shutdown() 方法会等待线程都执行完毕之后再关闭，但是如果调用的是 shutdownNow() 方法，则相当于调用每个线程的 interrupt() 方法。</p>
 <h3 id="34-线程池">3.4 线程池<a class="anchor" href="#34-线程池">#</a></h3>
 <ul>
-<li>corePoolSize：线程池核心线程数量，核心线程不会被回收，即使没有任务执行，也会保持空闲状态；</li>
-<li>maximumPoolSize：池允许最大的线程数；</li>
-<li>keepAliveTime：非核心线程的存活时间；</li>
-<li>workQueue：当前线程数超过 corePoolSize 时，新的任务会处在等待状态，并存在 workQueue 中；</li>
-<li>threadFactory：创建线程的工厂类，通常自定义一个 threadFactory 设置线程的名称，可以快速定位；</li>
-<li>handler：线程池执行拒绝策略。</li>
+<li><strong>corePoolSize</strong>：核心线程数量，核心线程不会被回收，即使没有任务执行，也会保持空闲状态；</li>
+<li><strong>maximumPoolSize</strong>：池允许最大的线程数；</li>
+<li><strong>keepAliveTime</strong>：非核心线程的存活时间；</li>
+<li><strong>unit</strong>：keepAliveTime的单位。</li>
+<li><strong>workQueue</strong>：当前线程数超过 corePoolSize 时，新的任务会存在 workQueue 中，处在等待状态；</li>
+<li><strong>threadFactory</strong>：创建线程的工厂类，通常自定义一个 threadFactory 设置线程的名称以快速定位；</li>
+<li><strong>handler</strong>：线程池执行拒绝策略。</li>
 </ul>
 <h4 id="1-线程池的优势">1. 线程池的优势</h4>
 <ol>
@@ -298,11 +303,13 @@ Thread thread = new Thread(ft);
 </ol>
 <h4 id="2-线程池饱和策略">2. 线程池饱和策略</h4>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency2.png" style="zoom:150%;" /></p>
-<p>1、如果当前运行的线程少于<code>corePoolSize</code>，则创建新线程来执行任务（需要获取全局锁）；
-2、如果运行的线程等于或多于<code>corePoolSize</code>，则将任务加入 BlockingQueue ；
-3、如果无法将任务加入 BlockingQueue （队列已满），则在非 corePool 中创建新的线程来处理任务（需要获取全局锁）；
-4、如果创建新线程将使当前运行的线程超出<code>maximumPoolSize</code>，任务将被拒绝，并调用
-<code>RejectedExecutionHandler.rejectedExecution()</code>方法。</p>
+<ol>
+<li>如果当前运行的线程少于<code>corePoolSize</code>，则创建新线程来执行任务（需要获取全局锁）；</li>
+<li>如果运行的线程等于或多于<code>corePoolSize</code>，则将任务加入 BlockingQueue ；</li>
+<li>如果无法将任务加入 BlockingQueue （队列已满），则在非 corePool 中创建新的线程来处理任务（需要获取全局锁）；</li>
+<li>如果创建新线程将使当前运行的线程超出<code>maximumPoolSize</code>，任务将被拒绝，并调用
+<code>RejectedExecutionHandler.rejectedExecution()</code>方法。</li>
+</ol>
 <p>ThreadPoolExecutor 采取上述步骤的总体设计思路，是为了在执行 execute() 方法时，尽可能地避免获取全局锁（那将会是一个严重的可伸缩瓶颈）。在 ThreadPoolExecutor 完成预热之后（当前运行的线程数大于等于corePoolSize），几乎所有的execute()方法调用都是执行步骤2，而步骤2不需要获取全局锁。</p>
 <p>线程池有四种拒绝策略：</p>
 <ol>
@@ -425,6 +432,7 @@ private Condition condition = lock.newCondition();
 </code></pre>
 <p>可见，使用<code>Condition</code>配合<code>Lock</code>，我们可以实现更灵活的线程同步。</p>
 <h2 id="五线程安全">五、线程安全<a class="anchor" href="#五线程安全">#</a></h2>
+<p>当多个线程同时访问一个对象时，如果不用考虑这些线程在运行时环境下的<strong>调度和交替执行</strong>，也不需要进行<strong>额外的同步</strong>，或者在调用方进行任何其他的协调操作，<strong>调用这个对象的行为都可以获得正确的结果</strong>，那就称这个对象是<strong>线程安全</strong>的。</p>
 <h3 id="51-不可变">5.1 不可变<a class="anchor" href="#51-不可变">#</a></h3>
 <p>不可变（Immutable）的对象一定是线程安全的，不需要再采取任何的线程安全保障措施。只要一个不可变的对象被正确地构建出来，永远也不会看到它在多个线程之中处于不一致的状态。多线程环境下，应当尽量使对象成为不可变，来满足线程安全。</p>
 <p>不可变的类型：</p>
@@ -436,42 +444,35 @@ private Condition condition = lock.newCondition();
 </ul>
 <p>对于集合类型，可以使用 Collections.unmodifiableXXX() 方法来获取一个不可变的集合。</p>
 <h3 id="52-互斥同步">5.2 互斥同步<a class="anchor" href="#52-互斥同步">#</a></h3>
-<p>互斥是实现同步的一种手段，临界区（ Critical Section）、互斥量（ Mutex）和信号量（ Semap hore）都是常见的互斥实现方式。因此在“互斥同步”这四个字里面，互斥是因，同步是果；互斥是方法，同步是目的。</p>
+<p>互斥是实现同步的一种手段，临界区（ Critical Section）、互斥量（ Mutex）和信号量（ Semap hore）都是常见的互斥实现方式。因此在“互斥同步”这四个字里面，<strong>互斥是因，同步是果；互斥是方法，同步是目的</strong>。</p>
 <p>Java 提供了两种锁机制来控制多个线程对共享资源的互斥访问，第一个是 JVM 实现的 synchronized，而另一个是 JDK 实现的 ReentrantLock。</p>
 <h4 id="1-synchronized">1. synchronized</h4>
 <p>synchronized关键字，这是一种块结构（ Block Structured）的同步语法。 synchronized 关键字经过 Javac 编译之后，会在同步块的前后分别形成 <strong>monitorenter</strong> 和 <strong>monitorexit</strong> 这两个字节码指令。这两个字节码指令都需要一个 <strong>reference 类型的参数</strong>来指明要锁定和解锁的对象。</p>
-<p><strong>（1）同步一个代码块</strong></p>
+<p>同步<strong>代码块</strong>和同步<strong>非静态方法</strong>，可以实现同步一个<strong>对象</strong>：</p>
 <pre><code class="language-java">public void func() {
     synchronized (this) {
         // ...
     }
 }
 </code></pre>
-<p>它只作用于<strong>同一个对象</strong>，如果调用两个对象上的同步代码块，就不会进行同步。</p>
-<p><strong>（2）同步一个方法</strong></p>
 <pre><code class="language-java">public synchronized void func () {
     // ...
 }
 </code></pre>
-<p>它和同步代码块一样，作用于<strong>同一个对象</strong>。</p>
-<p><strong>（3）同步一个类</strong></p>
+<p>同步<strong><code>class</code>类</strong>和同步<strong>静态方法</strong>，可以实现同步一个<strong>类</strong>：</p>
 <pre><code class="language-java">public void func() {
     synchronized (SynchronizedExample.class) {
         // ...
     }
 }
 </code></pre>
-<p>作用于<strong>整个类</strong>，也就是说两个线程调用同一个类的不同对象上的这种同步语句，也会进行同步。</p>
-<p><strong>（4）同步一个静态方法</strong></p>
 <pre><code class="language-java">public synchronized static void fun() {
     // ...
 }
 </code></pre>
-<p>作用于<strong>整个类</strong>。</p>
 <p>根据《Java虚拟机规范》的要求，在执行 monitorenter 指令时，首先要去尝试获取对象的锁。如果这个对象没被锁定，或者当前线程已经持有了那个对象的锁，就把锁的计数器的值增加一，而在执行 monitorexit 指令时会将锁计数器的值减一。一旦计数器的值为零，锁随即就被释放了。如果获取对象锁失败，那当前线程就应当被阻塞等待，直到请求锁定的对象被持有它的线程释放为止。</p>
 <h4 id="2-reentrantlock">2. ReentrantLock</h4>
-<p><code>ReentrantLock</code>是可重入锁，它和<code>synchronized</code>一样，一个线程可以多次获取同一个锁。</p>
-<p>和<code>synchronized</code>不同的是，<code>ReentrantLock</code>可以尝试获取锁：</p>
+<p><code>ReentrantLock</code>是可重入锁，它和<code>synchronized</code>一样，一个线程可以多次获取同一个锁。和<code>synchronized</code>不同的是，<code>ReentrantLock</code>可以尝试获取锁：</p>
 <pre><code class="language-java">if (lock.tryLock(1, TimeUnit.SECONDS)) {
     try {
         ...
@@ -482,19 +483,14 @@ private Condition condition = lock.newCondition();
 </code></pre>
 <p>上述代码在尝试获取锁的时候，最多等待1秒。如果1秒后仍未获取到锁，<code>tryLock()</code>返回<code>false</code>，程序就可以做一些额外处理，而不是无限等待下去。</p>
 <h4 id="3-比较">3. 比较</h4>
-<p><strong>（1）锁的实现</strong></p>
-<p>synchronized 是 JVM 实现的，而 ReentrantLock 是 JDK 实现的。</p>
-<p><strong>（2）性能</strong></p>
-<p>新版本 Java 对 synchronized 进行了很多优化，例如自旋锁等，synchronized 与 ReentrantLock 大致相同。</p>
-<p><strong>（3）等待可中断</strong></p>
-<p>当持有锁的线程长期不释放锁的时候，正在等待的线程可以选择放弃等待，改为处理其他事情。</p>
-<p>ReentrantLock 可中断，而 synchronized 不行。</p>
-<p><strong>（4）公平锁</strong></p>
-<p>公平锁是指多个线程在等待同一个锁时，必须按照申请锁的时间顺序来依次获得锁。</p>
-<p>synchronized 中的锁是非公平的，ReentrantLock 默认情况下也是非公平的，但是也可以是公平的。</p>
-<p><strong>（5）锁绑定多个条件</strong></p>
-<p>一个 ReentrantLock 可以同时绑定多个 Condition 对象。</p>
-<p><strong>总结</strong></p>
+<ol>
+<li><strong>锁的实现</strong>：synchronized 是 JVM 实现的，而 ReentrantLock 是 JDK 实现的。</li>
+<li><strong>性能</strong>：synchronized 与 ReentrantLock 大致相同。</li>
+<li><strong>等待可中断</strong>：ReentrantLock 可中断，而 synchronized 不行。</li>
+<li><strong>公平锁</strong>：synchronized 中的锁是非公平的，ReentrantLock 默认情况下非公平，可以设置为公平。</li>
+<li><strong>锁绑定多个条件</strong>：一个 ReentrantLock 可以同时绑定多个 Condition 对象。</li>
+</ol>
+<h4 id="4-总结">4. 总结</h4>
 <p>推荐在 synchronized 与 ReentrantLock 都可满足需要时优先使用 synchronized，synchronized 是在 Java 语法层面的同步，足够清晰，也足够简单。</p>
 <p>ReentrantLock 应该确保在 finally 块中释放锁，否则一旦受同步保护的代码块中抛出异常，则有可能永远不会释放持有的锁。而使用 synchronized 的话则可以由 Java 虛拟机来确保即使出现异常，锁也能被自动释放。</p>
 <p>从长远来看，Java 虚拟机更容易针对 synchronized 来进行优化，因为 Java 虚拟机可以在线程和对象的元数据中记录 synchronized 中锁的相关信息，而使用 J.U.C 中的 Lock 的话，Java 虚拟机是很难得知具体哪些锁对象是由特定线程锁持有的。</p>
@@ -539,8 +535,7 @@ public void add() {
 <h4 id="2-线程本地存储">2. 线程本地存储</h4>
 <p>如果一段代码中所需要的数据必须与其他代码共享，那就看看这些共享数据的代码是否能<strong>保证在同一个线程中执行</strong>。如果能保证，我们就可以把共享数据的可见范围限制在同一个线程之内，这样，无须同步也能保证线程之间不出现数据争用的问题。</p>
 <p>符合这种特点的应用并不少见，大部分使用消费队列的架构模式（如“生产者-消费者”模式）都会将产品的消费过程尽量在一个线程中消费完。其中最重要的一个应用实例就是经典 Web 交互模型中的“一个请求对应一个服务器线程”（Thread-per-Request）的处理方式，这种处理方式的广泛应用使得很多 Web 服务端应用都可以使用线程本地存储来解决线程安全问题。</p>
-<p>可以使用 java.lang.ThreadLocal 类来实现线程本地存储功能。</p>
-<p>对于以下代码，thread1 中的 threadLocal1 和 threadLocal2 为 1，而 thread2 中的 threadLocal1 和 threadLocal2 为 2.</p>
+<p>可以使用 java.lang.ThreadLocal 类来实现线程本地存储功能。对于以下代码，thread1 中的 threadLocal1 和 threadLocal2 为 1，而 thread2 中的 threadLocal1 和 threadLocal2 为 2.</p>
 <pre><code class="language-java">public class ThreadLocalExample1 {
     public static void main(String[] args) {
         ThreadLocal threadLocal1 = new ThreadLocal();
@@ -686,12 +681,13 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 </ul>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li>周志明. 深入理解 Java 虚拟机 [M]. 机械工业出版社, 2011.</li>
+<li>《深入理解 Java 虚拟机》</li>
 <li>[CyC CS-Notes](<a href="https://cyc2018.github.io/CS-Notes/#/notes/Java">https://cyc2018.github.io/CS-Notes/#/notes/Java</a> 并发?id=一、使用线程)</li>
 <li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1255943750561472">廖雪峰java教程</a></li>
 <li><a href="https://www.cnblogs.com/dolphin0520/p/3920397.html">CountDownLatch、CyclicBarrier 和 Semaphore</a></li>
 <li><a href="https://blog.csdn.net/fuyuwei2015/article/details/72758179">Java线程池(ThreadPoolExecutor)</a></li>
 <li><a href="https://juejin.im/post/6844903634975768590#heading-33">Java面试经典题：线程池专题</a></li>
+<li>《Java并发编程实战（Java Concurrency In Practice）》</li>
 </ol>
 
 
