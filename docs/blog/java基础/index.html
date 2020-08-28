@@ -61,7 +61,7 @@
       "datePublished": "2020-03-20 19:33:14 \u002b0000 UTC",
       "dateModified" : "2020-03-20 19:33:14 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80\/",
-      "wordCount" : "2015",
+      "wordCount" : "2018",
       "keywords" : ["java", "stream", "Blog"]
     }
   
@@ -118,12 +118,9 @@
               
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/javase1.png" style="zoom:50%;" /></p>
 <ul>
-<li>JVM–java virtual machine
-JVM 是整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。</li>
-<li>JRE – java runtime environment
-JRE 是指 java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。</li>
-<li>JDK – java development kit
-JDK 是 java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。</li>
+<li><strong>J</strong>ava <strong>V</strong>irtual <strong>M</strong>achine，<strong>JVM</strong>：整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。</li>
+<li><strong>J</strong>ava <strong>R</strong>untime <strong>E</strong>nvironment，<strong>JRE</strong>：java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。</li>
+<li><strong>J</strong>ava <strong>D</strong>evelopment <strong>K</strong>it，<strong>JDK</strong>：java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。</li>
 </ul>
 <h2 id="一数据类型">一、数据类型<a class="anchor" href="#一数据类型">#</a></h2>
 <h3 id="11-基本类型">1.1 基本类型<a class="anchor" href="#11-基本类型">#</a></h3>
@@ -168,11 +165,11 @@ System.out.println(m == n); // true
 <p>Java语言中数组必须先初始化，然后才可以使用。</p>
 <ul>
 <li>
-<p>**静态初始化：**<code>arrayName = new type[]{element1,element2,element3...};</code></p>
+<p><strong>静态初始化</strong>：<code>arrayName = new type[]{element1,element2,element3...};</code></p>
 <p>简化写法：<code>type[] arrayName = {element1,element2,element3...};</code></p>
 </li>
 <li>
-<p>**动态初始化：**<code>arrayName = new type[length];</code></p>
+<p><strong>动态初始化</strong>：<code>arrayName = new type[length];</code></p>
 </li>
 </ul>
 <p>数组完成初始化后，内存空间中针对该数组的各个元素就有个一个默认值：</p>
@@ -183,7 +180,7 @@ System.out.println(m == n); // true
 <li>基本数据类型的布尔类型（<code>boolean</code>）默认值是<code>false</code>；</li>
 <li>类型的引用类型（类、数组、接口、<code>String</code>）默认值是<code>null</code>。</li>
 </ul>
-<p>**注意：**不要同时使用静态初始化和动态初始化，也就是说，不要在进行数组初始化时，既指定数组的长度，也为每个数组元素分配初始值。一旦数组完成初始化，数组在内存中所占的空间将被固定下来，所以数组的长度将不可改变。</p>
+<p><strong>注意</strong>：不要同时使用静态初始化和动态初始化，也就是说，不要在进行数组初始化时，既指定数组的长度，也为每个数组元素分配初始值。一旦数组完成初始化，数组在内存中所占的空间将被固定下来，所以数组的长度将不可改变。</p>
 <h4 id="2-打印数组内容">2. 打印数组内容</h4>
 <p>Java标准库提供了类方法<code>Arrays.toString()</code>，可以快速打印数组内容。</p>
 <h4 id="3-排序">3. 排序</h4>
@@ -254,7 +251,6 @@ public class Solution {
     }
 }
 </code></pre>
-<p><a href="">更多题解</a></p>
 <h3 id="23-整数运算">2.3 整数运算<a class="anchor" href="#23-整数运算">#</a></h3>
 <h4 id="1-隐式类型转换">1. 隐式类型转换</h4>
 <p><code>short</code>和<code>int</code>计算，结果总是<code>int</code>，原因是<code>short</code>首先自动被转型为<code>int</code>：</p>
@@ -280,7 +276,7 @@ short s = (short) i; // 12345
 </code></pre>
 <p>要注意，超出范围的强制转型会得到错误的结果，原因是转型时，<code>int</code>的两个高位字节直接被扔掉，仅保留了低位的两个字节。</p>
 <h4 id="3-溢出">3. 溢出</h4>
-<p>为了防止溢出，有些题目会设置答案求余数的要求，如<a href="https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/">面试题10- I. 斐波那契数列</a>要求答案需要取模 1e9+7（1000000007），这个数小于<code>int</code>最大值的一半，利用循环取余: $$ (x + y) \odot p = (x \odot p + y \odot p) \odot p $$。</p>
+<p>为了防止溢出，有些题目会设置答案求余数的要求，如<a href="https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/">面试题10- I. 斐波那契数列</a>要求答案需要取模 1e9+7（1000000007），这个数小于<code>int</code>最大值的一半，利用循环取余: $$ (x + y) \odot p = (x \odot p + y \odot p) \odot p $$</p>
 <pre><code class="language-java">class Solution {
     public int fib(int n) {
         int a = 0, b = 1, sum;
@@ -294,7 +290,7 @@ short s = (short) i; // 12345
 }
 </code></pre>
 <h3 id="24-浮点数运算">2.4 浮点数运算<a class="anchor" href="#24-浮点数运算">#</a></h3>
-<p>浮点类型的数就是小数，因为小数用科学计数法表示的时候，小数点是可以“浮动”的，如$$1234.5$$可以表示成$$12.345x10^{2}$$，也可以表示成$$1.2345x10^{3}$$，所以称为浮点数。</p>
+<p>浮点类型的数就是小数，因为小数用科学计数法表示的时候，小数点是可以“浮动”的，如 $1234.5$ 可以表示成 $12.345\times 10^{2}$，也可以表示成 $1.2345\times 10^{3}$，所以称为浮点数。</p>
 <p>下面是定义浮点数的例子：</p>
 <pre><code class="language-java">float f1 = 3.14f;
 float f2 = 3.14e38f; // 科学计数法表示的3.14x10^38
@@ -302,15 +298,15 @@ double d = 1.79e308;
 double d2 = -1.79e308;
 double d3 = 4.9e-324; // 科学计数法表示的4.9x10^-324
 </code></pre>
-<p>**对于<code>float</code>类型，需要加上<code>f</code>后缀。**浮点数可表示的范围非常大，<code>float</code>类型可最大表示$$3.4x10^{38}$$，而<code>double</code>类型可最大表示$$1.79x10^{308}$$。</p>
+<p><strong>对于<code>float</code>类型，需要加上<code>f</code>后缀</strong>。浮点数可表示的范围非常大，<code>float</code>类型可最大表示$ 3.4\times10^{38}$，而<code>double</code>类型可最大表示 $1.79\times10^{308}$。</p>
 <p>Java 不能隐式执行向下转型，因为这会使得精度降低。</p>
 <pre><code class="language-java">// float f = 1.1;
 </code></pre>
-<p><code>1.1</code> 字面量属于 double 类型，不能直接将 1.1 直接赋值给 float 变量，因为这是向下转型。</p>
+<p>1.1 字面量属于 double 类型，不能直接将 1.1 直接赋值给 float 变量，因为这是向下转型。</p>
 <h4 id="1-浮点数的不准确性">1. 浮点数的不准确性</h4>
 <p>浮点数运算和整数运算相比，只能进行加减乘除这些数值计算，不能做位运算和移位运算。</p>
 <p>在计算机中，浮点数虽然表示的范围大，但是，浮点数有个非常重要的特点，就是浮点数常常<strong>无法精确表示</strong>。</p>
-<p>浮点数<code>0.1</code>在计算机中就无法精确表示，因为十进制的<code>0.1</code>换算成二进制是一个无限循环小数，很显然，无论使用<code>float</code>还是<code>double</code>，都只能存储一个<code>0.1</code>的近似值。但是，<code>0.5</code>这个浮点数又可以精确地表示。（乘以若干个2后能成为整数的才能准确表示）</p>
+<p>浮点数 0.1 在计算机中就无法精确表示，因为十进制的 0.1 换算成二进制是一个无限循环小数，很显然，无论使用<code>float</code>还是<code>double</code>，都只能存储一个 0.1 的近似值。但是， 0.5 这个浮点数又可以精确地表示。（乘以若干个 2 后能成为整数的才能准确表示）</p>
 <h3 id="25-布尔运算">2.5 布尔运算<a class="anchor" href="#25-布尔运算">#</a></h3>
 <h4 id="1-短路运算">1. 短路运算</h4>
 <p>布尔运算的一个重要特点是短路运算。如果一个布尔运算的表达式能提前确定结果，则后续的计算不再执行，直接返回结果。</p>
@@ -343,7 +339,7 @@ byte[] b3 = &quot;Hello&quot;.getBytes(StandardCharsets.UTF_8); // 按UTF-8编�
 String s1 = new String(b, &quot;GBK&quot;); // 按GBK转换
 String s2 = new String(b, StandardCharsets.UTF_8); // 按UTF-8转换
 </code></pre>
-<p>始终牢记：Java的<code>String</code>和<code>char</code>在内存中总是以Unicode编码表示。</p>
+<p>始终牢记：Java的<code>String</code>和<code>char</code>在内存中总是以 <strong>Unicode</strong> 编码表示。</p>
 <h3 id="32-不可变的好处">3.2 不可变的好处<a class="anchor" href="#32-不可变的好处">#</a></h3>
 <p><strong>1. 可以缓存 hash 值</strong></p>
 <p>因为 String 的 hash 值经常被使用，例如 String 用做 HashMap 的 key。不可变的特性可以使得 hash 值也不可变，因此只需要进行一次计算。</p>
@@ -579,13 +575,14 @@ int x = n; // 编译器自动使用Integer.intValue()
 <h3 id="53-初始化顺序">5.3 初始化顺序<a class="anchor" href="#53-初始化顺序">#</a></h3>
 <p>对象在class文件加载完毕，以及为各成员在方法区开辟好内存空间之后，就开始所谓“初始化&quot;的步骤</p>
 <ol>
-<li><strong>基类静态代码块，基类静态成员字段</strong>（并列优先级，按代码中出现先后顺序执行）（只有第次加载类时执行</li>
-<li><strong>派生类静态代码块，派生类静态成员字段</strong>（并列优先级，按代码中出现先后顺序执行）（只有第次加载类时执行）</li>
-<li><strong>基类普通代码块，基类普通成员字段</strong>（并列优先级，按代码中出现先后顺序执行）</li>
+<li><strong>基类静态代码块，基类静态成员字段</strong></li>
+<li><strong>派生类静态代码块，派生类静态成员字段</strong></li>
+<li><strong>基类普通代码块，基类普通成员字段</strong></li>
 <li><strong>基类构造函数</strong></li>
-<li><strong>派生类普通代码块，派生类普通成员字段</strong>（并列优先级，按代码中出现先后顺序执行）</li>
+<li><strong>派生类普通代码块，派生类普通成员字段</strong></li>
 <li><strong>派生类构造函数</strong></li>
 </ol>
+<p>其中：1，2，3 和 5 并列优先级，按代码中出现先后顺序执行，1 和 2 只有第一次加载类时执行。</p>
 <p><strong>静态代码块：</strong></p>
 <ol>
 <li>它是<strong>随着类的加载而执行，只执行一次，并优先于主函数</strong>。具体说，<strong>静态代码块是由类调用</strong>的。类调用时，先执行静态代码块，然后才执行主函数的。</li>
@@ -693,7 +690,7 @@ public class Main {
 </code></pre>
 <h3 id="55-关键字">5.5 关键字<a class="anchor" href="#55-关键字">#</a></h3>
 <h4 id="1-final">1. final</h4>
-<p><strong>1. 数据</strong></p>
+<p><strong>（1）数据</strong></p>
 <p>声明数据为常量，可以是编译时常量，也可以是在运行时被初始化后不能被改变的常量。</p>
 <ul>
 <li>对于基本类型，final 使数值不变；</li>
@@ -704,13 +701,13 @@ public class Main {
 final A y = new A();
 y.a = 1;
 </code></pre>
-<p><strong>2. 方法</strong></p>
+<p><strong>（2）方法</strong></p>
 <p>声明方法不能被子类重写。</p>
 <p>private 方法隐式地被指定为 final，如果在子类中定义的方法和基类中的一个 private 方法签名相同，此时子类的方法不是重写基类方法，而是在子类中定义了一个新的方法。</p>
-<p><strong>3. 类</strong></p>
+<p><strong>（3）类</strong></p>
 <p>声明类不允许被继承。</p>
 <h4 id="2-static">2. static</h4>
-<p><strong>1. 静态变量</strong></p>
+<p><strong>（1）静态变量</strong></p>
 <ul>
 <li>静态变量：又称为类变量，也就是说这个变量属于类的，类所有的实例都共享静态变量，可以直接通过类名来访问它。静态变量在内存中只存在一份。</li>
 <li>实例变量：每创建一个实例就会产生一个实例变量，它与该实例同生共死。</li>
@@ -728,7 +725,7 @@ y.a = 1;
     }
 }
 </code></pre>
-<p><strong>2. 静态方法</strong></p>
+<p><strong>（2）静态方法</strong></p>
 <p>静态方法在类加载的时候就存在了，它不依赖于任何实例。所以静态方法必须有实现，也就是说它不能是抽象方法。</p>
 <pre><code class="language-java">public abstract class A {
     public static void func1(){
@@ -749,7 +746,7 @@ y.a = 1;
     }
 }
 </code></pre>
-<p><strong>3. 静态语句块</strong></p>
+<p><strong>（3）静态语句块</strong></p>
 <p>静态语句块在类初始化时运行一次。</p>
 <pre><code class="language-java">public class A {
     static {
@@ -763,7 +760,7 @@ y.a = 1;
 }
 // 123
 </code></pre>
-<p><strong>4. 静态内部类</strong></p>
+<p><strong>（4）静态内部类</strong></p>
 <p>非静态内部类依赖于外部类的实例，也就是说需要先创建外部类实例，才能用这个实例去创建非静态内部类。而静态内部类不需要。</p>
 <pre><code class="language-java">public class OuterClass {
 
@@ -782,7 +779,7 @@ y.a = 1;
 }
 </code></pre>
 <p>静态内部类不能访问外部类的非静态的变量和方法。</p>
-<p><strong>5. 静态导包</strong></p>
+<p><strong>（5）静态导包</strong></p>
 <p>在使用静态变量和方法时不用再指明 ClassName，从而简化代码，但可读性大大降低。</p>
 <pre><code class="language-java">import static com.xxx.ClassName.*
 </code></pre>
@@ -815,12 +812,12 @@ y.a = 1;
 <p>如果某个方法<strong>签名</strong>和<strong>返回类型</strong>恰好一致，就可以直接传入方法引用。对于实例方法有一个隐含的<code>this</code>参数，比如<code>String</code>类的<code>compareTo()</code>方法在实际调用的时候，第一个隐含参数总是传入<code>this</code>。</p>
 <h4 id="3-stream创建">3. stream创建</h4>
 <p>创建<code>Stream</code>的方法有 ：</p>
-<p><strong>1. 通过指定元素、指定数组、指定<code>Collection</code>创建<code>Stream</code>:</strong></p>
+<p><strong>（1）通过指定元素、指定数组、指定<code>Collection</code>创建<code>Stream</code>:</strong></p>
 <pre><code class="language-java">Stream&lt;String&gt; stream = Stream.of(&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;);
 Stream&lt;String&gt; stream1 = Arrays.stream(new String[] { &quot;A&quot;, &quot;B&quot;, &quot;C&quot; });
 Stream&lt;String&gt; stream2 = List.of(&quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;).stream();
 </code></pre>
-<p><strong>2. 通过<code>Supplier</code>创建<code>Stream</code>，可以是无限序列：</strong></p>
+<p><strong>（2）通过<code>Supplier</code>创建<code>Stream</code>，可以是无限序列：</strong></p>
 <pre><code class="language-java">import java.util.function.*;
 import java.util.stream.*;
 
@@ -840,7 +837,7 @@ class NatualSupplier implements Supplier&lt;Integer&gt; {
     }
 }
 </code></pre>
-<p><strong>3. 通过其他类的相关方法创建：</strong></p>
+<p><strong>（3）通过其他类的相关方法创建：</strong></p>
 <p>创建<code>Stream</code>的第三种方法是通过一些API提供的接口，直接获得<code>Stream</code>。</p>
 <p>例如，<code>Files</code>类的<code>lines()</code>方法可以把一个文件变成一个<code>Stream</code>，每个元素代表文件的一行内容：</p>
 <pre><code class="language-java">try (Stream&lt;String&gt; lines = Files.lines(Paths.get(&quot;/path/to/file.txt&quot;))) {
@@ -900,6 +897,18 @@ String[] array = list.stream().toArray(String[]::new);
 </ol>
 
 
+              
+                  
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.2/MathJax.js?config=TeX-MML-AM_SVG"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+            showMathMenu: false, //disables context menu
+            tex2jax: {
+            inlineMath: [ ['$','$'], ['\\(','\\)'] ]
+           }
+    });
+</script>
               
           </article>
           

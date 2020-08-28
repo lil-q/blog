@@ -61,7 +61,7 @@
       "datePublished": "2020-03-27 22:45:02 \u002b0000 UTC",
       "dateModified" : "2020-03-27 22:45:02 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%B8%89\/",
-      "wordCount" : "1026",
+      "wordCount" : "1029",
       "keywords" : ["java", "反射", "泛型", "动态代理", "Blog"]
     }
   
@@ -247,7 +247,7 @@ class Person {
 </ul>
 <p>调用非<code>public</code>的<code>Constructor</code>时，必须首先通过<code>setAccessible(true)</code>设置允许访问。<code>setAccessible(true)</code>可能会失败。</p>
 <h2 id="二泛型">二、泛型<a class="anchor" href="#二泛型">#</a></h2>
-<p>在集合中存储对象并在使用前进行类型转换非常不方便。泛型防止了那种情况的发生。它提供了编译期的类型安全，确保你只能把正确类型的对象放入集合中，避免了在运行时出现ClassCastException。</p>
+<p>在集合中存储对象并在使用前进行类型转换非常不方便。泛型防止了那种情况的发生。它提供了编译期的类型安全，确保你只能把正确类型的对象放入集合中，避免了在运行时出现 ClassCastException。</p>
 <p>可以把<code>ArrayList&lt;Integer&gt;</code>向上转型为<code>List&lt;Integer&gt;</code>（<code>T</code>不能变！），但不能把<code>ArrayList&lt;Integer&gt;</code>向上转型为<code>ArrayList&lt;Number&gt;</code>（<code>T</code>不能变成父类）。</p>
 <h3 id="21-静态泛型方法">2.1 静态泛型方法<a class="anchor" href="#21-静态泛型方法">#</a></h3>
 <p>对于静态方法，我们可以单独改写为“泛型”方法，只需要使用另一个类型即可：</p>
@@ -285,7 +285,7 @@ class Person {
 </code></pre>
 <p>Java标准库的<code>Map</code>就是使用两种泛型类型的例子。它对Key使用一种类型，对Value使用另一种类型。</p>
 <h3 id="23-type-erasure">2.3 Type Erasure<a class="anchor" href="#23-type-erasure">#</a></h3>
-<p>泛型是通过类型擦除来实现的，编译器在编译时擦除了所有类型相关的信息，所以在运行时不存在任何类型相关的信息。例如<code>List&lt;String&gt;</code>在运行时仅用一个<code>List</code>来表示。这样做的目的，是确保能和Java 5之前的版本开发二进制类库进行兼容。你无法在运行时访问到类型参数，因为编译器已经把泛型类型转换成了原始类型。</p>
+<p>泛型是通过<strong>类型擦除</strong>来实现的，编译器在编译时擦除了所有类型相关的信息，所以在运行时不存在任何类型相关的信息。例如<code>List&lt;String&gt;</code>在运行时仅用一个<code>List</code>来表示。这样做的目的，是确保能和 Java 5 之前的版本开发二进制类库进行兼容。你无法在运行时访问到类型参数，因为编译器已经把泛型类型转换成了原始类型。</p>
 <ul>
 <li>编译器把类型<code>&lt;T&gt;</code>视为<code>Object</code>；</li>
 <li>编译器根据<code>&lt;T&gt;</code>实现安全的强制转型。</li>
@@ -509,10 +509,10 @@ public Class&lt;T&gt; clazzT;
 <li>不易维护。一旦接口增加方法，目标对象与代理对象都要进行修改。</li>
 </ol>
 <h3 id="42-动态代理">4.2 动态代理<a class="anchor" href="#42-动态代理">#</a></h3>
-<ol>
+<ul>
 <li>通过实现接口的方式 -&gt; JDK 动态代理</li>
 <li>通过继承类的方式 -&gt; CGLIB 动态代理</li>
-</ol>
+</ul>
 <h4 id="1-jdk-动态代理">1. JDK 动态代理</h4>
 <p>基于 Java <strong>反射</strong>机制实现，<strong>必须是实现了接口的业务类</strong>才能用这种办法生成代理对象。</p>
 <ul>

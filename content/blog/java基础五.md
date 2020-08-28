@@ -9,24 +9,24 @@ keywords: [java, Map, HashMap, concurrentHashMap]
 
 ## 一、Map
 
-`Map`是一种键-值映射表，当我们调用`put(K key, V value)`方法时，就把`key`和`value`做了映射并放入`Map`。当我们调用`V get(K key)`时，就可以通过`key`获取到对应的`value`。如果`key`不存在，则返回`null`。和`List`类似，`Map`也是一个接口，最常用的实现类是`HashMap`。
+Map 是一种键-值映射表，当我们调用`put(K key, V value)`方法时，就把 key 和 value 做了映射并放入 Map。当我们调用`V get(K key)`时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
 
 ![](https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/javamap.png)
 
-- TreeMap：基于**红黑树**实现。
-- HashMap：基于**哈希表**实现。
-- HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。
-- LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。
+- **TreeMap**：基于**红黑树**实现。
+- **HashMap**：基于**哈希表**实现。
+- **HashTable**：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。
+- **LinkedHashMap**：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。
 
-### 1.1 Map遍历
+### 1.1 Map 遍历
 
-要遍历`key`可以使用`for each`循环遍历`Map`实例的`keySet()`方法返回的`Set`集合，它包含不重复的`key`的集合：
+要遍历 key 可以使用`for each`循环遍历 Map 实例的`keySet()`方法返回的 Set 集合，它包含不重复的 key 的集合：
 
 ```java
 for (String key : map.keySet()) {...}
 ```
 
-同时遍历`key`和`value`可以使用`for each`循环遍历`Map`对象的`entrySet()`集合，它包含每一个`key-value`映射：
+同时遍历 key 和 value 可以使用`for each`循环遍历 Map 对象的`entrySet()`集合，它包含每一个 key-value 映射：
 
 ```java
 for (Map.Entry<String, Integer> entry : map.entrySet()) {...}
@@ -34,10 +34,10 @@ for (Map.Entry<String, Integer> entry : map.entrySet()) {...}
 
 ### 1.2 equals() & hashCode()
 
-正确使用`Map`必须保证：
+正确使用 Map 必须保证：
 
-1. 作为`key`的对象必须正确覆写`equals()`方法，相等的两个`key`实例调用`equals()`必须返回`true`；
-2. 作为`key`的对象还必须正确覆写`hashCode()`方法，且`hashCode()`方法要严格遵循以下规范：
+1. 作为 key的对象必须正确覆写`equals()`方法，相等的两个 key 实例调用`equals()`必须返回`true`；
+2. 作为 key 的对象还必须正确覆写`hashCode()`方法，且`hashCode()`方法要严格遵循以下规范：
    - 如果两个对象相等，则两个对象的`hashCode()`必须相等；
    - 如果两个对象不相等，则两个对象的`hashCode()`尽量不要相等。
 
@@ -54,7 +54,7 @@ public int hashCode() {
 }
 ```
 
-和实现`equals()`方法遇到的问题类似，如果`firstName`或`lastName`为`null`，上述代码工作起来就会抛`NullPointerException`。为了解决这个问题，我们在计算`hashCode()`的时候，经常借助`Objects.hash()`来计算：
+和实现`equals()`方法遇到的问题类似，如果传入值为 null，就会抛`NullPointerException`。为了解决这个问题，我们在计算`hashCode()`的时候，经常借助`Objects.hash()`来计算：
 
 ```java
 int hashCode() {
@@ -64,7 +64,7 @@ int hashCode() {
 
 所以，编写`equals()`和`hashCode()`遵循的原则是：`equals()`用到的用于比较的每一个字段，都**必须**在`hashCode()`中用于计算；`equals()`中没有使用到的字段，**绝不可**放在`hashCode()`中计算。
 
-Objects.hash()内部实现实则为Arrays.hashCode()方法
+`Objects.hash()`内部实现实则为`Arrays.hashCode()`方法
 
 ```java
 public static int hash(Object... values) {
@@ -72,7 +72,7 @@ public static int hash(Object... values) {
 }
 ```
 
-Arrays.hashCode()源码
+`Arrays.hashCode()`源码：
 
 ```java
 public static int hashCode(Object a[]) {
@@ -88,22 +88,22 @@ public static int hashCode(Object a[]) {
 }
 ```
 
-注意Objects.hash(Object...)，它的参数为不定参数，需要为Object对象。这会有以下一些影响：
+注意 Objects.hash(Object...)，它的参数为不定参数，需要为 Object 对象。这会有以下一些影响：
 
-1. 对基本类型做hashCode需要转换为包装类型，如long转换为Long
-2. 会创建一个Object[]数组
+1. 对基本类型做 hashCode 需要转换为包装类型，如 long 转换为 Long；
+2. 会创建一个 Object[] 数组。
 
-如果hashCode()方法被频繁调用的话，会有一定的性能影响。
+如果 hashCode() 方法被频繁调用的话，会有一定的性能影响。
 
 ### 1.3 hashCode()
 
-`hashCode()`内部使用了数组，在初始化时默认的数组大小只有16，任何`key`无论`hashCode()`多大都可以用类似方式处理：
+`hashCode()`内部使用了数组，在初始化时默认的数组大小只有 16，任何 key 无论`hashCode()`多大都可以用类似方式处理：
 
 ```java
 int index = key.hashCode() & 0xf;
 ```
 
-当这个`hashMap`添加超过16个`key-value`时，`hashMap`会自动扩容，没扩容一次容量就会翻倍。因为内存每次扩容会导致重新分配已有的`key-value`，所以频繁扩容对`HashMap`的性能影响很大。如果确定要使用n个`key-value`的`HashMap`，最好在创建时就指定容量：
+当这个 hashMap 添加超过16个 key-value 时，hashMap 会自动扩容，没扩容一次容量就会翻倍。因为内存每次扩容会导致重新分配已有的 key-value，所以频繁扩容对 HashMap 的性能影响很大。如果确定要使用 n 个 key-value 的 HashMap，最好在创建时就指定容量：
 
 ```java
 Map<String, Integer> map = new HashMap<>(n);
@@ -111,11 +111,11 @@ Map<String, Integer> map = new HashMap<>(n);
 
 ### 1.4 EnumMap
 
-如果作为key的对象是`enum`类型，那么，还可以使用Java集合库提供的一种`EnumMap`，它在内部以一个非常紧凑的数组存储value，并且根据`enum`类型的key直接定位到内部数组的索引，并不需要计算`hashCode()`，不但效率最高，而且没有额外的空间浪费。
+如果作为 key 的对象是 enum 类型，那么，还可以使用 Java 集合库提供的一种 EnumMap，它在内部以一个非常紧凑的数组存储 value，并且根据 enum 类型的 key 直接定位到内部数组的索引，并不需要计算`hashCode()`，不但效率最高，而且没有额外的空间浪费。
 
 ### 1.5 TreeMap
 
-`SortedMap`在遍历时严格按照Key的顺序遍历，最常用的实现类是`TreeMap`。作为`SortedMap`的Key必须实现`Comparable`接口，或者传入`Comparator`：
+SortedMap 在遍历时严格按照 Key 的顺序遍历，最常用的实现类是 TreeMap。作为 SortedMap 的 Key 必须实现 Comparable 接口，或者传入 Comparator：
 
 ```java
 Map<Person, Integer> map = new TreeMap<>(new Comparator<Person>() {
@@ -125,7 +125,13 @@ Map<Person, Integer> map = new TreeMap<>(new Comparator<Person>() {
 });
 ```
 
-注意到`Comparator`接口要求实现一个比较方法，它负责比较传入的两个元素`a`和`b`，如果`a < b`，则返回负数，通常是`-1`，如果`a == b`，则返回`0`，如果`a > b`，则返回正数，通常是`1`。`TreeMap`内部根据比较结果对Key进行排序。要严格按照`compare()`规范实现比较逻辑，否则，`TreeMap`将不能正常工作。
+注意到 Comparator 接口要求实现一个比较方法，它负责比较传入的两个元素 a 和 b:
+
+* 如果 a < b，则返回负数，通常是 -1；
+* 如果 a == b，则返回 0；
+* 如果 a > b，则返回正数，通常是 1。
+
+TreeMap 内部根据比较结果对 Key 进行排序。要严格按照`compare()`规范实现比较逻辑，否则，TreeMap 将不能正常工作。
 
 [nowcoder面试题 找工作](https://www.nowcoder.com/practice/46e837a4ea9144f5ad2021658cb54c4d?tpId=98&tqId=32824&tPage=1&rp=1&ru=/ta/2019test&qru=/ta/2019test/question-ranking)
 
@@ -165,14 +171,14 @@ public class Main {
 
 ## 二、HashMap
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/hashmapjiegoutu.png" alt="hashmap" style="zoom:67%;" />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/hashmapjiegoutu.png" alt="hashmap" style="zoom: 150%;" />
 
 ```java
 public class HashMap<K,V> extends AbstractMap<K,V>
     implements Map<K,V>, Cloneable, Serializable {...}
 ```
 
-默认的容量是16：
+默认的容量是 16：
 
 ```java
 static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
@@ -180,13 +186,13 @@ static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
 
 ### 2.1 table
 
-`HashMap`内部包含了一个 `Node` 类型的数组 `table`。
+HashMap 内部包含了一个 Node 类型的数组 table。
 
 ```java
 transient Node<K,V>[] table;
 ```
 
-`Node` 实现了`Map.Entry`接口，包含了四个字段，存储着键值对`Entry`(`key`, `value`)、`hash`和`next`。数组`table`中的每个位置被当成一个桶，一个桶存放一个链表。`HashMap` 使用**拉链法**来解决冲突，同一个链表中存放**哈希值和散列桶取模运算结果相同**的 Node`。
+Node 实现了 Map.Entry 接口，包含了四个字段，存储着键值对 Entry(key, value)，hash 和 next。数组 table 中的每个位置被当成一个桶，一个桶存放一个链表。HashMap 使用**拉链法**来解决冲突，同一个链表中存放**哈希值和散列桶取模运算结果相同**的 Node。
 
 ```java
 /**N
@@ -236,7 +242,7 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 ### 2.2 put()
 
-`public`的`put()`方法调用了`putVal()`方法：
+public 修饰的`put()`方法调用了`putVal()`方法：
 
 ```java
 public V put(K key, V value) {
@@ -333,11 +339,11 @@ final Node<K,V> getNode(int hash, Object key) {
 
 ### 2.4 遍历
 
-遍历所有的键时，首先要获取键集合`KeySet`对象，然后再通过 `KeySet` 的迭代器`KeyIterator`进行遍历。`KeyIterator` 类继承自 `HashIterator` 类，核心逻辑也封装在 `HashIterator` 类中。`HashIterator` 的逻辑并不复杂，在初始化时，`HashIterator` 先从桶数组中找到包含链表节点引用的桶。然后对这个桶指向的链表进行遍历。遍历完成后，再继续寻找下一个包含链表节点引用的桶，找到继续遍历。找不到，则结束遍历。
+遍历所有的键时，首先要获取键集合 KeySet 对象，然后再通过  KeySet 的迭代器 KeyIterator 进行遍历。KeyIterator 类继承自 HashIterator 类，核心逻辑也封装在 HashIterator 类中。HashIterator 的逻辑并不复杂，在初始化时，HashIterator 先从桶数组中找到包含链表节点引用的桶。然后对这个桶指向的链表进行遍历。遍历完成后，再继续寻找下一个包含链表节点引用的桶，找到继续遍历。找不到，则结束遍历。
 
 ### 2.5 桶下标
 
-首先，传入`putVal()`的`hash(key)`处理如下，对于`key`为`null`的键值对，返回的`hash`为 0；其余则是将所得`hashCode`右移16位后于原`hashCode`作异或处理：
+首先，传入`putVal()`的`hash(key)`处理如下，对于 key 为 null 的键值对，返回的 hash 值为 0；其余则是将所得 hashCode 右移 16 位后于原 hashCode 作异或处理：
 
 ```java
 static final int hash(Object key) {
@@ -346,7 +352,7 @@ static final int hash(Object key) {
 }
 ```
 
-在后续的处理中会根据`HashMap`的容量大小取余，得到桶下标：
+在后续的处理中会根据 HashMap 的容量大小取余，得到桶下标：
 
 ```java
 n = table.length;
@@ -355,34 +361,34 @@ i = (n - 1) & hash;
 
 ### 2.6 拉链法
 
-JDK1.8开始，HashMap由链表的头插法改变成了**尾插法**，因此不再会造成死循环，改成尾插法也是为了能够更好的维护jdk1.8中HashMap的红黑树结构。
+JDK1.8 开始，HashMap 由链表的头插法改变成了**尾插法**，因此不再会造成死循环，改成尾插法也是为了能够更好的维护 jdk1.8 中 HashMap 的红黑树结构。
 
 ### 2.7 黑红树
 
-当链表变长时，查找和添加的速度会变慢，JDK1.8后加入了链表转换为黑红树的机制，当链表长度超过`TREEIFY_THRESHOLD`（默认为8）时，会转化成黑红树。
+当链表变长时，查找和添加的速度会变慢，JDK1.8 后加入了链表转换为黑红树的机制，当链表长度超过 TREEIFY_THRESHOLD（默认为8）时，会转化成黑红树。
 
 ```java
 static final int TREEIFY_THRESHOLD = 8;
 static final int UNTREEIFY_THRESHOLD = 6;
 ```
 
-在键类没有实现 `comparable` 接口的情况下，`HashMap` 会做以下三步处理：
+在键类没有实现 comparable 接口的情况下，HashMap 会做以下三步处理：
 
-1. 比较键与键之间 `hash` 的大小，如果 `hash` 相同，则
-2. 检测键类是否实现了 `Comparable` 接口，是则调用 `compareTo` 方法进行比较，否则
-3. 如果仍未比较出大小，就需要进行仲裁了，仲裁方法为 `tieBreakOrder`。
+1. 比较键与键之间 hash 值的大小，如果 hash 值相同，则
+2. 检测键类是否实现了 Comparable 接口，是则调用 `compareTo()` 方法进行比较，否则
+3. 如果仍未比较出大小，就需要进行仲裁了，仲裁方法为 tieBreakOrder。
 
 ### 2.8 加载因子
 
-初始容量`initialCapacity`是哈希表中初始桶的数量，加载因子`loadFactor`是哈希表在其容量自动扩容之前可以达到多满的一种度量。当哈希表中的条目数超出了**加载因子与当前容量的乘积**时，则要对该哈希表进行扩容、rehash操作（即重建内部数据结构），扩容后的哈希表将具有两倍的原容量。
+初始容量 initialCapacity 是哈希表中初始桶的数量，加载因子 loadFactor 是哈希表在其容量自动扩容之前可以达到多满的一种度量。当哈希表中的条目数超出了**加载因子与当前容量的乘积**时，则要对该哈希表进行扩容、rehash 操作（即重建内部数据结构），扩容后的哈希表将具有**两倍**的原容量。
 
-通常，加载因子需要**在时间和空间成本上寻求一种折衷**，默认为`0.75f`。加载因子过高，例如为 1，虽然减少了空间开销，提高了空间利用率，但同时也增加了查询时间成本；加载因子过低，例如 0.5，虽然可以减少查询时间成本，但是空间利用率很低，同时提高了 rehash 操作的次数。在设置初始容量时应该考虑到映射中所需的条目数及其加载因子，以便最大限度地减少rehash操作次数，所以，一般在使用HashMap时建议根据预估值设置初始容量，减少扩容操作。
+通常，加载因子需要**在时间和空间成本上寻求一种折衷**，默认为 0.75f。加载因子过高，例如为 1，虽然减少了空间开销，提高了空间利用率，但同时也增加了查询时间成本；加载因子过低，例如 0.5，虽然可以减少查询时间成本，但是空间利用率很低，同时提高了 rehash 操作的次数。在设置初始容量时应该考虑到映射中所需的条目数及其加载因子，以便最大限度地减少 rehash 操作次数，所以，一般在使用 HashMap 时建议根据预估值设置初始容量，减少扩容操作。
 
 ### 2.9 扩容
 
-设 `HashMap` 的 `table` 长度为 M，需要存储的键值对数量为 N，如果哈希函数满足均匀性的要求，那么每条链表的长度大约为 N/M，因此查找的复杂度为 O(N/M)。
+设 HashMap 的 table 长度为 M，需要存储的键值对数量为 N，如果哈希函数满足均匀性的要求，那么每条链表的长度大约为 N/M，因此查找的复杂度为 O(N/M)。
 
-为了让查找的成本降低，应该使 N/M 尽可能小，因此需要保证 M 尽可能大，也就是说 `table` 要尽可能大。`HashMap` 采用动态扩容来根据当前的 N 值来调整 M 值，使得空间效率和时间效率都能得到保证。
+为了让查找的成本降低，应该使 N/M 尽可能小，因此需要保证 M 尽可能大，也就是说 table 要尽可能大。HashMap 采用动态扩容来根据当前的 N 值来调整 M 值，使得空间效率和时间效率都能得到保证。
 
 ```java
 // 键值对的数量
@@ -395,11 +401,11 @@ int threshold;
 static final float DEFAULT_LOAD_FACTOR = 0.75f;
 ```
 
-扩容使用 `resize()` 实现，需要注意的是，扩容操作同样需要把 `oldTable` 的所有键值对重新插入 `newTable` 中，包括链表和黑红树的拆分，因此这一步是很费时的。
+扩容使用 `resize()` 实现，需要注意的是，扩容操作同样需要把 oldTable 的所有键值对重新插入 newTable 中，包括链表和黑红树的拆分，因此这一步是很费时的。
 
-在进行扩容时，需要把键值对重新计算桶下标，从而放到对应的桶上。在前面提到，`HashMap` 使用 `hash % capacity` 来确定桶下标。` capacity` 为 2 的 n 次方这一特点能够极大降低重新计算桶下标操作的复杂度。
+在进行扩容时，需要把键值对重新计算桶下标，从而放到对应的桶上。在前面提到，HashMap 使用 hash % capacity 来确定桶下标。capacity 为 2 的 n 次方这一特点能够极大降低重新计算桶下标操作的复杂度。
 
-假设原数组长度 `capacity` 为 16，扩容之后 `new capacity` 为 32：
+假设原数组长度 capacity 为 16，扩容之后 new capacity 为 32：
 
 ```java
 capacity     : 00010000
@@ -411,12 +417,12 @@ new capacity : 00100000
 - 为 0，那么 hash%00010000 = hash%00100000，桶位置和原来一致；
 - 为 1，hash%00010000 = hash%00100000 + 16，桶位置是原位置 + 16。
 
-### 2.10 与 Hashtable 的比较
+### 2.10 与  Hashtable  的比较
 
-- `Hashtable` 使用 `synchronized` 来进行同步。
-- `HashMap` 可以插入键为 `null` 的 `Entry`。
-- `HashMap` 的迭代器是 fail-fast 迭代器。
-- `HashMap` 不能保证随着时间的推移 `Map` 中的元素次序是不变的。
+- Hashtable 使用 synchronized 来进行同步。
+- HashMap 可以插入键为 null 的 Entry。
+- HashMap 的迭代器是 fail-fast 迭代器。
+- HashMap 不能保证随着时间的推移 Map 中的元素次序是不变的。
 
 ## 三、ConcurrentHashMap
 
@@ -467,11 +473,11 @@ JDK 1.8 使用了 **CAS** 操作来支持更高的并发度，在 CAS 操作失�
 
 #### 2. 迁移中的并发处理
 
-（1）在某个桶的**迁移过程**中，别的线程要对该桶进行put操作
+（1）在某个桶的**迁移过程**中，别的线程要对该桶进行 put 操作
 
-一旦某个桶在迁移过程中了，必然要获取该桶的锁，所以其他线程的put操作要被阻塞，一旦迁移完毕，该桶中第一个元素就会被设置成ForwardingNode节点，所以其他线程put时需要重新判断下桶中第一个元素是否被更改了，如果被改了重新获取重新执行。
+一旦某个桶在迁移过程中了，必然要获取该桶的锁，所以其他线程的put操作要被阻塞，一旦迁移完毕，该桶中第一个元素就会被设置成 ForwardingNode 节点，所以其他线程 put 时需要重新判断下桶中第一个元素是否被更改了，如果被改了重新获取重新执行。
 
-（2）某个桶已经**迁移完成（其他桶还未完成）**，别的线程要对该桶进行put操作
+（2）某个桶已经**迁移完成（其他桶还未完成）**，别的线程要对该桶进行 put 操作
 
 该线程会首先检查是否还有未分配的迁移任务，如果有则先去执行迁移任务，如果没有即全部任务已经分发出去了，那么此时该线程可以直接对新的桶进行插入操作（映射到的新桶必然已经完成了迁移，所以可以放心执行操作）。
 
@@ -482,7 +488,7 @@ public class LinkedHashMap<K,V> extends HashMap<K,V>
     implements Map<K,V> {...}
 ```
 
-继承自 `HashMap`，因此具有和 `HashMap` 一样的快速查找特性。
+继承自 HashMap，因此具有和 HashMap 一样的快速查找特性。
 
 ```java
 static class Entry<K,V> extends HashMap.Node<K,V> {
@@ -493,7 +499,7 @@ static class Entry<K,V> extends HashMap.Node<K,V> {
 }
 ```
 
-`Entry`类继承自`HashMap.Node`，可见内部维护了一个双向链表，用来维护插入顺序或者 LRU 顺序。
+Entry 类继承自 HashMap.Node，可见内部维护了一个双向链表，用来维护插入顺序或者 LRU 顺序。
 
 ```java
 // The head (eldest) of the doubly linked list.
@@ -503,13 +509,13 @@ transient LinkedHashMap.Entry<K,V> head;
 transient LinkedHashMap.Entry<K,V> tail;
 ```
 
-`accessOrder` 决定了顺序，默认为 `false`，此时维护的是插入顺序。显式设置为 true，代表以访问顺序进行迭代。
+accessOrder 决定了顺序，默认为 false，此时维护的是插入顺序。显式设置为 true，代表以访问顺序进行迭代。
 
 ```java
 final boolean accessOrder;
 ```
 
-`LinkedHashMap` 最重要的是以下用于维护顺序的函数，它们会在 `put()`、`get()` 等方法中调用。`LinkedHashMap`并没有覆写`put()`，而是覆写了`afterNodeAccess(Node<K,V> p)`。
+LinkedHashMap 最重要的是以下用于维护顺序的函数，它们会在 `put()`、`get()` 等方法中调用。LinkedHashMap 并没有覆写`put()`，而是覆写了`afterNodeAccess(Node<K,V> p)`。
 
 ```java
 void afterNodeAccess(Node<K,V> p) { }
@@ -518,7 +524,7 @@ void afterNodeInsertion(boolean evict) { }
 
 ### 4.1 afterNodeAccess()
 
-当一个节点被访问时，如果 `accessOrder` 为 true，则会将该节点移到链表尾部。也就是说指定为 LRU 顺序之后，在每次访问一个节点时，会将这个节点移到链表尾部，保证链表尾部是最近访问的节点，那么链表首部就是最近最久未使用的节点。
+当一个节点被访问时，如果 accessOrder 为 true，则会将该节点移到链表尾部。也就是说指定为 LRU 顺序之后，在每次访问一个节点时，会将这个节点移到链表尾部，保证链表尾部是最近访问的节点，那么链表首部就是最近最久未使用的节点。
 
 ```java
 void afterNodeAccess(Node<K,V> e) { // move node to last
@@ -549,7 +555,7 @@ void afterNodeAccess(Node<K,V> e) { // move node to last
 
 ### 4.2 afterNodeInsertion()
 
-在 `put()` 等操作之后执行，当 `removeEldestEntry()` 方法返回 `true` 时会移除最晚的节点，也就是链表首部节点 `first`。`evict` 只有在构建 `Map` 的时候才为 `false`，在这里为 `true`。
+在 `put()` 等操作之后执行，当 `removeEldestEntry()` 方法返回 true 时会移除最晚的节点，也就是链表首部节点 first。evict 只有在构建 Map 的时候才为 false，在这里为 true。
 
 ```java
 void afterNodeInsertion(boolean evict) { // possibly remove eldest
@@ -561,7 +567,7 @@ void afterNodeInsertion(boolean evict) { // possibly remove eldest
 }Copy to clipboardErrorCopied
 ```
 
-`removeEldestEntry()` 默认为 `false`，如果需要让它为 `true`，需要继承 `LinkedHashMap` 并且覆盖这个方法的实现，这在实现 LRU 的缓存中特别有用，通过移除最近最久未使用的节点，从而保证缓存空间足够，并且缓存的数据都是热点数据。
+`removeEldestEntry()` 默认为 false，如果需要让它为 true，需要继承 LinkedHashMap 并且覆盖这个方法的实现，这在实现 LRU 的缓存中特别有用，通过移除最近最久未使用的节点，从而保证缓存空间足够，并且缓存的数据都是热点数据。
 
 ```java
 protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
@@ -571,7 +577,7 @@ protected boolean removeEldestEntry(Map.Entry<K,V> eldest) {
 
 ### 4.3 实现LRU缓存
 
-以下是使用 `LinkedHashMap` 实现的一个 LRU 缓存：
+以下是使用 LinkedHashMap 实现的一个 LRU 缓存：
 
 ```java
 class LRUCache<K, V> extends LinkedHashMap<K, V> { // 继承自LinkedHashMap
@@ -635,17 +641,17 @@ ConcurrentCache 采取的是分代缓存：
 
 ## 六、补充
 
-由于Java的集合设计非常久远，中间经历过大规模改进，我们要注意到有一小部分集合类是遗留类，不应该继续使用：
+由于 Java 的集合设计非常久远，中间经历过大规模改进，我们要注意到有一小部分集合类是遗留类，不应该继续使用：
 
-- `Hashtable`：一种线程安全的`Map`实现；
-- `Vector`：一种线程安全的`List`实现；
-- `Stack`：基于`Vector`实现的`LIFO`的栈。
+- Hashtable：一种线程安全的 Map 实现；
+- Vector：一种线程安全的 List 实现；
+- Stack：基于 Vector 实现的 LIFO 的栈。
 
 还有一小部分接口是遗留接口，也不应该继续使用：
 
-- `Enumeration`：已被`Iterator`取代。
+- Enumeration：已被 Iterator 取代。
 
-Java的集合类定义在`java.util`包中，支持泛型。Java集合使用统一的`Iterator`遍历，尽量不要使用遗留接口。
+Java的集合类定义在 java.util 包中，支持泛型。Java集合使用统一的 Iterator 遍历，尽量不要使用遗留接口。
 
 
 

@@ -72,12 +72,10 @@ public void readFile() throws IOException { try (InputStream input = new FileInp
       <pubDate>Thu, 02 Apr 2020 15:37:30 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</guid>
-      <description>一、Map Map是一种键-值映射表，当我们调用put(K key, V value)方法时，就把key和value做了映射并放入Map。当我们调用V get(K key)时，就可以通过key获取到对应的value。如果key不存在，则返回null。和List类似，Map也是一个接口，最常用的实现类是HashMap。
- TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map遍历 要遍历key可以使用for each循环遍历Map实例的keySet()方法返回的Set集合，它包含不重复的key的集合：
-for (String key : map.keySet()) {...}  同时遍历key和value可以使用for each循环遍历Map对象的entrySet()集合，它包含每一个key-value映射：
-for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.entrySet()) {...}  1.2 equals() &amp;amp; hashCode() 正确使用Map必须保证：
- 作为key的对象必须正确覆写equals()方法，相等的两个key实例调用equals()必须返回true； 作为key的对象还必须正确覆写hashCode()方法，且hashCode()方法要严格遵循以下规范：  如果两个对象相等，则两个对象的hashCode()必须相等； 如果两个对象不相等，则两个对象的hashCode()尽量不要相等。    自己写hashCode()时R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法：31*x == (x&amp;lt;&amp;lt;5)-x，编译器会自动进行这个优化。
-@Override public int hashCode() { int result = 17; result = 31 * result + x; result = 31 * result + y; result = 31 * result + z; return result; }  和实现equals()方法遇到的问题类似，如果firstName或lastName为null，上述代码工作起来就会抛NullPointerException。为了解决这个问题，我们在计算hashCode()的时候，经常借助Objects.</description>
+      <description>一、Map Map 是一种键-值映射表，当我们调用put(K key, V value)方法时，就把 key 和 value 做了映射并放入 Map。当我们调用V get(K key)时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
+ TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map 遍历 要遍历 key 可以使用for each循环遍历 Map 实例的keySet()方法返回的 Set 集合，它包含不重复的 key 的集合：
+for (String key : map.keySet()) {...}  同时遍历 key 和 value 可以使用for each循环遍历 Map 对象的entrySet()集合，它包含每一个 key-value 映射：
+for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.</description>
     </item>
     
     <item>
@@ -86,15 +84,14 @@ for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.entrySet()) {...}  1.2
       <pubDate>Mon, 30 Mar 2020 18:34:55 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%9B%9B/</guid>
-      <description>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。
- 源码基于java 13。
- 一、Collection 二、List List接口，可以看到几个主要的接口方法：
- 在末尾添加一个元素：void add(E e) 在指定索引添加一个元素：void add(int index, E e) 删除指定索引的元素：int remove(int index) 删除某个元素：int remove(Object e) 获取指定索引的元素：E get(int index) 获取链表大小（包含元素的个数）：int size()  List接口允许我们添加重复的元素，即List内部的元素可以重复，List还允许添加null。调用List.of()，它返回的是一个只读List：
+      <description>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。【以下内容源码基于java 13】
+一、Collection 二、List List 接口有几个主要的接口方法：
+ 在末尾添加一个元素：void add(E e) 在指定索引添加一个元素：void add(int index, E e) 删除指定索引的元素：int remove(int index) 删除某个元素：int remove(Object e) 获取指定索引的元素：E get(int index) 获取链表大小（包含元素的个数）：int size()  List 接口允许我们添加重复的元素，即 List 内部的元素可以重复，List 还允许添加null。调用List.of()，它返回的是一个只读 List：
 List&amp;lt;Integer&amp;gt; list = List.of(1, 2, 5);  但是List.of()方法不接受null值，如果传入null，会抛出NullPointerException异常。
-2.1 List遍历 List的遍历采用了迭代器的设计模式：
-Iterable接口声明如下：
-public interface Iterable&amp;lt;T&amp;gt; { Iterator&amp;lt;T&amp;gt; iterator(); }  Iterator接口声明如下：
-public interface Iterator&amp;lt;E&amp;gt; { // 判断是否还有下一个对象，如果有，则返回true，否则false boolean hasNext(); // 返回集合的下个值，此方法只能在hasNext方法返回true时调用 E next(); // 删除集合的当前值，此方法也只能在hasNext方法返回true时调用 void remove(); }  ListIterator接口声明如下：</description>
+2.1 List 遍历 List 的遍历采用了迭代器的设计模式：
+Iterable 接口声明如下：
+public interface Iterable&amp;lt;T&amp;gt; { Iterator&amp;lt;T&amp;gt; iterator(); }  Iterator 接口声明如下：
+public interface Iterator&amp;lt;E&amp;gt; { // 判断是否还有下一个对象，如果有，则返回true，否则false boolean hasNext(); // 返回集合的下个值，此方法只能在hasNext方法返回true时调用 E next(); // 删除集合的当前值，此方法也只能在hasNext方法返回true时调用 void remove(); }  ListIterator 接口声明如下：</description>
     </item>
     
     <item>
@@ -125,7 +122,7 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
 1.1 权限修饰符     本类 同一个包下（子类和无关类） 不同包下（子类） 不同包下（无关类）     private Y      default Y Y     protected Y Y Y    public Y Y Y Y    一个.java文件只能包含一个public类，但可以包含多个非public类。如果有public类，文件名必须和public类的名字相同。
 1.2 继承 如果父类没有默认的构造方法，子类就必须显式调用super()并给出参数以便让编译器定位到父类的一个合适的构造方法。
 子类不会继承任何父类的构造方法。子类默认的构造方法是编译器自动生成的，不是继承的。
- **向上转型（upcasting）：**一个子类类型安全地变为父类类型的赋值。向上转型只能够调用子类重写的方法。 **向下转型（downcasting）：**一个父类类型强制转型为子类类型。找回向上转型时丢失的子类扩展方法。  instanceof判断一个变量所指向的实例是否是指定类型，或者这个类型的子类。如果一个引用变量为null，那么对任何instanceof的判断都为false。
+ 向上转型（upcasting）：一个子类类型安全地变为父类类型的赋值。向上转型只能够调用子类重写的方法。 向下转型（downcasting）：一个父类类型强制转型为子类类型。找回向上转型时丢失的子类扩展方法。  instanceof判断一个变量所指向的实例是否是指定类型，或者这个类型的子类。如果一个引用变量为null，那么对任何instanceof的判断都为false。
 利用instanceof，在向下转型前可以先判断：
 Person p = new Student(); if (p instanceof Student) { // 只有判断成功才会向下转型: Student s = (Student) p; // 一定会成功 }  从Java 14开始，判断instanceof后，可以直接转型为指定变量，避免再次强制转型。</description>
     </item>
@@ -136,7 +133,7 @@ Person p = new Student(); if (p instanceof Student) { // 只有判断成功才�
       <pubDate>Fri, 20 Mar 2020 19:33:14 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/</guid>
-      <description>JVM–java virtual machine JVM 是整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。 JRE – java runtime environment JRE 是指 java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。 JDK – java development kit JDK 是 java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。  一、数据类型 1.1 基本类型  byte/8 [-128 ~ 127] char/16 short/16 [-32768 ~ 32767] int/32 [-2147483648 ~ 2147483647] float/32 long/64 [-9223372036854775808 ~ 9223372036854775807] double/64 boolean/~  Java语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要1 bit，但是通常JVM内部会把boolean表示为4字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</description>
+      <description>Java Virtual Machine，JVM：整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。 Java Runtime Environment，JRE：java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。 Java Development Kit，JDK：java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。  一、数据类型 1.1 基本类型  byte/8 [-128 ~ 127] char/16 short/16 [-32768 ~ 32767] int/32 [-2147483648 ~ 2147483647] float/32 long/64 [-9223372036854775808 ~ 9223372036854775807] double/64 boolean/~  Java语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要1 bit，但是通常JVM内部会把boolean表示为4字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</description>
     </item>
     
   </channel>
