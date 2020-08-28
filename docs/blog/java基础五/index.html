@@ -61,7 +61,7 @@
       "datePublished": "2020-04-02 15:37:30 \u002b0000 UTC",
       "dateModified" : "2020-04-02 15:37:30 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%94\/",
-      "wordCount" : "1814",
+      "wordCount" : "1821",
       "keywords" : ["java", "Map", "HashMap", "concurrentHashMap", "Blog"]
     }
   
@@ -118,7 +118,7 @@
               
 <h2 id="一map">一、Map<a class="anchor" href="#一map">#</a></h2>
 <p>Map 是一种键-值映射表，当我们调用<code>put(K key, V value)</code>方法时，就把 key 和 value 做了映射并放入 Map。当我们调用<code>V get(K key)</code>时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。</p>
-<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/javamap.png" alt=""></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/Map3.png"  /></p>
 <ul>
 <li><strong>TreeMap</strong>：基于<strong>红黑树</strong>实现。</li>
 <li><strong>HashMap</strong>：基于<strong>哈希表</strong>实现。</li>
@@ -241,7 +241,7 @@ public class Main {
 }
 </code></pre>
 <h2 id="二hashmap">二、HashMap<a class="anchor" href="#二hashmap">#</a></h2>
-<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/hashmapjiegoutu.png" alt="hashmap" style="zoom: 150%;" /></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/Map2.png" alt="hashmap"  /></p>
 <pre><code class="language-java">public class HashMap&lt;K,V&gt; extends AbstractMap&lt;K,V&gt;
     implements Map&lt;K,V&gt;, Cloneable, Serializable {...}
 </code></pre>
@@ -396,6 +396,7 @@ static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; {
 <pre><code class="language-java">n = table.length;
 i = (n - 1) &amp; hash;
 </code></pre>
+<p>从上面的代码可以发现 hashMap 的 <strong>size 取 2 的幂的好处</strong>，再求桶下标时，只需要进行简单快速的位运算即可求余，且余数中的每一位都得到了保留，减少了哈希碰撞的可能。</p>
 <h3 id="26-拉链法">2.6 拉链法<a class="anchor" href="#26-拉链法">#</a></h3>
 <p>JDK1.8 开始，HashMap 由链表的头插法改变成了<strong>尾插法</strong>，因此不再会造成死循环，改成尾插法也是为了能够更好的维护 jdk1.8 中 HashMap 的红黑树结构。</p>
 <h3 id="27-黑红树">2.7 黑红树<a class="anchor" href="#27-黑红树">#</a></h3>
@@ -444,7 +445,7 @@ new capacity : 00100000
 </ul>
 <h2 id="三concurrenthashmap">三、ConcurrentHashMap<a class="anchor" href="#三concurrenthashmap">#</a></h2>
 <h3 id="31-存储结构">3.1 存储结构<a class="anchor" href="#31-存储结构">#</a></h3>
-<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/map1.png" alt="img" style="zoom: 80%;" /></p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/Map1.png" alt="img" style="zoom: 100%;" /></p>
 <p>ConcurrentHashMap 和 HashMap 实现上类似，最主要的差别是 ConcurrentHashMap 采用了分段锁（Segment），每个分段锁维护着几个桶（HashEntry），多个线程可以同时访问不同分段锁上的桶，从而使其并发度更高（并发度就是 Segment 的个数）。</p>
 <p>Segment 继承自 ReentrantLock。默认的并发级别为 16，也就是说默认创建 16 个 Segment。</p>
 <pre><code class="language-java">static final class HashEntry&lt;K,V&gt; {

@@ -11,7 +11,7 @@ keywords: [java, Map, HashMap, concurrentHashMap]
 
 Map 是一种键-值映射表，当我们调用`put(K key, V value)`方法时，就把 key 和 value 做了映射并放入 Map。当我们调用`V get(K key)`时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
 
-![](https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/javamap.png)
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/Map3.png"  />
 
 - **TreeMap**：基于**红黑树**实现。
 - **HashMap**：基于**哈希表**实现。
@@ -171,7 +171,7 @@ public class Main {
 
 ## 二、HashMap
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/hashmapjiegoutu.png" alt="hashmap" style="zoom: 150%;" />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/Map2.png" alt="hashmap"  />
 
 ```java
 public class HashMap<K,V> extends AbstractMap<K,V>
@@ -359,6 +359,8 @@ n = table.length;
 i = (n - 1) & hash;
 ```
 
+从上面的代码可以发现 hashMap 的 **size 取 2 的幂的好处**，再求桶下标时，只需要进行简单快速的位运算即可求余，且余数中的每一位都得到了保留，减少了哈希碰撞的可能。
+
 ### 2.6 拉链法
 
 JDK1.8 开始，HashMap 由链表的头插法改变成了**尾插法**，因此不再会造成死循环，改成尾插法也是为了能够更好的维护 jdk1.8 中 HashMap 的红黑树结构。
@@ -428,7 +430,7 @@ new capacity : 00100000
 
 ### 3.1 存储结构
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/map1.png" alt="img" style="zoom: 80%;" />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/Map1.png" alt="img" style="zoom: 100%;" />
 
 ConcurrentHashMap 和 HashMap 实现上类似，最主要的差别是 ConcurrentHashMap 采用了分段锁（Segment），每个分段锁维护着几个桶（HashEntry），多个线程可以同时访问不同分段锁上的桶，从而使其并发度更高（并发度就是 Segment 的个数）。
 

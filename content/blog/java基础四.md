@@ -11,7 +11,7 @@ keywords: [java, List, Set, Queue]
 
 ## 一、Collection
 
-![](https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/javacollection.png)
+![](https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/coll1.png)
 
 ## 二、List
 
@@ -36,7 +36,7 @@ List<Integer> list = List.of(1, 2, 5);
 
 List 的遍历采用了迭代器的设计模式：
 
-![](https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/iterator.png)
+![](https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/coll2.png)
 
 Iterable 接口声明如下：
 
