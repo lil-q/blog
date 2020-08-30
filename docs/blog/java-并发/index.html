@@ -61,7 +61,7 @@
       "datePublished": "2020-04-28 19:37:01 \u002b0000 UTC",
       "dateModified" : "2020-04-28 19:37:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E5%B9%B6%E5%8F%91\/",
-      "wordCount" : "1536",
+      "wordCount" : "1614",
       "keywords" : ["jmm", "java", "concurrency", "Blog"]
     }
   
@@ -144,26 +144,31 @@
 <li>write：作用于主内存的变量，在 store 之后执行，把值放入主内存的变量中。</li>
 </ul>
 <h3 id="22-volatile">2.2 volatile<a class="anchor" href="#22-volatile">#</a></h3>
-<p>关键字 volatile 可以说是 Java 虚拟机提供的最轻量级的同步机制，它将具备两项特性：</p>
-<ol>
-<li>保证此变量<strong>对所有线程的可见性</strong>，当一条线程修改了这个变量的值，新值对于其他线程来说是可以立即得知的。</li>
-<li><strong>禁止指令重排序优化</strong>，有 volatile 修饰的变量，赋值后多执行了一个<strong>内存屏障</strong>操作，指重排序时不能把后面的指令重排序到内存屏障之前的位置。</li>
-</ol>
-<p>只有一个处理器访问内存时，并不需要内存屏障；但如果有两个或更多处理器访问同一块内存，且其中有一个在观测另一个，就需要内存屏障来保证一致性了。</p>
-<h4 id="规则">规则</h4>
+<p>关键字 volatile 可以说是 Java 虚拟机提供的最轻量级的同步机制，它将具备两项特性：<strong>对所有线程的可见性</strong>和<strong>禁止指令重排序优化</strong>。具体规则如下：</p>
 <ol>
 <li>
-<p>在工作内存中，每次使用 Ⅴ 前都必须先<strong>从主内存刷新最新的值</strong>，用于保证能看见其他线程对变量所做的修改。</p>
-<p>即 use 动作 与 load、read 动作相关联的，必须连续且一起出现。</p>
+<p>在工作内存中，每次使用 Ⅴ 前都必须先<strong>从主内存刷新最新的值</strong>，用于保证能看见其他线程对变量所做的修改。即 use 动作 与 load、read 动作相关联的，必须连续且一起出现。</p>
 </li>
 <li>
-<p>在工作内存中，每次修改Ⅴ后都必须<strong>立刻同步回主内存中</strong>，用于保证其他线程可以看到自己对变量V所做的修改。</p>
-<p>即 assign 动作与 store、write 动作相关联的，必须连续且一起出现。</p>
+<p>在工作内存中，每次修改Ⅴ后都必须<strong>立刻同步回主内存中</strong>，用于保证其他线程可以看到自己对变量V所做的修改。即 assign 动作与 store、write 动作相关联的，必须连续且一起出现。</p>
 </li>
 <li>
 <p>volatile 修饰的变量<strong>不会被指令重排序优化</strong>，从而保证代码的执行顺序与程序的顺序相同。</p>
 </li>
 </ol>
+<p>即使是单线程，指令重排仍然能加速执行，因为一个<strong>非原子</strong>操作指令也会涉及到很多步骤，每个步骤可能会用到不同的寄存器，CPU使用了<strong>流水线技术</strong>，也就是说，CPU有多个功能单元（如获取、解码、运算和结果），一条指令也分为多个单元，那么第一条指令执行还没完毕，就可以执行第二条指令，前提是这两条指令<strong>功能单元相同或类似</strong>，所以一般可以通过指令重排使得具有相似功能单元的指令接连执行来<strong>减少流水线中断</strong>的情况。</p>
+<p>只有一个处理器访问内存时，并不需要内存屏障；但如果有两个或更多处理器访问同一块内存，且其中有一个在观测另一个，就需要内存屏障来保证一致性了。在程序运行过程中，所有的变更会先在寄存器或本地 cache 中完成，然后才会被拷贝到主存以跨越内存栅栏，此种跨越序列或顺序称为 happens-before。Java 内存屏障主要有 Load 和 Store 两类：</p>
+<ul>
+<li><strong>Load Barrier</strong>：在读指令前插入读屏障，可以让高速缓存中的数据失效，重新从主内存加载数据 ；</li>
+<li><strong>Store Barrier</strong>：在写指令之后插入写屏障，能让写入缓存的最新数据写回到主内存。</li>
+</ul>
+<p>在实际使用中，又分为以下四种：</p>
+<ul>
+<li><strong>LoadLoad屏障</strong>：<code>Load1; LoadLoad; Load2</code>，在Load2及后续读取操作要读取的数据被访问前，保证Load1要读取的数据被读取完毕。</li>
+<li><strong>StoreStore屏障</strong>：<code>Store1; StoreStore; Store2</code>，在Store2及后续写入操作执行前，保证Store1的写入操作对其它处理器可见。</li>
+<li><strong>LoadStore屏障</strong>：<code>Load1; LoadStore; Store2</code>，在Store2及后续写入操作被刷出前，保证Load1要读取的数据被读取完毕。</li>
+<li><strong>StoreLoad屏障</strong>：<code>Store1; StoreLoad; Load2</code>，在Load2及后续所有读取操作执行前，保证Store1的写入对所有处理器可见。它的开销是四种屏障中最大的。在大多数处理器的实现中，这个屏障是个万能屏障，兼具其它三种内存屏障的功能。</li>
+</ul>
 <h3 id="23-三个特性">2.3 三个特性<a class="anchor" href="#23-三个特性">#</a></h3>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurency1.png" style="zoom:150%;" /></p>
 <h4 id="1-原子性">1. 原子性</h4>
@@ -210,7 +215,6 @@ public synchronized int get() {
 <p>如果操作 A 先行发生于操作 B，操作 B 先行发生于操作 C，那么操作 A 先行发生于操作 C。</p>
 <h2 id="三线程">三、线程<a class="anchor" href="#三线程">#</a></h2>
 <p>主流的操作系统都提供了线程实现， Java 语言则提供了在不同硬件和操作系统平台下对线程操作的统一处理，每个已经调用过<code>start()</code>方法且还未结束的<code>Java.lang.Thread</code>类的实例就代表着一个线程。</p>
-<p>实现线程主要有三种方式：使用内核线程实现（1:1实现），使用用户线程实现（1：N实现），使用用户线程加轻量级进程混合实现（N:M实现）。</p>
 <p>有三种使用线程的方法：</p>
 <ul>
 <li>
@@ -238,7 +242,30 @@ Thread thread = new Thread(ft);
 <li>类可能只要求可执行就行，继承整个 Thread 类开销过大。</li>
 </ul>
 <p>通过调用<code>start()</code>启动一个新线程；一个线程对象只能调用一次<code>start()</code>方法；必须调用<code>Thread</code>实例的<code>start()</code>方法才能启动新线程，<code>start()</code>方法内部调用了一个<code>private native void start0()</code>方法，<code>native</code>修饰符表示这个方法是由JVM虚拟机内部的C代码实现的。</p>
-<h3 id="31-基础">3.1 基础<a class="anchor" href="#31-基础">#</a></h3>
+<h3 id="31-实现">3.1 实现<a class="anchor" href="#31-实现">#</a></h3>
+<p>实现线程主要有三种方式：使用内核线程实现（1:1实现），使用用户线程实现（1：N实现），使用用户线程加轻量级进程混合实现（N:M实现）。</p>
+<h4 id="1-内核线程-11-实现">1. 内核线程 1:1 实现</h4>
+<p><strong>内核线程</strong>（ <strong>K</strong>ernel- <strong>L</strong>evel <strong>T</strong>hread，<strong>KLT</strong>）就是直接由操作系统内核支持的线程，这种线程由<strong>内核通过操纵调度器（ Scheduler）对线程进行调度，并负责将线程的任务映射到各个处理器上</strong>。程序一般不会直接使用内核线程，而是使用内核线程的一种高级接口——轻量级进程（ <strong>L</strong>ight <strong>W</strong>eight <strong>P</strong>rocess，<strong>LWP</strong>），轻量级进程就是我们通常意义上所讲的线程。</p>
+<h4 id="2-用户线程-1n-实现">2. 用户线程 1:N 实现</h4>
+<p>狭义上的<strong>用户线程</strong>（ <strong>U</strong>ser <strong>T</strong>hread，<strong>UT</strong>）指的是<strong>完全建立在用户空间的线程库上</strong>，系统内核不能感知到用户线程的存在及如何实现的。<strong>用户线程的建立、同步、销毁和调度完全在用户态中完成，不需要内核的帮助</strong>。</p>
+<h4 id="3-用户线程加轻量级进程混合-nm-实现">3. 用户线程加轻量级进程混合 N:M 实现</h4>
+<p>在这种混合实现下，既存在用户线程，也存在轻量级进程。用户线程还是完全建立在用户空间中，因此用户线程的创建、切换、析构等操作依然廉价，并且可以支持大规模的用户线程并发。而操作系统支持的轻量级进程则作为用户线程和内核线程之间的桥梁这样可以使用内核提供的线程调度功能及处理器映射，并且用户线程的系统调用要通过轻量级进程来完成，这大大降低了整个进程被完全阻塞的风险。</p>
+<h4 id="4-对比">4. 对比</h4>
+<ol>
+<li>
+<p>内核线程<strong>有限</strong>，用户线程能够支持<strong>规模更大的线程数量</strong>；</p>
+<p>每个轻量级进程都需要有一个内核线程的支持，因此轻量级进程要消耗一定的内核资源（如内核线程的栈空间）；部分高性能数据库中的多线程是由用户线程实现的。</p>
+</li>
+<li>
+<p>内核线程操作系统调用的<strong>代价相对较高</strong>，用户线程<strong>快速且低消耗</strong>；</p>
+<p>内核线程操作，如创建、析构及同步，都需要进行系统调用。而系统调用的代价相对较高，需要在用户态（ User mode）和内核态（ Kernel mode）中来回切换。</p>
+</li>
+<li>
+<p>用户线程的劣势是没有系统内核的支援，<strong>所有的线程操作都需要由用户程序自己去处理</strong>。</p>
+<p>线程的创建、销毁、切换和调度都是用户必须考虑的问题，而且由于操作系统只把处理器资源分配到进程，那诸如“阻塞如何处理”多处理器系统中如何将线程映射到其他处理器上”这类问题解决起来将会异常困难，甚至有些是不可能实现的。</p>
+</li>
+</ol>
+<h3 id="32-方法">3.2 方法<a class="anchor" href="#32-方法">#</a></h3>
 <h4 id="1-daemon">1. Daemon</h4>
 <p>守护线程是程序运行时在后台提供服务的线程，不属于程序中不可或缺的部分。当所有非守护线程结束时，程序也就终止，同时会杀死所有守护线程。比如<code>main()</code>就属于非守护线程。</p>
 <p>在线程启动之前使用<code>setDaemon()</code>方法可以将一个线程设置为守护线程。</p>
@@ -264,7 +291,11 @@ Thread thread = new Thread(ft);
     Thread.yield();
 }
 </code></pre>
-<h3 id="32-状态">3.2 状态<a class="anchor" href="#32-状态">#</a></h3>
+<h4 id="4-currentthread">4. currentThread()</h4>
+<p>利用静态方法<code>Thread.currentThread()</code>可以获取当前线程：</p>
+<pre><code class="language-java">Thread.currentThread().hashCode(); // 获取当前线程 hashCode
+</code></pre>
+<h3 id="33-状态">3.3 状态<a class="anchor" href="#33-状态">#</a></h3>
 <p>一个线程只能处于一种状态，并且这里的线程状态特指 Java 虚拟机的线程状态，不能反映线程在特定操作系统下的状态。</p>
 <ul>
 <li><strong>New</strong>：新创建的线程，尚未执行；</li>
@@ -274,7 +305,7 @@ Thread thread = new Thread(ft);
 <li><strong>Timed Waiting</strong>：运行中的线程，因为执行<code>sleep()</code>方法正在计时等待；</li>
 <li><strong>Terminated</strong>：线程已终止，因为<code>run()</code>方法执行完毕。</li>
 </ul>
-<h3 id="33-中断">3.3 中断<a class="anchor" href="#33-中断">#</a></h3>
+<h3 id="34-中断">3.4 中断<a class="anchor" href="#34-中断">#</a></h3>
 <p>一个线程执行完毕之后会自动结束，如果在运行过程中发生异常也会提前结束。</p>
 <h4 id="1-interruptedexception">1. InterruptedException</h4>
 <p>通过调用一个线程的 interrupt() 来中断该线程，如果该线程处于阻塞、限期等待或者无限期等待状态，那么就会抛出 InterruptedException，从而提前结束该线程。但是不能中断 I/O 阻塞和 synchronized 锁阻塞。</p>
@@ -469,6 +500,7 @@ private Condition condition = lock.newCondition();
 }
 </code></pre>
 <p>根据《Java虚拟机规范》的要求，在执行 monitorenter 指令时，首先要去尝试获取对象的锁。如果这个对象没被锁定，或者当前线程已经持有了那个对象的锁，就把锁的计数器的值增加一，而在执行 monitorexit 指令时会将锁计数器的值减一。一旦计数器的值为零，锁随即就被释放了。如果获取对象锁失败，那当前线程就应当被阻塞等待，直到请求锁定的对象被持有它的线程释放为止。</p>
+<p>Java 虚拟机会在 monitorenter 对应的机器码指令之后临界区开始之前的地方插入一个<strong>加载屏障</strong>，这使得读线程的执行处理器能够将写线程对相应共享变量所做的更新从其他处理器同步到该处理器的高速缓存中。在 monitorexit 对应的机器码指令之后插入一个<strong>存储屏障</strong>，保障了写线程在释放锁之前在临界区中对共享变量所做的更新对读线程的执行处理器来说是可同步的。</p>
 <h4 id="2-reentrantlock">2. ReentrantLock</h4>
 <p><code>ReentrantLock</code>是可重入锁，它和<code>synchronized</code>一样，一个线程可以多次获取同一个锁。和<code>synchronized</code>不同的是，<code>ReentrantLock</code>可以尝试获取锁：</p>
 <pre><code class="language-java">if (lock.tryLock(1, TimeUnit.SECONDS)) {
@@ -686,6 +718,9 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 <li><a href="https://blog.csdn.net/fuyuwei2015/article/details/72758179">Java线程池(ThreadPoolExecutor)</a></li>
 <li><a href="https://juejin.im/post/6844903634975768590#heading-33">Java面试经典题：线程池专题</a></li>
 <li>《Java并发编程实战（Java Concurrency In Practice）》</li>
+<li><a href="http://mageek.cn/archives/99/">为什么要指令重排</a></li>
+<li><a href="http://www.wowotech.net/kernel_synchronization/Why-Memory-Barriers.html">Why Memory Barriers？中文翻译（上）</a></li>
+<li><a href="http://www.wowotech.net/kernel_synchronization/why-memory-barrier-2.html">Why Memory Barriers？中文翻译（下）</a></li>
 </ol>
 
 
@@ -768,9 +803,10 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
     </li>
     <li><a href="#三线程">三、线程</a>
       <ul>
-        <li><a href="#31-基础">3.1 基础</a></li>
-        <li><a href="#32-状态">3.2 状态</a></li>
-        <li><a href="#33-中断">3.3 中断</a></li>
+        <li><a href="#31-实现">3.1 实现</a></li>
+        <li><a href="#32-方法">3.2 方法</a></li>
+        <li><a href="#33-状态">3.3 状态</a></li>
+        <li><a href="#34-中断">3.4 中断</a></li>
         <li><a href="#34-线程池">3.4 线程池</a></li>
       </ul>
     </li>
