@@ -61,7 +61,7 @@
       "datePublished": "2020-04-02 15:37:30 \u002b0000 UTC",
       "dateModified" : "2020-04-02 15:37:30 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%94\/",
-      "wordCount" : "1821",
+      "wordCount" : "2131",
       "keywords" : ["java", "Map", "HashMap", "concurrentHashMap", "Blog"]
     }
   
@@ -443,6 +443,106 @@ new capacity : 00100000
 <li>HashMap 的迭代器是 fail-fast 迭代器。</li>
 <li>HashMap 不能保证随着时间的推移 Map 中的元素次序是不变的。</li>
 </ul>
+<h3 id="211-简易实现">2.11 简易实现<a class="anchor" href="#211-简易实现">#</a></h3>
+<pre><code class="language-java">public class MyHashMap&lt;K,V&gt; {
+
+    // 最大容量，即桶数组 table 的大小
+    int capacity;
+
+    // 当前 key-value 条目数
+    int size = 0;
+
+    // 负载因子，当 size &gt;= table * loadFactor 时，扩容
+    final float loadFactor;
+
+    // 桶数组，存放 Entry 链表
+    Entry&lt;K,V&gt;[] table;
+
+    // 键值对 Entry，格外保存 hash 和 next
+    static class Entry&lt;K,V&gt; {
+        final int hash;
+        final K key;
+        V value;
+        Entry&lt;K, V&gt; next;
+
+        Entry(int hash, K key, V value) {
+            this.hash = hash;
+            this.key = key;
+            this.value = value;
+        }
+    }
+
+    // 求 hash，对 Object 方法 HashCode() 得到的 hashcode 上下 16 位异或
+    // 因为后续求桶下标实际上可能不会用到全部 hashcode，将高位异或到低位可以增加离散度
+    static int hash(Object key) {
+        int h = key.hashCode();
+        return h ^ (h &gt;&gt;&gt; 16);
+    }
+
+    public MyHashMap() {
+        capacity = 16;
+        loadFactor = 0.75f;
+        table = new Entry[capacity];
+    }
+
+    public V get(Object key) {
+        return getEntry(hash(key), key);
+    }
+
+    private V getEntry(int hash, Object key) {
+        int index = hash &amp; (capacity - 1);
+        Entry&lt;K,V&gt; curr = table[index];
+        while (curr != null) {
+            if (curr.key.equals(key)) {
+                return curr.value;
+            }
+            curr = curr.next;
+        }
+        return null;
+    }
+
+    public void put(K key, V value) {
+        if (size &gt;= capacity * loadFactor) {
+            resize();
+        }
+        size++;
+        putVal(hash(key), key, value);
+    }
+
+    private void putVal(int hash, K key, V value) {
+        int index = hash &amp; (capacity - 1);
+        if (table[index] == null) {
+            table[index] = new Entry&lt;&gt;(hash, key, value);
+        } else {
+            Entry&lt;K, V&gt; curr = table[index], prev = null;
+            while (curr != null &amp;&amp; !curr.key.equals(key)) {
+                prev = curr;
+                curr = curr.next;
+            }
+            if (curr == null) {
+                prev.next = new Entry&lt;&gt;(hash, key, value);
+            } else {
+                curr.value = value;
+            }
+        }
+    }
+
+    private void resize() {
+        capacity &lt;&lt;= 1;
+        Entry&lt;K,V&gt;[] oldTable = table;
+        table = new Entry[capacity];
+        for (Entry entry : oldTable) {
+            if (entry == null) continue;
+            Entry curr = entry;
+            while (curr != null) {
+                // 注意到调用的是 putVal，这不会增加 size 的计数
+                putVal(entry.hash, (K)entry.key, (V)entry.value);
+                curr = curr.next;
+            }
+        }
+    }
+}
+</code></pre>
 <h2 id="三concurrenthashmap">三、ConcurrentHashMap<a class="anchor" href="#三concurrenthashmap">#</a></h2>
 <h3 id="31-存储结构">3.1 存储结构<a class="anchor" href="#31-存储结构">#</a></h3>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/Map1.png" alt="img" style="zoom: 100%;" /></p>
@@ -702,6 +802,7 @@ referent = null;
         <li><a href="#28-加载因子">2.8 加载因子</a></li>
         <li><a href="#29-扩容">2.9 扩容</a></li>
         <li><a href="#210-与--hashtable--的比较">2.10 与  Hashtable  的比较</a></li>
+        <li><a href="#211-简易实现">2.11 简易实现</a></li>
       </ul>
     </li>
     <li><a href="#三concurrenthashmap">三、ConcurrentHashMap</a>

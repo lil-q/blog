@@ -487,7 +487,7 @@ public synchronized void func () {
 }
 ```
 
-同步**`class`类**和同步**静态方法**，可以实现同步一个**类**：
+同步**`class`类**和同步**静态方法**，可以实现同步一个**类**，即同步同一类的所有对象：
 
 ```java
 public void func() {

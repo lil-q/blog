@@ -488,7 +488,7 @@ private Condition condition = lock.newCondition();
     // ...
 }
 </code></pre>
-<p>同步<strong><code>class</code>类</strong>和同步<strong>静态方法</strong>，可以实现同步一个<strong>类</strong>：</p>
+<p>同步<strong><code>class</code>类</strong>和同步<strong>静态方法</strong>，可以实现同步一个<strong>类</strong>，即同步同一类的所有对象：</p>
 <pre><code class="language-java">public void func() {
     synchronized (SynchronizedExample.class) {
         // ...
