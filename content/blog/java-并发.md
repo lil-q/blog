@@ -15,7 +15,7 @@ keywords: [jmm, java, concurrency]
 
 基于高速缓存的存储交互很好地解决了处理器与内存速度之间的矛盾，但是也为计算机系统带来更高的复杂度，它引入了一个新的问题：**缓存一致性**（ Cache Coherence）。在多路处理器系统中，每个处理器都有自己的高速缓存，而它们又共享同一主内存（ Main Memory），这种系统称为共享内存多核系统（ Shared Memory Multiprocessors System），如下图所示。**当多个处理器的运算任务都涉及同一块主内存区域时，将可能导致各自的缓存数据不一致**。
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/java-concurrent/concurrent_1.png" alt="conc_1"  />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency3.png" style="zoom:150%;" />
 
 为了解决一致性的问题，需要各个处理器访问缓存时都遵循一些**协议**，在读写时要根据协议来进行操作。
 
@@ -31,22 +31,22 @@ Java 内存模型试图**屏蔽各种硬件和操作系统的内存访问差异*
 
 Java内存模型规定了所有的变量都存储在**主内存**（ Main Memory，与硬件的主内存同名，但物理上它仅是虚拟机内存的一部分）。每条线程还有自己的**工作内存**（ Working Memory，可与前面讲的处理器高速缓存类比），线程的工作内存中保存了被该线程使用的变量的主内存**副本**，线程对变量的所有操作（读取、赋值等）都必须在工作内存中进行，而**不能直接读写主内存中的数据**。不同的线程之间也无法直接访问对方工作内存中的变量，线程间变量值的传递均需要通过主内存来完成（如果局部变量是一个 reference 类型，它引用的对象在Java堆中可被各个线程共享，但是 reference 本身在 Java 栈的局部变量表中是线程私有的）。
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/java-concurrent/concurrent_2.png" alt="conc_1"  />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency4.png" style="zoom:150%;" />
 
 ### 2.1 内存间交互操作
 
 Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互操作。Java虚拟机实现时必须保证下面提及的每一种操作都是原子的、不可再分的（对于 double 和 long 类型的变量来说， load、 store、read 和 write 操作在某些平台r上允许有例外）。
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/java-concurrent/concurrent_3.png" alt="conc_1"  />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency5.png" style="zoom:150%;" />
 
-- lock：作用于主内存的变量，标识为一条线程独占。
-- unlock：作用于主内存的变量，释放处于锁定状态的变量。
-- read：作用于主内存的变量，传输到工作内存中。
-- load：作用于工作内存的变量，在 read 之后执行，把值放入工作内存的变量副本中。
-- use：作用于工作内存的变量，传递给执行引擎。
-- assign：作用于工作内存的变量，把一个从执行引擎接收到的值赋给工作内存的变量。
-- store：作用于工作内存的变量，把一个变量的值传送到主内存中。
-- write：作用于主内存的变量，在 store 之后执行，把值放入主内存的变量中。
+- **lock**：作用于主内存的变量，标识为一条线程独占。
+- **unlock**：作用于主内存的变量，释放处于锁定状态的变量。
+- **read**：作用于主内存的变量，传输到工作内存中。
+- **load**：作用于工作内存的变量，在 read 之后执行，把值放入工作内存的变量副本中。
+- **use**：作用于工作内存的变量，传递给执行引擎。
+- **assign**：作用于工作内存的变量，把一个从执行引擎接收到的值赋给工作内存的变量。
+- **store**：作用于工作内存的变量，把一个变量的值传送到主内存中。
+- **write**：作用于主内存的变量，在 store 之后执行，把值放入主内存的变量中。
 
 ### 2.2 volatile
 
@@ -731,7 +731,7 @@ AbstractQueuedSynchronizer（AQS）定义了一套多线程访问共享资源的
 
 AQS维护了一个`volatile int state`（代表共享资源）和一个 FIFO 线程等待队列（多线程争用资源被阻塞时会进入此队列）。
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/2020-05-02%20004256.png"  />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency6.png" style="zoom:150%;" />
 
 ### 7.2 CountDownLatch
 

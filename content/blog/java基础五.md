@@ -184,7 +184,9 @@ public class HashMap<K,V> extends AbstractMap<K,V>
 static final int DEFAULT_INITIAL_CAPACITY = 1 << 4; // aka 16
 ```
 
-### 2.1 table
+### 2.1 储存结构
+
+**（1）table**
 
 HashMap 内部包含了一个 Node 类型的数组 table。
 
@@ -240,7 +242,7 @@ static class Node<K,V> implements Map.Entry<K,V> {
 }
 ```
 
-### 2.2 put()
+**（2）put()**
 
 public 修饰的`put()`方法调用了`putVal()`方法：
 
@@ -306,7 +308,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 }
 ```
 
-### 2.3 get()
+**（3）get()**
 
 ```java
 public V get(Object key) {
@@ -337,11 +339,11 @@ final Node<K,V> getNode(int hash, Object key) {
 }
 ```
 
-### 2.4 遍历
+**（4）遍历**
 
 遍历所有的键时，首先要获取键集合 KeySet 对象，然后再通过  KeySet 的迭代器 KeyIterator 进行遍历。KeyIterator 类继承自 HashIterator 类，核心逻辑也封装在 HashIterator 类中。HashIterator 的逻辑并不复杂，在初始化时，HashIterator 先从桶数组中找到包含链表节点引用的桶。然后对这个桶指向的链表进行遍历。遍历完成后，再继续寻找下一个包含链表节点引用的桶，找到继续遍历。找不到，则结束遍历。
 
-### 2.5 桶下标
+**（5）桶下标**
 
 首先，传入`putVal()`的`hash(key)`处理如下，对于 key 为 null 的键值对，返回的 hash 值为 0；其余则是将所得 hashCode 右移 16 位后于原 hashCode 作异或处理：
 
@@ -361,11 +363,11 @@ i = (n - 1) & hash;
 
 从上面的代码可以发现 hashMap 的 **size 取 2 的幂的好处**，再求桶下标时，只需要进行简单快速的位运算即可求余，且余数中的每一位都得到了保留，减少了哈希碰撞的可能。
 
-### 2.6 拉链法
+**（6）拉链法**
 
 JDK1.8 开始，HashMap 由链表的头插法改变成了**尾插法**，因此不再会造成死循环，改成尾插法也是为了能够更好的维护 jdk1.8 中 HashMap 的红黑树结构。
 
-### 2.7 黑红树
+**（7）黑红树**
 
 当链表变长时，查找和添加的速度会变慢，JDK1.8 后加入了链表转换为黑红树的机制，当链表长度超过 TREEIFY_THRESHOLD（默认为8）时，会转化成黑红树。
 
@@ -380,13 +382,13 @@ static final int UNTREEIFY_THRESHOLD = 6;
 2. 检测键类是否实现了 Comparable 接口，是则调用 `compareTo()` 方法进行比较，否则
 3. 如果仍未比较出大小，就需要进行仲裁了，仲裁方法为 tieBreakOrder。
 
-### 2.8 加载因子
+**（8）加载因子**
 
 初始容量 initialCapacity 是哈希表中初始桶的数量，加载因子 loadFactor 是哈希表在其容量自动扩容之前可以达到多满的一种度量。当哈希表中的条目数超出了**加载因子与当前容量的乘积**时，则要对该哈希表进行扩容、rehash 操作（即重建内部数据结构），扩容后的哈希表将具有**两倍**的原容量。
 
 通常，加载因子需要**在时间和空间成本上寻求一种折衷**，默认为 0.75f。加载因子过高，例如为 1，虽然减少了空间开销，提高了空间利用率，但同时也增加了查询时间成本；加载因子过低，例如 0.5，虽然可以减少查询时间成本，但是空间利用率很低，同时提高了 rehash 操作的次数。在设置初始容量时应该考虑到映射中所需的条目数及其加载因子，以便最大限度地减少 rehash 操作次数，所以，一般在使用 HashMap 时建议根据预估值设置初始容量，减少扩容操作。
 
-### 2.9 扩容
+### 2.2 扩容
 
 设 HashMap 的 table 长度为 M，需要存储的键值对数量为 N，如果哈希函数满足均匀性的要求，那么每条链表的长度大约为 N/M，因此查找的复杂度为 O(N/M)。
 
@@ -419,14 +421,14 @@ new capacity : 00100000
 - 为 0，那么 hash%00010000 = hash%00100000，桶位置和原来一致；
 - 为 1，hash%00010000 = hash%00100000 + 16，桶位置是原位置 + 16。
 
-### 2.10 与  Hashtable  的比较
+### 2.3 与  Hashtable  的比较
 
 - Hashtable 使用 synchronized 来进行同步。
 - HashMap 可以插入键为 null 的 Entry。
 - HashMap 的迭代器是 fail-fast 迭代器。
 - HashMap 不能保证随着时间的推移 Map 中的元素次序是不变的。
 
-### 2.11 简易实现
+### 2.4 简易实现
 
 ```java
 public class MyHashMap<K,V> {
@@ -769,3 +771,4 @@ Java的集合类定义在 java.util 包中，支持泛型。Java集合使用统�
 3. [jdk1.8的HashMap和ConcurrentHashMap](https://my.oschina.net/pingpangkuangmo/blog/817973#h2_17)
 4. [Java中的WeakHashMap](https://juejin.im/entry/5a085809f265da430c114c8b)
 5. [Weak references - how useful are they?](https://stackoverflow.com/questions/7136620/weak-references-how-useful-are-they)
+6. [AQS](https://zhuanlan.zhihu.com/p/86072774)
