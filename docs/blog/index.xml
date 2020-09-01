@@ -274,7 +274,13 @@ Person p = new Student(); if (p instanceof Student) { // 只有判断成功才�
       <pubDate>Fri, 20 Mar 2020 19:33:14 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/</guid>
-      <description>Java Virtual Machine，JVM：整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。 Java Runtime Environment，JRE：java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。 Java Development Kit，JDK：java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。  一、数据类型 1.1 基本类型  byte/8 [-128 ~ 127] char/16 short/16 [-32768 ~ 32767] int/32 [-2147483648 ~ 2147483647] float/32 long/64 [-9223372036854775808 ~ 9223372036854775807] double/64 boolean/~  Java语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要1 bit，但是通常JVM内部会把boolean表示为4字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</description>
+      <description>Java Virtual Machine，JVM：
+整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
+  Java Runtime Environment，JRE：
+java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。
+  Java Development Kit，JDK：
+java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。
+  一、数据类型 1.1 基本类型  byte/8 [-128 ~ 127] char/16 short/16 [-32768 ~ 32767] int/32 [-2147483648 ~ 2147483647] float/32 long/64 [-9223372036854775808 ~ 9223372036854775807] double/64 boolean/~  Java语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要1 bit，但是通常JVM内部会把boolean表示为4字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</description>
     </item>
     
     <item>

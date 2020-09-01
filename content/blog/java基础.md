@@ -8,11 +8,19 @@ keywords: [java, stream]
 math: true
 ---
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/javase1.png" style="zoom:50%;" />
+* **J**ava **V**irtual **M**achine，**JVM**：
 
-* **J**ava **V**irtual **M**achine，**JVM**：整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
-* **J**ava **R**untime **E**nvironment，**JRE**：java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。
-* **J**ava **D**evelopment **K**it，**JDK**：java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。
+  整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
+
+* **J**ava **R**untime **E**nvironment，**JRE**：
+
+  java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。
+
+* **J**ava **D**evelopment **K**it，**JDK**：
+
+  java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。
+
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/javase1.png" style="zoom:50%;" />
 
 ## 一、数据类型
 
@@ -381,11 +389,15 @@ public class Main {
 }
 ```
 
-### 3.5 String Pool
+### 3.5 常量池
 
-字符串常量池（String Pool）保存着所有字符串字面量（literal strings），这些字面量在编译时期就确定。不仅如此，还可以使用 String 的 intern() 方法在运行过程将字符串添加到 String Pool 中。
+需要区分 Class 文件中指定的**常量池**和**运行时常量池**的区别：
 
-当一个字符串调用 intern() 方法时，如果 String Pool 中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回 String Pool 中字符串的引用；否则，就会在 String Pool 中添加一个新的字符串，并返回这个新字符串的引用。
+紧接着主、次版本号之后的是常量池（Constant Pool）入口，常量池可以比喻为Cass文件里的资源仓库，它是 Class 文件结构中与其他项目关联最多的数据，通常也是占用 Class 文件空间最大的数据项目之一。Class 文件中的常量池中主要存放两大类常量：字面量（ Literal）和符号引用（ Symbolic References）。在虚拟机加载 class 文件的解析阶段 Java 虚拟机会将常量池内的符号引用替换为直接引用。字面量在**编译时期**就确定。
+
+运行时常量池（Runtime Constant Pool）是方法区的一部分。 Class 文件中的常量池表所包含的生成的各种字面量与符号引用将在类加载后存放到方法区的运行时常量池中。不仅如此，还可以使用 String 的 intern() 方法在运行过程将字符串添加到运行时常量池。
+
+当一个字符串调用 intern() 方法时，如果运行时常量池中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回运行时常量池中字符串的引用；否则，就会创建一个新的字符串（对象本身存放在堆中），把其引用添加到运行时常量池中，并返回这个新字符串的引用。
 
 下面示例中，s1 和 s2 采用 new String() 的方式新建了两个不同字符串，而 s3 和 s4 是通过 s1.intern() 方法取得同一个字符串引用。intern() 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。
 
@@ -396,24 +408,17 @@ System.out.println(s1 == s2);           // false
 String s3 = s1.intern();
 String s4 = s1.intern();
 System.out.println(s3 == s4);           // true
+System.out.println(s3 == s1);           // false
 ```
 
-如果是采用 "bbb" 这种字面量的形式创建字符串，会自动地将字符串放入 String Pool 中。
+`new String("aaa")` 这种方式一共会创建两个字符串对象（前提是 String Pool 中还没有 “abc” 字符串对象）。
 
-```java
-String s5 = "bbb";
-String s6 = "bbb";
-System.out.println(s5 == s6);  // true
-```
-
-### 3.6 new String("abc")
-
-使用这种方式一共会创建两个字符串对象（前提是 String Pool 中还没有 "abc" 字符串对象）。
-
-- "abc" 属于字符串字面量，因此编译时期会在 String Pool 中创建一个字符串对象，指向这个 "abc" 字符串字面量；
+- “abc” 属于字符串字面量，因此编译时期会在 String Pool 中创建一个字符串对象，指向这个 “abc” 字符串字面量；
 - 而使用 new 的方式会在堆中创建一个字符串对象。
 
-### 3.7 常用方法
+所以`s3 == s1`返回 false，因为 s3 实际指向引号创建字面量时产生的对象。
+
+### 3.6 常用方法
 
 ```java
 import java.util.Arrays;

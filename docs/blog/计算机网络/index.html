@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "673",
+      "wordCount" : "697",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -355,7 +355,11 @@
 <li>由接收方控制，将一包数据按结构字段，人为控制分多次接收，然后合并，通过这种手段来避免粘包。</li>
 </ol>
 <h2 id="五应用层">五、应用层<a class="anchor" href="#五应用层">#</a></h2>
-<h3 id="51-http--https">5.1 HTTP &amp; HTTPS<a class="anchor" href="#51-http--https">#</a></h3>
+<h3 id="51-dns">5.1 DNS<a class="anchor" href="#51-dns">#</a></h3>
+<p>域名注册完成后首先需要做域名解析，域名解析就是把域名指向网站所在服务器的IP，让人们通过注册的域名可以访问到网站。IP 地址是网络上标识服务器的数字地址，为了方便记忆，使用域名来代替 IP 地址。域名解析就是域名到 IP 地址的转换过程，域名的解析工作由 DNS 服务器完成。DNS 服务器会把域名解析到一个 IP 地址，然后在此 IP 地址的主机上将一个子目录与域名绑定。域名解析时会添加解析记录，这些记录有：<code>A记录</code>、<code>AAAA记录</code>、<code>CNAME记录</code>、<code>MX记录</code>、<code>NS记录</code>、<code>TXT记录</code>、<code>SRV记录</code>、<code>URL转发</code>。</p>
+<p>其中 CNAME 将几个主机名指向一个别名，其实跟指向IP地址是一样的，因为这个别名也要做一个A记录的。但是使用CNAME记录可以很方便地变更IP地址。</p>
+<p><strong>解决因分布、带宽、服务器性能带来的访问延迟问题</strong>，适用于站点加速、点播、直播等场景。使用户可就近取得所需内容，解决 Internet 网络拥挤的状况，提高用户访问网站的响应速度和成功率。CDN 能够尽可能的<strong>减少资源在转发、传输、链路抖动等情况下顺利保障信息的连贯性</strong>。</p>
+<h3 id="52-http--https">5.2 HTTP &amp; HTTPS<a class="anchor" href="#52-http--https">#</a></h3>
 <ul>
 <li>HTTPS 其实就是建构在 <strong>SSL</strong> / <strong>TLS</strong> 之上的 HTTP 协议，HTTPS 比 HTTP <strong>更耗费服务器资源</strong>。</li>
 <li>HTTP 明文传输，数据未加密，安全性较差，HTTPS 传输过程中数据加密，<strong>安全性较好</strong>。</li>
@@ -367,7 +371,7 @@
 <p><strong>传输层安全性协议</strong>（<strong>T</strong>ransport <strong>L</strong>ayer <strong>S</strong>ecurity，<strong>TLS</strong>）及其前身<strong>安全套接层</strong>（<strong>S</strong>ecure <strong>S</strong>ockets <strong>L</strong>ayer，<strong>SSL</strong>）是一种安全协议，目的是为互联网通信提供安全及数据完整性保障。</p>
 <p><strong>数字证书认证机构</strong>（<strong>C</strong>ertificate <strong>A</strong>uthority，<strong>CA</strong>）是负责发放和管理<strong>数字证书</strong>的权威机构</p>
 </blockquote>
-<h3 id="52-socket">5.2 socket<a class="anchor" href="#52-socket">#</a></h3>
+<h3 id="53-socket">5.3 socket<a class="anchor" href="#53-socket">#</a></h3>
 <p><strong>Socket</strong> 是在应用层和传输层之间的一个<strong>抽象层</strong>，它把 TCP/IP 层复杂的操作抽象为几个简单的接口，供应用层调用实现进程在网络中的通信。Socket 起源于 UNIX，在 UNIX 一切皆文件的思想下，进程间通信就被冠名为<code>文件描述符（file descriptor）</code>，Socket 是一种<strong>打开—读/写—关闭</strong>模式的实现，服务器和客户端各自维护一个文件，在建立连接打开后，可以向文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/webnew2.png" alt="socket" style="zoom:125%;" /></p>
 <p>TCP/IP 只是一个协议栈，就像操作系统的运行机制一样，必须要具体实现，同时还要提供对外的操作接口。就像操作系统会提供标准的编程接口，比如 Win32 编程接口一样，TCP/IP 也必须对外提供编程接口，这就是 Socket。</p>
@@ -380,6 +384,8 @@
 <li><a href="https://www.zhihu.com/question/68641339">关于分片</a></li>
 <li><a href="https://segmentfault.com/a/1190000013712747">sokect通信原理</a></li>
 <li><a href="https://www.nowcoder.com/discuss/414727?type=all&amp;order=time&amp;pos=&amp;page=1&amp;channel=1013&amp;source_id=search_all">图解TCP 重传、滑动窗口、流量控制、拥塞控制</a></li>
+<li><a href="https://itbilu.com/other/relate/EyxzdVl3.html">DNS</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/28940451">CDN</a></li>
 </ol>
 
 
@@ -485,8 +491,9 @@
     </li>
     <li><a href="#五应用层">五、应用层</a>
       <ul>
-        <li><a href="#51-http--https">5.1 HTTP &amp; HTTPS</a></li>
-        <li><a href="#52-socket">5.2 socket</a></li>
+        <li><a href="#51-dns">5.1 DNS</a></li>
+        <li><a href="#52-http--https">5.2 HTTP &amp; HTTPS</a></li>
+        <li><a href="#53-socket">5.3 socket</a></li>
       </ul>
     </li>
     <li><a href="#参考">参考</a></li>
