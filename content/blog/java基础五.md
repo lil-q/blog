@@ -91,9 +91,9 @@ public static int hashCode(Object a[]) {
 注意 Objects.hash(Object...)，它的参数为不定参数，需要为 Object 对象。这会有以下一些影响：
 
 1. 对基本类型做 hashCode 需要转换为包装类型，如 long 转换为 Long；
-2. 会创建一个 Object[] 数组。
+2. 会创建一个 Object 数组。
 
-如果 hashCode() 方法被频繁调用的话，会有一定的性能影响。
+如果`hashCode()`方法被频繁调用的话，会有一定的性能影响。
 
 ### 1.3 hashCode()
 

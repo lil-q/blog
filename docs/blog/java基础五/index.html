@@ -61,7 +61,7 @@
       "datePublished": "2020-04-02 15:37:30 \u002b0000 UTC",
       "dateModified" : "2020-04-02 15:37:30 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%94\/",
-      "wordCount" : "2126",
+      "wordCount" : "2124",
       "keywords" : ["java", "Map", "HashMap", "concurrentHashMap", "Blog"]
     }
   
@@ -180,9 +180,9 @@ public int hashCode() {
 <p>注意 Objects.hash(Object&hellip;)，它的参数为不定参数，需要为 Object 对象。这会有以下一些影响：</p>
 <ol>
 <li>对基本类型做 hashCode 需要转换为包装类型，如 long 转换为 Long；</li>
-<li>会创建一个 Object[] 数组。</li>
+<li>会创建一个 Object 数组。</li>
 </ol>
-<p>如果 hashCode() 方法被频繁调用的话，会有一定的性能影响。</p>
+<p>如果<code>hashCode()</code>方法被频繁调用的话，会有一定的性能影响。</p>
 <h3 id="13-hashcode">1.3 hashCode()<a class="anchor" href="#13-hashcode">#</a></h3>
 <p><code>hashCode()</code>内部使用了数组，在初始化时默认的数组大小只有 16，任何 key 无论<code>hashCode()</code>多大都可以用类似方式处理：</p>
 <pre><code class="language-java">int index = key.hashCode() &amp; 0xf;
