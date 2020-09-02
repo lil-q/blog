@@ -1,5 +1,5 @@
 ---
-title: OpenCV-python-2
+title: OpenCV-python-滤波和阈值分割
 date: 2020-02-17 14:44:55
 tags: [OpenCV]
 math: true

@@ -319,7 +319,7 @@ SELECT ... FOR UPDATE;
 </tbody>
 </table>
 <h2 id="五多版本并发控制">五、多版本并发控制<a class="anchor" href="#五多版本并发控制">#</a></h2>
-<p>多版本并发控制（Multi-Version Concurrency Control, MVCC）是 MySQL 的 InnoDB 存储引擎实现隔离级别的一种具体方式，用于实现<strong>提交读</strong>和<strong>可重复读</strong>这两种隔离级别。而<strong>未提交读</strong>隔离级别总是读取最新的数据行，要求很低，无需使用 MVCC。<strong>可串行化</strong>隔离级别需要对所有读取的行都加锁，单纯使用 MVCC 无法实现。</p>
+<p><strong>多版本并发控制</strong>（<strong>M</strong>ulti-<strong>V</strong>ersion <strong>C</strong>oncurrency <strong>C</strong>ontrol, <strong>MVCC</strong>）是 MySQL 的 InnoDB 存储引擎实现隔离级别的一种具体方式，用于实现<strong>提交读</strong>和<strong>可重复读</strong>这两种隔离级别。而<strong>未提交读</strong>隔离级别总是读取最新的数据行，要求很低，无需使用 MVCC。<strong>可串行化</strong>隔离级别需要对所有读取的行都加锁，单纯使用 MVCC 无法实现。</p>
 <p>MVCC在大多数情况下代替了行锁，实现了<strong>对读的非阻塞，读不加锁，读写不冲突</strong>。缺点是每行记录都需要额外的存储空间，需要做更多的行维护和检查工作。</p>
 <h3 id="51-基本思想">5.1 基本思想<a class="anchor" href="#51-基本思想">#</a></h3>
 <p>在封锁一节中提到，加锁能解决多个事务同时执行时出现的并发一致性问题。在实际场景中读操作往往多于写操作，因此又引入了读写锁来避免不必要的加锁操作，例如读和读没有互斥关系。读写锁中读和写操作仍然是互斥的，而 MVCC 利用了<strong>多版本的思想，写操作更新最新的版本快照，而读操作去读旧版本快照，没有互斥关系</strong>，这一点和 CopyOnWrite 类似。</p>
@@ -337,12 +337,12 @@ SELECT ... FOR UPDATE;
 <p>MVCC 维护了一个 ReadView 结构，主要包含了当前系统未提交的事务列表 TRX_IDs {TRX_ID_1, TRX_ID_2, &hellip;}，还有该列表的最小值 TRX_ID_MIN 和 TRX_ID_MAX。</p>
 <p>在进行 SELECT 操作时，根据数据行快照的 TRX_ID 与 TRX_ID_MIN 和 TRX_ID_MAX 之间的关系，从而判断数据行快照是否可以使用：</p>
 <ul>
-<li>TRX_ID &lt; TRX_ID_MIN：表示该数据行快照时在当前所有未提交事务之前进行更改的，因此可以使用。</li>
-<li>TRX_ID &gt; TRX_ID_MAX：表示该数据行快照是在事务启动之后被更改的，因此不可使用。</li>
-<li>TRX_ID_MIN &lt;= TRX_ID &lt;= TRX_ID_MAX：需要根据隔离级别再进行判断：
+<li><strong>TRX_ID &lt; TRX_ID_MIN</strong>：表示该数据行快照时在当前所有未提交事务之前进行更改的，因此可以使用。</li>
+<li><strong>TRX_ID &gt; TRX_ID_MAX</strong>：表示该数据行快照是在事务启动之后被更改的，因此不可使用。</li>
+<li><strong>TRX_ID_MIN &lt;= TRX_ID &lt;= TRX_ID_MAX</strong>：需要根据隔离级别再进行判断：
 <ul>
-<li>提交读：如果 TRX_ID 在 TRX_IDs 列表中，表示该数据行快照对应的事务还未提交，则该快照不可使用。否则表示已经提交，可以使用。</li>
-<li>可重复读：都不可以使用。因为如果可以使用的话，那么其它事务也可以读到这个数据行快照并进行修改，那么当前事务再去读这个数据行得到的值就会发生改变，也就是出现了不可重复读问题。</li>
+<li><strong>提交读</strong>：如果 TRX_ID 在 TRX_IDs 列表中，表示该数据行快照对应的事务还未提交，则该快照不可使用。否则表示已经提交，可以使用。</li>
+<li><strong>可重复读</strong>：都不可以使用。因为如果可以使用的话，那么其它事务也可以读到这个数据行快照并进行修改，那么当前事务再去读这个数据行得到的值就会发生改变，也就是出现了不可重复读问题。</li>
 </ul>
 </li>
 </ul>

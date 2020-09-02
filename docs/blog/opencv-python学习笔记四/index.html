@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>OpenCV-python-4 | Homeward</title>
+  <title>OpenCV-python-亮度与对比度 | Homeward</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -48,8 +48,8 @@
             "@id": "https:\/\/lil-q.github.io\/"
       },
       "articleSection" : "blog",
-      "name" : "OpenCV-python-4",
-      "headline" : "OpenCV-python-4",
+      "name" : "OpenCV-python-亮度与对比度",
+      "headline" : "OpenCV-python-亮度与对比度",
       "description" : "OpenCV-python和Numpy分析图片亮度和对比度",
       "inLanguage" : "en-US",
       "author" : "",
@@ -111,7 +111,7 @@
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">OpenCV-python-4</h1>
+            <h1 id="post__title">OpenCV-python-亮度与对比度</h1>
             <time datetime="2020-02-20 14:14:07 &#43;0000 UTC" class="post__date">Feb 20 2020</time> 
           </header>
           <article class="post__content">
@@ -176,7 +176,7 @@ img = cv2.merge((b,g,r))
 <p>假设，想要将所有红色像素设为零，不需要像这样分割并将其等于零。 可以简单地使用 Numpy 索引，这样更快。</p>
 <pre><code class="language-python">img[:,:,2] = 0
 </code></pre>
-<h2 id="二图片亮度和对比度">二、图片亮度和对比度<a class="anchor" href="#二图片亮度和对比度">#</a></h2>
+<h2 id="二亮度与对比度">二、亮度与对比度<a class="anchor" href="#二亮度与对比度">#</a></h2>
 <p>简单的改变图片的亮度和对比度可以是一个线性的过程：</p>
 <p>$$ g\left (i,j  \right )= \alpha \cdot f\left ( i,j \right )+\beta\tag{1} $$</p>
 <p>式子1 中 $ f\left ( i,j \right ) $ 相当于就是原图像每个像素点对应色彩或灰度的映射。直观上看，$ \alpha $ 决定了对比度，$ \alpha $ 越大，各像素之间的差别越大，对比度越大。$ \beta $ 决定了亮度，$ \beta $ 越大，各像素整体都变大，亮度提升了。</p>
@@ -245,14 +245,14 @@ print(x + y)  # 250 + 10 = 260 % 256 = 4 --会溢出
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89/">
         <span class="pagination__label">Previous Post</span>
-        <span class="pagination__title">OpenCV-python-3</span>
+        <span class="pagination__title">OpenCV-python-图像混合与形态学</span>
     </a>
   
 
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >OpenCV-python-5</a>
+      <span class="pagination__title" >OpenCV-python-图像梯度与边缘检测</a>
     </a>
   
 </div>
@@ -304,7 +304,7 @@ print(x + y)  # 250 + 10 = 260 % 256 = 4 --会溢出
         <li><a href="#14-拆分和合并图像通道">1.4 拆分和合并图像通道</a></li>
       </ul>
     </li>
-    <li><a href="#二图片亮度和对比度">二、图片亮度和对比度</a></li>
+    <li><a href="#二亮度与对比度">二、亮度与对比度</a></li>
   </ul>
 </nav>
       </div>

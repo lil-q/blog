@@ -1,5 +1,5 @@
 ---
-title: OpenCV-python-4
+title: OpenCV-python-亮度与对比度
 date: 2020-02-20 14:14:07
 tags: [OpenCV]
 math: true
@@ -108,7 +108,7 @@ b = img[:,:,0]
 img[:,:,2] = 0
 ```
 
-## 二、图片亮度和对比度
+## 二、亮度与对比度
 
 简单的改变图片的亮度和对比度可以是一个线性的过程：
 

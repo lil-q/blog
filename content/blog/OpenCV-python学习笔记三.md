@@ -1,5 +1,5 @@
 ---
-title: OpenCV-python-3
+title: OpenCV-python-图像混合与形态学
 date: 2020-02-19 13:00:33
 tags: [OpenCV]
 math: true
@@ -8,7 +8,7 @@ description: "OpenCV-python图片混合和形态学操作"
 keywords: [OpenCV, python, ori]
 ---
 
-## 一、图片混合
+## 一、图像混合
 
 ### 1.1 图像混合
 

@@ -61,7 +61,7 @@
       "datePublished": "2020-03-20 19:33:14 \u002b0000 UTC",
       "dateModified" : "2020-03-20 19:33:14 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80\/",
-      "wordCount" : "1825",
+      "wordCount" : "1826",
       "keywords" : ["java", "stream", "Blog"]
     }
   
@@ -328,7 +328,7 @@ byte[] b3 = &quot;Hello&quot;.getBytes(StandardCharsets.UTF_8); // 按UTF-8编�
 String s1 = new String(b, &quot;GBK&quot;); // 按GBK转换
 String s2 = new String(b, StandardCharsets.UTF_8); // 按UTF-8转换
 </code></pre>
-<p>始终牢记：Java的 String 和 char 在内存中总是以 <strong>Unicode</strong> 编码表示。</p>
+<p>始终牢记：Java 的 String 和 char 在内存中总是以 <strong>Unicode</strong> 编码表示。</p>
 <h3 id="32-不可变的好处">3.2 不可变的好处<a class="anchor" href="#32-不可变的好处">#</a></h3>
 <p><strong>1. 可以缓存 hash 值</strong></p>
 <p>因为 String 的 hash 值经常被使用，例如 String 用做 HashMap 的 key。不可变的特性可以使得 hash 值也不可变，因此只需要进行一次计算。</p>

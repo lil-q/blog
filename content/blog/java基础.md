@@ -301,7 +301,7 @@ String s1 = new String(b, "GBK"); // 按GBK转换
 String s2 = new String(b, StandardCharsets.UTF_8); // 按UTF-8转换
 ```
 
-始终牢记：Java的 String 和 char 在内存中总是以 **Unicode** 编码表示。
+始终牢记：Java 的 String 和 char 在内存中总是以 **Unicode** 编码表示。
 
 ### 3.2 不可变的好处
 
