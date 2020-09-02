@@ -123,7 +123,7 @@ MyISAM 存储引擎支持空间数据索引（R-Tree），可以用于地理数�
 SELECT actor_id FROM sakila.actor WHERE actor_id + 1 = 5;
 ```
 
-#### 2. 多列索引
+#### 2. 联合索引
 
 在需要使用多个列作为条件进行查询时，**使用多列索引比使用多个单列索引性能更好**。例如下面的语句中，最好把 actor_id 和 film_id 设置为多列索引。
 
@@ -131,6 +131,8 @@ SELECT actor_id FROM sakila.actor WHERE actor_id + 1 = 5;
 SELECT film_id, actor_ id FROM sakila.film_actor
 WHERE actor_id = 1 AND film_id = 1;
 ```
+
+**最左原则**：如果 SQL 语句中用到了联合索引中最左边的索引，那么这条 SQL 语句就可以利用这个联合索引去进行匹配，值得注意的是，当遇到范围查询（>、<、between & like）就会停止匹配[[7]](https://www.cnblogs.com/rjzheng/p/12557314.html)。
 
 #### 3. 索引列的顺序
 
@@ -227,8 +229,6 @@ customer_id_selectivity: 0.0373
 - **I/O 线程** ：负责从主服务器上读取二进制日志，并写入从服务器的中继日志（Relay log）；
 - **SQL 线程** ：负责读取中继日志，解析出主服务器已经执行的数据更改并在从服务器中重放（Replay）。
 
-
-
 ### 4.2 读写分离
 
 主服务器处理写操作以及实时性要求比较高的读操作，而从服务器处理读操作。读写分离能提高性能的原因在于：
@@ -292,3 +292,4 @@ customer_id_selectivity: 0.0373
 4. [B树和B+树](https://www.cnblogs.com/nullzx/p/8729425.html)
 5. [聚簇索引 & 非聚簇索引](https://juejin.im/post/6844903845554814983)
 6. [主键索引 & 非主键索引](https://www.jianshu.com/p/f3a1e17a4df6)
+7. [联合索引](https://www.cnblogs.com/rjzheng/p/12557314.html)
