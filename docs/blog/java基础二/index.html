@@ -61,7 +61,7 @@
       "datePublished": "2020-03-23 14:08:20 \u002b0000 UTC",
       "dateModified" : "2020-03-23 14:08:20 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%8C\/",
-      "wordCount" : "1077",
+      "wordCount" : "1082",
       "keywords" : ["error", "java", "OOP", "Blog"]
     }
   
@@ -477,7 +477,7 @@ System.out.println(e2.get(2)); // 2
 <li>都能包含抽象的方法，这些抽象的方法用于描述类具备的功能，但是不提供具体的实现。</li>
 </ol>
 <h4 id="1-抽象类">1. 抽象类</h4>
-<p>抽象类和抽象方法都使用 <code>abstract</code> 关键字进行声明。如果一个类中包含抽象方法，那么这个类必须声明为<strong>抽象类</strong>。</p>
+<p>抽象类和抽象方法都使用 <code>abstract</code> 关键字进行声明，抽象方法默认 public 修饰，不能使用 private。如果一个类中包含抽象方法，那么这个类必须声明为<strong>抽象类</strong>。抽象类可以没有抽象方法，可以拥有 private 修饰的成员（非抽象方法）。</p>
 <p>抽象类和普通类最大的区别是，抽象类<strong>不能被实例化，只能被继承</strong>。</p>
 <p>因为抽象类本身被设计成只能用于被继承，因此，抽象类可以强迫子类实现其定义的抽象方法，否则编译会报错。因此，抽象方法实际上相当于设计了模板。</p>
 <h4 id="2-接口">2. 接口</h4>

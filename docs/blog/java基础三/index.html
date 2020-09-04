@@ -61,7 +61,7 @@
       "datePublished": "2020-03-27 22:45:02 \u002b0000 UTC",
       "dateModified" : "2020-03-27 22:45:02 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%B8%89\/",
-      "wordCount" : "1029",
+      "wordCount" : "1032",
       "keywords" : ["java", "反射", "泛型", "动态代理", "Blog"]
     }
   
@@ -521,7 +521,7 @@ public Class&lt;T&gt; clazzT;
 <li>代码实现简单。</li>
 </ul>
 <h4 id="2-cglib-动态代理">2. CGLIB 动态代理</h4>
-<p>基于 <a href="https://juejin.im/post/5b549bcbe51d45169c1c8b66">ASM</a> 机制实现，通过生成业务类的子类作为代理类。</p>
+<p>基于 <a href="https://juejin.im/post/5b549bcbe51d45169c1c8b66">ASM</a> 机制实现，通过生成业务类的子类作为代理类。因为是继承，所以该类或方法最好不要声明成 final ，final 可以阻止继承和多态。</p>
 <ul>
 <li>无需实现接口，达到代理类无侵入</li>
 <li>只操作我们关心的类，而不必为其他相关类增加工作量。</li>

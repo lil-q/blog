@@ -563,7 +563,7 @@ Class<? super String> sup = String.class.getSuperclass();
 
 #### 2. CGLIB 动态代理
 
-基于 [ASM](https://juejin.im/post/5b549bcbe51d45169c1c8b66) 机制实现，通过生成业务类的子类作为代理类。
+基于 [ASM](https://juejin.im/post/5b549bcbe51d45169c1c8b66) 机制实现，通过生成业务类的子类作为代理类。因为是继承，所以该类或方法最好不要声明成 final ，final 可以阻止继承和多态。
 
 - 无需实现接口，达到代理类无侵入
 - 只操作我们关心的类，而不必为其他相关类增加工作量。
