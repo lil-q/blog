@@ -93,12 +93,12 @@ B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点�
 本地方法一般是用其它语言（C、C++ 或汇编语言等）编写的，并且被编译为基于本机硬件和操作系统的程序，对待这些方法需要特别处理。
 1.4 堆 所有对象都在这里分配内存，是垃圾收集的主要区域（&amp;ldquo;GC 堆&amp;rdquo;）。
 现代的垃圾收集器基本都是采用分代收集算法，其主要的思想是针对不同类型的对象采取不同的垃圾回收算法。可以将堆分成两块：
- 新生代（Young Generation） 老年代（Old Generation）  堆不需要连续内存，并且可以动态增加其内存，增加失败会抛出 OutOfMemoryError 异常。
+ 新生代（Young Generation） 老年代（Old Generation）  堆不需要连续内存，当前主流的 Java 虚拟机都是按照可扩展来实现的（通过参数 -Xmx 和 -Xms 设定），增加失败会抛出 OutOfMemoryError 异常。
 栈和堆的区别如下：
  功能：栈的功能是运行，堆的功能是储存； 共享性：栈是线程隔离的，堆是线程共享的； 异常错误 ：栈可能出 StackOverflowError 异常和 OutOfMemoryError 异常，堆出后者； 空间：栈的空间连续，堆的空间不连续，栈的空间远小于堆。  1.5 方法区 用于存放已被加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。
 和堆一样不需要连续的内存，并且可以动态扩展，动态扩展失败一样会抛出 OutOfMemoryError 异常。
 对这块区域进行垃圾回收的主要目标是对常量池的回收和对类的卸载，但是一般比较难实现。
-HotSpot 虚拟机把它当成永久代来进行垃圾回收。但很难确定永久代的大小，因为它受到很多因素影响，并且每次 Full GC 之后永久代的大小都会改变，所以经常会抛出 OutOfMemoryError 异常。为了更容易管理方法区，从 JDK 1.8 开始，移除永久代，并把方法区移至元空间，它位于本地内存中，而不是虚拟机内存中。</description>
+HotSpot 虚拟机把它当成永久代来进行垃圾回收。但很难确定永久代的大小，因为它受到很多因素影响，并且每次 Full GC 之后永久代的大小都会改变，所以经常会抛出 OutOfMemoryError 异常。为了更容易管理方法区，从 JDK 1.</description>
     </item>
     
     <item>
@@ -277,13 +277,11 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
       <pubDate>Mon, 23 Mar 2020 14:08:20 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%8C/</guid>
-      <description>一、面向对象 Java是一种面向对象的编程语言。面向对象编程，英文是Object-Oriented Programming，简称OOP。
-1.1 权限修饰符     本类 同一个包下（子类和无关类） 不同包下（子类） 不同包下（无关类）     public √ √ √ √   protected √ √ √ ×   default √ √ × ×   private √ × × ×    一个.java文件只能包含一个public类，但可以包含多个非public类。如果有public类，文件名必须和public类的名字相同。
+      <description>一、面向对象 Java 是一种面向对象的编程语言。面向对象编程，英文是 Object-Oriented Programming，简称 OOP。
+1.1 权限修饰符     本类 同一个包下（子类和无关类） 不同包下（子类） 不同包下（无关类）     public √ √ √ √   protected √ √ √ ×   default √ √ × ×   private √ × × ×    一个 .java 文件只能包含一个 public 类，但可以包含多个非 public 类。如果有 public 类，文件名必须和 public 类的名字相同。
 1.2 继承 如果父类没有默认的构造方法，子类就必须显式调用super()并给出参数以便让编译器定位到父类的一个合适的构造方法。
 子类不会继承任何父类的构造方法。子类默认的构造方法是编译器自动生成的，不是继承的。
- 向上转型（upcasting）：一个子类类型安全地变为父类类型的赋值。向上转型只能够调用子类重写的方法。 向下转型（downcasting）：一个父类类型强制转型为子类类型。找回向上转型时丢失的子类扩展方法。  instanceof判断一个变量所指向的实例是否是指定类型，或者这个类型的子类。如果一个引用变量为null，那么对任何instanceof的判断都为false。
-利用instanceof，在向下转型前可以先判断：
-Person p = new Student(); if (p instanceof Student) { // 只有判断成功才会向下转型: Student s = (Student) p; // 一定会成功 }  从Java 14开始，判断instanceof后，可以直接转型为指定变量，避免再次强制转型。</description>
+ 向上转型（upcasting）：一个子类类型安全地变为父类类型的赋值。向上转型只能够调用子类重写的方法。 向下转型（downcasting）：一个父类类型强制转型为子类类型。找回向上转型时丢失的子类扩展方法。  instanceof判断一个变量所指向的实例是否是指定类型，或者这个类型的子类。如果一个引用变量为 null，那么对任何instanceof的判断都为 false。</description>
     </item>
     
     <item>

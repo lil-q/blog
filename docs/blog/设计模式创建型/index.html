@@ -61,7 +61,7 @@
       "datePublished": "2020-05-12 23:30:13 \u002b0000 UTC",
       "dateModified" : "2020-05-12 23:30:13 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B\/",
-      "wordCount" : "646",
+      "wordCount" : "644",
       "keywords" : ["Blog"]
     }
   
@@ -168,7 +168,7 @@
 <p>双重校验锁先判断 <code>uniqueInstance</code>是否已经被实例化，如果没有被实例化，那么才对实例化语句进行加锁。</p>
 <pre><code class="language-java">public class Singleton {
     // 必须使用 volatile，使用 volatile 可以禁止 JVM 的指令重排，保证在多线程环境下也能正常运行
-    private volatile static Singleton uniqueInstance;
+    private static volatile Singleton uniqueInstance;
 
     private Singleton() {}
 
@@ -210,8 +210,8 @@
 }
 </code></pre>
 <h3 id="16-枚举类">1.6 枚举类<a class="anchor" href="#16-枚举类">#</a></h3>
-<p>该实现可以防止反射攻击。在其它实现中，通过 setAccessible() 方法可以将私有构造函数的访问级别设置为 public，然后调用构造函数从而实例化对象，如果要防止这种攻击，需要在构造函数中添加防止多次实例化的代码。该实现是由 JVM 保证只会实例化一次，因此不会出现上述的反射攻击。</p>
-<p>**该实现在多次序列化和序列化之后，不会得到多个实例。**而其它实现需要使用 transient 修饰所有字段，并且实现序列化和反序列化的方法。</p>
+<p>该实现可以防止反射攻击。在其它实现中，通过<code>setAccessible()</code>方法可以将私有构造函数的访问级别设置为 public，然后调用构造函数从而实例化对象，如果要防止这种攻击，需要在构造函数中添加防止多次实例化的代码。该实现是由 JVM 保证只会实例化一次，因此不会出现上述的反射攻击。</p>
+<p>该实现在多次序列化和序列化之后，不会得到多个实例。而其它实现需要使用 transient 修饰所有字段，并且实现序列化和反序列化的方法。</p>
 <pre><code class="language-java">public enum Singleton {
 
     INSTANCE;
@@ -255,7 +255,7 @@ secondName
 secondName
 </code></pre>
 <h2 id="二工厂factory">二、工厂(Factory)<a class="anchor" href="#二工厂factory">#</a></h2>
-<p>如果使用<code>new</code>的方式来创建对象的话，<code>new</code>出来的这个对象和当前客户端(调用方)就<strong>耦合</strong>了，也就是说当前客户端(调用方)<strong>依赖着</strong>这个<code>new</code>出来的对象。工厂模式的好处就是<strong>解耦</strong>，这样对后续代码的修改，多方的合作都会带来好处。</p>
+<p>如果使用<code>new</code>的方式来创建对象的话，<code>new</code>出来的这个对象和当前客户端（调用方）就<strong>耦合</strong>了，也就是说当前客户端（调用方）<strong>依赖着</strong>这个<code>new</code>出来的对象。工厂模式的好处就是<strong>解耦</strong>，这样对后续代码的修改，多方的合作都会带来好处。</p>
 <p>工厂模式可以分成三类：</p>
 <ul>
 <li>简单工厂模式</li>

@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "697",
+      "wordCount" : "731",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -181,15 +181,14 @@
 <p>路由器只有下面三层协议，因为路由器位于网络核心中，不需要为进程或者应用程序提供服务，因此也就不需要传输层和应用层。</p>
 <h4 id="5-网站访问全过程">5. 网站访问全过程</h4>
 <p><strong>（1）事件顺序</strong></p>
-<ol>
-<li>浏览器获取输入的<strong>域名</strong>；</li>
-<li>浏览器向<strong>域名系统DNS</strong>请求解析域名的<strong>IP地址</strong> ；</li>
-<li><strong>DNS</strong>解析出网站服务器的<strong>IP地址</strong> ；</li>
-<li>浏览器与该服务器建立<strong>TCP连接</strong>（默认端口号80）；</li>
-<li>浏览器发出<strong>HTTP请求</strong>，请求网站首页；</li>
-<li>服务器通过<strong>HTTP响应</strong>把首页文件发送给浏览器；</li>
-<li><strong>TCP连接</strong>释放；</li>
-<li><strong>浏览器</strong>将首页文件进行解析，并将Web页显示给用户。</li>
+<ol start="2">
+<li>浏览器解析域名的 <strong>IP 地址</strong> ，先寻找<strong>本地 hosts</strong> 文件；</li>
+<li>本地 host 没有记录，向 <strong>DNS 服务器</strong>发送查询报文，解析出网站服务器的 <strong>IP 地址</strong> ；</li>
+<li>浏览器与该服务器建立 <strong>TCP 连接</strong>（默认端口号80）；</li>
+<li>浏览器发出 <strong>HTTP 请求</strong>，请求网站首页；</li>
+<li>服务器通过 <strong>HTTP 响应</strong>把首页文件发送给浏览器；</li>
+<li><strong>TCP 连接</strong>释放；</li>
+<li>浏览器解析 HTML，渲染 CSS。</li>
 </ol>
 <p><strong>（2）涉及到的协议</strong></p>
 <ol>
@@ -354,6 +353,8 @@
 <li>对于接收方引起的粘包，则可通过优化程序设计、精简接收进程工作量、提高接收进程优先级等措施，使其及时接收数据，从而尽量避免出现粘包现象；</li>
 <li>由接收方控制，将一包数据按结构字段，人为控制分多次接收，然后合并，通过这种手段来避免粘包。</li>
 </ol>
+<h3 id="46-rudp">4.6 RUDP<a class="anchor" href="#46-rudp">#</a></h3>
+<p>视频通话要求传输协议既能保证可靠性，又能保证实时性，这就需要一种同时具备 TCP 和 UDP 优点的协议——<strong>RUDP</strong>（<strong>R</strong>eliable <strong>UDP</strong>），常见的 RUDP 协议有 QUIC，WebRTC，Aeron 等等。</p>
 <h2 id="五应用层">五、应用层<a class="anchor" href="#五应用层">#</a></h2>
 <h3 id="51-dns">5.1 DNS<a class="anchor" href="#51-dns">#</a></h3>
 <p>域名注册完成后首先需要做域名解析，域名解析就是把域名指向网站所在服务器的IP，让人们通过注册的域名可以访问到网站。IP 地址是网络上标识服务器的数字地址，为了方便记忆，使用域名来代替 IP 地址。域名解析就是域名到 IP 地址的转换过程，域名的解析工作由 DNS 服务器完成。DNS 服务器会把域名解析到一个 IP 地址，然后在此 IP 地址的主机上将一个子目录与域名绑定。域名解析时会添加解析记录，这些记录有：<code>A记录</code>、<code>AAAA记录</code>、<code>CNAME记录</code>、<code>MX记录</code>、<code>NS记录</code>、<code>TXT记录</code>、<code>SRV记录</code>、<code>URL转发</code>。</p>
@@ -382,6 +383,7 @@
 <li><a href="https://blog.csdn.net/cream66/article/details/104920732?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param">网站访问全过程</a></li>
 <li><a href="https://www.imperva.com/blog/mtu-mss-explained/">MTU &amp; MSS</a></li>
 <li><a href="https://www.zhihu.com/question/68641339">关于分片</a></li>
+<li><a href="https://juejin.im/post/6867043669682651143">视频通信使用的是 TCP 还是 UDP</a></li>
 <li><a href="https://segmentfault.com/a/1190000013712747">sokect通信原理</a></li>
 <li><a href="https://www.nowcoder.com/discuss/414727?type=all&amp;order=time&amp;pos=&amp;page=1&amp;channel=1013&amp;source_id=search_all">图解TCP 重传、滑动窗口、流量控制、拥塞控制</a></li>
 <li><a href="https://itbilu.com/other/relate/EyxzdVl3.html">DNS</a></li>
@@ -487,6 +489,7 @@
         <li><a href="#43-tcp-流量控制--拥塞控制">4.3 TCP 流量控制 &amp; 拥塞控制</a></li>
         <li><a href="#44-mtu--mss">4.4 MTU &amp; MSS</a></li>
         <li><a href="#45-粘包">4.5 粘包</a></li>
+        <li><a href="#46-rudp">4.6 RUDP</a></li>
       </ul>
     </li>
     <li><a href="#五应用层">五、应用层</a>

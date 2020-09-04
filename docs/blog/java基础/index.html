@@ -61,7 +61,7 @@
       "datePublished": "2020-03-20 19:33:14 \u002b0000 UTC",
       "dateModified" : "2020-03-20 19:33:14 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80\/",
-      "wordCount" : "1826",
+      "wordCount" : "1835",
       "keywords" : ["java", "stream", "Blog"]
     }
   
@@ -191,14 +191,14 @@ System.out.println(m == n); // true
 </ul>
 <p><strong>注意</strong>：不要同时使用静态初始化和动态初始化，也就是说，不要在进行数组初始化时，既指定数组的长度，也为每个数组元素分配初始值。一旦数组完成初始化，数组在内存中所占的空间将被固定下来，所以数组的长度将不可改变。</p>
 <h4 id="2-打印数组内容">2. 打印数组内容</h4>
-<p>Java标准库提供了类方法<code>Arrays.toString()</code>，可以快速打印数组内容。</p>
+<p>Java 标准库提供了类方法<code>Arrays.toString()</code>，可以快速打印数组内容。</p>
 <h4 id="3-排序">3. 排序</h4>
-<p>调用JDK提供的<code>Arrays.sort()</code>可以原地升序排序。如需降序：</p>
+<p>调用 JDK 提供的<code>Arrays.sort()</code>可以原地升序排序。java 默认采用 <strong>Timsort</strong> 进行排序，Timsort 是一种混合稳定的排序算法，源自归并排序和插入排序，旨在较好地处理真实世界中各种各样的数据。如需降序可以传入第二个参数：</p>
 <pre><code class="language-java">Arrays.sort(a, Collections.reverseOrder());
 </code></pre>
 <h3 id="15-运算">1.5 运算<a class="anchor" href="#15-运算">#</a></h3>
 <h4 id="1-运算优先级">1. 运算优先级</h4>
-<p>在Java的计算表达式中，运算优先级从高到低依次是：</p>
+<p>在 Java 的计算表达式中，运算优先级从高到低依次是：</p>
 <p><code>()</code><br><code>!</code> <code>~</code> <code>++</code> <code>--</code><br><code>*</code> <code>/</code> <code>%</code><br><code>+</code> <code>-</code><br><code>&lt;&lt;</code> <code>&gt;&gt;</code> <code>&gt;&gt;&gt;</code><br><code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code> <code>instanceof</code><br><code>==</code> <code>!=</code><br><code>&amp;</code><br><code>^</code><br><code>|</code><br><code>&amp;&amp;</code><br><code>||</code><br><code>? :</code><br><code>+=</code> <code>-=</code> <code>*=</code> <code>/=</code></p>
 <h4 id="2-位运算">2. 位运算</h4>
 <p>位操作（Bit Manipulation）是程序设计中对位模式或二进制数的一元和二元操作。在许多古老的微处理器上，位运算比加减运算略快，通常位运算比乘除法运算要快很多。在现代架构中，情况并非如此：位运算的运算速度通常与加法运算相同（仍然快于乘法运算）。</p>

@@ -95,11 +95,11 @@ Java语言中数组必须先初始化，然后才可以使用。
 
 #### 2. 打印数组内容
 
-Java标准库提供了类方法`Arrays.toString()`，可以快速打印数组内容。
+Java 标准库提供了类方法`Arrays.toString()`，可以快速打印数组内容。
 
 #### 3. 排序
 
-调用JDK提供的`Arrays.sort()`可以原地升序排序。如需降序：
+调用 JDK 提供的`Arrays.sort()`可以原地升序排序。java 默认采用 **Timsort** 进行排序，Timsort 是一种混合稳定的排序算法，源自归并排序和插入排序，旨在较好地处理真实世界中各种各样的数据。如需降序可以传入第二个参数：
 
 ```java
 Arrays.sort(a, Collections.reverseOrder());
@@ -109,7 +109,7 @@ Arrays.sort(a, Collections.reverseOrder());
 
 #### 1. 运算优先级
 
-在Java的计算表达式中，运算优先级从高到低依次是：
+在 Java 的计算表达式中，运算优先级从高到低依次是：
 
 `()`<br>`!` `~` `++` `--`<br>`*` `/` `%`<br>`+` `-`<br>`<<` `>>` `>>>`<br>`<` `<=` `>` `>=` `instanceof`<br>`==` `!=`<br>`&`<br>`^`<br>`|`<br>`&&`<br>`||`<br>`? :`<br>`+=` `-=` `*=` `/=`
 
