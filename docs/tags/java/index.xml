@@ -120,7 +120,7 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%8C/</guid>
       <description>一、面向对象 Java是一种面向对象的编程语言。面向对象编程，英文是Object-Oriented Programming，简称OOP。
-1.1 权限修饰符     本类 同一个包下（子类和无关类） 不同包下（子类） 不同包下（无关类）     private Y      default Y Y     protected Y Y Y    public Y Y Y Y    一个.java文件只能包含一个public类，但可以包含多个非public类。如果有public类，文件名必须和public类的名字相同。
+1.1 权限修饰符     本类 同一个包下（子类和无关类） 不同包下（子类） 不同包下（无关类）     public √ √ √ √   protected √ √ √ ×   default √ √ × ×   private √ × × ×    一个.java文件只能包含一个public类，但可以包含多个非public类。如果有public类，文件名必须和public类的名字相同。
 1.2 继承 如果父类没有默认的构造方法，子类就必须显式调用super()并给出参数以便让编译器定位到父类的一个合适的构造方法。
 子类不会继承任何父类的构造方法。子类默认的构造方法是编译器自动生成的，不是继承的。
  向上转型（upcasting）：一个子类类型安全地变为父类类型的赋值。向上转型只能够调用子类重写的方法。 向下转型（downcasting）：一个父类类型强制转型为子类类型。找回向上转型时丢失的子类扩展方法。  instanceof判断一个变量所指向的实例是否是指定类型，或者这个类型的子类。如果一个引用变量为null，那么对任何instanceof的判断都为false。
