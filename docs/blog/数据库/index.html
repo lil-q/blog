@@ -133,14 +133,14 @@
 <h3 id="12-关系">1.2 关系<a class="anchor" href="#12-关系">#</a></h3>
 <ul>
 <li>
-<p><strong>一致性</strong>，保证事务的执行结果正确：</p>
+<p><strong>一致性</strong>：保证事务的执行结果正确：</p>
 <ul>
-<li><strong>无并发：<strong>事务串行执行，隔离性一定能够满足；只需满足</strong>原子性</strong>。</li>
-<li><strong>有并发：<strong>多个事务并行执行，事务不仅要满足</strong>隔离性</strong>；还需要满足<strong>原子性</strong>。</li>
+<li><strong>无并发</strong>：事务串行执行，隔离性一定能够满足；只需满足<strong>原子性</strong>。</li>
+<li><strong>有并发</strong>：多个事务并行执行，事务不仅要满足<strong>隔离性</strong>；还需要满足<strong>原子性</strong>。</li>
 </ul>
 </li>
 <li>
-<p><strong>持久性</strong>，应对系统崩溃。</p>
+<p><strong>持久性</strong>：应对系统崩溃。</p>
 </li>
 </ul>
 <h2 id="二并发一致性问题">二、并发一致性问题<a class="anchor" href="#二并发一致性问题">#</a></h2>
@@ -275,7 +275,7 @@ SELECT ... FOR UPDATE;
 <p>READ UNCOMMITTED：事务中的修改，即使没有提交，对其它事务也是可见的。</p>
 <h4 id="2-提交读">2. 提交读</h4>
 <p>READ COMMITTED：一个事务只能读取已经提交的事务所做的修改。换句话说，一个事务所做的修改在提交之前对其它事务是不可见的。</p>
-<h4 id="3-可重复读">3. 可重复读</h4>
+<h4 id="3-可重复读默认">3. 可重复读（默认）</h4>
 <p>REPEATABLE READ：保证在同一个事务中多次读取同一数据的结果是一样的。</p>
 <h4 id="4-可串行化">4. 可串行化</h4>
 <p>SERIALIZABLE：强制事务串行执行，这样多个事务互不干扰，不会出现并发一致性问题。</p>

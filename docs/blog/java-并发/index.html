@@ -61,7 +61,7 @@
       "datePublished": "2020-04-28 19:37:01 \u002b0000 UTC",
       "dateModified" : "2020-04-28 19:37:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E5%B9%B6%E5%8F%91\/",
-      "wordCount" : "1628",
+      "wordCount" : "1662",
       "keywords" : ["jmm", "java", "concurrency", "Blog"]
     }
   
@@ -249,7 +249,7 @@ Thread thread = new Thread(ft);
 <h4 id="2-用户线程-1n-实现">2. 用户线程 1:N 实现</h4>
 <p>狭义上的<strong>用户线程</strong>（ <strong>U</strong>ser <strong>T</strong>hread，<strong>UT</strong>）指的是<strong>完全建立在用户空间的线程库上</strong>，系统内核不能感知到用户线程的存在及如何实现的。<strong>用户线程的建立、同步、销毁和调度完全在用户态中完成，不需要内核的帮助</strong>。</p>
 <h4 id="3-用户线程加轻量级进程混合-nm-实现">3. 用户线程加轻量级进程混合 N:M 实现</h4>
-<p>在这种混合实现下，既存在用户线程，也存在轻量级进程。用户线程还是完全建立在用户空间中，因此用户线程的创建、切换、析构等操作依然廉价，并且可以支持大规模的用户线程并发。而操作系统支持的轻量级进程则作为用户线程和内核线程之间的桥梁这样可以使用内核提供的线程调度功能及处理器映射，并且用户线程的系统调用要通过轻量级进程来完成，这大大降低了整个进程被完全阻塞的风险。</p>
+<p>在这种混合实现下，既存在用户线程，也存在轻量级进程。用户线程还是完全建立在用户空间中，因此用户线程的创建、切换、析构等操作依然廉价，并且可以支持大规模的用户线程并发。而操作系统支持的轻量级进程则作为用户线程和内核线程之间的桥梁这样可以使用内核提供的线程调度功能及处理器映射，并且用户线程的系统调用要通过轻量级进程来完成，这<strong>大大降低了整个进程被完全阻塞的风险</strong>。</p>
 <h4 id="4-对比">4. 对比</h4>
 <ol>
 <li>
@@ -476,7 +476,7 @@ private Condition condition = lock.newCondition();
 <p>互斥是实现同步的一种手段，临界区（ Critical Section）、互斥量（ Mutex）和信号量（ Semap hore）都是常见的互斥实现方式。因此在“互斥同步”这四个字里面，<strong>互斥是因，同步是果；互斥是方法，同步是目的</strong>。</p>
 <p>Java 提供了两种锁机制来控制多个线程对共享资源的互斥访问，第一个是 JVM 实现的 synchronized，而另一个是 JDK 实现的 ReentrantLock。</p>
 <h4 id="1-synchronized">1. synchronized</h4>
-<p>synchronized关键字，这是一种块结构（ Block Structured）的同步语法。 synchronized 关键字经过 Javac 编译之后，会在同步块的前后分别形成 <strong>monitorenter</strong> 和 <strong>monitorexit</strong> 这两个字节码指令。这两个字节码指令都需要一个 <strong>reference 类型的参数</strong>来指明要锁定和解锁的对象。</p>
+<p>synchronized 关键字，这是一种块结构（ Block Structured）的同步语法。 synchronized 关键字经过 Javac 编译之后，会在同步块的前后分别形成 <strong>monitorenter</strong> 和 <strong>monitorexit</strong> 这两个字节码指令。这两个字节码指令都需要一个 <strong>reference 类型的参数</strong>来指明要锁定和解锁的对象。</p>
 <p>同步<strong>代码块</strong>和同步<strong>非静态方法</strong>，可以实现同步一个<strong>对象</strong>：</p>
 <pre><code class="language-java">public void func() {
     synchronized (this) {
@@ -651,14 +651,14 @@ ThreadLocal.ThreadLocalMap threadLocals = null;
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/lock4.jpg" alt="img"  /></p>
 <h2 id="七juc">七、J.U.C<a class="anchor" href="#七juc">#</a></h2>
 <h3 id="71-aqs">7.1 AQS<a class="anchor" href="#71-aqs">#</a></h3>
-<p>AbstractQueuedSynchronizer（AQS）定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch&hellip;</p>
-<p>AQS维护了一个<code>volatile int state</code>（代表共享资源）和一个 FIFO 线程等待队列（多线程争用资源被阻塞时会进入此队列）。</p>
+<p>AbstractQueuedSynchronizer（AQS）定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的 ReentrantLock/Semaphore/CountDownLatch&hellip;</p>
+<p>AQS 维护了一个<code>volatile int state</code>（代表共享资源）和一个 FIFO 线程等待队列（多线程争用资源被阻塞时会进入此队列）。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency6.png" style="zoom:150%;" /></p>
 <h3 id="72-countdownlatch">7.2 CountDownLatch<a class="anchor" href="#72-countdownlatch">#</a></h3>
-<p>CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行，此时就可以利用CountDownLatch来实现这种功能了。CountDownLatch类只提供了一个构造器：</p>
+<p>CountDownLatch 类位于 java.util.concurrent 包下，利用它可以实现类似计数器的功能。比如有一个任务 A，它要等待其他 4 个任务执行完毕之后才能执行，此时就可以利用 CountDownLatch 来实现这种功能了。CountDownLatch 类只提供了一个构造器：</p>
 <pre><code class="language-java">public CountDownLatch(int count) {  };  //参数count为计数值
 </code></pre>
-<p>然后下面这3个方法是CountDownLatch类中最重要的方法：</p>
+<p>然后下面这 3 个方法是 CountDownLatch 类中最重要的方法：</p>
 <pre><code class="language-java">//调用await()方法的线程会被挂起，它会等待直到count值为0才继续执行
 public void await() throws InterruptedException { };  
 //和await()类似，只不过等待一定的时间后count值还没变为0的话就会继续执行
@@ -667,20 +667,20 @@ public boolean await(long timeout, TimeUnit unit) throws InterruptedException { 
 public void countDown() { };  
 </code></pre>
 <h3 id="73-cyclicbarrier">7.3 CyclicBarrier<a class="anchor" href="#73-cyclicbarrier">#</a></h3>
-<p>回环栅栏，通过它可以实现让一组线程等待至某个状态之后再全部同时执行。叫做回环是因为当所有等待线程都被释放以后，CyclicBarrier可以被重用。我们暂且把这个状态就叫做barrier，当调用await()方法之后，线程就处于barrier了。CyclicBarrier提供2个构造器：</p>
+<p>回环栅栏，通过它可以实现让一组线程等待至某个状态之后再全部同时执行。叫做回环是因为当所有等待线程都被释放以后，CyclicBarrier 可以被重用。我们暂且把这个状态就叫做 barrier，当调用<code>await()</code>方法之后，线程就处于 barrier 了。CyclicBarrier 提供 2 个构造器：</p>
 <pre><code class="language-java">// 参数parties指让多少个线程或者任务等待至barrier状态；
 public CyclicBarrier(int parties) {...}
 // 参数barrierAction为当这些线程都达到barrier状态时会执行的内容。 
 public CyclicBarrier(int parties, Runnable barrierAction) {...}
 </code></pre>
-<p>CyclicBarrier中最重要的方法就是await方法，它有2个重载版本：</p>
+<p>CyclicBarrier 中最重要的方法就是<code>await()</code>方法，它有 2 个重载版本：</p>
 <pre><code class="language-java">// 挂起当前线程，直至所有线程都到达barrier状态再同时执行后续任务；
 public int await() throws InterruptedException, BrokenBarrierException { };
 // 让这些线程等待至一定的时间，如果还有线程没有到达barrier状态就直接让到达barrier的线程执行后续任务。
 public int await(long timeout, TimeUnit unit) throws InterruptedException,BrokenBarrierException,TimeoutException { };
 </code></pre>
 <h3 id="74-semaphore">7.4 Semaphore<a class="anchor" href="#74-semaphore">#</a></h3>
-<p>信号量，Semaphore可以控同时访问的线程个数，通过 acquire() 获取一个许可，如果没有就等待，而 release() 释放一个许可。它提供了2个构造器：</p>
+<p>信号量，Semaphore 可以控同时访问的线程个数，通过<code>acquire()</code>获取一个许可，如果没有就等待，而<code>release()</code>释放一个许可。它提供了 2 个构造器：</p>
 <pre><code class="language-java">//参数permits表示许可数目，即同时可以允许多少线程进行访问
 public Semaphore(int permits) {          
     sync = new NonfairSync(permits);
@@ -690,13 +690,13 @@ public Semaphore(int permits, boolean fair) {
     sync = (fair)? new FairSync(permits) : new NonfairSync(permits);
 }
 </code></pre>
-<p>下面说一下Semaphore类中比较重要的几个方法，首先是acquire()、release()方法：</p>
+<p>下面说一下 Semaphore 类中比较重要的几个方法，首先是<code>acquire()</code>、<code>release()</code>方法：</p>
 <pre><code class="language-java">public void acquire() throws InterruptedException {  }     //获取一个许可
 public void acquire(int permits) throws InterruptedException { }    //获取permits个许可
 public void release() { }          //释放一个许可
 public void release(int permits) { }    //释放permits个许可
 </code></pre>
-<p>这4个方法都会被阻塞，如果想立即得到执行结果，可以使用下面几个方法：</p>
+<p>这 4 个方法都会被阻塞，如果想立即得到执行结果，可以使用下面几个方法：</p>
 <pre><code class="language-java">//尝试获取一个许可，若获取成功，则立即返回true，若获取失败，则立即返回false
 public boolean tryAcquire() { };    
 //尝试获取一个许可，若在指定的时间内获取成功，则立即返回true，否则则立即返回false
@@ -708,9 +708,9 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 </code></pre>
 <h3 id="75-总结">7.5 总结<a class="anchor" href="#75-总结">#</a></h3>
 <ul>
-<li>CountDownLatch一般用于某个线程A等待若干个其他线程执行完任务之后，它才执行，不能够重用；</li>
-<li>CyclicBarrier一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行，可以重用；</li>
-<li>Semaphore其实和锁有点类似，它一般用于控制对某组资源的访问权限。</li>
+<li>CountDownLatch 一般用于某个线程 A 等待若干个其他线程执行完任务之后，它才执行，不能够重用；</li>
+<li>CyclicBarrier 一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行，可以重用；</li>
+<li>Semaphore 其实和锁有点类似，它一般用于控制对某组资源的访问权限。</li>
 </ul>
 <p><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E5%B9%B6%E5%8F%91?id=%E5%85%AB%E3%80%81juc-%E5%85%B6%E5%AE%83%E7%BB%84%E4%BB%B6">其他一些组件</a></p>
 <h2 id="八多线程开发良好的实践">八、多线程开发良好的实践<a class="anchor" href="#八多线程开发良好的实践">#</a></h2>

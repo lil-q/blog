@@ -194,7 +194,7 @@ Thread 对象的结束先行发生于 join() 方法返回。
 
 #### 3. 用户线程加轻量级进程混合 N:M 实现
 
-在这种混合实现下，既存在用户线程，也存在轻量级进程。用户线程还是完全建立在用户空间中，因此用户线程的创建、切换、析构等操作依然廉价，并且可以支持大规模的用户线程并发。而操作系统支持的轻量级进程则作为用户线程和内核线程之间的桥梁这样可以使用内核提供的线程调度功能及处理器映射，并且用户线程的系统调用要通过轻量级进程来完成，这大大降低了整个进程被完全阻塞的风险。
+在这种混合实现下，既存在用户线程，也存在轻量级进程。用户线程还是完全建立在用户空间中，因此用户线程的创建、切换、析构等操作依然廉价，并且可以支持大规模的用户线程并发。而操作系统支持的轻量级进程则作为用户线程和内核线程之间的桥梁这样可以使用内核提供的线程调度功能及处理器映射，并且用户线程的系统调用要通过轻量级进程来完成，这**大大降低了整个进程被完全阻塞的风险**。
 
 #### 4. 对比
 
@@ -469,7 +469,7 @@ Java 提供了两种锁机制来控制多个线程对共享资源的互斥访问
 
 #### 1. synchronized
 
-synchronized关键字，这是一种块结构（ Block Structured）的同步语法。 synchronized 关键字经过 Javac 编译之后，会在同步块的前后分别形成 **monitorenter** 和 **monitorexit** 这两个字节码指令。这两个字节码指令都需要一个 **reference 类型的参数**来指明要锁定和解锁的对象。
+synchronized 关键字，这是一种块结构（ Block Structured）的同步语法。 synchronized 关键字经过 Javac 编译之后，会在同步块的前后分别形成 **monitorenter** 和 **monitorexit** 这两个字节码指令。这两个字节码指令都需要一个 **reference 类型的参数**来指明要锁定和解锁的对象。
 
 同步**代码块**和同步**非静态方法**，可以实现同步一个**对象**：
 
@@ -739,21 +739,21 @@ JDK 1.6 引入了偏向锁和轻量级锁，从而让锁拥有了四个状态：
 
 ### 7.1 AQS
 
-AbstractQueuedSynchronizer（AQS）定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的ReentrantLock/Semaphore/CountDownLatch...
+AbstractQueuedSynchronizer（AQS）定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的 ReentrantLock/Semaphore/CountDownLatch...
 
-AQS维护了一个`volatile int state`（代表共享资源）和一个 FIFO 线程等待队列（多线程争用资源被阻塞时会进入此队列）。
+AQS 维护了一个`volatile int state`（代表共享资源）和一个 FIFO 线程等待队列（多线程争用资源被阻塞时会进入此队列）。
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency6.png" style="zoom:150%;" />
 
 ### 7.2 CountDownLatch
 
-CountDownLatch类位于java.util.concurrent包下，利用它可以实现类似计数器的功能。比如有一个任务A，它要等待其他4个任务执行完毕之后才能执行，此时就可以利用CountDownLatch来实现这种功能了。CountDownLatch类只提供了一个构造器：
+CountDownLatch 类位于 java.util.concurrent 包下，利用它可以实现类似计数器的功能。比如有一个任务 A，它要等待其他 4 个任务执行完毕之后才能执行，此时就可以利用 CountDownLatch 来实现这种功能了。CountDownLatch 类只提供了一个构造器：
 
 ```java
 public CountDownLatch(int count) {  };  //参数count为计数值
 ```
 
-然后下面这3个方法是CountDownLatch类中最重要的方法：
+然后下面这 3 个方法是 CountDownLatch 类中最重要的方法：
 
 ```java
 //调用await()方法的线程会被挂起，它会等待直到count值为0才继续执行
@@ -766,7 +766,7 @@ public void countDown() { };
 
 ### 7.3 CyclicBarrier
 
-回环栅栏，通过它可以实现让一组线程等待至某个状态之后再全部同时执行。叫做回环是因为当所有等待线程都被释放以后，CyclicBarrier可以被重用。我们暂且把这个状态就叫做barrier，当调用await()方法之后，线程就处于barrier了。CyclicBarrier提供2个构造器：
+回环栅栏，通过它可以实现让一组线程等待至某个状态之后再全部同时执行。叫做回环是因为当所有等待线程都被释放以后，CyclicBarrier 可以被重用。我们暂且把这个状态就叫做 barrier，当调用`await()`方法之后，线程就处于 barrier 了。CyclicBarrier 提供 2 个构造器：
 
 ```java
 // 参数parties指让多少个线程或者任务等待至barrier状态；
@@ -775,7 +775,7 @@ public CyclicBarrier(int parties) {...}
 public CyclicBarrier(int parties, Runnable barrierAction) {...}
 ```
 
-CyclicBarrier中最重要的方法就是await方法，它有2个重载版本：
+CyclicBarrier 中最重要的方法就是`await()`方法，它有 2 个重载版本：
 
 ```java
 // 挂起当前线程，直至所有线程都到达barrier状态再同时执行后续任务；
@@ -786,7 +786,7 @@ public int await(long timeout, TimeUnit unit) throws InterruptedException,Broken
 
 ### 7.4 Semaphore
 
-信号量，Semaphore可以控同时访问的线程个数，通过 acquire() 获取一个许可，如果没有就等待，而 release() 释放一个许可。它提供了2个构造器：
+信号量，Semaphore 可以控同时访问的线程个数，通过`acquire()`获取一个许可，如果没有就等待，而`release()`释放一个许可。它提供了 2 个构造器：
 
 ```java
 //参数permits表示许可数目，即同时可以允许多少线程进行访问
@@ -799,7 +799,7 @@ public Semaphore(int permits, boolean fair) {
 }
 ```
 
-下面说一下Semaphore类中比较重要的几个方法，首先是acquire()、release()方法：
+下面说一下 Semaphore 类中比较重要的几个方法，首先是`acquire()`、`release()`方法：
 
 ```java
 public void acquire() throws InterruptedException {  }     //获取一个许可
@@ -808,7 +808,7 @@ public void release() { }          //释放一个许可
 public void release(int permits) { }    //释放permits个许可
 ```
 
-这4个方法都会被阻塞，如果想立即得到执行结果，可以使用下面几个方法：
+这 4 个方法都会被阻塞，如果想立即得到执行结果，可以使用下面几个方法：
 
 ```java
 //尝试获取一个许可，若获取成功，则立即返回true，若获取失败，则立即返回false
@@ -823,9 +823,9 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 
 ### 7.5 总结
 
-* CountDownLatch一般用于某个线程A等待若干个其他线程执行完任务之后，它才执行，不能够重用；
-* CyclicBarrier一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行，可以重用；
-* Semaphore其实和锁有点类似，它一般用于控制对某组资源的访问权限。
+* CountDownLatch 一般用于某个线程 A 等待若干个其他线程执行完任务之后，它才执行，不能够重用；
+* CyclicBarrier 一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行，可以重用；
+* Semaphore 其实和锁有点类似，它一般用于控制对某组资源的访问权限。
 
 [其他一些组件](https://cyc2018.github.io/CS-Notes/#/notes/Java%20并发?id=八、juc-其它组件)
 
