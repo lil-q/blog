@@ -61,7 +61,7 @@
       "datePublished": "2020-05-12 23:30:13 \u002b0000 UTC",
       "dateModified" : "2020-05-12 23:30:13 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B\/",
-      "wordCount" : "654",
+      "wordCount" : "655",
       "keywords" : ["Blog"]
     }
   
@@ -129,7 +129,7 @@
 <li>网站的计数器，一般也是采用单例模式实现，否则难以同步。</li>
 <li>在操作系统中，打印池（Print Spooler）是一个用于管理打印任务的应用程序，通过打印池用户可以删除、中止或者改变打印任务的优先级，在一个系统中只允许运行一个打印池对象，如果重复创建打印池则抛出异常。</li>
 </ul>
-<p>实现: <strong>使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现</strong>。</p>
+<p>实现: 使用一个<strong>私有构造函数</strong>、一个<strong>私有静态变量</strong>以及一个<strong>公有静态函数</strong>来实现。</p>
 <h3 id="11-懒汉式线程不安全">1.1 懒汉式——线程不安全<a class="anchor" href="#11-懒汉式线程不安全">#</a></h3>
 <p>所谓懒汉就是私有静态变量 <code>uniqueInstance</code> 被延迟实例化（lazy loading），这样做的好处是，如果没有用到该类，那么就不会实例化 <code>uniqueInstance</code>，从而节约资源。</p>
 <p>这个实现在多线程环境下是不安全的，如果多个线程能够同时进入 <code>if (uniqueInstance == null)</code> ，并且此时 <code>uniqueInstance == null</code>，那么会有多个线程执行 <code>uniqueInstance = new Singleton();</code> 语句，这将导致实例化多次 <code>uniqueInstance</code>。</p>
@@ -402,7 +402,8 @@ secondName
 }
 </code></pre>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
-<ol start="2">
+<ol>
+<li><a href="https://design-patterns.readthedocs.io/zh_CN/latest/creational_patterns/singleton.html">单例模式</a></li>
 <li><a href="https://blog.csdn.net/iispring/article/details/46490319">Java中的嵌套类、内部类、静态内部类</a></li>
 <li><a href="https://www.zhihu.com/question/27125796">工厂模式</a></li>
 <li><a href="https://www.jianshu.com/p/4dcc723b676e">建造者模式</a></li>
