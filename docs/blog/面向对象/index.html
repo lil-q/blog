@@ -61,7 +61,7 @@
       "datePublished": "2020-09-07 18:54:03 \u002b0800 CST",
       "dateModified" : "2020-09-07 18:54:03 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1\/",
-      "wordCount" : "312",
+      "wordCount" : "321",
       "keywords" : ["面向对象", "OOP", "Blog"]
     }
   
@@ -222,6 +222,11 @@
 </tbody>
 </table>
 <p>首先，正方形和长方形需要实现多态，而矩形这个类同时包含了这两个语义，相互耦合，模糊不清，违反了单一功能原则。其次，对于矩形而言，长宽是根本属性，也正是长宽的关系决定了矩形是正方形还是长方形。对根本属性不应该设置 <em>setter</em> 方法，这违反了开闭原则。最后，子类正方形不能够替代父类矩形使用，违反了里氏替换原则。如果继承的目的是为了多态，而多态的前提就是子类覆盖并重新定义父类的方法，为了符合 LSP，我们应该将父类定义为抽象类，并定义抽象方法，让子类重新定义这些方法。当父类是抽象类时，父类就不能实例化，避免了子类替换父类实例（根本不存在父类实例）时的逻辑不一致<a href="https://www.zhihu.com/question/27191817">[2]</a>。</p>
+<h3 id="23-正方形是抽象矩形">2.3 正方形是抽象矩形<a class="anchor" href="#23-正方形是抽象矩形">#</a></h3>
+<p>怎样才能打破正方形不是矩形的悖论呢？</p>
+<blockquote>
+<p><strong>Abstraction is the Key.</strong></p>
+</blockquote>
 <p>重写抽象矩形类作为父类，并实现封闭图形接口，这个接口的功能是求面积，抽象矩形下定义两个抽象方法，分别用来获取长和宽：</p>
 <pre><code class="language-java">interface ClosedFigure {
 
@@ -235,7 +240,7 @@ abstract class AbstractRectangle implements ClosedFigure {
     abstract int getWidth();
 }
 </code></pre>
-<p>长方形类和正方形类作为子类继承抽象矩形类。对于长方形，定义两个 <em>final</em>  修饰的字段表示长宽，对于正方形，定义一个 <em>final</em> 修饰的字段表示边长。分别重写父类的两个抽象方法和接口的一个抽象方法：</p>
+<p>长方形类和正方形类作为子类继承抽象矩形类。对于长方形，定义两个 <em>final</em>  修饰的字段表示长宽，对于正方形，定义一个 <em>final</em> 修饰的字段表示边长，这是为了保证特征属性的不可变。分别重写父类的两个抽象方法和接口的一个抽象方法：</p>
 <pre><code class="language-java">class Rectangle extends AbstractRectangle implements ClosedFigure {
     private final int length;
     private final int width;
@@ -289,10 +294,12 @@ class Square extends AbstractRectangle implements ClosedFigure {
     }
 }
 </code></pre>
+<p>问题解决了，以前总是不明白抽象类和接口同时存在的意义，现在终于意识到抽象类是那么重要！</p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
 <li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3">cyc CS-Notes</a></li>
 <li><a href="https://www.zhihu.com/question/27191817">JAVA中，多态是不是违背了里氏替换原则？</a></li>
+<li><a href="https://www.cnblogs.com/gaochundong/p/open_closed_principle.html">开放封闭原则</a></li>
 </ol>
 
 
@@ -367,6 +374,7 @@ class Square extends AbstractRectangle implements ClosedFigure {
       <ul>
         <li><a href="#21-正方形不是矩形">2.1 正方形不是矩形？</a></li>
         <li><a href="#22-solid">2.2 S.O.L.I.D</a></li>
+        <li><a href="#23-正方形是抽象矩形">2.3 正方形是抽象矩形</a></li>
       </ul>
     </li>
     <li><a href="#参考">参考</a></li>
