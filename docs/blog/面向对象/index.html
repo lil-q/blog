@@ -61,7 +61,7 @@
       "datePublished": "2020-09-07 18:54:03 \u002b0800 CST",
       "dateModified" : "2020-09-07 18:54:03 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1\/",
-      "wordCount" : "311",
+      "wordCount" : "312",
       "keywords" : ["面向对象", "OOP", "Blog"]
     }
   
@@ -136,7 +136,7 @@
 <h2 id="二设计原则">二、设计原则<a class="anchor" href="#二设计原则">#</a></h2>
 <p>错误的设计类会带来很多问题，比如下面的悖论（为了方便理解，下文中长方形指代长宽不等的矩形）。</p>
 <h3 id="21-正方形不是矩形">2.1 正方形不是矩形？<a class="anchor" href="#21-正方形不是矩形">#</a></h3>
-<p>首先写出矩形类，定义长和宽并写出长宽的 <em>setter</em> 方法，写一个获取面积的方法：</p>
+<p>首先写出矩形类，定义长和宽，并写出长宽的 <em>setter</em> 方法和一个获取面积的方法：</p>
 <pre><code class="language-java">public class Rectangle {
     int length;
     int width;
@@ -178,7 +178,7 @@
     public static boolean test(Rectangle rectangle) {
         rectangle.setLength(4);
         rectangle.setWidth(3);
-        return rectangle.getArea() == 4 * 3; // 9 != 12
+        return rectangle.getArea() == 4 * 3; // Oops... 9 != 12
     }
 }
 </code></pre>
