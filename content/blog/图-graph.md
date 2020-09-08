@@ -14,7 +14,7 @@ keywords: [graph, Dijkstra, Floyd-Warshall, Prim, Kruskal]
 
 ## 一、定义
 
-**图**(Graph)用于表示物件与物件之间的关系，是[图论](https://zh.wikipedia.org/wiki/圖論)的基本研究对象。一张图由一些小圆点（称为**顶点**或**结点**）和连结这些圆点的直线或曲线（称为**边**）组成。
+**图**（Graph）用于表示物件与物件之间的关系，是[图论](https://zh.wikipedia.org/wiki/圖論)的基本研究对象。一张图由一些小圆点（称为**顶点**或**结点**）和连结这些圆点的直线或曲线（称为**边**）组成。
 
 一个图 $G$ 是一个二元组，即序偶 $\langle V,E\rangle$ ，或记作 $G= \langle V,E\rangle$ ，其中 $V$ 是有限非空集合，称为 $G$ 的顶点集， $V$ 中的元素称为顶点或结点； $E$ 称为 $G$ 的边的集合， $\forall e_i \in E$ ，都有 $V$ 中的结点与之对应，称 $e_i$ 为 $G$ 的边。
 

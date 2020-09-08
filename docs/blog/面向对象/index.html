@@ -61,7 +61,7 @@
       "datePublished": "2020-09-07 18:54:03 \u002b0800 CST",
       "dateModified" : "2020-09-07 18:54:03 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1\/",
-      "wordCount" : "324",
+      "wordCount" : "331",
       "keywords" : ["面向对象", "OOP", "正方形不是长方形", "里氏替换原则", "Blog"]
     }
   
@@ -241,7 +241,8 @@ abstract class AbstractRectangle implements ClosedFigure {
     abstract int getWidth();
 }
 </code></pre>
-<p>长方形类和正方形类作为子类继承抽象矩形类。对于长方形，定义两个 <em>final</em>  修饰的字段表示长宽，对于正方形，定义一个 <em>final</em> 修饰的字段表示边长，这是为了保证特征属性的不可变。分别重写父类的两个抽象方法和接口的一个抽象方法：</p>
+<p>长方形类和正方形类作为子类继承抽象矩形类。对于长方形，定义两个 <em>final</em>  修饰的字段 <em>length &amp; width</em> 表示长宽，这是为了保证特征属性的不可变。对于正方形，定义一个 <em>final</em> 修饰的字段 <em>sideLength</em> 表示边长，并且构造函数只传入一个参数以保证其作为正方形的正确性。</p>
+<p>分别重写父类的两个抽象方法和接口的一个抽象方法：</p>
 <pre><code class="language-java">class Rectangle extends AbstractRectangle implements ClosedFigure {
     private final int length;
     private final int width;

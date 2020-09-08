@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "731",
+      "wordCount" : "758",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -135,13 +135,13 @@
 </ul>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web1.png" alt=""></p>
 <h4 id="3-时延">3. 时延</h4>
-<p>总时延 = 排队时延 + 处理时延 + 传输时延 + 传播时延</p>
+<p>总时延 = 排队时延 + 处理时延 + 发送时延 + 传播时延</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web2.png" alt=""></p>
 <p><strong>（1）排队时延</strong></p>
 <p>分组在路由器的输入队列和输出队列中排队等待的时间，取决于网络当前的通信量。</p>
 <p><strong>（2）处理时延</strong></p>
 <p>主机或路由器收到分组时进行处理所需要的时间，例如分析首部、从分组中提取数据、进行差错检验或查找适当的路由等。</p>
-<p><strong>（3）传输时延</strong></p>
+<p><strong>（3）发送时延</strong></p>
 <p>主机或路由器传输数据帧所需要的时间。</p>
 <p><strong>（4）传播时延</strong></p>
 <p>电磁波在信道中传播所需要花费的时间，电磁波传播的速度接近光速。</p>
@@ -181,8 +181,8 @@
 <p>路由器只有下面三层协议，因为路由器位于网络核心中，不需要为进程或者应用程序提供服务，因此也就不需要传输层和应用层。</p>
 <h4 id="5-网站访问全过程">5. 网站访问全过程</h4>
 <p><strong>（1）事件顺序</strong></p>
-<ol start="2">
-<li>浏览器解析域名的 <strong>IP 地址</strong> ，先寻找<strong>本地 hosts</strong> 文件；</li>
+<ol>
+<li>浏览器解析<strong>域名</strong>的 <strong>IP 地址</strong> ，先寻找<strong>本地 hosts</strong> 文件；</li>
 <li>本地 host 没有记录，向 <strong>DNS 服务器</strong>发送查询报文，解析出网站服务器的 <strong>IP 地址</strong> ；</li>
 <li>浏览器与该服务器建立 <strong>TCP 连接</strong>（默认端口号80）；</li>
 <li>浏览器发出 <strong>HTTP 请求</strong>，请求网站首页；</li>
@@ -192,9 +192,9 @@
 </ol>
 <p><strong>（2）涉及到的协议</strong></p>
 <ol>
-<li>应用层：<strong>HTTP</strong>（WWW访问协议），<strong>DNS</strong>（域名解析服务）；</li>
-<li>传输层：<strong>TCP</strong>（为HTTP提供可靠的数据传输），<strong>UDP</strong>（DNS使用UDP传输）；</li>
-<li>网络层：<strong>IP</strong>（IP数据数据包传输和路由选择），<strong>ICMP</strong>（提供网络传输过程中的差错检测），<strong>ARP</strong>（将本机的默认网关IP地址映射成物理MAC地址）。</li>
+<li>应用层：<strong>HTTP</strong>（WWW 访问协议），<strong>DNS</strong>（域名解析服务）；</li>
+<li>传输层：<strong>TCP</strong>（为 HTTP 提供可靠的数据传输），<strong>UDP</strong>（DNS 使用 UDP 传输）；</li>
+<li>网络层：<strong>IP</strong>（IP 数据数据包传输和路由选择），<strong>ICMP</strong>（提供网络传输过程中的差错检测），<strong>ARP</strong>（将本机的默认网关 IP 地址映射成物理 MAC 地址）。</li>
 </ol>
 <h2 id="二链路层">二、链路层<a class="anchor" href="#二链路层">#</a></h2>
 <h4 id="1-封装成帧">1. 封装成帧</h4>
@@ -219,7 +219,13 @@
 <li><strong>碰撞检测</strong> ：在发送中，如果监听到信道已有其它主机正在发送数据，就表示发生了碰撞。虽然每个主机在发送数据之前都已经监听到信道为空闲，但是由于电磁波的传播时延的存在，还是有可能会发生碰撞。</li>
 </ul>
 <p>记端到端的传播时延为 τ，最先发送的站点最多经过 2τ 就可以知道是否发生了碰撞，称 2τ 为 <strong>争用期</strong> 。只有经过争用期之后还没有检测到碰撞，才能肯定这次发送不会发生碰撞。</p>
-<p>当发生碰撞时，站点要停止发送，等待一段时间再发送。这个时间采用 <strong>截断二进制指数退避算法</strong> 来确定。从离散的整数集合 {0, 1, 2, 3, &hellip; , (2^k-1)} 中随机取出一个数，记作 r，然后取 r 倍的争用期作为重传等待时间。</p>
+<p>当发生碰撞时，站点要停止发送，等待一段时间再发送。这个时间采用 <strong>截断二进制指数退避算法</strong> 来确定。其过程如下：</p>
+<ol>
+<li>确定基本退避时间，即争用期 2τ；</li>
+<li>定义参数 k，k 与冲突次数有关， k 不超过16时，k = <em>min</em>(冲突次数，10)；</li>
+<li>从离散的整数集合 [0,1,2，……，(2^k-1)] 中随机的取出一个数 r，等待的时延为 r 倍的基本退避时间，等于 r x 2t；</li>
+<li>当冲突次数超过 16 次后，发送失败，丢弃传输的帧，发送错误报告。</li>
+</ol>
 <h3 id="23-ppp-协议">2.3 PPP 协议<a class="anchor" href="#23-ppp-协议">#</a></h3>
 <p>互联网用户通常需要连接到某个 ISP 之后才能接入到互联网，PPP 协议是用户计算机和 ISP 进行通信时所使用的数据链路层协议。</p>
 <h3 id="24-mac-地址">2.4 MAC 地址<a class="anchor" href="#24-mac-地址">#</a></h3>
@@ -227,7 +233,7 @@
 <p>一台主机拥有多少个网络适配器就有多少个 MAC 地址。例如笔记本电脑普遍存在无线网络适配器和有线网络适配器，因此就有两个 MAC 地址。</p>
 <h2 id="三网络层">三、网络层<a class="anchor" href="#三网络层">#</a></h2>
 <h3 id="31-网际互连协议-ip">3.1 网际互连协议 IP<a class="anchor" href="#31-网际互连协议-ip">#</a></h3>
-<p>IP是整个TCP/IP协议族的核心，也是构成互联网的基础。IP 地址的编址方式经历了三个历史阶段：</p>
+<p>IP 是整个 TCP/IP 协议族的核心，也是构成互联网的基础。IP 地址的编址方式经历了三个历史阶段：</p>
 <ul>
 <li>分类：{&lt; 网络号 &gt;, &lt; 主机号 &gt;}</li>
 <li>子网划分：{&lt; 网络号 &gt;, &lt; 子网号 &gt;, &lt; 主机号 &gt;}</li>
@@ -251,12 +257,12 @@
 <p>分组转发结构由三个部分组成：交换结构、一组输入端口和一组输出端口。</p>
 <p><strong>路由器分组转发流程</strong></p>
 <ul>
-<li>从数据报的首部提取目的主机的 IP 地址 D，得到目的网络地址 N。</li>
-<li>若 N 就是与此路由器直接相连的某个网络地址，则进行直接交付；</li>
-<li>若路由表中有目的地址为 D 的特定主机路由，则把数据报传送给表中所指明的下一跳路由器；</li>
-<li>若路由表中有到达网络 N 的路由，则把数据报传送给路由表中所指明的下一跳路由器；</li>
-<li>若路由表中有一个默认路由，则把数据报传送给路由表中所指明的默认路由器；</li>
-<li>报告转发分组出错。</li>
+<li>从数据报的首部提取目的主机的 <strong>IP 地址 D</strong>，得到目的<strong>网络地址 N</strong>。</li>
+<li>若 N 就是与此路由器直接相连的某个网络地址，则进行直接<strong>交付</strong>；</li>
+<li>若路由表中有目的地址为 D 的特定主机路由，则把数据报传送给表中<strong>特定</strong>的下一跳路由器；</li>
+<li>若路由表中有到达网络 N 的路由，则把数据报传送给路由表中<strong>可达</strong>的下一跳路由器；</li>
+<li>若路由表中有一个默认路由，则把数据报传送给路由表中所指明的<strong>默认</strong>路由器；</li>
+<li>报告转发分组<strong>出错</strong>。</li>
 </ul>
 <h2 id="四传输层">四、传输层<a class="anchor" href="#四传输层">#</a></h2>
 <p><strong>UDP 和 TCP 的特点</strong></p>
@@ -314,7 +320,6 @@
 <p>发送的最初执行慢开始，令 cwnd = 1，发送方只能发送 1 个报文段；当收到确认后，将 cwnd 加倍，因此之后发送方能够发送的报文段数量为：2、4、8 &hellip;</p>
 <p><strong>（2）拥塞避免</strong></p>
 <p>注意到慢开始每个轮次都将 cwnd 加倍，这样会让 cwnd 增长速度非常快，从而使得发送方发送的速度增长速度过快，网络拥塞的可能性也就更高。设置一个慢开始门限（<strong>s</strong>low <strong>s</strong>tart <strong>thresh</strong>old，<strong>ssthresh</strong>），当 cwnd &gt;= ssthresh 时，进入拥塞避免，每个轮次只将 cwnd 加 1。</p>
-<p>如果出现了超时，则令 ssthresh = cwnd / 2，然后重新执行慢开始。</p>
 <p><strong>（3）快重传</strong></p>
 <p>当网络出现拥塞，就会发生数据包重传，重传机制主要有两种：<strong>超时重传</strong>和<strong>快速重传</strong>。</p>
 <p><strong>超时重传</strong>：重新慢开始（会造成网络卡顿）：</p>
@@ -354,7 +359,12 @@
 <li>由接收方控制，将一包数据按结构字段，人为控制分多次接收，然后合并，通过这种手段来避免粘包。</li>
 </ol>
 <h3 id="46-rudp">4.6 RUDP<a class="anchor" href="#46-rudp">#</a></h3>
-<p>视频通话要求传输协议既能保证可靠性，又能保证实时性，这就需要一种同时具备 TCP 和 UDP 优点的协议——<strong>RUDP</strong>（<strong>R</strong>eliable <strong>UDP</strong>），常见的 RUDP 协议有 QUIC，WebRTC，Aeron 等等。</p>
+<p>视频通话要求传输协议既能保证可靠性，又能保证实时性，这就需要一种同时具备 TCP 和 UDP 优点的协议——<strong>RUDP</strong>（<strong>R</strong>eliable <strong>UDP</strong>），常见的 RUDP 协议有 QUIC，WebRTC，Aeron 等等。可以类比 TCP 采用以下方式增强 UDP 的可靠性：</p>
+<ul>
+<li>添加 seq/ack 机制，确保数据发送到对端；</li>
+<li>添加发送和接收缓冲区，主要是用户超时重传；</li>
+<li>添加超时重传机制。</li>
+</ul>
 <h2 id="五应用层">五、应用层<a class="anchor" href="#五应用层">#</a></h2>
 <h3 id="51-dns">5.1 DNS<a class="anchor" href="#51-dns">#</a></h3>
 <p>域名注册完成后首先需要做域名解析，域名解析就是把域名指向网站所在服务器的IP，让人们通过注册的域名可以访问到网站。IP 地址是网络上标识服务器的数字地址，为了方便记忆，使用域名来代替 IP 地址。域名解析就是域名到 IP 地址的转换过程，域名的解析工作由 DNS 服务器完成。DNS 服务器会把域名解析到一个 IP 地址，然后在此 IP 地址的主机上将一个子目录与域名绑定。域名解析时会添加解析记录，这些记录有：<code>A记录</code>、<code>AAAA记录</code>、<code>CNAME记录</code>、<code>MX记录</code>、<code>NS记录</code>、<code>TXT记录</code>、<code>SRV记录</code>、<code>URL转发</code>。</p>
