@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>{year} © lil-q</copyright>
-    <lastBuildDate>Thu, 23 Jul 2020 09:46:01 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 07 Sep 2020 18:54:03 +0800</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>basis</title>
+      <link>https://lil-q.github.io/tags/basis/</link>
+      <pubDate>Mon, 07 Sep 2020 18:54:03 +0800</pubDate>
+      
+      <guid>https://lil-q.github.io/tags/basis/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>web</title>
@@ -63,15 +72,6 @@
       <pubDate>Tue, 12 May 2020 23:30:13 +0000</pubDate>
       
       <guid>https://lil-q.github.io/tags/design_pattern/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>basis</title>
-      <link>https://lil-q.github.io/tags/basis/</link>
-      <pubDate>Sun, 10 May 2020 00:08:33 +0000</pubDate>
-      
-      <guid>https://lil-q.github.io/tags/basis/</guid>
       <description></description>
     </item>
     
