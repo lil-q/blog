@@ -7,7 +7,7 @@
   <meta charset="UTF-8">
   <meta name="language" content="en">
   <meta name="description" content="面向对象">
-  <meta name="keywords" content="面向对象 , OOP">
+  <meta name="keywords" content="面向对象 , OOP , 正方形不是长方形 , 里氏替换原则">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -61,8 +61,8 @@
       "datePublished": "2020-09-07 18:54:03 \u002b0800 CST",
       "dateModified" : "2020-09-07 18:54:03 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1\/",
-      "wordCount" : "321",
-      "keywords" : ["面向对象", "OOP", "Blog"]
+      "wordCount" : "324",
+      "keywords" : ["面向对象", "OOP", "正方形不是长方形", "里氏替换原则", "Blog"]
     }
   
   </script>
@@ -227,7 +227,8 @@
 <blockquote>
 <p><strong>Abstraction is the Key.</strong></p>
 </blockquote>
-<p>重写抽象矩形类作为父类，并实现封闭图形接口，这个接口的功能是求面积，抽象矩形下定义两个抽象方法，分别用来获取长和宽：</p>
+<p>重写抽象矩形类作为父类，并实现 <em>ClosedFigure</em> 接口，这个接口的功能是求面积。求面积这个功能并不是矩阵本身具有的，而是它作为一个封闭图形能够实现的<strong>功能</strong>，所以需要用接口来实现。</p>
+<p>抽象矩形下定义两个抽象方法，分别用来获取长和宽：</p>
 <pre><code class="language-java">interface ClosedFigure {
 
     int getArea();
