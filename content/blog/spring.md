@@ -175,7 +175,7 @@ Spring AOP 就是基于动态代理的，如果要代理的对象，实现了某
 
 比如对于 Blog 系统，登录前需要验证身份，这就需要 Spring Boot 中的 **Interceptor**，其原理就是 AOP。
 
-### 3.1 Spring AOP and AspectJ
+### 3.1 AspectJ
 
 #### 1. Capabilities and Goals
 

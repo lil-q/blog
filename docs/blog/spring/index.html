@@ -61,7 +61,7 @@
       "datePublished": "2020-09-09 18:07:37 \u002b0800 CST",
       "dateModified" : "2020-09-09 18:07:37 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/spring\/",
-      "wordCount" : "624",
+      "wordCount" : "621",
       "keywords" : ["spring", "spring boot", "ioc", "aop", "循环依赖", "Blog"]
     }
   
@@ -289,7 +289,7 @@
 <p><strong>面向切面编程</strong>（<strong>A</strong>spect-<strong>O</strong>riented <strong>P</strong>rogramming，<strong>AOP</strong>）能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。</p>
 <p>Spring AOP 就是基于动态代理的，如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 <strong>JDK Proxy</strong> 去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候 Spring AOP 会使用 <strong>Cglib</strong> 生成一个被代理对象的子类来作为代理。</p>
 <p>比如对于 Blog 系统，登录前需要验证身份，这就需要 Spring Boot 中的 <strong>Interceptor</strong>，其原理就是 AOP。</p>
-<h3 id="31-spring-aop-and-aspectj">3.1 Spring AOP and AspectJ<a class="anchor" href="#31-spring-aop-and-aspectj">#</a></h3>
+<h3 id="31-aspectj">3.1 AspectJ<a class="anchor" href="#31-aspectj">#</a></h3>
 <h4 id="1-capabilities-and-goals">1. Capabilities and Goals</h4>
 <p>Spring AOP 旨在通过 Spring IoC 提供一个简单的 AOP 实现，它只能用于 Spring 容器管理的 beans。</p>
 <p>AspectJ 是最原始的 AOP 实现技术，更为健壮，能够被应用于所有的领域对象。</p>
@@ -389,7 +389,7 @@
     </li>
     <li><a href="#三aop">三、AOP</a>
       <ul>
-        <li><a href="#31-spring-aop-and-aspectj">3.1 Spring AOP and AspectJ</a></li>
+        <li><a href="#31-aspectj">3.1 AspectJ</a></li>
       </ul>
     </li>
     <li><a href="#参考">参考</a></li>
