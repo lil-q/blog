@@ -61,7 +61,7 @@
       "datePublished": "2020-09-07 18:54:03 \u002b0800 CST",
       "dateModified" : "2020-09-07 18:54:03 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1\/",
-      "wordCount" : "331",
+      "wordCount" : "336",
       "keywords" : ["面向对象", "OOP", "正方形不是长方形", "里氏替换原则", "Blog"]
     }
   
@@ -136,7 +136,7 @@
 <h2 id="二设计原则">二、设计原则<a class="anchor" href="#二设计原则">#</a></h2>
 <p>错误的设计类会带来很多问题，比如下面的悖论（为了方便理解，下文中长方形指代长宽不等的矩形）。</p>
 <h3 id="21-正方形不是矩形">2.1 正方形不是矩形？<a class="anchor" href="#21-正方形不是矩形">#</a></h3>
-<p>首先写出矩形类，定义长和宽，并写出长宽的 <em>setter</em> 方法和一个获取面积的方法：</p>
+<p>这个悖论的简单实现如下：写出矩形类，定义长和宽，并写出长宽的 <em>setter</em> 方法和一个获取面积的方法：</p>
 <pre><code class="language-java">public class Rectangle {
     int length;
     int width;
@@ -154,7 +154,7 @@
     }
 }
 </code></pre>
-<p>写出子类正方形，由于正方形的长宽是相同的，重写两个 <em>setter</em> 方法保证长宽一致：</p>
+<p>写出子类正方形继承父类矩形，由于正方形的长宽是相同的，重写两个 <em>setter</em> 方法保证长宽一致：</p>
 <pre><code class="language-java">class Square extends Rectangle {
 
     public void setLength(int length) {
@@ -184,44 +184,40 @@
 </code></pre>
 <p>问题出现了，矩形质检员并不知道这是一个正方形，他使用传统的质检矩形的方法来检查竟然发现这个正方形连矩形也不是，难道正方形不是矩形？</p>
 <h3 id="22-solid">2.2 S.O.L.I.D<a class="anchor" href="#22-solid">#</a></h3>
-<p>要解决上面的问题，首先要对面向对象的设计原则有所了解：</p>
+<p>要解决上面的问题，首先要对面向对象的设计原则有所了解。SOLID 常应用在测试驱动开发上，并且是敏捷开发以及自适应软件开发基本原则的重要组成部分，它包括：</p>
 <table>
 <thead>
 <tr>
-<th align="center">首字母</th>
-<th align="center">指代</th>
+<th align="center">原则</th>
 <th align="center">概念</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td align="center">S</td>
-<td align="center">单一功能原则</td>
+<td align="center"><strong>S</strong>ingle-responsibility principle（单一功能原则）</td>
 <td align="center">对象应该仅具有一种单一功能</td>
 </tr>
 <tr>
-<td align="center">O</td>
-<td align="center">开闭原则</td>
+<td align="center"><strong>O</strong>pen–closed principle（开闭原则）</td>
 <td align="center">软件应该对于扩展开放，对于修改封闭</td>
 </tr>
 <tr>
-<td align="center">L</td>
-<td align="center">里氏替换原则</td>
+<td align="center"><strong>L</strong>iskov substitution principle（里氏替换原则）</td>
 <td align="center">程序中的对象应该可以在不改变程序正确性的前提下被它的子类所替换</td>
 </tr>
 <tr>
-<td align="center">I</td>
-<td align="center">接口隔离原则</td>
+<td align="center"><strong>I</strong>nterface segregation principle（接口隔离原则）</td>
 <td align="center">多个特定客户端接口要好于一个宽泛用途的接口</td>
 </tr>
 <tr>
-<td align="center">D</td>
-<td align="center">依赖反转原则</td>
+<td align="center"><strong>D</strong>ependency inversion principle（依赖反转原则）</td>
 <td align="center">方法应该遵从依赖于抽象而不是一个实例</td>
 </tr>
 </tbody>
 </table>
-<p>首先，正方形和长方形需要实现多态，而矩形这个类同时包含了这两个语义，相互耦合，模糊不清，违反了单一功能原则。其次，对于矩形而言，长宽是根本属性，也正是长宽的关系决定了矩形是正方形还是长方形。对根本属性不应该设置 <em>setter</em> 方法，这违反了开闭原则。最后，子类正方形不能够替代父类矩形使用，违反了里氏替换原则。如果继承的目的是为了多态，而多态的前提就是子类覆盖并重新定义父类的方法，为了符合 LSP，我们应该将父类定义为抽象类，并定义抽象方法，让子类重新定义这些方法。当父类是抽象类时，父类就不能实例化，避免了子类替换父类实例（根本不存在父类实例）时的逻辑不一致<a href="https://www.zhihu.com/question/27191817">[2]</a>。</p>
+<p>相互对照可以发现上述对于矩形和正方形的实现是不合理的。首先，由于我们需要对正方形和长方形相互区分，实现多态，矩形这个类就同时包含了正方形和长方形这两个语义，相互耦合，模糊不清，违反了单一功能原则。</p>
+<p>其次，对于矩形而言，长宽是特征属性，也正是长宽的关系决定了矩形是正方形还是长方形。对特征属性不应该设置 <em>setter</em> 方法，这违反了开闭原则。</p>
+<p>最后，子类正方形不能够替代父类矩形使用，违反了里氏替换原则。如果继承的目的是为了多态，而多态的前提就是子类覆盖并重新定义父类的方法，为了符合 LSP，我们应该将父类定义为抽象类，并定义抽象方法，让子类重新定义这些方法。当父类是抽象类时，父类就不能实例化，避免了子类替换父类实例（根本不存在父类实例）时的逻辑不一致<a href="https://www.zhihu.com/question/27191817">[2]</a>。</p>
 <h3 id="23-正方形是抽象矩形">2.3 正方形是抽象矩形<a class="anchor" href="#23-正方形是抽象矩形">#</a></h3>
 <p>怎样才能打破正方形不是矩形的悖论呢？</p>
 <blockquote>

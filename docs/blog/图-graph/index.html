@@ -61,7 +61,7 @@
       "datePublished": "2019-12-27 17:53:49 \u002b0000 UTC",
       "dateModified" : "2019-12-27 17:53:49 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E5%9B%BE-graph\/",
-      "wordCount" : "1307",
+      "wordCount" : "1342",
       "keywords" : ["graph", "Dijkstra", "Floyd-Warshall", "Prim", "Kruskal", "Blog"]
     }
   
@@ -119,13 +119,13 @@
 <p>生活不就是一张图吗？</p>
 <!-- more -->
 <h2 id="一定义">一、定义<a class="anchor" href="#一定义">#</a></h2>
-<p><strong>图</strong>（Graph）用于表示物件与物件之间的关系，是<a href="https://zh.wikipedia.org/wiki/%E5%9C%96%E8%AB%96">图论</a>的基本研究对象。一张图由一些小圆点（称为<strong>顶点</strong>或<strong>结点</strong>）和连结这些圆点的直线或曲线（称为<strong>边</strong>）组成。</p>
+<p><strong>图</strong>（Graph）用于表示物件与物件之间的关系，是图论的基本研究对象。一张图由一些小圆点（称为<strong>顶点</strong>或<strong>结点</strong>）和连结这些圆点的直线或曲线（称为<strong>边</strong>）组成。</p>
 <p>一个图 $G$ 是一个二元组，即序偶 $\langle V,E\rangle$ ，或记作 $G= \langle V,E\rangle$ ，其中 $V$ 是有限非空集合，称为 $G$ 的顶点集， $V$ 中的元素称为顶点或结点； $E$ 称为 $G$ 的边的集合， $\forall e_i \in E$ ，都有 $V$ 中的结点与之对应，称 $e_i$ 为 $G$ 的边。</p>
 <p>简单来说，就是图 $G$ 就是一个结点的集合 $V$ 和边的集合 $E$ ，其中任意一条边都可以表示为两个结点之间的关系。若 $e_i\in E$ 表示为 $\langle u,v\rangle$ ，则有 $u\in V , v\in V$ 。</p>
 <h3 id="11-基本概念">1.1 基本概念<a class="anchor" href="#11-基本概念">#</a></h3>
 <p>无向图：每条边都是无向边的图。</p>
 <p>有向图：每条边都是有向边的图。</p>
-<p>有权图：每条边具有一定的权重(weight)，通常是一个数字</p>
+<p>有权图：每条边具有一定的权重（weight），通常是一个数字</p>
 <p>无权图：每条边均没有权重，也可以理解为权为 1</p>
 <p>连通图：所有的点都有路径相连</p>
 <p>非连通图：存在某两个点没有路径相连</p>
@@ -146,12 +146,12 @@
 [3,8], [4,5], [4,9], [7,8], [7,9] ]
 </code></pre>
 <h3 id="22-邻接矩阵">2.2 邻接矩阵<a class="anchor" href="#22-邻接矩阵">#</a></h3>
-<p>邻接矩阵的英文名是 adjacency matrix。它的形式是 <code>bool adj[n][n]</code> ，这里面 $n$ 是节点个数， $adj[i][j]$ 表示 $i$ 和 $j$ 之间是否有边。</p>
+<p>邻接矩阵的英文名是 <em>adjacency matrix</em>。它的形式是 <code>bool adj[n][n]</code> ，这里面 $n$ 是节点个数， $adj[i][j]$ 表示 $i$ 和 $j$ 之间是否有边。</p>
 <p>如果边有权值，也可以直接用 <code>int adj[n][n]</code> ，直接把边权存进去。</p>
 <p>它的优点是可以在 $O(1)$ 时间内得到一条边是否存在，缺点是需要占用 $O(n^2)$ 的空间。对于一个稀疏的图（边相对于点数的平方比较少）来说，用邻接矩阵来存的话，成本偏高。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/549bca1a52774846b25caff86d244d03ee63fd38.png" alt="matrix" style="zoom:50%;" /></p>
 <h3 id="23-邻接表">2.3 邻接表<a class="anchor" href="#23-邻接表">#</a></h3>
-<p>邻接表英文名是 adjacency list。它的形式是 <code>vector adj[n]</code> ，用 <code>adj[i]</code> 存以 $i$ 为起点的边。</p>
+<p>邻接表英文名是 <em>adjacency list</em>。它的形式是 <code>vector adj[n]</code> ，用 <code>adj[i]</code> 存以 $i$ 为起点的边。</p>
 <p>用 <code>vector</code> 无法科学地删除，所以常用 <code>list</code> 实现。</p>
 <p>它的特点是可以用来按顺序访问一个结点的出边（或者入边）。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/cc82379521bd84738e86d6cf9552738ca9138420.png" alt="linklist" style="zoom:50%;" /></p>
@@ -188,11 +188,9 @@
                   [2, 3, 5]]
 </code></pre>
 <h3 id="31-深度优先搜索">3.1 深度优先搜索<a class="anchor" href="#31-深度优先搜索">#</a></h3>
-<p><strong>深度优先搜索算法</strong>(Depth-First-Search，DFS)是一种用于遍历或搜索<strong>树</strong>或<strong>图</strong>的算法。沿着树的深度遍历树的节点，尽可能深的搜索树的分支。当节点v的所在边都己被探寻过，搜索将回溯到发现节点v的那条边的起始节点。这一过程一直进行到已发现从源节点可达的所有节点为止。如果还存在未被发现的节点，则选择其中一个作为源节点并重复以上过程，整个进程反复进行直到所有节点都被访问为止。属于盲目搜索。</p>
-<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph2.png" alt="graph2" style="zoom:67%;" /></p>
+<p><strong>深度优先搜索算法</strong>（<strong>D</strong>epth-<strong>F</strong>irst-<strong>S</strong>earch，<strong>DFS</strong>）是一种用于遍历或搜索<strong>树</strong>或<strong>图</strong>的算法。沿着树的深度遍历树的节点，尽可能深的搜索树的分支。当节点 v 的所在边都己被探寻过，搜索将回溯到发现节点 v 的那条边的起始节点。这一过程一直进行到已发现从源节点可达的所有节点为止。如果还存在未被发现的节点，则选择其中一个作为源节点并重复以上过程，整个进程反复进行直到所有节点都被访问为止。属于盲目搜索。</p>
 <h3 id="32-广度优先搜索">3.2 广度优先搜索<a class="anchor" href="#32-广度优先搜索">#</a></h3>
-<p><strong>广度优先搜索算法</strong>(Breadth-First-Search，缩写为BFS)，又译作<strong>宽度优先搜索</strong>，或<strong>横向优先搜索</strong>，是一种图形搜索算法。简单的说，BFS是从<strong>根节点</strong>开始，沿着树的宽度遍历树的节点。如果所有节点均被访问，则算法中止。广度优先搜索的实现一般采用open-closed表。</p>
-<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph3.png" alt="graph3" style="zoom:67%;" /></p>
+<p><strong>广度优先搜索算法</strong>（<strong>B</strong>readth-<strong>F</strong>irst-<strong>S</strong>earch，<strong>BFS</strong>)，又译作<strong>宽度优先搜索</strong>，或<strong>横向优先搜索</strong>，是一种图形搜索算法。简单的说，BFS 是从<strong>根节点</strong>开始，沿着树的宽度遍历树的节点。如果所有节点均被访问，则算法中止。广度优先搜索的实现一般采用 open-closed 表。</p>
 <p><strong>Python的简易实现</strong></p>
 <pre><code class="language-python"># 设置总节点数
 num_vertexs = 7
@@ -247,7 +245,7 @@ if __name__ == '__main__':
     t2 = graph.bfs(0)
     print(&quot;广度优先搜索：&quot;, t2)
 </code></pre>
-<p>注意：这里用index表示节点名称，最后还需要映射出结果（假设0,1,2,3&hellip;分别对应A,B,C,D&hellip;下文会使用字典来实现邻接表，这样就不需要这一步了）：</p>
+<p>注意：这里用 index 表示节点名称，最后还需要映射出结果（假设0, 1, 2, 3&hellip;分别对应A, B, C, D&hellip;下文会使用字典来实现邻接表，这样就不需要这一步了）：</p>
 <pre><code class="language-python">vertexs = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;]
 t3 = list(map(lambda x: vertexs[x], t1))
 print(&quot;深度优先搜索：&quot;, t3)
@@ -264,29 +262,29 @@ print(&quot;广度优先搜索：&quot;, t4)
 <h2 id="四最短路径算法">四、最短路径算法<a class="anchor" href="#四最短路径算法">#</a></h2>
 <h3 id="41-dijkstra算法">4.1 Dijkstra算法<a class="anchor" href="#41-dijkstra算法">#</a></h3>
 <p><strong>特点</strong></p>
-<p>Dijkstra 算法使用了广度优先搜索解决赋权有向图或者无向图的单源最短路径问题，算法最终得到一个最短路径树。该算法常用于路由算法或者作为其他图算法的一个子模块。Dijkstra 算法属于单源算法，即只能求出某点到其它点最短距离，并不能得出任意两点之间的最短距离，只能用权值为正数的图，存在负数时可能回陷入死循环。</p>
+<p>Dijkstra 算法使用了广度优先搜索解决赋权有向图或者无向图的单源最短路径问题，算法最终得到一个最短路径树。该算法常用于路由算法或者作为其他图算法的一个子模块。Dijkstra 算法属于<strong>单源算法</strong>，即只能求出某点到其它点最短距离，并不能得出任意两点之间的最短距离，只能用<strong>权值为正数</strong>的图，存在负数时可能回陷入死循环。</p>
 <p><strong>流程</strong></p>
-<p>Dijkstra算法采用的是一种贪心的策略，声明一个数组distances来保存源点到各个顶点的最短距离和一个保存已经找到了最短路径的顶点的集合：nodes。以下图为例，假设求A点到其他点的距离。</p>
+<p>Dijkstra 算法采用的是一种贪心的策略，声明一个数组 distances 来保存源点到各个顶点的最短距离和一个保存已经找到了最短路径的顶点的集合：nodes。以下图为例，假设求A点到其他点的距离。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph5.png" alt="graph2" style="zoom:67%;" /></p>
 <ol>
 <li>
-<p>初始化distances，原点 s 的路径权重被赋为 0 （dis[s] = 0）。把到其他顶点的路径长度设为无穷大。</p>
+<p>初始化 distances，原点 s 的路径权重被赋为 0 （dis[s] = 0）。把到其他顶点的路径长度设为无穷大。</p>
 <pre><code class="language-python">distances = {'A': 0, 'B': inf, 'C': inf, 'D': inf, 'E': inf, 'F': inf, 'G': inf} 
 </code></pre>
 </li>
 <li>
-<p>初始nodes，理论上集合nodes只有顶点s。这里创建了其他节点是方便之后的进堆操作，不用再考虑节点是否存在两种情况。</p>
+<p>初始 nodes，理论上集合 nodes 只有顶点 s。这里创建了其他节点是方便之后的进堆操作，不用再考虑节点是否存在两种情况。</p>
 <pre><code class="language-python">nodes = [[0, 'A'], [inf, 'B'], [inf, 'C'], [inf, 'D'], [inf, 'E'], [inf, 'F'], [inf, 'G']]
 </code></pre>
 </li>
 <li>
-<p>从distances数组选择最小值，则该值就是源点s到该值对应的顶点的最短路径，并且把该点加入到nodes中。</p>
+<p>从 distances 数组选择最小值，则该值就是源点 s 到该值对应的顶点的最短路径，并且把该点加入到 nodes 中。</p>
 <pre><code class="language-python">distances = {'A': 0, 'B': 4, 'C': 2, 'D': 3, 'E': inf, 'F': inf, 'G': inf} # 加入了A的近邻B，C，D
 nodes = [[2, 'C'], [3, 'D'], [4, 'B'], [inf, 'G'], [inf, 'E'], [inf, 'F']] # A被推出，更新B，C，D
 </code></pre>
 </li>
 <li>
-<p>重复这个过程，直到nodes为s空或nodes中的最小值是无穷大（与剩下的节点都不连通）时。</p>
+<p>重复这个过程，直到 nodes 为 s 空或 nodes 中的最小值是无穷大（与剩下的节点都不连通）时。</p>
 </li>
 </ol>
 <p><strong>代码</strong></p>
@@ -356,8 +354,8 @@ if __name__ == '__main__':
 </code></pre>
 <h3 id="42-floyd-warshall算法">4.2 Floyd-Warshall算法<a class="anchor" href="#42-floyd-warshall算法">#</a></h3>
 <p><strong>特点</strong></p>
-<p><strong>Floyd-Warshall算法</strong>(Floyd-Warshall algorithm)，中文亦称<strong>弗洛伊德算法</strong>，是解决任意两点间的最短路径的一种算法，可以正确处理<strong>有向图</strong>或<strong>负权</strong>（但不可存在负权回路）的最短路径问题，同时也被用于计算有向图的传递闭包。</p>
-<p>Floyd 算法是一个经典的动态规划算法。</p>
+<p><strong>Floyd-Warshall算法</strong>（Floyd-Warshall algorithm），中文亦称<strong>弗洛伊德算法</strong>，是解决任意两点间的最短路径的一种算法，可以正确处理<strong>有向图</strong>或<strong>负权</strong>（但不可存在负权回路）的最短路径问题，同时也被用于计算有向图的传递闭包。</p>
+<p>Floyd 算法是一个经典的<strong>动态规划算法</strong>。</p>
 <p>设 $D_{i,j,k}$ 为从 $i$ 到 $j$ 的只以 $(i, j)$ 集合中的节点为中间节点的最短路径的长度。</p>
 <ol>
 <li>若最短路径经过点k，则 $D_{i,j,k}=D_{i,k,k-1}+D_{k,j,k-1}$；</li>
@@ -418,7 +416,7 @@ if __name__ == '__main__':
 <li>包含连通图中所有的顶点；</li>
 <li>任意两顶点之间有且仅有一条通路；</li>
 </ol>
-<p>因此，连通图的生成树具有这样的特征，即生成树中<code>边的数量 = 顶点数 - 1</code>。</p>
+<p>因此，连通图的生成树具有这样的特征，即生成树中<strong>边的数量 = 顶点数 - 1</strong>。</p>
 <h3 id="51-prim算法">5.1 Prim算法<a class="anchor" href="#51-prim算法">#</a></h3>
 <p><strong>普里姆算法</strong>（Prim&rsquo;s algorithm），<strong>图论</strong>中的一种算法，可在加权连通图里搜索<strong>最小生成树</strong>。意即由此算法搜索到的<strong>边</strong>子集所构成的<strong>树</strong>中，不但包括了连通图里的所有<strong>顶点</strong>，且其所有边的权值之和亦为最小。</p>
 <p><strong>流程</strong></p>
