@@ -192,6 +192,8 @@ public boolean equals(Object o) {
 
 比较 ArrayList 和 LinkedList：
 
+<br>
+
 |                     | ArrayList    | LinkedList           |
 | :------------------ | :----------- | :------------------- |
 | 获取指定元素        | 速度很快     | 需要从头开始查找元素 |
@@ -517,6 +519,8 @@ Queue 实际上是实现了一个先进先出（FIFO：First In First Out）的�
 
 对于具体的实现类，有的Queue有最大队列长度限制，有的Queue没有。注意到添加、删除和获取队列元素总是有两个方法，这是因为在添加或获取元素失败时，这两个方法的行为是不同的。我们用一个表格总结如下：
 
+<br>
+
 |                    | throw Exception | 返回false或null    |
 | :----------------- | :-------------- | :----------------- |
 | 添加元素到队尾     | add(E e)        | boolean offer(E e) |
@@ -530,6 +534,8 @@ public interface Deque<E> extends Queue<E> {...}
 ```
 
 Deque 实现了一个双端队列（Double Ended Queue），比较 Queue 和 Deque 出队和入队的方法：
+
+<br>
 
 |                    | Queue                  | Deque                           |
 | :----------------- | :--------------------- | ------------------------------- |

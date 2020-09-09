@@ -134,6 +134,7 @@
 <ul>
 <li>
 <p><strong>一致性</strong>：保证事务的执行结果正确：</p>
+<br>
 <ul>
 <li><strong>无并发</strong>：事务串行执行，隔离性一定能够满足；只需满足<strong>原子性</strong>。</li>
 <li><strong>有并发</strong>：多个事务并行执行，事务不仅要满足<strong>隔离性</strong>；还需要满足<strong>原子性</strong>。</li>
@@ -170,6 +171,7 @@
 <li>共享锁（Shared），简写为 S 锁，又称读锁。</li>
 </ul>
 <p>锁的兼容关系（行级）如下：</p>
+<br>
 <table>
 <thead>
 <tr>
@@ -201,6 +203,7 @@
 </ul>
 <p>通过引入意向锁，事务 T 想要对表 A 加 X 锁，只需要先检测是否有其它事务对表 A 加了 X/IX/S/IS 锁，如果加了就表示有其它事务正在使用这个表或者表中某一行的锁，因此事务 T 加 X 锁失败。</p>
 <p>各种锁的兼容关系（表级）如下：</p>
+<br>
 <table>
 <thead>
 <tr>
@@ -282,6 +285,7 @@ SELECT ... FOR UPDATE;
 <p>该隔离级别需要加锁实现，因为要使用加锁机制保证同一时间只有一个事务执行，也就是保证事务串行执行。</p>
 <h4 id="5-小结">5. 小结</h4>
 <p>隔离级别能解决的并发一致性问题：</p>
+<br>
 <table>
 <thead>
 <tr>
@@ -337,9 +341,15 @@ SELECT ... FOR UPDATE;
 <p>MVCC 维护了一个 ReadView 结构，主要包含了当前系统未提交的事务列表 TRX_IDs {TRX_ID_1, TRX_ID_2, &hellip;}，还有该列表的最小值 TRX_ID_MIN 和 TRX_ID_MAX。</p>
 <p>在进行 SELECT 操作时，根据数据行快照的 TRX_ID 与 TRX_ID_MIN 和 TRX_ID_MAX 之间的关系，从而判断数据行快照是否可以使用：</p>
 <ul>
-<li><strong>TRX_ID &lt; TRX_ID_MIN</strong>：表示该数据行快照时在当前所有未提交事务之前进行更改的，因此可以使用。</li>
-<li><strong>TRX_ID &gt; TRX_ID_MAX</strong>：表示该数据行快照是在事务启动之后被更改的，因此不可使用。</li>
-<li><strong>TRX_ID_MIN &lt;= TRX_ID &lt;= TRX_ID_MAX</strong>：需要根据隔离级别再进行判断：
+<li>
+<p><strong>TRX_ID &lt; TRX_ID_MIN</strong>：表示该数据行快照时在当前所有未提交事务之前进行更改的，可以使用。</p>
+</li>
+<li>
+<p><strong>TRX_ID &gt; TRX_ID_MAX</strong>：表示该数据行快照是在事务启动之后被更改的，因此不可使用。</p>
+</li>
+<li>
+<p><strong>TRX_ID_MIN &lt;= TRX_ID &lt;= TRX_ID_MAX</strong>：需要根据隔离级别再进行判断：</p>
+<br>
 <ul>
 <li><strong>提交读</strong>：如果 TRX_ID 在 TRX_IDs 列表中，表示该数据行快照对应的事务还未提交，则该快照不可使用。否则表示已经提交，可以使用。</li>
 <li><strong>可重复读</strong>：都不可以使用。因为如果可以使用的话，那么其它事务也可以读到这个数据行快照并进行修改，那么当前事务再去读这个数据行得到的值就会发生改变，也就是出现了不可重复读问题。</li>

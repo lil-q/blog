@@ -128,6 +128,7 @@
 <p>以下图为例，连通关系为<code>[(1,2), (0, 1), (0, 3), (4, 7), (5, 6), (5, 7), (7, 8), (8, 9)]</code>。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/uf1.png" alt="uf"></p>
 <p>首先初始化所有节点，认为它们属于一个组，因此不连通的节点必然就属于不同的组：</p>
+<br>
 <table>
 <thead>
 <tr>
@@ -161,6 +162,7 @@
 </tbody>
 </table>
 <p>输入pair<code>(1, 2)</code>，则将<strong>所有</strong><code>group number</code>为<code>0</code>和<code>1</code>的<code>element</code>改为一致（都为<code>0</code>或都为<code>1</code>，这里以较小值为例）。</p>
+<br>
 <table>
 <thead>
 <tr>
@@ -194,6 +196,7 @@
 </tbody>
 </table>
 <p>输入pair<code>(0， 1)</code>，这里就需要把<code>element 1</code>和<code>element 2</code>的<code>group number</code>都改为<code>0</code>，：</p>
+<br>
 <table>
 <thead>
 <tr>
@@ -334,6 +337,7 @@
 </code></pre>
 <h2 id="六总结">六、总结<a class="anchor" href="#六总结">#</a></h2>
 <p>随着一步步地深入，我们最终将查并集<code>union</code>和<code>find</code>的时间复杂度降低到了O(1)。本文中的四种算法的时间复杂度如下表所示。</p>
+<br>
 <table>
 <thead>
 <tr>
