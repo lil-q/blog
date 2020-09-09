@@ -7,6 +7,7 @@ keywords: [spring, spring boot, ioc, aop, 循环依赖]
 tags: [framework]
 math: false
 toc: true
+
 ---
 
 ## 一、Spring 
@@ -167,6 +168,16 @@ protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, 
 
 BeanFactory 和 ApplicationContext 的区别在于，BeanFactory 的实现是按需创建，即第一次获取 Bean 时才创建这个 Bean，而 ApplicationContext 会一次性创建所有的 Bean。实际上，ApplicationContext 接口是从 BeanFactory 接口继承而来的，并且，ApplicationContext 提供了一些额外的功能，包括国际化支持、事件和通知机制等。通常情况下，我们总是使用 ApplicationContext，很少会考虑使用 BeanFactory。
 
+### 2.5 Autowired
+
+`@Autowired`是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到`@Autowied`、`@Resource`或`@Inject`时，就会在 IoC 容器自动查找需要的 bean，并装配给该对象的属性。在使用`@Autowired`时，首先在容器中查询对应类型的 bean：
+
+- 如果查询结果刚好为一个，就将该bean装配给`@Autowired`指定的数据；
+- 如果查询的结果不止一个，那么`@Autowired`会根据名称来查找；
+- 如果上述查找的结果为空，那么会抛出异常。解决方法时，使用`required=false`。
+
+`@Resource`注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过`@Resource`的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 bean 名称寻找依赖对象。
+
 ## 三、AOP
 
 **面向切面编程**（**A**spect-**O**riented **P**rogramming，**AOP**）能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。
@@ -187,21 +198,35 @@ AspectJ 是最原始的 AOP 实现技术，更为健壮，能够被应用于所�
 
 AspectJ and Spring AOP使用了不同的织入方式，这影响了他们在性能和易用性方面的行为。AspectJ 使用了三种不同类型的织入：
 
-1. 编译时织入：AspectJ 编译器同时加载我们切面的源代码和我们的应用程序，并生成一个织入后的类文件作为输出。
-2. 编译后织入：这就是所熟悉的二进制织入。它被用来编织现有的类文件和 JAR 文件与我们的切面。
-3. 加载时织入：这和之前的二进制编织完全一样，所不同的是织入会被延后，直到类加载器将类加载到 JVM。
+* 编译时织入：AspectJ 编译器同时加载我们切面的源代码和我们的应用程序，并生成一个织入后的类文件作为输出。
+* 编译后织入：这就是所熟悉的二进制织入。它被用来编织现有的类文件和 JAR 文件与我们的切面。
+* 加载时织入：这和之前的二进制编织完全一样，所不同的是织入会被延后，直到类加载器将类加载到 JVM。
 
 AspectJ 使用的是**编译期和类加载时**进行织入，Spring AOP 利用的是**运行时**织入。
-
-运行时织入，在使用目标对象的代理执行应用程序时，编译这些切面（使用 JDK 动态代理或者 CGLIB 代理）。
 
 #### 3. Performance
 
 考虑到性能问题，**编译时织入比运行时织入快很多**。Spring AOP 是基于代理的框架，因此应用运行时会有目标类的代理对象生成。另外，每个切面还有一些方法调用，这会对性能造成影响。
 
-AspectJ 不同于 Spring AOP，是在应用执行前织入切面到代码中，没有额外的运行时开销。
+AspectJ 不同于 Spring AOP，是在应用执行前织入切面到代码中，没有额外的运行时开销。由于以上原因，AspectJ 经过测试大概 8 到 35 倍快于 Spring AOP。
 
-由于以上原因，AspectJ 经过测试大概 8 到 35 倍快于 Spring AOP。
+### 3.2 事务
+
+* 编程式事务（不推荐使用），在代码中硬编码；
+* 声明式事务（推荐使用），在配置文件中配置，基于 AOP，将具体业务逻辑与事务处理解耦。
+
+声明式事务又分为两种：
+
+* 基于 XML 的声明式事务；
+* 基于注解的声明式事务。
+
+TransactionDefinition 接口中定义了五个表示隔离级别的常量：
+
+- TransactionDefinition.ISOLATION_DEFAULT:  使用后端数据库默认的隔离级别，Mysql 默认采用的 REPEATABLE_READ隔离级别 Oracle 默认采用的 READ_COMMITTED隔离级别.
+- TransactionDefinition.ISOLATION_READ_UNCOMMITTED: 最低的隔离级别，允许读取尚未提交的数据变更，**可能会导致脏读、幻读或不可重复读**
+- TransactionDefinition.ISOLATION_READ_COMMITTED:   允许读取并发事务已经提交的数据，**可以阻止脏读，但是幻读或不可重复读仍有可能发生**
+- TransactionDefinition.ISOLATION_REPEATABLE_READ:  对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，**可以阻止脏读和不可重复读，但幻读仍有可能发生。**
+- TransactionDefinition.ISOLATION_SERIALIZABLE:   最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，**该级别可以防止脏读、不可重复读以及幻读**。但是这将严重影响程序的性能。通常情况下也不会用到该级别。
 
 ## 参考
 
