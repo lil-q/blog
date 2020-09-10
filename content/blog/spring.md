@@ -22,7 +22,7 @@ Spring Framework 专注于企业级应用程序的 *plumbing*，以便开发团�
 
 Spring Framework 主要具有以下特点：
 
-- 核心技术 ：依赖注入（DI），面向切面（AOP），事件（events）；
+- 核心技术 ：依赖注入 DI，面向切面 AOP，事件 events；
 - 测试 ：模拟对象，TestContext 框架，Spring MVC 测试；
 - 数据访问 ：事务，DAO 支持，JDBC，ORM，编组 XML；
 - Web 支持 : Spring MVC 和 Spring WebFlux Web 框架。
@@ -41,7 +41,7 @@ Spring Framework 主要具有以下特点：
 
 IoC 容器是 Spring 用来实现 IoC 的载体， IoC 容器就像是一个工厂一样，当我们需要创建一个对象的时候，只需要配置好配置文件或注解即可，完全不用考虑对象是如何被创建出来的。 
 
-IoC 的思想最核心的地方在于，资源不是由使用资源的双方来管理，而是由不使用资源的第三方来管理，这样做带来的好处主要有[[3]](https://www.zhihu.com/question/23277575):
+IoC 的思想最核心的地方在于，资源不是由使用资源的双方来管理，而是由不使用资源的第三方来管理[[3]](https://www.zhihu.com/question/23277575)，这样做带来的好处主要有:
 
 * 资源集中管理，实现资源的**可配置**和**易管理**;
 * 降低了使用资源双方的依赖程度，即**解耦**。
