@@ -122,7 +122,7 @@ cv2.waitKey(0)
 ```
 
 
-# 参考
+## 参考
 
 1. [wiki 差分](https://zh.wikipedia.org/wiki/差分)
 2. [数字图像 - 边缘检测原理 - Sobel, Laplace, Canny算子](https://www.jianshu.com/p/2334bee37de5)

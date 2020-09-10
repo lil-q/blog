@@ -9,7 +9,7 @@ keywords: [jvm, java, GC]
 
 ## 一、内存区域
 
-<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/jvm1.png" style="zoom: 80%;" />
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/jvm1.png"  />
 
 ### 1.1 程序计数器
 
