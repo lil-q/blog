@@ -133,7 +133,7 @@
 <li>Web 支持 : Spring MVC 和 Spring WebFlux Web 框架。</li>
 </ul>
 <h2 id="二ioc--di">二、IoC &amp; DI<a class="anchor" href="#二ioc--di">#</a></h2>
-<p>下图是传统的程序设计，对象的创建都由客户端来完成，如果一个系统有大量的组件，其生命周期和相互之间的依赖关系如果由组件自身来维护，不但大大增加了系统的复杂度，而且会导致组件之间极为紧密的耦合，继而给测试和维护带来了极大的困难，解决这个问题的关键就是 IoC。</p>
+<p>下图是传统的程序设计，对象的创建都由客户端来完成，如果一个系统有大量的组件，其生命周期和相互之间的依赖关系都由组件自身来维护，不但大大增加了系统的复杂度，而且会导致组件之间极为紧密的耦合，继而给测试和维护带来了极大的困难，解决这个问题的关键就是 IoC。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/spring1.png" style="zoom:150%;" /></p>
 <p><strong>控制反转</strong>（<strong>I</strong>nverse <strong>o</strong>f <strong>C</strong>ontrol，<strong>IoC</strong>）是一种<strong>设计思想</strong>，是将原本在程序中手动创建对象的控制权，交由 Spring 框架来管理。  IoC 在其他语言中也有应用，并非 Spirng 特有。IoC 主要的实现方式有两种：依赖查找和依赖注入，依赖注入是更可取的方式[2]。Martin Fowler 认为 IoC 应改名为 DI：IoC 太普遍了，应当用更加准确的定义 DI 来指代它。</p>
 <p><strong>依赖注入</strong>（<strong>D</strong>ependency <strong>I</strong>njection，<strong>DI</strong>）指组件之间依赖关系由容器在<strong>运行期</strong>决定，即由容器动态的将某个依赖关系注入到组件之中。依赖注入的目的并非为软件系统带来更多功能，而是为了提升组件重用的频率，并为系统搭建一个灵活、可扩展的平台。通过依赖注入机制，我们只需要通过简单的配置，而无需任何代码就可指定目标需要的资源，完成自身的业务逻辑，而不需要关心具体的资源来自何处，由谁实现。</p>
