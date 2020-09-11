@@ -61,7 +61,7 @@
       "datePublished": "2020-07-07 11:17:47 \u002b0000 UTC",
       "dateModified" : "2020-07-07 11:17:47 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E8%99%9A%E6%8B%9F%E6%9C%BA\/",
-      "wordCount" : "1024",
+      "wordCount" : "1020",
       "keywords" : ["jvm", "java", "GC", "Blog"]
     }
   
@@ -176,16 +176,16 @@
 <h4 id="3-引用类型">3. 引用类型</h4>
 <p>无论是通过引用计数算法判断对象的引用数量，还是通过可达性分析算法判断对象是否可达，判定对象是否可被回收都与引用有关。</p>
 <p>Java 提供了四种强度不同的引用类型。</p>
-<p><strong>(1) 强引用</strong></p>
+<p><strong>（1）强引用</strong></p>
 <p>被强引用关联的对象不会被回收。</p>
 <p>使用 new 一个新对象的方式来创建强引用。</p>
-<p><strong>(2) 软引用</strong></p>
+<p><strong>（2）软引用</strong></p>
 <p>被软引用关联的对象只有在内存不够的情况下才会被回收。</p>
 <p>使用 SoftReference 类来创建软引用。</p>
-<p><strong>(3) 弱引用</strong></p>
+<p><strong>（3）弱引用</strong></p>
 <p>被弱引用关联的对象一定会被回收，也就是说它只能存活到下一次垃圾回收发生之前。</p>
 <p>使用 WeakReference 类来创建弱引用。</p>
-<p><strong>(4) 虚引用</strong></p>
+<p><strong>（4）虚引用</strong></p>
 <p>又称为幽灵引用或者幻影引用，一个对象是否有虚引用的存在，不会对其生存时间造成影响，也无法通过虚引用得到一个对象。</p>
 <p>为一个对象设置虚引用的唯一目的是能在这个对象被回收时收到一个系统通知。</p>
 <p>使用 PhantomReference 来创建虚引用。</p>
