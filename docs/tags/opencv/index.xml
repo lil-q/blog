@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>OpenCV-python-图像梯度与边缘检测</title>
+      <title>OpenCV-python：图像梯度与边缘检测</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/</link>
       <pubDate>Sat, 22 Feb 2020 17:51:07 +0000</pubDate>
       
@@ -28,7 +28,7 @@ $$ Sobel_{x} = \frac{1}{9}\left[ \begin{matrix} -1 &amp;amp; 0 &amp;amp; 1 \newl
     </item>
     
     <item>
-      <title>OpenCV-python-亮度与对比度</title>
+      <title>OpenCV-python：亮度与对比度</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%9B%9B/</link>
       <pubDate>Thu, 20 Feb 2020 14:14:07 +0000</pubDate>
       
@@ -41,7 +41,7 @@ img[100, 120] = [255,255,255]  NumPy 是一个用于快速数组计算的优化�
     </item>
     
     <item>
-      <title>OpenCV-python-图像混合与形态学</title>
+      <title>OpenCV-python：图像混合与形态学</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89/</link>
       <pubDate>Wed, 19 Feb 2020 13:00:33 +0000</pubDate>
       
@@ -53,7 +53,7 @@ x = np.uint8([250]) y = np.uint8([10]) print(cv2.add(x, y)) # 250 + 10 = 260 =&a
     </item>
     
     <item>
-      <title>OpenCV-python-滤波和阈值分割</title>
+      <title>OpenCV-python：滤波和阈值分割</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
       <pubDate>Mon, 17 Feb 2020 14:44:55 +0000</pubDate>
       
@@ -67,7 +67,7 @@ $$ kernel_{b} = a\left[ \begin{matrix} 1 &amp;amp; 1 &amp;amp; 1 \newline 1 &amp
     </item>
     
     <item>
-      <title>OpenCV-python-基础</title>
+      <title>OpenCV-python：基础</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Sun, 09 Feb 2020 15:57:11 +0000</pubDate>
       

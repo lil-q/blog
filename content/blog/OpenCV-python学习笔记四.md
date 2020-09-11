@@ -1,5 +1,5 @@
 ---
-title: OpenCV-python-亮度与对比度
+title: OpenCV-python：亮度与对比度
 date: 2020-02-20 14:14:07
 tags: [OpenCV]
 math: true

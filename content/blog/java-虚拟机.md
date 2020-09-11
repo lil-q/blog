@@ -1,5 +1,5 @@
 ---
-title: java-虚拟机
+title: java：虚拟机
 date: 2020-07-07 11:17:47
 tags: [java, jvm]
 toc: true

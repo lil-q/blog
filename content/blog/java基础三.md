@@ -1,5 +1,5 @@
 ---
-title: java-反射和泛型
+title: java：反射和泛型
 date: 2020-03-27 22:45:02
 tags: [java]
 toc: true

@@ -18,10 +18,9 @@
       <pubDate>Wed, 09 Sep 2020 18:07:37 +0800</pubDate>
       
       <guid>https://lil-q.github.io/blog/spring/</guid>
-      <description>一、Spring Spring是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个spring生态的基石。
- From configuration to security, web apps to big data—whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need—Spring is modular by design.
- Spring Framework 专注于企业级应用程序的 plumbing，以便开发团队可以专注于应用程序的业务逻辑。这里的 plumbing 指的就是为依赖注入、事务管理、WEB 应用、数据访问等提供了核心的支持。
- Provides core support for dependency injection, transaction management, web apps, data access, messaging, and more.</description>
+      <description>&amp;ldquo;From configuration to security, web apps to big data—whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need—Spring is modular by design.&amp;rdquo;
+ Spring是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 spring 生态的基石。
+一、Spring Framework  &amp;ldquo;Provides core support for dependency injection, transaction management, web apps, data access, messaging, and more. Spring focuses on the &amp;ldquo;plumbing&amp;rdquo; of enterprise applications so that teams can focus on application-level business logic, without unnecessary ties to specific deployment environments.</description>
     </item>
     
     <item>
@@ -110,7 +109,7 @@ B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点�
     </item>
     
     <item>
-      <title>java-虚拟机</title>
+      <title>java：虚拟机</title>
       <link>https://lil-q.github.io/blog/java-%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
       <pubDate>Tue, 07 Jul 2020 11:17:47 +0000</pubDate>
       
@@ -140,18 +139,18 @@ HotSpot 虚拟机把它当成永久代来进行垃圾回收。但很难确定永
     </item>
     
     <item>
-      <title>设计模式-创建型</title>
+      <title>设计模式：创建型</title>
       <link>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B/</link>
       <pubDate>Tue, 12 May 2020 23:30:13 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B/</guid>
       <description>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。
-一、单例(Singleton) 单例模式属于创建型设计模式，确保一个类只有一个实例，并提供该实例的全局访问点。一般有两种情况需要用到单例：
+一、单例 - Singleton 单例模式属于创建型设计模式，确保一个类只有一个实例，并提供该实例的全局访问点。一般有两种情况需要用到单例：
  资源共享：节约系统资源，不需要频繁创建和销毁的对象，如日志文件，应用配置等； 资源控制：方便资源之间的互相通信，如线程池等。  以下是一些常见的单例应用场景：
  Windows 的任务管理器（Task Manager）和回收站（Recycle Bin）在整个系统运行过程中，只维护仅有的一个实例。 网站的计数器，一般也是采用单例模式实现，否则难以同步。 在操作系统中，打印池（Print Spooler）是一个用于管理打印任务的应用程序，通过打印池用户可以删除、中止或者改变打印任务的优先级，在一个系统中只允许运行一个打印池对象，如果重复创建打印池则抛出异常。  实现: 使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现。
-1.1 懒汉式——线程不安全 所谓懒汉就是私有静态变量 uniqueInstance 被延迟实例化（lazy loading），这样做的好处是，如果没有用到该类，那么就不会实例化 uniqueInstance，从而节约资源。
-这个实现在多线程环境下是不安全的，如果多个线程能够同时进入 if (uniqueInstance == null) ，并且此时 uniqueInstance == null，那么会有多个线程执行 uniqueInstance = new Singleton(); 语句，这将导致实例化多次 uniqueInstance。
-public class Singleton { private static Singleton uniqueInstance; private Singleton(){} public static Singleton newInstance(){ if(uniqueInstance == null) uniqueInstance = new Singleton(); return uniqueInstance; } }  1.2 懒汉式——线程安全 为了解决线程安全的问题，我们可以直接在newInstance()方法上面直接加上一把synchronized同步锁。那么在一个时间点只能有一个线程能够进入该方法，从而避免了实例化多次 uniqueInstance。</description>
+1.1 饿汉式 饿汉式是线程安全的，它采取直接实例化 uniqueInstance 的方式。
+这种方式比较常用，它基于 classloader 机制避免了多线程的同步问题，但容易产生垃圾对象(丢失了延迟实例化带来的节约资源的好处)。
+public class Singleton { // 急切的创建了uniqueInstance, 所以叫饿汉式 private static Singleton uniqueInstance = new Singleton(); private Singleton(){ } public static Singleton newInstance(){ return uniqueInstance; } // 如果我们只是想调用 Singleton.getStr(...)， // 本来是没有必要生成 Singleton 实例的，但是饿汉式已经生成了 public static String getStr(String str) {return &amp;quot;hello&amp;quot; + str;} }  1.</description>
     </item>
     
     <item>
@@ -218,7 +217,7 @@ public class Singleton { private static Singleton uniqueInstance; private Single
     </item>
     
     <item>
-      <title>java-并发</title>
+      <title>java：并发</title>
       <link>https://lil-q.github.io/blog/java-%E5%B9%B6%E5%8F%91/</link>
       <pubDate>Tue, 28 Apr 2020 19:37:01 +0000</pubDate>
       
@@ -257,7 +256,7 @@ public class Singleton { private static Singleton uniqueInstance; private Single
     </item>
     
     <item>
-      <title>java-I/O</title>
+      <title>java：I/O</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%85%AD/</link>
       <pubDate>Sat, 04 Apr 2020 14:13:57 +0000</pubDate>
       
@@ -272,7 +271,7 @@ public void readFile() throws IOException { try (InputStream input = new FileInp
     </item>
     
     <item>
-      <title>java-Map</title>
+      <title>java：Map</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</link>
       <pubDate>Thu, 02 Apr 2020 15:37:30 +0000</pubDate>
       
@@ -284,7 +283,7 @@ for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.</description>
     </item>
     
     <item>
-      <title>java-Collection</title>
+      <title>java：Collection</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%9B%9B/</link>
       <pubDate>Mon, 30 Mar 2020 18:34:55 +0000</pubDate>
       
@@ -300,7 +299,7 @@ public interface Iterator&amp;lt;E&amp;gt; { // 判断是否还有下一个对�
     </item>
     
     <item>
-      <title>java-反射和泛型</title>
+      <title>java：反射和泛型</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%B8%89/</link>
       <pubDate>Fri, 27 Mar 2020 22:45:02 +0000</pubDate>
       
@@ -318,7 +317,7 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
     </item>
     
     <item>
-      <title>java-面向对象和异常处理</title>
+      <title>java：面向对象和异常处理</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%8C/</link>
       <pubDate>Mon, 23 Mar 2020 14:08:20 +0000</pubDate>
       
@@ -331,7 +330,7 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
     </item>
     
     <item>
-      <title>java-基础</title>
+      <title>java：基础</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Fri, 20 Mar 2020 19:33:14 +0000</pubDate>
       
@@ -374,7 +373,7 @@ class Solution: def permute(self, nums: List[int]) -&amp;gt; List[List[int]]: si
     </item>
     
     <item>
-      <title>OpenCV-python-图像梯度与边缘检测</title>
+      <title>OpenCV-python：图像梯度与边缘检测</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94/</link>
       <pubDate>Sat, 22 Feb 2020 17:51:07 +0000</pubDate>
       
@@ -389,7 +388,7 @@ $$ Sobel_{x} = \frac{1}{9}\left[ \begin{matrix} -1 &amp;amp; 0 &amp;amp; 1 \newl
     </item>
     
     <item>
-      <title>OpenCV-python-亮度与对比度</title>
+      <title>OpenCV-python：亮度与对比度</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E5%9B%9B/</link>
       <pubDate>Thu, 20 Feb 2020 14:14:07 +0000</pubDate>
       
@@ -402,7 +401,7 @@ img[100, 120] = [255,255,255]  NumPy 是一个用于快速数组计算的优化�
     </item>
     
     <item>
-      <title>OpenCV-python-图像混合与形态学</title>
+      <title>OpenCV-python：图像混合与形态学</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%89/</link>
       <pubDate>Wed, 19 Feb 2020 13:00:33 +0000</pubDate>
       
@@ -414,7 +413,7 @@ x = np.uint8([250]) y = np.uint8([10]) print(cv2.add(x, y)) # 250 + 10 = 260 =&a
     </item>
     
     <item>
-      <title>OpenCV-python-滤波和阈值分割</title>
+      <title>OpenCV-python：滤波和阈值分割</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/</link>
       <pubDate>Mon, 17 Feb 2020 14:44:55 +0000</pubDate>
       
@@ -428,7 +427,7 @@ $$ kernel_{b} = a\left[ \begin{matrix} 1 &amp;amp; 1 &amp;amp; 1 \newline 1 &amp
     </item>
     
     <item>
-      <title>OpenCV-python-基础</title>
+      <title>OpenCV-python：基础</title>
       <link>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Sun, 09 Feb 2020 15:57:11 +0000</pubDate>
       

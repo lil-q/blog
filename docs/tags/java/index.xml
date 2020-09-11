@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>java-虚拟机</title>
+      <title>java：虚拟机</title>
       <link>https://lil-q.github.io/blog/java-%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
       <pubDate>Tue, 07 Jul 2020 11:17:47 +0000</pubDate>
       
@@ -34,7 +34,7 @@ HotSpot 虚拟机把它当成永久代来进行垃圾回收。但很难确定永
     </item>
     
     <item>
-      <title>java-并发</title>
+      <title>java：并发</title>
       <link>https://lil-q.github.io/blog/java-%E5%B9%B6%E5%8F%91/</link>
       <pubDate>Tue, 28 Apr 2020 19:37:01 +0000</pubDate>
       
@@ -53,7 +53,7 @@ HotSpot 虚拟机把它当成永久代来进行垃圾回收。但很难确定永
     </item>
     
     <item>
-      <title>java-I/O</title>
+      <title>java：I/O</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%85%AD/</link>
       <pubDate>Sat, 04 Apr 2020 14:13:57 +0000</pubDate>
       
@@ -68,7 +68,7 @@ public void readFile() throws IOException { try (InputStream input = new FileInp
     </item>
     
     <item>
-      <title>java-Map</title>
+      <title>java：Map</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</link>
       <pubDate>Thu, 02 Apr 2020 15:37:30 +0000</pubDate>
       
@@ -80,7 +80,7 @@ for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.</description>
     </item>
     
     <item>
-      <title>java-Collection</title>
+      <title>java：Collection</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%9B%9B/</link>
       <pubDate>Mon, 30 Mar 2020 18:34:55 +0000</pubDate>
       
@@ -96,7 +96,7 @@ public interface Iterator&amp;lt;E&amp;gt; { // 判断是否还有下一个对�
     </item>
     
     <item>
-      <title>java-反射和泛型</title>
+      <title>java：反射和泛型</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%B8%89/</link>
       <pubDate>Fri, 27 Mar 2020 22:45:02 +0000</pubDate>
       
@@ -114,7 +114,7 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
     </item>
     
     <item>
-      <title>java-面向对象和异常处理</title>
+      <title>java：面向对象和异常处理</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%8C/</link>
       <pubDate>Mon, 23 Mar 2020 14:08:20 +0000</pubDate>
       
@@ -127,7 +127,7 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
     </item>
     
     <item>
-      <title>java-基础</title>
+      <title>java：基础</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Fri, 20 Mar 2020 19:33:14 +0000</pubDate>
       

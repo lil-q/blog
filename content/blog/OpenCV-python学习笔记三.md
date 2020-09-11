@@ -1,5 +1,5 @@
 ---
-title: OpenCV-python-图像混合与形态学
+title: OpenCV-python：图像混合与形态学
 date: 2020-02-19 13:00:33
 tags: [OpenCV]
 math: true

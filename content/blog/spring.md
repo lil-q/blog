@@ -7,18 +7,17 @@ keywords: [spring, spring boot, ioc, aop, 循环依赖]
 tags: [framework]
 math: false
 toc: true
-
 ---
 
-## 一、Spring 
+> "From configuration to security, web apps to big data—whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need—Spring is modular by design."
 
-Spring是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个spring生态的基石。
+Spring是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 spring 生态的基石。
 
-> From configuration to security, web apps to big data—whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need—Spring is modular by design.
+## 一、Spring Framework
+
+> "Provides core support for dependency injection, transaction management, web apps, data access, messaging, and more. Spring focuses on the "plumbing" of enterprise applications so that teams can focus on application-level business logic, without unnecessary ties to specific deployment environments."
 
 Spring Framework 专注于企业级应用程序的 *plumbing*，以便开发团队可以专注于应用程序的业务逻辑。这里的 *plumbing* 指的就是为依赖注入、事务管理、WEB 应用、数据访问等提供了核心的支持。
-
-> Provides core support for dependency injection, transaction management, web apps, data access, messaging, and more. Spring focuses on the "plumbing" of enterprise applications so that teams can focus on application-level business logic, without unnecessary ties to specific deployment environments.
 
 Spring Framework 主要具有以下特点：
 

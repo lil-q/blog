@@ -1,5 +1,5 @@
 ---
-title: java-Collection
+title: java：Collection
 date: 2020-03-30 18:34:55
 tags: [java, source_code]
 toc: true

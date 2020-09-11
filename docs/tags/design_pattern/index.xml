@@ -13,18 +13,18 @@
     
     
     <item>
-      <title>设计模式-创建型</title>
+      <title>设计模式：创建型</title>
       <link>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B/</link>
       <pubDate>Tue, 12 May 2020 23:30:13 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B/</guid>
       <description>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。
-一、单例(Singleton) 单例模式属于创建型设计模式，确保一个类只有一个实例，并提供该实例的全局访问点。一般有两种情况需要用到单例：
+一、单例 - Singleton 单例模式属于创建型设计模式，确保一个类只有一个实例，并提供该实例的全局访问点。一般有两种情况需要用到单例：
  资源共享：节约系统资源，不需要频繁创建和销毁的对象，如日志文件，应用配置等； 资源控制：方便资源之间的互相通信，如线程池等。  以下是一些常见的单例应用场景：
  Windows 的任务管理器（Task Manager）和回收站（Recycle Bin）在整个系统运行过程中，只维护仅有的一个实例。 网站的计数器，一般也是采用单例模式实现，否则难以同步。 在操作系统中，打印池（Print Spooler）是一个用于管理打印任务的应用程序，通过打印池用户可以删除、中止或者改变打印任务的优先级，在一个系统中只允许运行一个打印池对象，如果重复创建打印池则抛出异常。  实现: 使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现。
-1.1 懒汉式——线程不安全 所谓懒汉就是私有静态变量 uniqueInstance 被延迟实例化（lazy loading），这样做的好处是，如果没有用到该类，那么就不会实例化 uniqueInstance，从而节约资源。
-这个实现在多线程环境下是不安全的，如果多个线程能够同时进入 if (uniqueInstance == null) ，并且此时 uniqueInstance == null，那么会有多个线程执行 uniqueInstance = new Singleton(); 语句，这将导致实例化多次 uniqueInstance。
-public class Singleton { private static Singleton uniqueInstance; private Singleton(){} public static Singleton newInstance(){ if(uniqueInstance == null) uniqueInstance = new Singleton(); return uniqueInstance; } }  1.2 懒汉式——线程安全 为了解决线程安全的问题，我们可以直接在newInstance()方法上面直接加上一把synchronized同步锁。那么在一个时间点只能有一个线程能够进入该方法，从而避免了实例化多次 uniqueInstance。</description>
+1.1 饿汉式 饿汉式是线程安全的，它采取直接实例化 uniqueInstance 的方式。
+这种方式比较常用，它基于 classloader 机制避免了多线程的同步问题，但容易产生垃圾对象(丢失了延迟实例化带来的节约资源的好处)。
+public class Singleton { // 急切的创建了uniqueInstance, 所以叫饿汉式 private static Singleton uniqueInstance = new Singleton(); private Singleton(){ } public static Singleton newInstance(){ return uniqueInstance; } // 如果我们只是想调用 Singleton.getStr(...)， // 本来是没有必要生成 Singleton 实例的，但是饿汉式已经生成了 public static String getStr(String str) {return &amp;quot;hello&amp;quot; + str;} }  1.</description>
     </item>
     
   </channel>

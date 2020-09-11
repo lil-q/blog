@@ -1,5 +1,5 @@
 ---
-title: OpenCV-python-基础
+title: OpenCV-python：基础
 date: 2020-02-09 15:57:11
 tags: [OpenCV]
 math: true

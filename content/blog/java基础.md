@@ -1,5 +1,5 @@
 ---
-title: java-基础
+title: java：基础
 date: 2020-03-20 19:33:14
 tags: [java]
 toc: true

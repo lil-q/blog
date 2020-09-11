@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>java-Map</title>
+      <title>java：Map</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</link>
       <pubDate>Thu, 02 Apr 2020 15:37:30 +0000</pubDate>
       
@@ -25,7 +25,7 @@ for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.</description>
     </item>
     
     <item>
-      <title>java-Collection</title>
+      <title>java：Collection</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%9B%9B/</link>
       <pubDate>Mon, 30 Mar 2020 18:34:55 +0000</pubDate>
       
