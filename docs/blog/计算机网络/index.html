@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "762",
+      "wordCount" : "776",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -389,6 +389,8 @@
 <p>Socket 跟 TCP/IP 并没有必然的联系。Socket 编程接口在设计的时候，就希望也能适应其他的网络协议。所以，Socket 的出现只是可以更方便的使用 TCP/IP 协议栈而已，其对 TCP/IP 进行了抽象，形成了几个最基本的函数接口。比如 create，listen，accept，connect，read 和 write 等。不同语言都有对应的建立Socket服务端和客户端的库。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/webnew3.png" alt="s2"></p>
 <h3 id="54-cookie--session">5.4 cookie &amp; session<a class="anchor" href="#54-cookie--session">#</a></h3>
+<p>session 是一个抽象概念，开发者为了实现中断和继续等操作，将 user agent 和 server 之间一对一的交互，抽象为“会话”，进而衍生出“会话状态”<a href="https://www.zhihu.com/question/19786827">[9]</a>。</p>
+<p>cookie 是客户端保存用户信息的一种机制，用来记录用户的一些信息，也是 Session 的一种实现方式。</p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
 <li><a href="https://blog.csdn.net/cream66/article/details/104920732?utm_medium=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param&amp;depth_1-utm_source=distribute.pc_relevant.none-task-blog-BlogCommendFromMachineLearnPai2-2.channel_param">网站访问全过程</a></li>
@@ -399,6 +401,7 @@
 <li><a href="https://www.nowcoder.com/discuss/414727?type=all&amp;order=time&amp;pos=&amp;page=1&amp;channel=1013&amp;source_id=search_all">图解TCP 重传、滑动窗口、流量控制、拥塞控制</a></li>
 <li><a href="https://itbilu.com/other/relate/EyxzdVl3.html">DNS</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/28940451">CDN</a></li>
+<li><a href="https://www.zhihu.com/question/19786827">cookie &amp; session</a></li>
 </ol>
 
 
