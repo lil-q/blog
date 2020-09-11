@@ -25,25 +25,25 @@ SQL基础语句快查
 
 一个Table存储一个类别的数据，每一行是一条数据，每一列是这种数据的一个属性； Table就像一个二维的表格，`列(columns)`是有限固定的，`行(rows)`是无限不固定的。
 
-## 二、查询(SELECT)
+## 二、查询 - SELECT
 
-Select 查询某些属性列（specific columns）的语法。
+Select 查询某些属性列（specific columns）的语法：
 
 ```sql
 SELECT column（列名）, another_column, …
 FROM mytable（表名）;
 ```
 
-Select 查询所有列。
+Select 查询所有列：
 
 ```sql
 SELECT *
 FROM mytable（表名）;
 ```
 
-## 三、条件查询 (WHERE) 
+## 三、条件查询  - WHERE 
 
-条件查询语法。WHERE
+条件查询语法，WHERE：
 
 ```SQL
 SELECT column, another_column, …
@@ -65,7 +65,7 @@ WHERE condition
 | IN (…)              | Number exists in a list 在一个列表                           | col_name IN (2, 4, 6)         |
 | NOT IN (…)          | Number does not exist in a list 不在一个列表                 | col_name NOT IN (1, 3, 5)     |
 
-##  四、模糊查询(LIKE) 和 通配符(%）
+##  四、模糊查询 - LIKE
 
 参考下表：
 
@@ -82,9 +82,9 @@ WHERE condition
 | IN (…)             | String exists in a list 在列表                               | col_name IN ("A", "B", "C")                                  |
 | NOT IN (…)         | String does not exist in a list 不在列表                     | col_name NOT IN ("D", "E", "F")                              |
 
-## 五、过滤(DISTINCT)
+## 五、过滤 - DISTINCT
 
-选取出唯一的结果的语法
+选取出唯一的结果的语法：
 
 ```sql
 SELECT DISTINCT column, another_column, … 
@@ -92,9 +92,9 @@ FROM mytable
 WHERE condition(s);
 ```
 
-## 六、排序(ORDER)
+## 六、排序 - ORDER
 
-结果排序（ordered results）
+结果排序（ordered results）：
 
 ```sql
 SELECT column, another_column, … 
@@ -107,7 +107,7 @@ ORDER BY column ASC/DESC;
 
 ## 七、选取(LIMIT, OFFSET)
 
-`LIMIT` 和 `OFFSET` 子句通常和`ORDER BY` 语句一起使用，当我们对整个结果集排序之后，我们可以 `LIMIT`来指定只返回多少行结果 ,用 `OFFSET`来指定从哪一行开始返回。
+`LIMIT` 和 `OFFSET` 子句通常和`ORDER BY` 语句一起使用，当我们对整个结果集排序之后，我们可以 `LIMIT`来指定只返回多少行结果，用 `OFFSET`来指定从哪一行开始返回：
 
 ```sql
 SELECT column, another_column, …
@@ -125,7 +125,7 @@ LIMIT num_limit OFFSET num_offset;
 
 ### INNER JOIN
 
-用INNER JOIN 连接表的语法。通过`ON`条件描述的关联关系;`INNER JOIN` 先将两个表数据连接到一起. 两个表中如果通过ID互相找不到的数据将会舍弃。
+用INNER JOIN 连接表的语法。通过`ON`条件描述的关联关系;`INNER JOIN` 先将两个表数据连接到一起. 两个表中如果通过ID互相找不到的数据将会舍弃：
 
 ```sql
 SELECT table1.column, table2.another_table_column, … 
@@ -141,7 +141,7 @@ LIMIT num_limit OFFSET num_offset;
 
 `INNER JOIN` 只会保留两个表都存在的数据（还记得之前的交集吗），这看起来意味着一些数据的丢失，在某些场景下会有问题.
 
-用LEFT/RIGHT/FULL JOINs 做多表查询
+用LEFT/RIGHT/FULL JOINs 做多表查询：
 
 ```sql
 SELECT table1.column, table2.another_table_column, … 
@@ -155,7 +155,7 @@ LIMIT num_limit OFFSET num_offset;
 
 ## 九、表达式(AS)
 
-当我们用表达式对col属性计算时，很多事可以在SQL内完成，这让SQL更加灵活，但表达式如果长了则很难一下子读懂。所以SQL提供了`AS`关键字， 来给表达式取一个别名.
+当我们用表达式对col属性计算时，很多事可以在SQL内完成，这让SQL更加灵活，但表达式如果长了则很难一下子读懂。所以SQL提供了`AS`关键字， 来给表达式取一个别名：
 
 ```sql
 SELECT col_expression AS expr_description
@@ -179,7 +179,7 @@ LIMIT num_limit OFFSET num_offset;
 | **AVG(column)**                     | 对column所有行取平均值.                                      |
 | **SUM(column)**                     | 对column所有行求和.                                          |
 
-当不求整组数据时，可以使用`GROUP BY` 对数据分组。
+当不求整组数据时，可以使用`GROUP BY` 对数据分组：
 
 ```sql
 SELECT column, count(*)*100/(SELECT count(*) FROM table1) FROM table1 
@@ -189,7 +189,7 @@ GROUP BY column;
 
 可以通过嵌套一个select来实现百分比的求解。
 
-数据库是先对数据做`WHERE`，然后对结果做分组，如果我们要对分组完的数据再筛选就需要使用 `HAVING` 语法。
+数据库是先对数据做`WHERE`，然后对结果做分组，如果我们要对分组完的数据再筛选就需要使用 `HAVING` 语法：
 
 ```sql
 SELECT group_by_column, AGG_FUNC(column_expression) AS aggregate_result_alias, …
@@ -201,7 +201,7 @@ HAVING group_condition;
 
 ## 十一、总结
 
-完整的SELECT查询
+完整的SELECT查询：
 
 ```sql
 SELECT DISTINCT column, AGG_FUNC(column_or_expression), …
@@ -217,35 +217,35 @@ LIMIT count OFFSET COUNT;
 
 **1. FROM 和 JOINs**
 
-`FROM` 或 `JOIN`会第一个执行，确定一个整体的数据范围. 如果要JOIN不同表，可能会生成一个临时Table来用于 下面的过程。总之第一步可以简单理解为确定一个数据源表（含临时表)
+`FROM` 或 `JOIN`会第一个执行，确定一个整体的数据范围. 如果要JOIN不同表，可能会生成一个临时Table来用于 下面的过程。总之第一步可以简单理解为确定一个数据源表（含临时表)。
 
 **2. WHERE**
 
-我们确定了数据来源 `WHERE` 语句就将在这个数据源中按要求进行数据筛选，并丢弃不符合要求的数据行，所有的筛选col属性 只能来自`FROM`圈定的表. AS别名还不能在这个阶段使用，因为可能别名是一个还没执行的表达式
+我们确定了数据来源 `WHERE` 语句就将在这个数据源中按要求进行数据筛选，并丢弃不符合要求的数据行，所有的筛选col属性 只能来自`FROM`圈定的表. AS别名还不能在这个阶段使用，因为可能别名是一个还没执行的表达式。
 
 **3. GROUP BY**
 
-如果你用了 `GROUP BY` 分组，那`GROUP BY` 将对之前的数据进行分组，统计等，并将是结果集缩小为分组数.这意味着 其他的数据在分组后丢弃.
+如果你用了 `GROUP BY` 分组，那`GROUP BY` 将对之前的数据进行分组，统计等，并将是结果集缩小为分组数.这意味着 其他的数据在分组后丢弃。
 
 **4. HAVING**
 
-如果你用了 `GROUP BY` 分组, `HAVING` 会在分组完成后对结果集再次筛选。AS别名也不能在这个阶段使用.
+如果你用了 `GROUP BY` 分组, `HAVING` 会在分组完成后对结果集再次筛选。AS别名也不能在这个阶段使用。
 
 **5. SELECT**
 
-确定结果之后，`SELECT`用来对结果col简单筛选或计算，决定输出什么数据.
+确定结果之后，`SELECT`用来对结果col简单筛选或计算，决定输出什么数据。
 
 **6. DISTINCT**
 
-如果数据行有重复`DISTINCT` 将负责排重.
+如果数据行有重复`DISTINCT` 将负责排重。
 
 **7. ORDER BY**
 
-在结果集确定的情况下，`ORDER BY` 对结果做排序。因为`SELECT`中的表达式已经执行完了。此时可以用AS别名.
+在结果集确定的情况下，`ORDER BY` 对结果做排序。因为`SELECT`中的表达式已经执行完了。此时可以用AS别名。
 
 **8. LIMIT / OFFSET**
 
-最后 `LIMIT` 和 `OFFSET` 从排序的结果中截取部分数据.
+最后 `LIMIT` 和 `OFFSET` 从排序的结果中截取部分数据。
 
 ## 十二、题解
 
@@ -263,7 +263,7 @@ SELECT (
     )  AS SecondHighestSalary
 ```
 
-或者使用`IFNULL`
+或者使用`IFNULL`：
 
 ```mysql
 SELECT 
@@ -295,7 +295,7 @@ END
 
 [leetcode 178. 分数排名](https://leetcode-cn.com/problems/rank-scores/)
 
-自连接
+自连接：
 
 ```mysql
 SELECT
@@ -311,7 +311,7 @@ ORDER BY
     S1.score DESC;
 ```
 
-子查询
+子查询：
 
 ```mysql
 SELECT

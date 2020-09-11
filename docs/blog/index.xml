@@ -437,11 +437,11 @@ import time, json, requests url = &#39;https://view.inews.qq.com/g2/getOnsInfo?n
 大家知道数据库是用来存储大量数据的一种软件，那么SQL呢是用来操作数据里的数据，具体来说SQL可以做数据查询，数据更新，写入数据等等。
 1.2 关系型数据库 在学习SQL语法之前有必要解释一下什么是关系型数据库（Relational databases)？数据库由若干张表(Table)组成，这里说的数据Table很像Excel里的表; 正如Excel里的表格，Table也是由 行(rows)和列(columns)组成。
 一个Table存储一个类别的数据，每一行是一条数据，每一列是这种数据的一个属性； Table就像一个二维的表格，列(columns)是有限固定的，行(rows)是无限不固定的。
-二、查询(SELECT) Select 查询某些属性列（specific columns）的语法。
-SELECT column（列名）, another_column, … FROM mytable（表名）;  Select 查询所有列。
-SELECT * FROM mytable（表名）;  三、条件查询 (WHERE) 条件查询语法。WHERE
+二、查询 - SELECT Select 查询某些属性列（specific columns）的语法：
+SELECT column（列名）, another_column, … FROM mytable（表名）;  Select 查询所有列：
+SELECT * FROM mytable（表名）;  三、条件查询 - WHERE 条件查询语法，WHERE：
 SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_condition AND/OR …;  参考下表：
-   Operator（关键字） Condition（意思） SQL Example(例子）     =, !=, &amp;lt; &amp;lt;=, &amp;gt;, &amp;gt;= Standard numerical operators 基础的 大于，等于等比较 col_name !</description>
+   Operator（关键字） Condition（意思） SQL Example(例子）     =, !</description>
     </item>
     
     <item>
