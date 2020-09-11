@@ -139,12 +139,12 @@
 </ul>
 <p>堆不需要连续内存，当前主流的 Java 虚拟机都是按照可扩展来实现的（通过参数 -Xmx 和 -Xms 设定），增加失败会抛出 OutOfMemoryError 异常。</p>
 <p><strong>栈和堆的区别如下：</strong></p>
-<ol>
+<ul>
 <li>功能：栈的功能是运行，堆的功能是储存；</li>
 <li>共享性：栈是线程隔离的，堆是线程共享的；</li>
-<li>异常错误 ：栈可能出 StackOverflowError 异常和 OutOfMemoryError 异常，堆出后者；</li>
+<li>异常错误 ：栈可能报出 StackOverflowError 异常和 OutOfMemoryError 异常，堆报出后者；</li>
 <li>空间：栈的空间连续，堆的空间不连续，栈的空间远小于堆。</li>
-</ol>
+</ul>
 <h3 id="15-方法区">1.5 方法区<a class="anchor" href="#15-方法区">#</a></h3>
 <p>用于存放已被加载的<strong>类信息</strong>、<strong>常量</strong>、<strong>静态变量</strong>、<strong>即时编译器编译后的代码</strong>等数据。</p>
 <p>和堆一样不需要连续的内存，并且可以动态扩展，动态扩展失败一样会抛出 OutOfMemoryError 异常。</p>

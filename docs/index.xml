@@ -123,7 +123,7 @@ B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点�
 现代的垃圾收集器基本都是采用分代收集算法，其主要的思想是针对不同类型的对象采取不同的垃圾回收算法。可以将堆分成两块：
  新生代（Young Generation） 老年代（Old Generation）  堆不需要连续内存，当前主流的 Java 虚拟机都是按照可扩展来实现的（通过参数 -Xmx 和 -Xms 设定），增加失败会抛出 OutOfMemoryError 异常。
 栈和堆的区别如下：
- 功能：栈的功能是运行，堆的功能是储存； 共享性：栈是线程隔离的，堆是线程共享的； 异常错误 ：栈可能出 StackOverflowError 异常和 OutOfMemoryError 异常，堆出后者； 空间：栈的空间连续，堆的空间不连续，栈的空间远小于堆。  1.5 方法区 用于存放已被加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。
+ 功能：栈的功能是运行，堆的功能是储存； 共享性：栈是线程隔离的，堆是线程共享的； 异常错误 ：栈可能报出 StackOverflowError 异常和 OutOfMemoryError 异常，堆报出后者； 空间：栈的空间连续，堆的空间不连续，栈的空间远小于堆。  1.5 方法区 用于存放已被加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。
 和堆一样不需要连续的内存，并且可以动态扩展，动态扩展失败一样会抛出 OutOfMemoryError 异常。
 对这块区域进行垃圾回收的主要目标是对常量池的回收和对类的卸载，但是一般比较难实现。
 HotSpot 虚拟机把它当成永久代来进行垃圾回收。但很难确定永久代的大小，因为它受到很多因素影响，并且每次 Full GC 之后永久代的大小都会改变，所以经常会抛出 OutOfMemoryError 异常。为了更容易管理方法区，从 JDK 1.</description>
@@ -308,9 +308,9 @@ public interface Iterator&amp;lt;E&amp;gt; { // 判断是否还有下一个对�
 Java 反射主要提供以下功能：
  在运行时判断任意一个对象所属的类； 在运行时构造任意一个类的对象； 在运行时判断任意一个类所具有的成员变量和方法（通过反射甚至可以调用private方法）； 在运行时调用任意一个对象的方法。  重点：是运行时而不是编译时。
 1.1 Class类 获取一个class的Class实例有三个方法：
-方法一：直接通过一个class的静态变量class获取：
-Class&amp;lt;?&amp;gt; cls = String.class;  方法二：如果我们有一个实例变量，可以通过该实例变量提供的getClass()方法获取：
-String s = &amp;quot;Hello&amp;quot;; Class&amp;lt;?&amp;gt; cls = s.getClass();  方法三：如果知道一个class的完整类名，可以通过静态方法Class.forName()获取：
+（1）直接通过一个class的静态变量class获取：
+Class&amp;lt;?&amp;gt; cls = String.class;  （2）如果我们有一个实例变量，可以通过该实例变量提供的getClass()方法获取：
+String s = &amp;quot;Hello&amp;quot;; Class&amp;lt;?&amp;gt; cls = s.getClass();  （3）如果知道一个class的完整类名，可以通过静态方法Class.forName()获取：
 Class&amp;lt;?&amp;gt; cls = Class.forName(&amp;quot;java.lang.String&amp;quot;);  Class.forName()加载类时默认会初始化，而ClassLoader.loadClass()默认不会初始化，只完成了类加载中的第一步加载。
 注意Class实例==比较和instanceof的差别：
 Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因为n是Integer类型 boolean b2 = n instanceof Number; // true，因为n是Number类型的子类 boolean b3 = n.getClass() == Integer.class; // true，因为n.getClass()返回Integer.class boolean b4 = n.</description>
@@ -544,7 +544,8 @@ def adjust_heap(idx, max_len,nums): left = 2 * idx + 1 right = 2 * idx + 2 max_l
       <description>十种排序算法的python实现及复杂度分析
 分类 评价排序算法的几个指标：
  时间复杂度：包括平均时间复杂度、最坏时间复杂度和最好时间复杂度。一般而言，好的性能是$O(nlog_2n)$，坏的性能是$O(n^2)$。对于一个排序理想的性能是O(n)，但平均而言不可能达到。基于比较的排序算法对大多数输入而言至少需要$O(nlog_2n)$。 空间复杂度：内存使用量 稳定性： 稳定排序算法会让原本有相等键值的纪录维持相对次序。也就是如果一个排序算法是稳定的，当有两个相等键值的纪录R和S，且在原本的列表中R出现在S之前，在排序过的列表中R也将会是在S之前。 依据排序的方法：插入、交换、选择、合并等等。  本文介绍了以下几种排序，推荐可视化网站visualgo，下文代码都采用数组作为输入。
-   排序方法 平均时间复杂度 最坏时间复杂度 最好时间复杂度 空间复杂度 稳定性     冒泡排序 $O(n^2)$ $O(n^2)$ $O(n)$ $O(1)$ 稳定   选择排序 $O(n^2)$ $O(n^2)$ $O(n^2)$ $O(1)$ 不稳定   插入排序 $O(n^2)$ $O(n^2)$ $O(n)$ $O(1)$ 稳定   堆排序 $O(nlog_2n)$ $O(nlog_2n)$ $O(nlog_2n)$ $O(1)$ 不稳定   归并排序 $O(nlog_2n)$ $O(nlog_2n)$ $O(nlog_2n)$ $O(n)$ 稳定   快速排序 $O(nlog_2n)$ $O(n^2)$ $O(nlog_2n)$ $O(log_2n)$ 不稳定   希尔排序 $O(n^{1.</description>
+   排序方法 平均时间复杂度 最坏时间复杂度 最好时间复杂度 空间复杂度 稳定性     冒泡
+排序 $O(n^2)$ $O(n^2)$ $O(n)$ $O(1)$ 稳定   选择排序 $O(n^2)$ $O(n^2)$ $O(n^2)$ $O(1)$ 不稳定   插入排序 $O(n^2)$ $O(n^2)$ $O(n)$ $O(1)$ 稳定   堆排序 $O(nlog_2n)$ $O(nlog_2n)$ $O(nlog_2n)$ $O(1)$ 不稳定   归并排序 $O(nlog_2n)$ $O(nlog_2n)$ $O(nlog_2n)$ $O(n)$ 稳定   快速排序 $O(nlog_2n)$ $O(n^2)$ $O(nlog_2n)$ $O(log_2n)$ 不稳定   希尔排序 $O(n^{1.</description>
     </item>
     
   </channel>

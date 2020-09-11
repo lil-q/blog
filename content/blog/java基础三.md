@@ -24,20 +24,20 @@ Java 反射主要提供以下功能：
 
 获取一个`class`的`Class`实例有三个方法：
 
-方法一：直接通过一个`class`的静态变量`class`获取：
+（1）直接通过一个`class`的静态变量`class`获取：
 
 ```java
 Class<?> cls = String.class;
 ```
 
-方法二：如果我们有一个实例变量，可以通过该实例变量提供的`getClass()`方法获取：
+（2）如果我们有一个实例变量，可以通过该实例变量提供的`getClass()`方法获取：
 
 ```java
 String s = "Hello";
 Class<?> cls = s.getClass();
 ```
 
-方法三：如果知道一个`class`的完整类名，可以通过静态方法`Class.forName()`获取：
+（3）如果知道一个`class`的完整类名，可以通过静态方法`Class.forName()`获取：
 
 ```java
 Class<?> cls = Class.forName("java.lang.String");
@@ -576,6 +576,7 @@ Class<? super String> sup = String.class.getSuperclass();
 3. [Java 动态代理作用](https://www.zhihu.com/question/20794107)
 4. [10 道 Java 泛型面试题](https://cloud.tencent.com/developer/article/1033693)
 5. [JAVA 泛型中的通配符](https://juejin.im/post/5d5789d26fb9a06ad0056bd9)
+6. [数组、泛型中的协变和逆变](https://www.jianshu.com/p/2bf15c5265c5)
 
 
 

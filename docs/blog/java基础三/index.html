@@ -61,7 +61,7 @@
       "datePublished": "2020-03-27 22:45:02 \u002b0000 UTC",
       "dateModified" : "2020-03-27 22:45:02 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%B8%89\/",
-      "wordCount" : "1032",
+      "wordCount" : "1033",
       "keywords" : ["java", "反射", "泛型", "动态代理", "Blog"]
     }
   
@@ -128,14 +128,14 @@
 <p><strong>重点：是运行时而不是编译时。</strong></p>
 <h3 id="11-class类">1.1 Class类<a class="anchor" href="#11-class类">#</a></h3>
 <p>获取一个<code>class</code>的<code>Class</code>实例有三个方法：</p>
-<p>方法一：直接通过一个<code>class</code>的静态变量<code>class</code>获取：</p>
+<p>（1）直接通过一个<code>class</code>的静态变量<code>class</code>获取：</p>
 <pre><code class="language-java">Class&lt;?&gt; cls = String.class;
 </code></pre>
-<p>方法二：如果我们有一个实例变量，可以通过该实例变量提供的<code>getClass()</code>方法获取：</p>
+<p>（2）如果我们有一个实例变量，可以通过该实例变量提供的<code>getClass()</code>方法获取：</p>
 <pre><code class="language-java">String s = &quot;Hello&quot;;
 Class&lt;?&gt; cls = s.getClass();
 </code></pre>
-<p>方法三：如果知道一个<code>class</code>的完整类名，可以通过静态方法<code>Class.forName()</code>获取：</p>
+<p>（3）如果知道一个<code>class</code>的完整类名，可以通过静态方法<code>Class.forName()</code>获取：</p>
 <pre><code class="language-java">Class&lt;?&gt; cls = Class.forName(&quot;java.lang.String&quot;);
 </code></pre>
 <p><strong><code>Class.forName()</code>加载类时默认会初始化，而<code>ClassLoader.loadClass()</code>默认不会初始化，只完成了类加载中的第一步加载。</strong></p>
@@ -534,6 +534,7 @@ public Class&lt;T&gt; clazzT;
 <li><a href="https://www.zhihu.com/question/20794107">Java 动态代理作用</a></li>
 <li><a href="https://cloud.tencent.com/developer/article/1033693">10 道 Java 泛型面试题</a></li>
 <li><a href="https://juejin.im/post/5d5789d26fb9a06ad0056bd9">JAVA 泛型中的通配符</a></li>
+<li><a href="https://www.jianshu.com/p/2bf15c5265c5">数组、泛型中的协变和逆变</a></li>
 </ol>
 
 
