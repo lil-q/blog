@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Homeward</title>
+    <title>Essays on Homeward</title>
     <link>https://lil-q.github.io/essay/</link>
-    <description>Recent content on Homeward</description>
+    <description>Recent content in Essays on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>{year} © lil-q</copyright>

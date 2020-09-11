@@ -1,7 +1,17 @@
-{{ define "main" }}
-<article>
-  <h1>
-    This is not the page you were looking for
-  </h1>
-</article>
-{{ end }}
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>列表页面</title>
+</head>
+<body>
+    <!-- {{ with .Site.GetPage "/post" }}<a href="{{.Permalink}}">{{ .Title }}</a>{{ end }} -->
+    {{  range .essay }}
+        <div>
+            <a href=".Permalink">{{.Title}}</a>
+        </div>
+    {{  end  }}
+</body>
+</html>
