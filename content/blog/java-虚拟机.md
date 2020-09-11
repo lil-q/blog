@@ -207,12 +207,10 @@ HotSpot 虚拟机的 Eden 和 Survivor 大小比例默认为 8:1，保证了内�
 
 ## 三、内存分配与回收策略
 
-### 3.1 Minor GC & Full GC
-
 - **Minor GC**：回收新生代，因为新生代对象存活时间很短，因此 Minor GC 会频繁执行，执行的速度一般也会比较快。
 - **Full GC**：回收老年代和新生代，老年代对象其存活时间长，因此 Full GC 很少执行，执行速度会比 Minor GC 慢很多。
 
-### 3.2 内存分配策略
+### 3.1 内存分配策略
 
 #### 1. 对象优先在 Eden 分配
 
@@ -240,7 +238,7 @@ HotSpot 虚拟机的 Eden 和 Survivor 大小比例默认为 8:1，保证了内�
 
 如果不成立的话虚拟机会查看 HandlePromotionFailure 的值是否允许担保失败，如果允许那么就会继续检查老年代最大可用的连续空间是否大于历次晋升到老年代对象的平均大小，如果大于，将尝试着进行一次 Minor GC；如果小于，或者 HandlePromotionFailure 的值不允许冒险，那么就要进行一次 Full GC。
 
-### 3.3 Full GC 的触发条件
+### 3.2 Full GC 的触发条件
 
 对于 Minor GC，其触发条件非常简单，**当 Eden 空间满时，就将触发一次 Minor GC**。而 Full GC 则相对复杂，有以下条件：
 
@@ -440,13 +438,16 @@ System.out.println(ConstClass.HELLOWORLD);
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/jvm6.png" alt="img" style="zoom:67%;" />
 
-一个类加载器**首先将类加载请求转发到父类加载器**，只有当父类加载器无法完成时才尝试自己加载。使得 Java 类随着它的类加载器一起具有一种带有优先级的层次关系，从而使得基础类得到**统一**。
+一个类加载器**首先将类加载请求转发到父类加载器**，只有当父类加载器无法完成时才尝试自己加载。使得 Java 类随着它的类加载器一起具有一种带有优先级的层次关系，从而使得基础类得到**统一**，这有两个好处：
+
+* 避免类的重复加载；
+* 避免 java 的核心 API 被篡改。
 
 例如 java.lang.Object 存放在 rt.jar 中，如果编写另外一个 java.lang.Object 并放到 ClassPath 中，程序可以编译通过。由于双亲委派模型的存在，所以在 rt.jar 中的 Object 比在 ClassPath 中的 Object 优先级更高，这是因为 rt.jar 中的 Object 使用的是启动类加载器，而 ClassPath 中的 Object 使用的是应用程序类加载器。rt.jar 中的 Object 优先级更高，那么程序中所有的 Object 都是这个 Object。
 
 #### 1. 实现
 
-以下是抽象类 java.lang.ClassLoader 的代码片段，其中的 loadClass() 方法运行过程如下：先检查类是否已经加载过，如果没有则让父类加载器去加载。当父类加载器加载失败时抛出 ClassNotFoundException，此时尝试自己去加载。
+以下是抽象类 java.lang.ClassLoader 的代码片段，其中的`loadClass()`方法运行过程如下：先检查类是否已经加载过，如果没有则让父类加载器去加载。当父类加载器加载失败时抛出 ClassNotFoundException，此时尝试自己去加载。
 
 ```java
 public abstract class ClassLoader {
@@ -494,9 +495,19 @@ public abstract class ClassLoader {
 
 #### 2. 破坏双亲委派
 
+双亲委派机制只是一种推荐模式，如果要实现隔离类，可以重写 ClassLoader 类中的`findClass()`方法，但是这样的复用性较差。
+
 例如 JNDI 服务，它的代码由启动类加载器来完成加载，但是同时又需要调用由其他厂商实现并部署在应用程序的 ClassPath 下的 JNDI **服务提供者接口**（**S**ervice **P**rovider **I**nterface，**SPI**）的代码，启动类加载器是无法加载这些代码的。
 
 为解决这一困境，java 引入了**线程上下文加载器**（Thread Context ClassLoader）。这个类加载器可以通过`java.lang.Thread`类的`setContextClassLoader() `方法设置，如果创建线程时未设置，将会从`java.lang.Thread`类继承一个，如果全局范围内都没有设置，则默认为应用程序类加载器。
+
+#### 3. tomcat 为什么需要破坏双亲委派？
+
+每个 Tomcat 的 webappClassLoader 需要加载自己的目录下的 class 文件，不会传递给父类加载器。tomcat 之所以需要创建如此多的 classloader 主要目的有：
+
+- 对于各个  webapp 中的 class 和 lib，需要相互隔离，不能出现一个应用中加载的类库会影响另一个应用的情况，而对于许多应用，需要有共享的 lib 以便不浪费资源。
+- 与 jvm 一样的安全性问题，使用单独的 classloader 去装载 tomcat 自身的类库，以免其他恶意或无意的破坏；
+- 热部署，tomcat 修改文件不用重启就能自动重新装载类库。
 
 ## 五、对象创建
 
@@ -512,8 +523,7 @@ public abstract class ClassLoader {
 
 #### 1. 内存布局
 
-在 HotSpot 虚拟机里，对象在堆内存中的存储布局可以划分为三个部分：**对象头**（Header）、**实例**
-**数据**（Instance Data）和**对齐填充**（Padding）。
+在 HotSpot 虚拟机里，对象在堆内存中的存储布局可以划分为三个部分：**对象头**（Header）、**实例数据**（Instance Data）和**对齐填充**（Padding）。
 
 对象头里的信息是与对象自身定义的数据无关的额外存储成本，考虑到虚拟机的空间效率，Mark Word 被设计成一个有着动态定义的数据结构，以便在极小的空间内存储尽量多的数据，根据对象的状态复用自己的存储空间。例如在 32 位的 HotSpot 虚拟机中，如对象未被同步锁锁定的状态下，Mark Word 的 32 个比特存储空间中的 25 个比特用于存储对象哈希码，4 个比特用于存储对象分代年 龄，2 个比特用于存储锁标志位，1 个比特固定为 0，其他状态（轻量级锁定、重量级锁定、GC标 记、可偏向）见[并发](https://lil-q.github.io/blog/java-%E5%B9%B6%E5%8F%91/#64-%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81)部分。
 
