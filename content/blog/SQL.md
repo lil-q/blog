@@ -105,7 +105,7 @@ ORDER BY column ASC/DESC;
 
 `ASC`：升序；`DESC`：降序。
 
-## 七、选取(LIMIT, OFFSET)
+## 七、选取 - LIMIT & OFFSET
 
 `LIMIT` 和 `OFFSET` 子句通常和`ORDER BY` 语句一起使用，当我们对整个结果集排序之后，我们可以 `LIMIT`来指定只返回多少行结果，用 `OFFSET`来指定从哪一行开始返回：
 
@@ -117,7 +117,7 @@ ORDER BY column ASC/DESC, another_column ASC/DESC, …
 LIMIT num_limit OFFSET num_offset;
 ```
 
-## 八、多表联合(JOIN)
+## 八、多表联合 - JOIN
 
 `主键(primary key)`, 一般关系数据表中，都会有一个属性列设置为 `主键(primary key)`。主键是唯一标识一条数据的，不会重复复（想象你的身份证号码)。一个最常见的主键就是auto-incrementing integer(自增ID，每写入一行数据ID+1, 当然字符串，hash值等只要是每条数据是唯一的也可以设为主键。借助`主键(primary key)`（当然其他唯一性的属性也可以），我们可以把两个表中具有相同 主键ID的数据连接起来。
 
@@ -153,7 +153,7 @@ ORDER BY table1.column, … ASC/DESC
 LIMIT num_limit OFFSET num_offset;
 ```
 
-## 九、表达式(AS)
+## 九、表达式 - AS
 
 当我们用表达式对col属性计算时，很多事可以在SQL内完成，这让SQL更加灵活，但表达式如果长了则很难一下子读懂。所以SQL提供了`AS`关键字， 来给表达式取一个别名：
 

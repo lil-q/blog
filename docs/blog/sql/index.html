@@ -61,7 +61,7 @@
       "datePublished": "2020-01-16 13:59:07 \u002b0000 UTC",
       "dateModified" : "2020-01-16 13:59:07 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/sql\/",
-      "wordCount" : "947",
+      "wordCount" : "954",
       "keywords" : ["database", "sql", "题解", "Blog"]
     }
   
@@ -248,7 +248,7 @@ WHERE condition(s)
 ORDER BY column ASC/DESC;
 </code></pre>
 <p><code>ASC</code>：升序；<code>DESC</code>：降序。</p>
-<h2 id="七选取limit-offset">七、选取(LIMIT, OFFSET)<a class="anchor" href="#七选取limit-offset">#</a></h2>
+<h2 id="七选取---limit--offset">七、选取 - LIMIT &amp; OFFSET<a class="anchor" href="#七选取---limit--offset">#</a></h2>
 <p><code>LIMIT</code> 和 <code>OFFSET</code> 子句通常和<code>ORDER BY</code> 语句一起使用，当我们对整个结果集排序之后，我们可以 <code>LIMIT</code>来指定只返回多少行结果，用 <code>OFFSET</code>来指定从哪一行开始返回：</p>
 <pre><code class="language-sql">SELECT column, another_column, …
 FROM table1
@@ -256,7 +256,7 @@ WHERE condition(s)
 ORDER BY column ASC/DESC, another_column ASC/DESC, …
 LIMIT num_limit OFFSET num_offset;
 </code></pre>
-<h2 id="八多表联合join">八、多表联合(JOIN)<a class="anchor" href="#八多表联合join">#</a></h2>
+<h2 id="八多表联合---join">八、多表联合 - JOIN<a class="anchor" href="#八多表联合---join">#</a></h2>
 <p><code>主键(primary key)</code>, 一般关系数据表中，都会有一个属性列设置为 <code>主键(primary key)</code>。主键是唯一标识一条数据的，不会重复复（想象你的身份证号码)。一个最常见的主键就是auto-incrementing integer(自增ID，每写入一行数据ID+1, 当然字符串，hash值等只要是每条数据是唯一的也可以设为主键。借助<code>主键(primary key)</code>（当然其他唯一性的属性也可以），我们可以把两个表中具有相同 主键ID的数据连接起来。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/joins.png" alt="joins"></p>
 <h3 id="inner-join">INNER JOIN<a class="anchor" href="#inner-join">#</a></h3>
@@ -280,7 +280,7 @@ WHERE condition(s)
 ORDER BY table1.column, … ASC/DESC 
 LIMIT num_limit OFFSET num_offset;
 </code></pre>
-<h2 id="九表达式as">九、表达式(AS)<a class="anchor" href="#九表达式as">#</a></h2>
+<h2 id="九表达式---as">九、表达式 - AS<a class="anchor" href="#九表达式---as">#</a></h2>
 <p>当我们用表达式对col属性计算时，很多事可以在SQL内完成，这让SQL更加灵活，但表达式如果长了则很难一下子读懂。所以SQL提供了<code>AS</code>关键字， 来给表达式取一个别名：</p>
 <pre><code class="language-sql">SELECT col_expression AS expr_description
 FROM table1 AS newTableName
@@ -587,14 +587,14 @@ ORDER BY id;
     <li><a href="#四模糊查询---like">四、模糊查询 - LIKE</a></li>
     <li><a href="#五过滤---distinct">五、过滤 - DISTINCT</a></li>
     <li><a href="#六排序---order">六、排序 - ORDER</a></li>
-    <li><a href="#七选取limit-offset">七、选取(LIMIT, OFFSET)</a></li>
-    <li><a href="#八多表联合join">八、多表联合(JOIN)</a>
+    <li><a href="#七选取---limit--offset">七、选取 - LIMIT &amp; OFFSET</a></li>
+    <li><a href="#八多表联合---join">八、多表联合 - JOIN</a>
       <ul>
         <li><a href="#inner-join">INNER JOIN</a></li>
         <li><a href="#outer-joins">OUTER JOINs</a></li>
       </ul>
     </li>
-    <li><a href="#九表达式as">九、表达式(AS)</a></li>
+    <li><a href="#九表达式---as">九、表达式 - AS</a></li>
     <li><a href="#十统计">十、统计</a></li>
     <li><a href="#十一总结">十一、总结</a></li>
     <li><a href="#十二题解">十二、题解</a></li>
