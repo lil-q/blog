@@ -61,7 +61,7 @@
       "datePublished": "2020-05-01 14:51:08 \u002b0000 UTC",
       "dateModified" : "2020-05-01 14:51:08 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/morris%E7%AE%97%E6%B3%95\/",
-      "wordCount" : "381",
+      "wordCount" : "382",
       "keywords" : ["Morris", "二叉树", "遍历", "BST", "Blog"]
     }
   
@@ -152,9 +152,9 @@
 }
 </code></pre>
 <p>我们用<code>cur</code>记录正在处理的节点，用<code>tail</code>记录<code>cur</code>节点左子树的最右节点，处理<code>cur</code>时有三个分支：</p>
-<ol>
-<li><code>cur.left == null</code>：没有左子树，直接输出<code>cur.val</code>，并开始处理右子树<code>cur = cur.rihgt</code>；</li>
+<ol start="2">
 <li><code>cur.left != null</code>，<code>tail.right == null</code>：说明<code>cur</code>节点及其左子树还没处理，把<code>cur</code>连接到<code>tail</code>（相当于利用栈的迭代方法中的<code>.push()</code>方法），输出这个节点，开始处理左子树<code>cur = cur.left</code>；</li>
+<li><code>cur.left == null</code>：没有左子树，直接输出<code>cur.val</code>，并开始处理右子树<code>cur = cur.rihgt</code>；</li>
 <li><code>cur.left != null</code>，<code>tail.right == cur</code>：说明已经遍历完<code>cur</code>的左子树并返回<code>cur</code>，断开<code>tail</code>的连接（利用栈的迭代方法中<code>.pop()</code>方法），开始处理右子树<code>cur = cur.rihgt</code>。</li>
 </ol>
 <p>下图表示了前四轮循环：</p>
@@ -249,7 +249,7 @@
 }
 </code></pre>
 <h2 id="总结">总结<a class="anchor" href="#总结">#</a></h2>
-<p>利用栈的迭代方法和 morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，morris 算法只是把节点信息存在了某个空节点（<code>tail.right</code>）从而避免了使用栈带来的空间开销。</p>
+<p>利用栈的迭代方法和 morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，morris 算法只是把节点信息存在了某个空节点（<code>tail.right</code>）从而避免了使用栈带来的空间开销。但实际上对于每一个节点，都与要遍历去找到用于存放自己的那个空节点，Morris 算法在时间复杂度上没有优势，这是用时间换取空间。</p>
 
               
                   

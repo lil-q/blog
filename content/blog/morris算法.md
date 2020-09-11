@@ -53,8 +53,8 @@ class Solution {
 
 我们用`cur`记录正在处理的节点，用`tail`记录`cur`节点左子树的最右节点，处理`cur`时有三个分支：
 
-1. `cur.left == null`：没有左子树，直接输出`cur.val`，并开始处理右子树`cur = cur.rihgt`；
 2. `cur.left != null`，`tail.right == null`：说明`cur`节点及其左子树还没处理，把`cur`连接到`tail`（相当于利用栈的迭代方法中的`.push()`方法），输出这个节点，开始处理左子树`cur = cur.left`；
+2. `cur.left == null`：没有左子树，直接输出`cur.val`，并开始处理右子树`cur = cur.rihgt`；
 3. `cur.left != null`，`tail.right == cur`：说明已经遍历完`cur`的左子树并返回`cur`，断开`tail`的连接（利用栈的迭代方法中`.pop()`方法），开始处理右子树`cur = cur.rihgt`。
 
 下图表示了前四轮循环：
@@ -163,4 +163,4 @@ class Solution {
 
 ## 总结
 
-利用栈的迭代方法和 morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，morris 算法只是把节点信息存在了某个空节点（`tail.right`）从而避免了使用栈带来的空间开销。
+利用栈的迭代方法和 morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，morris 算法只是把节点信息存在了某个空节点（`tail.right`）从而避免了使用栈带来的空间开销。但实际上对于每一个节点，都与要遍历去找到用于存放自己的那个空节点，Morris 算法在时间复杂度上没有优势，这是用时间换取空间。
