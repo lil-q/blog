@@ -31,7 +31,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.45d1facaf02899ca5ea9902848defe20b49f81e1d2551c91b08dc7c5e81ad193.css" integrity="sha256-RdH6yvAomcpeqZAoSN7&#43;ILSfgeHSVRyRsI3Hxega0ZM="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.90b5007688d9661bb8a3c179e17156ae3f54efa01088ed1cd0364235af826683.css" integrity="sha256-kLUAdojZZhu4o8F54XFWrj9U76AQiO0c0DZCNa&#43;CZoM="/>
   
   
    
@@ -322,13 +322,28 @@
 <li>基于 XML 的声明式事务；</li>
 <li>基于注解的声明式事务。</li>
 </ul>
-<p>TransactionDefinition 接口中定义了五个表示隔离级别的常量：</p>
+<p>TransactionDefinition 接口中定义了五个表示隔离级别的常量，其实和数据库是一致的：</p>
 <ul>
-<li>TransactionDefinition.ISOLATION_DEFAULT:  使用后端数据库默认的隔离级别，Mysql 默认采用的 REPEATABLE_READ隔离级别 Oracle 默认采用的 READ_COMMITTED隔离级别.</li>
-<li>TransactionDefinition.ISOLATION_READ_UNCOMMITTED: 最低的隔离级别，允许读取尚未提交的数据变更，<strong>可能会导致脏读、幻读或不可重复读</strong></li>
-<li>TransactionDefinition.ISOLATION_READ_COMMITTED:   允许读取并发事务已经提交的数据，<strong>可以阻止脏读，但是幻读或不可重复读仍有可能发生</strong></li>
-<li>TransactionDefinition.ISOLATION_REPEATABLE_READ:  对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，<strong>可以阻止脏读和不可重复读，但幻读仍有可能发生。</strong></li>
-<li>TransactionDefinition.ISOLATION_SERIALIZABLE:   最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，<strong>该级别可以防止脏读、不可重复读以及幻读</strong>。但是这将严重影响程序的性能。通常情况下也不会用到该级别。</li>
+<li>
+<p><strong>TransactionDefinition.ISOLATION_DEFAULT</strong>：</p>
+<p>使用后端数据库默认的隔离级别，Mysql 默认采用的 REPEATABLE_READ隔离级别 Oracle 默认采用的 READ_COMMITTED隔离级别.</p>
+</li>
+<li>
+<p><strong>TransactionDefinition.ISOLATION_READ_UNCOMMITTED</strong>:</p>
+<p>最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读</p>
+</li>
+<li>
+<p><strong>TransactionDefinition.ISOLATION_READ_COMMITTED</strong>:</p>
+<p>允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生</p>
+</li>
+<li>
+<p><strong>TransactionDefinition.ISOLATION_REPEATABLE_READ</strong>:</p>
+<p>对同一字段的多次读取结果都是一致的，除非数据是被本身事务自己所修改，可以阻止脏读和不可重复读，但幻读仍有可能发生。</p>
+</li>
+<li>
+<p><strong>TransactionDefinition.ISOLATION_SERIALIZABLE</strong>:</p>
+<p>最高的隔离级别，完全服从ACID的隔离级别。所有的事务依次逐个执行，这样事务之间就完全不可能产生干扰，也就是说，该级别可以防止脏读、不可重复读以及幻读。但是这将严重影响程序的性能。通常情况下也不会用到该级别。</p>
+</li>
 </ul>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>

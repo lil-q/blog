@@ -378,9 +378,9 @@ public class Main {
 
 需要区分 Class 文件中指定的**常量池**和**运行时常量池**的区别：
 
-紧接着主、次版本号之后的是常量池（Constant Pool）入口，常量池可以比喻为Cass文件里的资源仓库，它是 Class 文件结构中与其他项目关联最多的数据，通常也是占用 Class 文件空间最大的数据项目之一。Class 文件中的常量池中主要存放两大类常量：字面量（ Literal）和符号引用（ Symbolic References）。在虚拟机加载 class 文件的解析阶段 Java 虚拟机会将常量池内的符号引用替换为直接引用。字面量在**编译时期**就确定。
+class 文件中紧接着主、次版本号之后的是常量池（Constant Pool）入口，常量池可以比喻为 Class 文件里的资源仓库，它是 Class 文件结构中与其他项目关联最多的数据，通常也是占用 Class 文件空间最大的数据项目之一。Class 文件中的常量池中主要存放两大类常量：字面量（ Literal）和符号引用（ Symbolic References）。在虚拟机加载 class 文件的解析阶段 Java 虚拟机会将常量池内的符号引用替换为直接引用。字面量在**编译时期**就确定。
 
-运行时常量池（Runtime Constant Pool）是方法区的一部分。 Class 文件中的常量池表所包含的生成的各种字面量与符号引用将在类加载后存放到方法区的运行时常量池中。不仅如此，还可以使用 String 的 intern() 方法在运行过程将字符串添加到运行时常量池。
+运行时常量池（Runtime Constant Pool）是方法区的一部分。 Class 文件中的常量池表所包含的生成的各种字面量与符号引用将在类加载后存放到方法区的运行时常量池中。不仅如此，还可以使用 String 的`intern()`方法在运行过程将字符串添加到运行时常量池。
 
 当一个字符串调用 intern() 方法时，如果运行时常量池中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回运行时常量池中字符串的引用；否则，就会创建一个新的字符串（对象本身存放在堆中），把其引用添加到运行时常量池中，并返回这个新字符串的引用。
 
@@ -807,7 +807,7 @@ public class OuterClass {
 import static com.xxx.ClassName.*
 ```
 
-# 参考
+## 参考
 
 1. [CyC CS-Notes](https://github.com/CyC2018/CS-Notes)
 2. [廖雪峰的官方网站](https://www.liaoxuefeng.com/)
