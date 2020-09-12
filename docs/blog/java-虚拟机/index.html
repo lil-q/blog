@@ -121,7 +121,7 @@
 <h3 id="11-程序计数器">1.1 程序计数器<a class="anchor" href="#11-程序计数器">#</a></h3>
 <p>程序计数器是程序控制流的指示器，分支、循环、跳转、异常处理、线程恢复等基础功能都依赖这个计数器。记录正在执行的虚拟机字节码指令的地址（如果正在执行的是<strong>本地方法则为空</strong>）。</p>
 <h3 id="12-java-虚拟机栈">1.2 Java 虚拟机栈<a class="anchor" href="#12-java-虚拟机栈">#</a></h3>
-<p>每个 Java 方法在执行的同时会创建一个栈帧用于<strong>存储局部变量表</strong>、<strong>操作数栈</strong>、<strong>常量池引用</strong>等信息。从方法调用直至执行完成的过程，对应着一个栈帧在 Java 虚拟机栈中<strong>入栈</strong>和<strong>出栈</strong>的过程。</p>
+<p>每个 Java 方法在执行的同时会创建一个栈帧用于<strong>存储局部变量表</strong>、<strong>操作数栈</strong>、<strong>动态连接</strong>、<strong>方法出口</strong>等信息。从方法调用直至执行完成的过程，对应着一个栈帧在 Java 虚拟机栈中<strong>入栈</strong>和<strong>出栈</strong>的过程。</p>
 <p>该区域可能抛出以下异常：</p>
 <ul>
 <li>当线程请求的<strong>栈深度</strong>超过最大值，会抛出 StackOverflowError 异常；</li>
