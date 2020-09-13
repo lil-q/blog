@@ -47,26 +47,26 @@ IoC 的思想最核心的地方在于，资源不是由使用资源的双方来�
 
 ### 2.1 Bean
 
-bean 就是 IoC 容器负责管理的对象，有如下规范：
+Bean 就是 IoC 容器负责管理的对象，有如下规范：
 
 * 所有属性为 private；
 * 提供默认构造方法；
 * 提供 getter 和 setter；
 * 实现 serializable 接口。
 
-当在 Spring 中定义一个 Bean 时，必须声明该 bean 的作用域的选项。Spring 框架支持以下五个作用域，后三个只在 web-aware Spring ApplicationContext 的上下文中有效。
+当在 Spring 中定义一个 Bean 时，必须声明该 Bean 的作用域的选项。Spring 框架支持以下五个作用域，后三个只在 web-aware Spring ApplicationContext 的上下文中有效。
 
 <br>
 
 | 作用域         | 描述                                                         |
 | :------------- | :----------------------------------------------------------- |
 | singleton      | 单例（默认）                                                 |
-| prototype      | 每次请求都会创建一个新的 bean 实例                           |
-| request        | 每一次 HTTP 请求产生一个新的 bean，仅在当前 HTTP request 内有效 |
-| session        | 每一次 HTTP 请求产生一个新的 bean，仅在当前 HTTP session 内有效 |
+| prototype      | 每次请求都会创建一个新的 Bean 实例                           |
+| request        | 每一次 HTTP 请求产生一个新的 Bean，仅在当前 HTTP request 内有效 |
+| session        | 每一次 HTTP 请求产生一个新的 Bean，仅在当前 HTTP session 内有效 |
 | global-session | 全局session作用域                                            |
 
-**单例 bean 存在线程问题**，主要是因为当多个线程操作同一个对象的时候，对这个对象的非静态成员变量的写操作会存在线程安全问题。
+**单例 Bean 存在线程问题**，主要是因为当多个线程操作同一个对象的时候，对这个对象的非静态成员变量的写操作会存在线程安全问题。
 
 常见的有两种解决办法：
 
@@ -75,7 +75,7 @@ bean 就是 IoC 容器负责管理的对象，有如下规范：
 
 ### 2.2 Bean 的生命周期
 
-我们一般使用 `@Autowired` 注解自动装配 bean，要想把类标识成可用于 `@Autowired` 注解自动装配的 bean 的类，采用以下注解可实现：
+我们一般使用 `@Autowired` 注解自动装配 Bean，要想把类标识成可用于 `@Autowired` 注解自动装配的 Bean 的类，采用以下注解可实现：
 
 - `@Component` ：通用的注解，可标注任意类为 Spring 组件；
 - `@Repository` : 对应持久层即 Dao 层，主要用于数据库相关操作；
@@ -95,9 +95,9 @@ Spring 当中提供了两种实例化方案： **BeanUtils** 和 **Cglib** 方�
 
 ### 2.3 循环依赖问题
 
-Bean 经过**实例化** 、**属性填充**和**初始化**这三个过程后，在框架内部被抽象封装成 BeanDefinition 这种类型，最终所有的 BeanDefinition 交由 BeanFactory 当中的 **definitionMap** 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 bean 将永远无法初始化。
+Bean 经过**实例化** 、**属性填充**和**初始化**这三个过程后，在框架内部被抽象封装成 BeanDefinition 这种类型，最终所有的 BeanDefinition 交由 BeanFactory 当中的 **definitionMap** 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 Bean 将永远无法初始化。
 
-> 设 A 和 B 是两个 bean，其中 A 依赖了 B，获取 A 时就需要把 B 注入进来，要注入 B 得先获取 B，如果 B 中又有对 A 的依赖，这就会形成循环往复的相互注入，也称循环依赖问题。
+> 设 A 和 B 是两个 Bean，其中 A 依赖了 B，获取 A 时就需要把 B 注入进来，要注入 B 得先获取 B，如果 B 中又有对 A 的依赖，这就会形成循环往复的相互注入，也称循环依赖问题。
 
 Spring 中使用了三个 Map 作为缓存以解决这个问题：
 
@@ -105,9 +105,9 @@ Spring 中使用了三个 Map 作为缓存以解决这个问题：
 
 | 缓存                      | 用途                                                         |
 | ------------------------- | ------------------------------------------------------------ |
-| **singletonObjects**      | 用于存放完全初始化好的 bean，从该缓存中取出的 bean 可以直接使用 |
-| **earlySingletonObjects** | 存放原始的 bean 对象（尚未填充属性），用于解决循环依赖       |
-| **singletonFactories**    | 存放 bean 工厂对象，用于解决循环依赖                         |
+| **singletonObjects**      | 用于存放完全初始化好的 Bean，从该缓存中取出的 Bean 可以直接使用 |
+| **earlySingletonObjects** | 存放原始的 Bean 对象（尚未填充属性），用于解决循环依赖       |
+| **singletonFactories**    | 存放 Bean 工厂对象，用于解决循环依赖                         |
 
 简单的来说就是在实例化和属性赋值之间加入了暴露**单例工厂 singletonFactorie** 的过程，并在第二次需要创建 A 时找到**早期引用 earlySingletonObject** 来提前跳出循环：
 
@@ -169,13 +169,13 @@ BeanFactory 和 ApplicationContext 的区别在于，BeanFactory 的实现是按
 
 ### 2.5 Autowired
 
-`@Autowired`是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到`@Autowied`、`@Resource`或`@Inject`时，就会在 IoC 容器自动查找需要的 bean，并装配给该对象的属性。在使用`@Autowired`时，首先在容器中查询对应类型的 bean：
+`@Autowired`是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到`@Autowied`、`@Resource`或`@Inject`时，就会在 IoC 容器自动查找需要的 Bean，并装配给该对象的属性。在使用`@Autowired`时，首先在容器中查询对应类型的 Bean：
 
-- 如果查询结果刚好为一个，就将该bean装配给`@Autowired`指定的数据；
+- 如果查询结果刚好为一个，就将该 Bean 装配给`@Autowired`指定的数据；
 - 如果查询的结果不止一个，那么`@Autowired`会根据名称来查找；
 - 如果上述查找的结果为空，那么会抛出异常。解决方法时，使用`required=false`。
 
-`@Resource`注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过`@Resource`的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 bean 名称寻找依赖对象。
+`@Resource`注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过`@Resource`的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 Bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 Bean 名称寻找依赖对象。
 
 ## 三、AOP
 
@@ -189,7 +189,7 @@ Spring AOP 就是基于动态代理的，如果要代理的对象，实现了某
 
 #### 1. Capabilities and Goals
 
-Spring AOP 旨在通过 Spring IoC 提供一个简单的 AOP 实现，它只能用于 Spring 容器管理的 beans。
+Spring AOP 旨在通过 Spring IoC 提供一个简单的 AOP 实现，它只能用于 Spring 容器管理的 Beans。
 
 AspectJ 是最原始的 AOP 实现技术，更为健壮，能够被应用于所有的领域对象。
 
@@ -246,7 +246,7 @@ TransactionDefinition 接口中定义了五个表示隔离级别的常量，其�
 1. [故事开始的地方——Spring](https://spring.io/)
 2. 《EXPERT ONE ON ONE J2EE DEVELOPMENT WITHOUT EJB》
 3. [IoC的优势](https://www.zhihu.com/question/23277575)
-4. [bean 生命周期](https://zhuanlan.zhihu.com/p/108198655)
+4. [Bean 生命周期](https://zhuanlan.zhihu.com/p/108198655)
 5. [依赖注入实现原理](https://blog.csdn.net/lisongjia123/article/details/52134396)
 6. [Spring IOC 容器源码分析 - 循环依赖的解决办法](https://segmentfault.com/a/1190000015221968)
 7. [为什么是三级缓存](https://huzb.me/2019/03/11/Spring%E6%BA%90%E7%A0%81%E6%B5%85%E6%9E%90%E2%80%94%E2%80%94%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/#3%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98)

@@ -61,7 +61,7 @@
       "datePublished": "2020-09-09 18:07:37 \u002b0800 CST",
       "dateModified" : "2020-09-09 18:07:37 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/spring\/",
-      "wordCount" : "678",
+      "wordCount" : "680",
       "keywords" : ["spring", "spring boot", "ioc", "aop", "循环依赖", "Blog"]
     }
   
@@ -145,14 +145,14 @@
 <li>降低了使用资源双方的依赖程度，即<strong>解耦</strong>。</li>
 </ul>
 <h3 id="21-bean">2.1 Bean<a class="anchor" href="#21-bean">#</a></h3>
-<p>bean 就是 IoC 容器负责管理的对象，有如下规范：</p>
+<p>Bean 就是 IoC 容器负责管理的对象，有如下规范：</p>
 <ul>
 <li>所有属性为 private；</li>
 <li>提供默认构造方法；</li>
 <li>提供 getter 和 setter；</li>
 <li>实现 serializable 接口。</li>
 </ul>
-<p>当在 Spring 中定义一个 Bean 时，必须声明该 bean 的作用域的选项。Spring 框架支持以下五个作用域，后三个只在 web-aware Spring ApplicationContext 的上下文中有效。</p>
+<p>当在 Spring 中定义一个 Bean 时，必须声明该 Bean 的作用域的选项。Spring 框架支持以下五个作用域，后三个只在 web-aware Spring ApplicationContext 的上下文中有效。</p>
 <br>
 <table>
 <thead>
@@ -168,15 +168,15 @@
 </tr>
 <tr>
 <td align="left">prototype</td>
-<td align="left">每次请求都会创建一个新的 bean 实例</td>
+<td align="left">每次请求都会创建一个新的 Bean 实例</td>
 </tr>
 <tr>
 <td align="left">request</td>
-<td align="left">每一次 HTTP 请求产生一个新的 bean，仅在当前 HTTP request 内有效</td>
+<td align="left">每一次 HTTP 请求产生一个新的 Bean，仅在当前 HTTP request 内有效</td>
 </tr>
 <tr>
 <td align="left">session</td>
-<td align="left">每一次 HTTP 请求产生一个新的 bean，仅在当前 HTTP session 内有效</td>
+<td align="left">每一次 HTTP 请求产生一个新的 Bean，仅在当前 HTTP session 内有效</td>
 </tr>
 <tr>
 <td align="left">global-session</td>
@@ -184,14 +184,14 @@
 </tr>
 </tbody>
 </table>
-<p><strong>单例 bean 存在线程问题</strong>，主要是因为当多个线程操作同一个对象的时候，对这个对象的非静态成员变量的写操作会存在线程安全问题。</p>
+<p><strong>单例 Bean 存在线程问题</strong>，主要是因为当多个线程操作同一个对象的时候，对这个对象的非静态成员变量的写操作会存在线程安全问题。</p>
 <p>常见的有两种解决办法：</p>
 <ul>
 <li>在Bean对象中尽量避免定义可变的成员变量（不太现实）；</li>
 <li>在类中定义一个 <strong>ThreadLocal</strong> 成员变量，将需要的可变成员变量保存在 ThreadLocal 中（推荐的一种方式）。</li>
 </ul>
 <h3 id="22-bean-的生命周期">2.2 Bean 的生命周期<a class="anchor" href="#22-bean-的生命周期">#</a></h3>
-<p>我们一般使用 <code>@Autowired</code> 注解自动装配 bean，要想把类标识成可用于 <code>@Autowired</code> 注解自动装配的 bean 的类，采用以下注解可实现：</p>
+<p>我们一般使用 <code>@Autowired</code> 注解自动装配 Bean，要想把类标识成可用于 <code>@Autowired</code> 注解自动装配的 Bean 的类，采用以下注解可实现：</p>
 <ul>
 <li><code>@Component</code> ：通用的注解，可标注任意类为 Spring 组件；</li>
 <li><code>@Repository</code> : 对应持久层即 Dao 层，主要用于数据库相关操作；</li>
@@ -208,9 +208,9 @@
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/spring3.png" style="zoom:150%;" /></p>
 <p>Spring 当中提供了两种实例化方案： <strong>BeanUtils</strong> 和 <strong>Cglib</strong> 方式。BeanUtils 实现机制是通过 Java 的反射机制，Cglib 是一个第三方类库采用的是一种字节码加强方式机制。 Spring 中采用的默认实例化策略是 Cglib。</p>
 <h3 id="23-循环依赖问题">2.3 循环依赖问题<a class="anchor" href="#23-循环依赖问题">#</a></h3>
-<p>Bean 经过<strong>实例化</strong> 、<strong>属性填充</strong>和<strong>初始化</strong>这三个过程后，在框架内部被抽象封装成 BeanDefinition 这种类型，最终所有的 BeanDefinition 交由 BeanFactory 当中的 <strong>definitionMap</strong> 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 bean 将永远无法初始化。</p>
+<p>Bean 经过<strong>实例化</strong> 、<strong>属性填充</strong>和<strong>初始化</strong>这三个过程后，在框架内部被抽象封装成 BeanDefinition 这种类型，最终所有的 BeanDefinition 交由 BeanFactory 当中的 <strong>definitionMap</strong> 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 Bean 将永远无法初始化。</p>
 <blockquote>
-<p>设 A 和 B 是两个 bean，其中 A 依赖了 B，获取 A 时就需要把 B 注入进来，要注入 B 得先获取 B，如果 B 中又有对 A 的依赖，这就会形成循环往复的相互注入，也称循环依赖问题。</p>
+<p>设 A 和 B 是两个 Bean，其中 A 依赖了 B，获取 A 时就需要把 B 注入进来，要注入 B 得先获取 B，如果 B 中又有对 A 的依赖，这就会形成循环往复的相互注入，也称循环依赖问题。</p>
 </blockquote>
 <p>Spring 中使用了三个 Map 作为缓存以解决这个问题：</p>
 <br>
@@ -224,15 +224,15 @@
 <tbody>
 <tr>
 <td><strong>singletonObjects</strong></td>
-<td>用于存放完全初始化好的 bean，从该缓存中取出的 bean 可以直接使用</td>
+<td>用于存放完全初始化好的 Bean，从该缓存中取出的 Bean 可以直接使用</td>
 </tr>
 <tr>
 <td><strong>earlySingletonObjects</strong></td>
-<td>存放原始的 bean 对象（尚未填充属性），用于解决循环依赖</td>
+<td>存放原始的 Bean 对象（尚未填充属性），用于解决循环依赖</td>
 </tr>
 <tr>
 <td><strong>singletonFactories</strong></td>
-<td>存放 bean 工厂对象，用于解决循环依赖</td>
+<td>存放 Bean 工厂对象，用于解决循环依赖</td>
 </tr>
 </tbody>
 </table>
@@ -286,20 +286,20 @@
 <h3 id="24-beanfactory">2.4 BeanFactory<a class="anchor" href="#24-beanfactory">#</a></h3>
 <p>BeanFactory 和 ApplicationContext 的区别在于，BeanFactory 的实现是按需创建，即第一次获取 Bean 时才创建这个 Bean，而 ApplicationContext 会一次性创建所有的 Bean。实际上，ApplicationContext 接口是从 BeanFactory 接口继承而来的，并且，ApplicationContext 提供了一些额外的功能，包括国际化支持、事件和通知机制等。通常情况下，我们总是使用 ApplicationContext，很少会考虑使用 BeanFactory。</p>
 <h3 id="25-autowired">2.5 Autowired<a class="anchor" href="#25-autowired">#</a></h3>
-<p><code>@Autowired</code>是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到<code>@Autowied</code>、<code>@Resource</code>或<code>@Inject</code>时，就会在 IoC 容器自动查找需要的 bean，并装配给该对象的属性。在使用<code>@Autowired</code>时，首先在容器中查询对应类型的 bean：</p>
+<p><code>@Autowired</code>是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到<code>@Autowied</code>、<code>@Resource</code>或<code>@Inject</code>时，就会在 IoC 容器自动查找需要的 Bean，并装配给该对象的属性。在使用<code>@Autowired</code>时，首先在容器中查询对应类型的 Bean：</p>
 <ul>
-<li>如果查询结果刚好为一个，就将该bean装配给<code>@Autowired</code>指定的数据；</li>
+<li>如果查询结果刚好为一个，就将该 Bean 装配给<code>@Autowired</code>指定的数据；</li>
 <li>如果查询的结果不止一个，那么<code>@Autowired</code>会根据名称来查找；</li>
 <li>如果上述查找的结果为空，那么会抛出异常。解决方法时，使用<code>required=false</code>。</li>
 </ul>
-<p><code>@Resource</code>注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过<code>@Resource</code>的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 bean 名称寻找依赖对象。</p>
+<p><code>@Resource</code>注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过<code>@Resource</code>的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 Bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 Bean 名称寻找依赖对象。</p>
 <h2 id="三aop">三、AOP<a class="anchor" href="#三aop">#</a></h2>
 <p><strong>面向切面编程</strong>（<strong>A</strong>spect-<strong>O</strong>riented <strong>P</strong>rogramming，<strong>AOP</strong>）能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。</p>
 <p>Spring AOP 就是基于动态代理的，如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 <strong>JDK Proxy</strong> 去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候 Spring AOP 会使用 <strong>Cglib</strong> 生成一个被代理对象的子类来作为代理。</p>
 <p>比如对于 Blog 系统，登录前需要验证身份，这就需要 Spring Boot 中的 <strong>Interceptor</strong>，其原理就是 AOP。</p>
 <h3 id="31-aspectj">3.1 AspectJ<a class="anchor" href="#31-aspectj">#</a></h3>
 <h4 id="1-capabilities-and-goals">1. Capabilities and Goals</h4>
-<p>Spring AOP 旨在通过 Spring IoC 提供一个简单的 AOP 实现，它只能用于 Spring 容器管理的 beans。</p>
+<p>Spring AOP 旨在通过 Spring IoC 提供一个简单的 AOP 实现，它只能用于 Spring 容器管理的 Beans。</p>
 <p>AspectJ 是最原始的 AOP 实现技术，更为健壮，能够被应用于所有的领域对象。</p>
 <h4 id="2-weaving">2. Weaving</h4>
 <p>AspectJ and Spring AOP使用了不同的织入方式，这影响了他们在性能和易用性方面的行为。AspectJ 使用了三种不同类型的织入：</p>
@@ -350,7 +350,7 @@
 <li><a href="https://spring.io/">故事开始的地方——Spring</a></li>
 <li>《EXPERT ONE ON ONE J2EE DEVELOPMENT WITHOUT EJB》</li>
 <li><a href="https://www.zhihu.com/question/23277575">IoC的优势</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/108198655">bean 生命周期</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/108198655">Bean 生命周期</a></li>
 <li><a href="https://blog.csdn.net/lisongjia123/article/details/52134396">依赖注入实现原理</a></li>
 <li><a href="https://segmentfault.com/a/1190000015221968">Spring IOC 容器源码分析 - 循环依赖的解决办法</a></li>
 <li><a href="https://huzb.me/2019/03/11/Spring%E6%BA%90%E7%A0%81%E6%B5%85%E6%9E%90%E2%80%94%E2%80%94%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/#3%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98">为什么是三级缓存</a></li>
