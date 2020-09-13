@@ -85,17 +85,17 @@ bean 就是 IoC 容器负责管理的对象，有如下规范：
 Bean 的生命周期概括起来就是 4 个阶段：
 
 - **实例化（Instantiation）**
-- **属性赋值（Populate）**
+- **属性填充（Populate）**
 - **初始化（Initialization）**
 - **销毁（Destruction）**
 
-Spring 当中提供了两种实例化方案： **BeanUtils** 和 **Cglib** 方式。BeanUtils 实现机制是通过 Java 的反射机制，Cglib 是一个第三方类库采用的是一种字节码加强方式机制。 Spring 中采用的默认实例化策略是 Cglib。
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/spring3.png" style="zoom:150%;" />
 
-**补充图**
+Spring 当中提供了两种实例化方案： **BeanUtils** 和 **Cglib** 方式。BeanUtils 实现机制是通过 Java 的反射机制，Cglib 是一个第三方类库采用的是一种字节码加强方式机制。 Spring 中采用的默认实例化策略是 Cglib。
 
 ### 2.3 循环依赖问题
 
-Bean 经过**实例化** 、**属性赋值**和**初始化**这三个过程后，在框架内部被抽象封装成 BeanDefinition 这种类型，最终所有的 BeanDefinition 交由 BeanFactory 当中的 **definitionMap** 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 bean 将永远无法初始化。
+Bean 经过**实例化** 、**属性填充**和**初始化**这三个过程后，在框架内部被抽象封装成 BeanDefinition 这种类型，最终所有的 BeanDefinition 交由 BeanFactory 当中的 **definitionMap** 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 bean 将永远无法初始化。
 
 > 设 A 和 B 是两个 bean，其中 A 依赖了 B，获取 A 时就需要把 B 注入进来，要注入 B 得先获取 B，如果 B 中又有对 A 的依赖，这就会形成循环往复的相互注入，也称循环依赖问题。
 

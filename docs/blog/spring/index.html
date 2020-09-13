@@ -61,7 +61,7 @@
       "datePublished": "2020-09-09 18:07:37 \u002b0800 CST",
       "dateModified" : "2020-09-09 18:07:37 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/spring\/",
-      "wordCount" : "679",
+      "wordCount" : "678",
       "keywords" : ["spring", "spring boot", "ioc", "aop", "循环依赖", "Blog"]
     }
   
@@ -201,14 +201,14 @@
 <p>Bean 的生命周期概括起来就是 4 个阶段：</p>
 <ul>
 <li><strong>实例化（Instantiation）</strong></li>
-<li><strong>属性赋值（Populate）</strong></li>
+<li><strong>属性填充（Populate）</strong></li>
 <li><strong>初始化（Initialization）</strong></li>
 <li><strong>销毁（Destruction）</strong></li>
 </ul>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/spring3.png" style="zoom:150%;" /></p>
 <p>Spring 当中提供了两种实例化方案： <strong>BeanUtils</strong> 和 <strong>Cglib</strong> 方式。BeanUtils 实现机制是通过 Java 的反射机制，Cglib 是一个第三方类库采用的是一种字节码加强方式机制。 Spring 中采用的默认实例化策略是 Cglib。</p>
-<p><strong>补充图</strong></p>
 <h3 id="23-循环依赖问题">2.3 循环依赖问题<a class="anchor" href="#23-循环依赖问题">#</a></h3>
-<p>Bean 经过<strong>实例化</strong> 、<strong>属性赋值</strong>和<strong>初始化</strong>这三个过程后，在框架内部被抽象封装成 BeanDefinition 这种类型，最终所有的 BeanDefinition 交由 BeanFactory 当中的 <strong>definitionMap</strong> 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 bean 将永远无法初始化。</p>
+<p>Bean 经过<strong>实例化</strong> 、<strong>属性填充</strong>和<strong>初始化</strong>这三个过程后，在框架内部被抽象封装成 BeanDefinition 这种类型，最终所有的 BeanDefinition 交由 BeanFactory 当中的 <strong>definitionMap</strong> 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 bean 将永远无法初始化。</p>
 <blockquote>
 <p>设 A 和 B 是两个 bean，其中 A 依赖了 B，获取 A 时就需要把 B 注入进来，要注入 B 得先获取 B，如果 B 中又有对 A 的依赖，这就会形成循环往复的相互注入，也称循环依赖问题。</p>
 </blockquote>
