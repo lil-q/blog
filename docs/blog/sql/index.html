@@ -61,7 +61,7 @@
       "datePublished": "2020-01-16 13:59:07 \u002b0000 UTC",
       "dateModified" : "2020-01-16 13:59:07 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/sql\/",
-      "wordCount" : "954",
+      "wordCount" : "943",
       "keywords" : ["database", "sql", "题解", "Blog"]
     }
   
@@ -117,14 +117,8 @@
           <article class="post__content">
               
 <p>SQL基础语句快查</p>
-<p>原教程地址：http://www.xuesql.cn/</p>
 <h2 id="一定义">一、定义<a class="anchor" href="#一定义">#</a></h2>
-<h3 id="11-什么是sql">1.1 什么是SQL<a class="anchor" href="#11-什么是sql">#</a></h3>
-<p><code>SQL</code>, 全称为Structured Query Language（结构化查询语言)。 要讲SQL就绕不开database(数据库), 平时所说的数据库，一般就是指的 <code>Relational database(关系型数据库)</code>。</p>
-<p>大家知道数据库是用来存储大量数据的一种软件，那么SQL呢是用来操作数据里的数据，具体来说SQL可以做数据查询，数据更新，写入数据等等。</p>
-<h3 id="12-关系型数据库">1.2 关系型数据库<a class="anchor" href="#12-关系型数据库">#</a></h3>
-<p>在学习SQL语法之前有必要解释一下什么是关系型数据库（Relational databases)？数据库由若干张<code>表</code>(Table)组成，这里说的数据Table很像Excel里的表; 正如Excel里的表格，Table也是由 <code>行(rows)</code>和<code>列(columns)</code>组成。</p>
-<p>一个Table存储一个类别的数据，每一行是一条数据，每一列是这种数据的一个属性； Table就像一个二维的表格，<code>列(columns)</code>是有限固定的，<code>行(rows)</code>是无限不固定的。</p>
+<p><strong>结构化查询语言</strong>（<strong>S</strong>tructured <strong>Q</strong>uery <strong>L</strong>anguage，<strong>SQL</strong>）。是一种 ANSI（American National Standards Institute）标准的计算机语言。目的是访问和处理数据库。</p>
 <h2 id="二查询---select">二、查询 - SELECT<a class="anchor" href="#二查询---select">#</a></h2>
 <p>Select 查询某些属性列（specific columns）的语法：</p>
 <pre><code class="language-sql">SELECT column（列名）, another_column, …
@@ -506,6 +500,10 @@ SET sex = CHAR(ASCII(sex) ^ ASCII('f') ^ ASCII('m'));
 FROM seat
 ORDER BY id;
 </code></pre>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol>
+<li><a href="http://www.xuesql.cn/">SQL教程</a></li>
+</ol>
 
 
               
@@ -576,12 +574,7 @@ ORDER BY id;
           
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#一定义">一、定义</a>
-      <ul>
-        <li><a href="#11-什么是sql">1.1 什么是SQL</a></li>
-        <li><a href="#12-关系型数据库">1.2 关系型数据库</a></li>
-      </ul>
-    </li>
+    <li><a href="#一定义">一、定义</a></li>
     <li><a href="#二查询---select">二、查询 - SELECT</a></li>
     <li><a href="#三条件查询----where">三、条件查询  - WHERE</a></li>
     <li><a href="#四模糊查询---like">四、模糊查询 - LIKE</a></li>
@@ -598,6 +591,7 @@ ORDER BY id;
     <li><a href="#十统计">十、统计</a></li>
     <li><a href="#十一总结">十一、总结</a></li>
     <li><a href="#十二题解">十二、题解</a></li>
+    <li><a href="#参考">参考</a></li>
   </ul>
 </nav>
       </div>

@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>{year} © lil-q</copyright>
-    <lastBuildDate>Wed, 09 Sep 2020 18:07:37 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 14 Sep 2020 12:00:08 +0800</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>持久层与持久层框架</title>
+      <link>https://lil-q.github.io/blog/mybatis/</link>
+      <pubDate>Mon, 14 Sep 2020 12:00:08 +0800</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/mybatis/</guid>
+      <description>为了保存数据，需要持久层；为了实现持久层，需要数据库；为了管理数据库，需要数据库管理系统；为了操作数据库管理系统，需要持久层框架。
+一、持久层 储存在内存之上的数据在断电后就会清除，与之相对的，储存在硬盘中的数据可以长时间、安全的保存，称之为持久层。
+企业应用中的数据（各种订单数据、客户数据、库存数据等）十分重要，所以需要把数据持久化。持久化可以通过很多方式，写文件和数据库都可以，一般会把数据持久化到数据库中，因为可以很方便的查询、统计和分析，而且数据库 ACID 特性中的持久性（durability）就是针对的持久层。
+二、JDBC 对于 java，最开始是使用 JDBC 来进行数据库管理的。java数据库连接（Java Database Connectivity，JDBC）是 java 提供的一个操作数据库的 API。它是由各种数据库厂商提供类和接口组成的数据库驱动，为多种数据库提供统一访问，使用数据库时只需要调用 JDBC 接口就行了，大致的步骤如下：
+public class JDBCTest { // JDBC driver name and database URL static final String JDBC_DRIVER = &amp;quot;com.mysql.cj.jdbc.Driver&amp;quot;; static final String DB_URL = &amp;quot;jdbc:mysql://localhost:port/DB_name?...&amp;quot;; // Database credentials static final String USER = &amp;quot;root&amp;quot;; static final String PASS = &amp;quot;password&amp;quot;; public static void main(String[] args) { Connection conn = null; Statement stmt = null; try{ //STEP 1: Register JDBC driver Class.</description>
+    </item>
     
     <item>
       <title>Spring Framework</title>
@@ -433,16 +446,12 @@ import time, json, requests url = &#39;https://view.inews.qq.com/g2/getOnsInfo?n
       
       <guid>https://lil-q.github.io/blog/sql/</guid>
       <description>SQL基础语句快查
-原教程地址：http://www.xuesql.cn/
-一、定义 1.1 什么是SQL SQL, 全称为Structured Query Language（结构化查询语言)。 要讲SQL就绕不开database(数据库), 平时所说的数据库，一般就是指的 Relational database(关系型数据库)。
-大家知道数据库是用来存储大量数据的一种软件，那么SQL呢是用来操作数据里的数据，具体来说SQL可以做数据查询，数据更新，写入数据等等。
-1.2 关系型数据库 在学习SQL语法之前有必要解释一下什么是关系型数据库（Relational databases)？数据库由若干张表(Table)组成，这里说的数据Table很像Excel里的表; 正如Excel里的表格，Table也是由 行(rows)和列(columns)组成。
-一个Table存储一个类别的数据，每一行是一条数据，每一列是这种数据的一个属性； Table就像一个二维的表格，列(columns)是有限固定的，行(rows)是无限不固定的。
+一、定义 结构化查询语言（Structured Query Language，SQL）。是一种 ANSI（American National Standards Institute）标准的计算机语言。目的是访问和处理数据库。
 二、查询 - SELECT Select 查询某些属性列（specific columns）的语法：
 SELECT column（列名）, another_column, … FROM mytable（表名）;  Select 查询所有列：
 SELECT * FROM mytable（表名）;  三、条件查询 - WHERE 条件查询语法，WHERE：
 SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_condition AND/OR …;  参考下表：
-   Operator（关键字） Condition（意思） SQL Example(例子）     =, !</description>
+   Operator（关键字） Condition（意思） SQL Example(例子）     =, !=, &amp;lt; &amp;lt;=, &amp;gt;, &amp;gt;= Standard numerical operators 基础的 大于，等于等比较 col_name !</description>
     </item>
     
     <item>

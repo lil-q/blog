@@ -9,21 +9,9 @@ keywords: [database, sql, 题解]
 
 SQL基础语句快查
 
-原教程地址：http://www.xuesql.cn/
-
 ## 一、定义
 
-### 1.1 什么是SQL
-
-`SQL`, 全称为Structured Query Language（结构化查询语言)。 要讲SQL就绕不开database(数据库), 平时所说的数据库，一般就是指的 `Relational database(关系型数据库)`。
-
-大家知道数据库是用来存储大量数据的一种软件，那么SQL呢是用来操作数据里的数据，具体来说SQL可以做数据查询，数据更新，写入数据等等。
-
-### 1.2 关系型数据库
-
-在学习SQL语法之前有必要解释一下什么是关系型数据库（Relational databases)？数据库由若干张`表`(Table)组成，这里说的数据Table很像Excel里的表; 正如Excel里的表格，Table也是由 `行(rows)`和`列(columns)`组成。
-
-一个Table存储一个类别的数据，每一行是一条数据，每一列是这种数据的一个属性； Table就像一个二维的表格，`列(columns)`是有限固定的，`行(rows)`是无限不固定的。
+**结构化查询语言**（**S**tructured **Q**uery **L**anguage，**SQL**）。是一种 ANSI（American National Standards Institute）标准的计算机语言。目的是访问和处理数据库。
 
 ## 二、查询 - SELECT
 
@@ -435,3 +423,6 @@ FROM seat
 ORDER BY id;
 ```
 
+## 参考
+
+1. [SQL教程](http://www.xuesql.cn/)

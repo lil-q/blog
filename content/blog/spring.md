@@ -2,7 +2,7 @@
 title: "Spring Framework"
 date: 2020-09-09T18:07:37+08:00
 slug: ""
-description: "spring Framework面试题"
+description: "spring Framework"
 keywords: [spring, spring boot, ioc, aop, 循环依赖]
 tags: [framework]
 math: false
