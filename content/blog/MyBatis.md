@@ -227,7 +227,7 @@ public class SessionFactory {
 
 注意到 SqlSessionFactoryBuilder 只会在第一次创建 SqlSessionFactory 时新建一次，并且作为局部变量会在方法出栈时销毁，以保证所有的 XML 解析资源可以被释放给更重要的事情。而 SqlSessionFactory 作为单例在整个应用运行时期只会存在唯一一个对象。
 
-### 4.2 创建 SqlSession
+### 4.2 创建 sqlSession
 
 SqlSession 是 Mybatis 工作的最顶层 API 会话接口，所有的数据库操作都经由它来实现，由于它就是一个会话，即一个 SqlSession 应该仅存活于一个业务请求中，也可以说一个 SqlSession 对应这一次数据库会话，它不是永久存活的，每次访问数据库时都需要创建它。
 

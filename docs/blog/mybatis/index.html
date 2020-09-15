@@ -297,7 +297,7 @@ InputStream inputStream = Resources.getResourceAsStream(resource);
 }
 </code></pre>
 <p>注意到 SqlSessionFactoryBuilder 只会在第一次创建 SqlSessionFactory 时新建一次，并且作为局部变量会在方法出栈时销毁，以保证所有的 XML 解析资源可以被释放给更重要的事情。而 SqlSessionFactory 作为单例在整个应用运行时期只会存在唯一一个对象。</p>
-<h3 id="42-创建-sqlsession">4.2 创建 SqlSession<a class="anchor" href="#42-创建-sqlsession">#</a></h3>
+<h3 id="42-创建-sqlsession">4.2 创建 sqlSession<a class="anchor" href="#42-创建-sqlsession">#</a></h3>
 <p>SqlSession 是 Mybatis 工作的最顶层 API 会话接口，所有的数据库操作都经由它来实现，由于它就是一个会话，即一个 SqlSession 应该仅存活于一个业务请求中，也可以说一个 SqlSession 对应这一次数据库会话，它不是永久存活的，每次访问数据库时都需要创建它。</p>
 <p>每个线程都应该有它自己的 SqlSession 实例。SqlSession 的实例不是线程安全的，因此是不能被共享的，所以它的最佳的作用域是请求或方法作用域。每次收到 HTTP 请求，就可以打开一个 SqlSession，返回一个响应后，就关闭它。 这个关闭操作很重要，为了确保每次都能执行关闭操作，你应该把这个关闭操作放到 finally 块中。 下面的示例就是一个确保 SqlSession 关闭的标准模式：</p>
 <pre><code class="language-java">try (SqlSession session = sqlSessionFactory.openSession()) {
@@ -415,7 +415,7 @@ InputStream inputStream = Resources.getResourceAsStream(resource);
     <li><a href="#四mybatis">四、MyBatis</a>
       <ul>
         <li><a href="#41-建造工厂">4.1 建造工厂</a></li>
-        <li><a href="#42-创建-sqlsession">4.2 创建 SqlSession</a></li>
+        <li><a href="#42-创建-sqlsession">4.2 创建 sqlSession</a></li>
         <li><a href="#43-执行-sql-语句">4.3 执行 SQL 语句</a></li>
         <li><a href="#44-事务">4.4 事务</a></li>
       </ul>
