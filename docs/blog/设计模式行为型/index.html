@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>设计模式：行为型 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="design_pattern , 迭代器模式 , Fail-Fast">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.c4ff55c4c110e477d6af24de399f1d98ff8f26c26b502c631e6763d0b525ac4c.css" integrity="sha256-xP9VxMEQ5HfWryTeOZ8dmP&#43;PJsJrUCxjHmdj0LUlrEw="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "设计模式：行为型",
+      "headline" : "设计模式：行为型",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-09-16 10:42:08 \u002b0800 CST",
+      "dateModified" : "2020-09-16 10:42:08 \u002b0800 CST",
+      "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A1%8C%E4%B8%BA%E5%9E%8B\/",
+      "wordCount" : "421",
+      "keywords" : ["design_pattern", "迭代器模式", "Fail-Fast", "Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">设计模式：行为型</h1>
+            <time datetime="2020-09-16 10:42:08 &#43;0800 CST" class="post__date">Sep 16 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<p>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。</p>
+<h2 id="一迭代器---iterator">一、迭代器 - Iterator<a class="anchor" href="#一迭代器---iterator">#</a></h2>
+<p>迭代器模式使用非常广，它提供了一种顺序访问聚合对象元素的方法，并且不暴露聚合对象的内部表示。JDK 中使用 Iterable 接口来实现迭代功能：</p>
+<pre><code class="language-java">public interface Iterable&lt;T&gt; {
+    
+    Iterator&lt;T&gt; iterator();
+}
+</code></pre>
+<p>Iterable 接口下定义了一个 Iterator，Iterator 接口主要定义了下面两个方法：</p>
+<pre><code class="language-java">public interface Iterator&lt;E&gt; {
+
+    boolean hasNext();
+
+    E next();
+}
+</code></pre>
+<p>在使用时，先创建一个迭代器，通过<code>hasNext()</code>判断其是否还有下一个值并使用<code>next()</code>获取。JDK 中的 Collection 继承自 Iterable，所以 Collection 下的实现类都是可迭代的。Map 的迭代通过其下的 keySet 和 entrySet 两个 set 实现，Set 继承自 Collection，所以也是可迭代的。</p>
+<h3 id="11-叫号器">1.1 叫号器<a class="anchor" href="#11-叫号器">#</a></h3>
+<p>运用迭代器模式可以实现一个简单的叫号器（queue management system，qms），首先模仿 JDK 定义下面两个接口：</p>
+<pre><code class="language-java">interface ManagementSystem&lt;E&gt; {
+
+    Caller&lt;E&gt; createCaller();
+}
+
+interface Caller&lt;E&gt; {
+
+    boolean hasNext();
+
+    E next();
+}
+</code></pre>
+<p>ManagementSystem 管理系统接口需要定义一个获取叫号器 caller 的方法，这里 Caller 和 Iterator 功能相同，通过<code>hasNext()</code>判断其是否还有下一个号码并使用<code>next()</code>获取。</p>
+<pre><code class="language-java">public class QMS implements ManagementSystem&lt;Integer&gt; {
+    List&lt;Integer&gt; table;
+    private int curNum;
+    protected int modCount = 0;
+
+    public QMS (int curNum) {
+        this.curNum = curNum;
+        table = new ArrayList&lt;Integer&gt;();
+        for (int i = 1; i &lt;= curNum; i++) {
+            table.add(i);
+        }
+    }
+
+    public void addNum() {
+        modCount++;
+        table.add(++curNum);
+    }
+
+    @Override
+    public Caller&lt;Integer&gt; createCaller() {
+        return new QMSCaller(table, modCount);
+    }
+
+    // ***内部类：叫号器***
+    class QMSCaller implements Caller&lt;Integer&gt; {
+        private final List&lt;Integer&gt; callerTable;
+        private int position = 0;
+        private final int expectedModCount;
+
+        public QMSCaller(List&lt;Integer&gt; table, int modCount) {
+            this.callerTable = table;
+            this.expectedModCount = modCount;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return position &lt; callerTable.size();
+        }
+
+        @Override
+        public Integer next() {
+            // 检查是否有改动，有则抛出异常
+            checkForComodification();
+            return callerTable.get(position++);
+        }
+
+        private void checkForComodification() {
+            if (modCount != expectedModCount) {
+                throw new ConcurrentModificationException();
+            }
+        }
+    }
+}
+</code></pre>
+<p>先不考虑与 modCount 相关的代码，这个实现其实非常简单，使用当前等待的人数 curNum 初始化 qms（创建一个 list 存放 curNum 个号码），如果还有人加入，用<code>addNum()</code>方法把新号码放入 list 中。开始叫号时，使用<code>createCaller()</code>方法创建叫号器 caller，接下来的叫号工作就交由叫号器 caller 来完成了。用一个测试类来测试一下：</p>
+<pre><code class="language-java">class QMSTest1 {
+
+    public static void main(String[] args) {
+        QMS qms = new QMS(10);
+        Caller&lt;Integer&gt; caller = qms.createCaller();
+        while (caller.hasNext()) {
+            System.out.print(caller.next() + &quot; &quot;);
+        }
+    }
+} 
+</code></pre>
+<pre><code class="language-java">1 2 3 4 5 6 7 8 9 10 
+</code></pre>
+<p>输出结果正确！</p>
+<h3 id="12-fail---fast">1.2 Fail - Fast<a class="anchor" href="#12-fail---fast">#</a></h3>
+<blockquote>
+<p>In systems design, a <strong>fail-fast</strong> system is one which immediately reports at its interface any condition that is likely to indicate a failure. Fail-fast systems are usually designed to stop normal operation rather than attempt to continue a possibly flawed process.</p>
+</blockquote>
+<p>回到刚才的场景，首先我们需要统计总共的票数，然后打开叫号器开始工作。这时候有一个黑客想要插队，他轻松就破解了叫号系统，并且在 qms 的 table 中 5 号的后面又插入了一个号码：5 号。当原本的 5 号客户结束服务后，叫号系统又叫了一次五号，黑客先生拿着自己用打印机打的 5 号就走了进去。一旁等待的众人十分气愤但又无可奈何&hellip;&hellip;</p>
+<p>通常 Iterator 是工作在一个独立的线程中，我们在创建 Iterator 时传入的是数据的浅拷贝，也就是说，如果在 Iterator 工作的同时有另一个线程对数据进行了修改，Iterator 的工作就会出错。Fail - Fast 机制就是用来处理这种情况的。</p>
+<p>qms 中每一次<code>addNum()</code>操作都会对 modCount 自增 1，而我们在创建 caller 时会传入当前的 modCount 并存放在 caller 下定义的 final 变量 expectedModCount 中。每一次迭代前总是验证 modCount 是否与预期值相同，如果不同就说明原数据已经被篡改，直接抛出异常而不是等待错误发生再处理，正如其名：Fail - Fast。</p>
+<pre><code class="language-java">class QMSTest2 {
+
+    public static void main(String[] args) {
+        QMS qms = new QMS(10);
+
+        new Thread( () -&gt; {
+            try {
+                Thread.sleep(3000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            qms.addNum();
+        }).start();
+
+        new Thread( () -&gt; {
+            Caller&lt;Integer&gt; caller = qms.createCaller();
+            while (caller.hasNext()) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(caller.next());
+            }
+        }).start();
+    }
+}
+</code></pre>
+<pre><code class="language-java">1 2 3 4 Exception in thread &quot;Thread-1&quot; java.util.ConcurrentModificationException
+</code></pre>
+<p>在第 5 秒时，我们对 qms 中的数据进行了改动，这导致叫号器报出了异常。</p>
+<p>当然，这里只是为了展示迭代器模式和 Fail - Fast，实际生活中的叫号器不应该是这样的实现，如果我们每次加入新的号码都要处理异常就很不方便了，比如需要处理高并发问题时，生产者 - 消费者模式是不错的选择。</p>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/design_pattern/">design_pattern</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/mybatis/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">持久层与持久层框架</span>
+    </a>
+  
+
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>2020 © lil-q</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一迭代器---iterator">一、迭代器 - Iterator</a>
+      <ul>
+        <li><a href="#11-叫号器">1.1 叫号器</a></li>
+        <li><a href="#12-fail---fast">1.2 Fail - Fast</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

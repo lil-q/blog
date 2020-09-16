@@ -7,10 +7,24 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>{year} © lil-q</copyright>
-    <lastBuildDate>Mon, 14 Sep 2020 12:00:08 +0800</lastBuildDate>
+    <lastBuildDate>Wed, 16 Sep 2020 10:42:08 +0800</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>设计模式：行为型</title>
+      <link>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A1%8C%E4%B8%BA%E5%9E%8B/</link>
+      <pubDate>Wed, 16 Sep 2020 10:42:08 +0800</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A1%8C%E4%B8%BA%E5%9E%8B/</guid>
+      <description>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。
+一、迭代器 - Iterator 迭代器模式使用非常广，它提供了一种顺序访问聚合对象元素的方法，并且不暴露聚合对象的内部表示。JDK 中使用 Iterable 接口来实现迭代功能：
+public interface Iterable&amp;lt;T&amp;gt; { Iterator&amp;lt;T&amp;gt; iterator(); }  Iterable 接口下定义了一个 Iterator，Iterator 接口主要定义了下面两个方法：
+public interface Iterator&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  在使用时，先创建一个迭代器，通过hasNext()判断其是否还有下一个值并使用next()获取。JDK 中的 Collection 继承自 Iterable，所以 Collection 下的实现类都是可迭代的。Map 的迭代通过其下的 keySet 和 entrySet 两个 set 实现，Set 继承自 Collection，所以也是可迭代的。
+1.1 叫号器 运用迭代器模式可以实现一个简单的叫号器（queue management system，qms），首先模仿 JDK 定义下面两个接口：
+interface ManagementSystem&amp;lt;E&amp;gt; { Caller&amp;lt;E&amp;gt; createCaller(); } interface Caller&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  ManagementSystem 管理系统接口需要定义一个获取叫号器 caller 的方法，这里 Caller 和 Iterator 功能相同，通过hasNext()判断其是否还有下一个号码并使用next()获取。</description>
+    </item>
     
     <item>
       <title>持久层与持久层框架</title>

@@ -31,7 +31,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.90b5007688d9661bb8a3c179e17156ae3f54efa01088ed1cd0364235af826683.css" integrity="sha256-kLUAdojZZhu4o8F54XFWrj9U76AQiO0c0DZCNa&#43;CZoM="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.c4ff55c4c110e477d6af24de399f1d98ff8f26c26b502c631e6763d0b525ac4c.css" integrity="sha256-xP9VxMEQ5HfWryTeOZ8dmP&#43;PJsJrUCxjHmdj0LUlrEw="/>
   
   
    
@@ -446,7 +446,7 @@ oos.writeObject(list);
 <p>迭代器在调用<code>next()</code>、<code>remove()</code>方法时都是调用<code>checkForComodification()</code>方法，它检测<code>modCount == expectedModCount</code> ？ 若不等则抛出<code>ConcurrentModificationException</code>异常，从而产生 fail-fast 机制。</p>
 <p>有两种解决方案：</p>
 <ul>
-<li>在遍历过程中所有涉及到改变<code>modCount</code>值得地方全部加上<code>synchronized</code>或者直接使用<code>Collections.synchronizedList</code>（不推荐）；</li>
+<li>在遍历过程中所有涉及到改变<code>modCount</code>值的地方全部加上<code>synchronized</code>或者直接使用<code>Collections.synchronizedList</code>（不推荐）；</li>
 <li>使用 CopyOnWriteArrayList 来替换 ArrayList。</li>
 </ul>
 <p><strong>（5）toArray()</strong></p>

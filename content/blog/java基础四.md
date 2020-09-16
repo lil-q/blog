@@ -403,7 +403,7 @@ protected transient int modCount = 0;
 
 有两种解决方案：
 
-* 在遍历过程中所有涉及到改变`modCount`值得地方全部加上`synchronized`或者直接使用`Collections.synchronizedList`（不推荐）；
+* 在遍历过程中所有涉及到改变`modCount`值的地方全部加上`synchronized`或者直接使用`Collections.synchronizedList`（不推荐）；
 * 使用 CopyOnWriteArrayList 来替换 ArrayList。
 
 **（5）toArray()**
