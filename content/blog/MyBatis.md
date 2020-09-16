@@ -267,7 +267,7 @@ SQL 语句统一在 XML 文件中编辑保存，并通过键值对的形式储�
 
 Mybatis 在处理 #{} 时，会将 SQL 语句中的 #{} 替换为 ? 号，调用 PreparedStatement 的`set()`方法来赋值；Mybatis 在处理 ${} 时，就是把 ${} 替换成变量的值。
 
-MyBatis 实现了动态 SQL，这样在 java 代码中就不需要考虑 SQL 语句相关的业务逻辑了，包含以下标签：`if`/`choose`/`when`/`otherwise`/`trim`/`where`/`set`/`foreach`。
+MyBatis 实现了动态 SQL，这样在 java 代码中就不需要考虑 SQL 语句相关的业务逻辑了，包含以下标签：`if` / `choose` / `when` / `otherwise` / `trim` / `where` / `set` / `foreach`。
 
 #### 4. 结果映射和结果缓存
 

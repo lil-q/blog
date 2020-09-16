@@ -61,7 +61,7 @@
       "datePublished": "2020-09-14 12:00:08 \u002b0800 CST",
       "dateModified" : "2020-09-14 12:00:08 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/mybatis\/",
-      "wordCount" : "844",
+      "wordCount" : "858",
       "keywords" : ["MyBatis", "持久层", "SPI", "打破双亲委派", "Blog"]
     }
   
@@ -319,7 +319,7 @@ InputStream inputStream = Resources.getResourceAsStream(resource);
 <p>SQL 语句统一在 XML 文件中编辑保存，并通过键值对的形式储存在 mappedStatements 中。</p>
 <h4 id="3-传入参数映射和动态-sql">3. 传入参数映射和动态 SQL</h4>
 <p>Mybatis 在处理 #{} 时，会将 SQL 语句中的 #{} 替换为 ? 号，调用 PreparedStatement 的<code>set()</code>方法来赋值；Mybatis 在处理 ${} 时，就是把 ${} 替换成变量的值。</p>
-<p>MyBatis 实现了动态 SQL，这样在 java 代码中就不需要考虑 SQL 语句相关的业务逻辑了，包含以下标签：<code>if</code>/<code>choose</code>/<code>when</code>/<code>otherwise</code>/<code>trim</code>/<code>where</code>/<code>set</code>/<code>foreach</code>。</p>
+<p>MyBatis 实现了动态 SQL，这样在 java 代码中就不需要考虑 SQL 语句相关的业务逻辑了，包含以下标签：<code>if</code> / <code>choose</code> / <code>when</code> / <code>otherwise</code> / <code>trim</code> / <code>where</code> / <code>set</code> / <code>foreach</code>。</p>
 <h4 id="4-结果映射和结果缓存">4. 结果映射和结果缓存</h4>
 <p>结果映射有两种方式，第一种是使用<code>&lt;resultMap&gt;</code>标签，逐一定义列名和对象属性名之间的映射关系。第二种是使用 SQL 列的别名功能，将列别名书写为对象属性名，不区分大小写。</p>
 <p>MyBatis 提供两个级别的缓存：</p>
