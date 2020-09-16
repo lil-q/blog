@@ -1,5 +1,5 @@
 ---
-title: java：反射和泛型
+title: Java：反射和泛型
 date: 2020-03-27 22:45:02
 tags: [java]
 toc: true
@@ -197,7 +197,7 @@ String first = (String) p.getFirst();
 String last = (String) p.getLast();
 ```
 
-java 泛型的**局限**：
+Java 泛型的**局限**：
 
 **局限一：T 不能是基本类型**，例如 int，因为实际类型是 Object，Object 类型无法持有基本类型。
 

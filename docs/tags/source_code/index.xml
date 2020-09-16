@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>java：Map</title>
+      <title>Java：Map</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</link>
       <pubDate>Thu, 02 Apr 2020 15:37:30 +0000</pubDate>
       
@@ -25,12 +25,12 @@ for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.</description>
     </item>
     
     <item>
-      <title>java：Collection</title>
+      <title>Java：Collection</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%9B%9B/</link>
       <pubDate>Mon, 30 Mar 2020 18:34:55 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%9B%9B/</guid>
-      <description>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。【以下内容源码基于java 13】
+      <description>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。【以下内容源码基于 Java 13】J
 一、Collection 二、List List 接口有几个主要的接口方法：
  在末尾添加一个元素：void add(E e) 在指定索引添加一个元素：void add(int index, E e) 删除指定索引的元素：int remove(int index) 删除某个元素：int remove(Object e) 获取指定索引的元素：E get(int index) 获取链表大小（包含元素的个数）：int size()  List 接口允许我们添加重复的元素，即 List 内部的元素可以重复，List 还允许添加null。调用List.of()，它返回的是一个只读 List：
 List&amp;lt;Integer&amp;gt; list = List.of(1, 2, 5);  但是List.of()方法不接受null值，如果传入null，会抛出NullPointerException异常。

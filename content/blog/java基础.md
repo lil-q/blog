@@ -1,5 +1,5 @@
 ---
-title: java：基础
+title: Java：基础
 date: 2020-03-20 19:33:14
 tags: [java]
 toc: true
@@ -10,15 +10,15 @@ math: true
 
 * **J**ava **V**irtual **M**achine，**JVM**：
 
-  整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
+  整个 Java 实现跨平台的最核心的部分，所有的 Java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
 
 * **J**ava **R**untime **E**nvironment，**JRE**：
 
-  java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。
+  Java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。
 
 * **J**ava **D**evelopment **K**it，**JDK**：
 
-  java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。
+  Java 开发工具包，是支持 Java 程序开发的最小环境。JDK 对比 JRE 多了 Java language 和工具 API。
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/javase1.png" style="zoom:50%;" />
 
@@ -99,7 +99,7 @@ Java 标准库提供了类方法`Arrays.toString()`，可以快速打印数组�
 
 #### 3. 排序
 
-调用 JDK 提供的`Arrays.sort()`可以原地升序排序。java 默认采用 **Timsort** 进行排序，Timsort 是一种混合稳定的排序算法，源自归并排序和插入排序，旨在较好地处理真实世界中各种各样的数据。如需降序可以传入第二个参数：
+调用 JDK 提供的`Arrays.sort()`可以原地升序排序。Java 默认采用 **Timsort** 进行排序，Timsort 是一种混合稳定的排序算法，源自归并排序和插入排序，旨在较好地处理真实世界中各种各样的数据。如需降序可以传入第二个参数：
 
 ```java
 Arrays.sort(a, Collections.reverseOrder());
@@ -265,7 +265,7 @@ System.out.println(n1 == n2); // true
 
 **（2）三元运算符**
 
-Java还提供一个三元运算符`b ? x : y`，它根据第一个布尔表达式的结果，分别返回后续两个表达式之一的计算结果。
+Java 还提供一个三元运算符`b ? x : y`，它根据第一个布尔表达式的结果，分别返回后续两个表达式之一的计算结果。
 
 ## 三、String
 
@@ -288,7 +288,7 @@ value 数组被声明为 final，这意味着 value 数组初始化之后就不�
 
 ### 3.1 编码
 
-在Java中，char 类型实际上就是两个字节的 Unicode 编码。如果我们要手动把字符串转换成其他编码，可以这样做：
+在 Java 中，char 类型实际上就是两个字节的 Unicode 编码。如果我们要手动把字符串转换成其他编码，可以这样做：
 
 ```java
 byte[] b1 = "Hello".getBytes(); // 按系统默认编码转换，不推荐
@@ -355,7 +355,7 @@ public class Main {
 - StringBuilder 不是线程安全的
 - StringBuffer 是线程安全的，内部使用 synchronized 进行同步
 
-StringBuffer，这是Java早期的一个 StringBuilder 的线程安全版本，它通过同步来保证多个线程操作 StringBuffer 也是安全的，但是同步会带来执行速度的下降。现在完全没有必要使用 StringBuffer。
+StringBuffer，这是 Java 早期的一个 StringBuilder 的线程安全版本，它通过同步来保证多个线程操作 StringBuffer 也是安全的，但是同步会带来执行速度的下降。现在完全没有必要使用 StringBuffer。
 
 **2. StringJoiner**
 
@@ -562,7 +562,7 @@ int n = Weekday.MON.ordinal(); // 1
 
 #### 1. 参数传递
 
-Java的参数传递完全等同于赋值运算符的操作。[[3]](https://www.zhihu.com/question/31203609)
+Java 的参数传递完全等同于赋值运算符的操作[[3]](https://www.zhihu.com/question/31203609)。
 
 * 对于基本类型，赋值运算符会直接改变变量的值，原来的值被覆盖掉。
 * 对于引用类型，赋值运算符会改变引用中所保存的地址，原来的地址被覆盖掉。**但是原来的对象不会被改变（重要）。**
@@ -627,9 +627,9 @@ public class Main {
 
 #### 2. 输出
 
-`println`是print line的缩写，表示输出并换行。因此，如果输出后不想换行，可以用`print()`。格式化输出使用`System.out.printf()`，通过使用占位符`%?`，`printf()`可以把后面的参数格式化成指定格式
+`println`是 print line 的缩写，表示输出并换行。因此，如果输出后不想换行，可以用`print()`。格式化输出使用`System.out.printf()`，通过使用占位符`%?`，`printf()`可以把后面的参数格式化成指定格式
 
-Java的格式化功能提供了多种占位符，可以把各种数据类型“格式化”成指定的字符串：
+Java 的格式化功能提供了多种占位符，可以把各种数据类型“格式化”成指定的字符串：
 
 <br>
 

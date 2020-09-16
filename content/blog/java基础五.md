@@ -1,5 +1,5 @@
 ---
-title: java：Map
+title: Java：Map
 date: 2020-04-02 15:37:30
 tags: [java, source_code]
 toc: true
@@ -760,7 +760,7 @@ ConcurrentCache 采取的是分代缓存：
 
 - Enumeration：已被 Iterator 取代。
 
-Java的集合类定义在 java.util 包中，支持泛型。Java集合使用统一的 Iterator 遍历，尽量不要使用遗留接口。
+Java 的集合类定义在 java.util 包中，支持泛型。Java 集合使用统一的 Iterator 遍历，尽量不要使用遗留接口。
 
 
 

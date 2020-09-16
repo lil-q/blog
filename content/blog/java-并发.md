@@ -1,9 +1,9 @@
 ---
-title: java：并发
+title: Java：并发
 date: 2020-04-28 19:37:01
 tags: [java, jvm]
 toc: true
-description: "java并发内存模型线程池线程安全锁优化"
+description: "java并发内存模型线程池线程J安全锁优化"
 keywords: [jmm, java, concurrency]
 ---
 

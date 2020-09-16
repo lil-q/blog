@@ -127,7 +127,7 @@ B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点�
     </item>
     
     <item>
-      <title>java：虚拟机</title>
+      <title>Java：虚拟机</title>
       <link>https://lil-q.github.io/blog/java-%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
       <pubDate>Tue, 07 Jul 2020 11:17:47 +0000</pubDate>
       
@@ -228,7 +228,7 @@ class Solution { public List&amp;lt;Integer&amp;gt; preorderTraversal(TreeNode r
     </item>
     
     <item>
-      <title>java：并发</title>
+      <title>Java：并发</title>
       <link>https://lil-q.github.io/blog/java-%E5%B9%B6%E5%8F%91/</link>
       <pubDate>Tue, 28 Apr 2020 19:37:01 +0000</pubDate>
       
@@ -267,7 +267,7 @@ class Solution { public List&amp;lt;Integer&amp;gt; preorderTraversal(TreeNode r
     </item>
     
     <item>
-      <title>java：I/O</title>
+      <title>Java：I/O</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%85%AD/</link>
       <pubDate>Sat, 04 Apr 2020 14:13:57 +0000</pubDate>
       
@@ -282,7 +282,7 @@ public void readFile() throws IOException { try (InputStream input = new FileInp
     </item>
     
     <item>
-      <title>java：Map</title>
+      <title>Java：Map</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</link>
       <pubDate>Thu, 02 Apr 2020 15:37:30 +0000</pubDate>
       
@@ -294,12 +294,12 @@ for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.</description>
     </item>
     
     <item>
-      <title>java：Collection</title>
+      <title>Java：Collection</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%9B%9B/</link>
       <pubDate>Mon, 30 Mar 2020 18:34:55 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%9B%9B/</guid>
-      <description>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。【以下内容源码基于java 13】
+      <description>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。【以下内容源码基于 Java 13】J
 一、Collection 二、List List 接口有几个主要的接口方法：
  在末尾添加一个元素：void add(E e) 在指定索引添加一个元素：void add(int index, E e) 删除指定索引的元素：int remove(int index) 删除某个元素：int remove(Object e) 获取指定索引的元素：E get(int index) 获取链表大小（包含元素的个数）：int size()  List 接口允许我们添加重复的元素，即 List 内部的元素可以重复，List 还允许添加null。调用List.of()，它返回的是一个只读 List：
 List&amp;lt;Integer&amp;gt; list = List.of(1, 2, 5);  但是List.of()方法不接受null值，如果传入null，会抛出NullPointerException异常。
@@ -310,7 +310,7 @@ public interface Iterator&amp;lt;E&amp;gt; { // 判断是否还有下一个对�
     </item>
     
     <item>
-      <title>java：反射和泛型</title>
+      <title>Java：反射和泛型</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%B8%89/</link>
       <pubDate>Fri, 27 Mar 2020 22:45:02 +0000</pubDate>
       
@@ -327,7 +327,7 @@ Class&amp;lt;?&amp;gt; cls = Class.forName(&amp;quot;java.lang.String&amp;quot;)
     </item>
     
     <item>
-      <title>java：面向对象和异常处理</title>
+      <title>Java：面向对象和异常处理</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%8C/</link>
       <pubDate>Mon, 23 Mar 2020 14:08:20 +0000</pubDate>
       
@@ -340,17 +340,17 @@ Class&amp;lt;?&amp;gt; cls = Class.forName(&amp;quot;java.lang.String&amp;quot;)
     </item>
     
     <item>
-      <title>java：基础</title>
+      <title>Java：基础</title>
       <link>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/</link>
       <pubDate>Fri, 20 Mar 2020 19:33:14 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/</guid>
       <description>Java Virtual Machine，JVM：
-整个 java 实现跨平台的最核心的部分，所有的 java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
+整个 Java 实现跨平台的最核心的部分，所有的 Java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
   Java Runtime Environment，JRE：
-java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。
+Java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。
   Java Development Kit，JDK：
-java 开发工具包，是支持 java 程序开发的最小环境。JDK 对比 JRE 多了 java language 和工具 API。
+Java 开发工具包，是支持 Java 程序开发的最小环境。JDK 对比 JRE 多了 Java language 和工具 API。
   一、数据类型 1.1 基本类型  byte/8 [-128 ~ 127] char/16 short/16 [-32768 ~ 32767] int/32 [-2147483648 ~ 2147483647] float/32 long/64 [-9223372036854775808 ~ 9223372036854775807] double/64 boolean/~  Java语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要1 bit，但是通常JVM内部会把 boolean 表示为4字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</description>
     </item>
     

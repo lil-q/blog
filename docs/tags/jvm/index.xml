@@ -13,7 +13,7 @@
     
     
     <item>
-      <title>java：虚拟机</title>
+      <title>Java：虚拟机</title>
       <link>https://lil-q.github.io/blog/java-%E8%99%9A%E6%8B%9F%E6%9C%BA/</link>
       <pubDate>Tue, 07 Jul 2020 11:17:47 +0000</pubDate>
       
@@ -34,7 +34,7 @@ HotSpot 虚拟机把它当成永久代来进行垃圾回收。但很难确定永
     </item>
     
     <item>
-      <title>java：并发</title>
+      <title>Java：并发</title>
       <link>https://lil-q.github.io/blog/java-%E5%B9%B6%E5%8F%91/</link>
       <pubDate>Tue, 28 Apr 2020 19:37:01 +0000</pubDate>
       
