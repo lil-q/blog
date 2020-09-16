@@ -504,11 +504,11 @@ if (lock.tryLock(1, TimeUnit.SECONDS)) {
 
 #### 3. 比较
 
-1. **锁的实现**：synchronized 是 JVM 实现的，而 ReentrantLock 是 JDK 实现的。
-2. **性能**：synchronized 与 ReentrantLock 大致相同。
-3. **等待可中断**：ReentrantLock 可中断，而 synchronized 不行。
-4. **公平锁**：synchronized 中的锁是非公平的，ReentrantLock 默认情况下非公平，可以设置为公平。
-5. **锁绑定多个条件**：一个 ReentrantLock 可以同时绑定多个 Condition 对象。
+* **锁的实现**：synchronized 是 JVM 实现的，而 ReentrantLock 是 JDK 实现的；
+* **性能**：synchronized 与 ReentrantLock 大致相同；
+* **等待可中断**：ReentrantLock 可中断，而 synchronized 不行；
+* **公平锁**：synchronized 中的锁是非公平的，ReentrantLock 默认情况下非公平，可以设置为公平；
+* **锁绑定多个条件**：一个 ReentrantLock 可以同时绑定多个 Condition 对象。
 
 #### 4. 总结
 

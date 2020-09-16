@@ -505,13 +505,13 @@ private Condition condition = lock.newCondition();
 </code></pre>
 <p>上述代码在尝试获取锁的时候，最多等待1秒。如果1秒后仍未获取到锁，<code>tryLock()</code>返回 false，程序就可以做一些额外处理，而不是无限等待下去。</p>
 <h4 id="3-比较">3. 比较</h4>
-<ol>
-<li><strong>锁的实现</strong>：synchronized 是 JVM 实现的，而 ReentrantLock 是 JDK 实现的。</li>
-<li><strong>性能</strong>：synchronized 与 ReentrantLock 大致相同。</li>
-<li><strong>等待可中断</strong>：ReentrantLock 可中断，而 synchronized 不行。</li>
-<li><strong>公平锁</strong>：synchronized 中的锁是非公平的，ReentrantLock 默认情况下非公平，可以设置为公平。</li>
+<ul>
+<li><strong>锁的实现</strong>：synchronized 是 JVM 实现的，而 ReentrantLock 是 JDK 实现的；</li>
+<li><strong>性能</strong>：synchronized 与 ReentrantLock 大致相同；</li>
+<li><strong>等待可中断</strong>：ReentrantLock 可中断，而 synchronized 不行；</li>
+<li><strong>公平锁</strong>：synchronized 中的锁是非公平的，ReentrantLock 默认情况下非公平，可以设置为公平；</li>
 <li><strong>锁绑定多个条件</strong>：一个 ReentrantLock 可以同时绑定多个 Condition 对象。</li>
-</ol>
+</ul>
 <h4 id="4-总结">4. 总结</h4>
 <p>推荐在 synchronized 与 ReentrantLock 都可满足需要时优先使用 synchronized，synchronized 是在 Java 语法层面的同步，足够清晰，也足够简单。</p>
 <p>ReentrantLock 应该确保在 finally 块中释放锁，否则一旦受同步保护的代码块中抛出异常，则有可能永远不会释放持有的锁。而使用 synchronized 的话则可以由 Java 虛拟机来确保即使出现异常，锁也能被自动释放。</p>
