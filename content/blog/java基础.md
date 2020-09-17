@@ -35,7 +35,7 @@ math: true
 - double/64
 - boolean/~
 
-Java语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要1 bit，但是通常JVM内部会把 boolean 表示为4字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。
+Java 语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要 1 bit，但是通常 JVM 内部会把 boolean 表示为 4 字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。
 
 ### 1.2 包装类型
 
@@ -48,12 +48,12 @@ int y = x;         // 拆箱 调用了 X.intValue()
 
 ### 1.3 缓存池
 
-new Integer(123) 与 Integer.valueOf(123) 的区别在于：
+`new Integer(123)` 与 `Integer.valueOf(123)` 的区别在于：
 
-- new Integer(123) 每次都会新建一个对象；
-- Integer.valueOf(123) 会使用缓存池中的对象，多次调用会取得同一个对象的引用。
+- `new Integer(123)` 每次都会新建一个对象；
+- `Integer.valueOf(123)` 会使用缓存池中的对象，多次调用会取得同一个对象的引用。
 
-编译器会在自动装箱过程调用 valueOf() 方法，因此多个值相同且值在缓存池范围内的 Integer 实例使用自动装箱来创建，那么就会引用相同的对象。
+编译器会在自动装箱过程调用 `valueOf()` 方法，因此多个值相同且值在缓存池范围内的 Integer 实例使用自动装箱来创建，那么就会引用相同的对象。
 
 ```java
 Integer m = 123;
@@ -95,11 +95,11 @@ Java语言中数组必须先初始化，然后才可以使用。
 
 #### 2. 打印数组内容
 
-Java 标准库提供了类方法`Arrays.toString()`，可以快速打印数组内容。
+Java 标准库提供了类方法 `Arrays.toString()`，可以快速打印数组内容。
 
 #### 3. 排序
 
-调用 JDK 提供的`Arrays.sort()`可以原地升序排序。Java 默认采用 **Timsort** 进行排序，Timsort 是一种混合稳定的排序算法，源自归并排序和插入排序，旨在较好地处理真实世界中各种各样的数据。如需降序可以传入第二个参数：
+调用 JDK 提供的 `Arrays.sort()` 可以原地升序排序。Java 默认采用 **Timsort** 进行排序，Timsort 是一种混合稳定的排序算法，源自归并排序和插入排序，旨在较好地处理真实世界中各种各样的数据。如需降序可以传入第二个参数：
 
 ```java
 Arrays.sort(a, Collections.reverseOrder());
@@ -182,7 +182,7 @@ int x = s + i; // s自动转型为int
 
 ```java
 short s1 = 1;
-// s1 = s1 + 1;
+// s1 = s1 + 1; // java: 不兼容的类型: 从 int 转换到 short 可能会有损失
 ```
 
 但是使用 += 或者 ++ 运算符会执行隐式类型转换。
@@ -200,7 +200,7 @@ s1 = (short) (s1 + 1);
 
 **（2）强制类型转换**
 
-可以将结果强制转型，即将大范围的整数转型为小范围的整数。强制转型使用`(类型)`，例如，将 int 强制转型为 short：
+可以将结果强制转型，即将大范围的整数转型为小范围的整数。强制转型使用 `(类型)`，例如，将 int 强制转型为 short：
 
 ```java
 int i = 12345;
@@ -261,11 +261,11 @@ System.out.println(n1 == n2); // true
 
 布尔运算的一个重要特点是短路运算。如果一个布尔运算的表达式能提前确定结果，则后续的计算不再执行，直接返回结果。
 
-因为`false && x`的结果总是 false，无论 x 是 true 还是 false，因此，与运算在确定第一个值为 false 后，不再继续计算，而是直接返回 false。
+因为 `false && x` 的结果总是 false，无论 x 是 true 还是 false，因此，与运算在确定第一个值为 false 后，不再继续计算，而是直接返回 false。
 
 **（2）三元运算符**
 
-Java 还提供一个三元运算符`b ? x : y`，它根据第一个布尔表达式的结果，分别返回后续两个表达式之一的计算结果。
+Java 还提供一个三元运算符 `b ? x : y`，它根据第一个布尔表达式的结果，分别返回后续两个表达式之一的计算结果。
 
 ## 三、String
 
@@ -292,9 +292,9 @@ value 数组被声明为 final，这意味着 value 数组初始化之后就不�
 
 ```java
 byte[] b1 = "Hello".getBytes(); // 按系统默认编码转换，不推荐
-byte[] b2 = "Hello".getBytes("UTF-8"); // 按UTF-8编码转换
-byte[] b2 = "Hello".getBytes("GBK"); // 按GBK编码转换
-byte[] b3 = "Hello".getBytes(StandardCharsets.UTF_8); // 按UTF-8编码转换
+byte[] b2 = "Hello".getBytes("UTF-8"); // 按 UTF-8 编码转换
+byte[] b2 = "Hello".getBytes("GBK"); // 按 GBK 编码转换
+byte[] b3 = "Hello".getBytes(StandardCharsets.UTF_8); // 按 UTF-8 编码转换
 ```
 
 注意：转换编码后，就不再是 char 类型，而是 byte 类型表示的数组。
@@ -303,8 +303,8 @@ byte[] b3 = "Hello".getBytes(StandardCharsets.UTF_8); // 按UTF-8编码转换
 
 ```java
 byte[] b = ...
-String s1 = new String(b, "GBK"); // 按GBK转换
-String s2 = new String(b, StandardCharsets.UTF_8); // 按UTF-8转换
+String s1 = new String(b, "GBK"); // 按 GBK 转换
+String s2 = new String(b, StandardCharsets.UTF_8); // 按 UTF-8 转换
 ```
 
 始终牢记：Java 的 String 和 char 在内存中总是以 **Unicode** 编码表示。
@@ -389,11 +389,11 @@ class 文件中紧接着主、次版本号之后的是常量池（Constant Pool�
 ```java
 String s1 = new String("aaa");
 String s2 = new String("aaa");
-System.out.println(s1 == s2);           // false
+System.out.println(s1 == s2); // false
 String s3 = s1.intern();
 String s4 = s1.intern();
-System.out.println(s3 == s4);           // true
-System.out.println(s3 == s1);           // false
+System.out.println(s3 == s4); // true
+System.out.println(s3 == s1); // false
 ```
 
 `new String("aaa")` 这种方式一共会创建两个字符串对象（前提是 String Pool 中还没有 “abc” 字符串对象）。
@@ -401,7 +401,7 @@ System.out.println(s3 == s1);           // false
 - “abc” 属于字符串字面量，因此编译时期会在 String Pool 中创建一个字符串对象，指向这个 “abc” 字符串字面量；
 - 而使用 new 的方式会在堆中创建一个字符串对象。
 
-所以`s3 == s1`返回 false，因为 s3 实际指向引号创建字面量时产生的对象。
+所以 `s3 == s1` 返回 false，因为 s3 实际指向引号创建字面量时产生的对象。
 
 ### 3.6 常用方法
 
@@ -423,14 +423,14 @@ public class Main {
         System.out.println(" Hello ".isBlank()); // false
         // 移除空白
         //   移除字符串首尾空白字符。空白字符包括空格，\t，\r，\n，
-        //   trim()并没有改变字符串的内容，而是返回了一个新字符串。
+        //   trim() 并没有改变字符串的内容，而是返回了一个新字符串。
         System.out.println("  \tHello\r\n ".trim()); // "Hello" 
-        //   类似中文的空格字符\u3000也会被移除
+        //   类似中文的空格字符 \u3000 也会被移除
         System.out.println("\u3000Hello\u3000".strip()); // "Hello"
         System.out.println("\u3000Hello\u3000".stripLeading()); // "Hello "
         System.out.println("\u3000Hello\u3000".stripTrailing()); // " Hello" 
         // 子串
-        //   注意到contains()方法的参数是CharSequence而不是String，因为CharSequence是String的父类。
+        //   注意到 contains() 方法的参数是 CharSequence 而不是 String，因为 CharSequence 是 String 的父类。
         System.out.println("Hello".contains("ll")); // true 
         System.out.println("Hello".indexOf("l")); // 2
         System.out.println("Hello".lastIndexOf("l")); // 3
@@ -450,8 +450,8 @@ public class Main {
         System.out.println(String.valueOf(new Object())); // "java.lang.Object@5caf905d"
         System.out.println(Integer.parseInt("123")); // 123
         System.out.println(Integer.parseInt("ff", 16)); // 按十六进制转换，255
-        //   如果修改了char[]数组，String并不会改变
-        //   new String(char[])并不会直接引用传入的char[]数组，而是会复制一份
+        //   如果修改了 char[] 数组，String并不会改变
+        //   new String(char[]) 并不会直接引用传入的 char[] 数组，而是会复制一份
         char[] cs = "Hello".toCharArray(); // String -> char[]
         String s = new String(cs); // char[] -> String
         // 翻转
@@ -495,24 +495,24 @@ int x = n.intValue();
 所以，Java 编译器可以帮助我们自动在 int 和 Integer 之间转型：
 
 ```java
-Integer n = 100; // 编译器自动使用Integer.valueOf(int)
-int x = n; // 编译器自动使用Integer.intValue()
+Integer n = 100; // 编译器自动使用 Integer.valueOf(int)
+int x = n; // 编译器自动使用 Integer.intValue()
 ```
 
 这种直接把 int 变为 Integer 的赋值写法，称为自动装箱（Auto Boxing），反过来，把 Integer 变为 int 的赋值写法，称为自动拆箱（Auto Unboxing）。
 
-自动装箱和自动拆箱只发生在编译阶段，目的是为了少写代码。装箱和拆箱会影响代码的执行效率，因为编译后的 class 代码是严格区分基本类型和引用类型的。并且，自动拆箱执行时可能会报`NullPointerException`（比如对null自动拆箱）。
+自动装箱和自动拆箱只发生在编译阶段，目的是为了少写代码。装箱和拆箱会影响代码的执行效率，因为编译后的 class 代码是严格区分基本类型和引用类型的。并且，自动拆箱执行时可能会报 NullPointerException（比如对null自动拆箱）。
 
 #### 2. 静态工厂方法
 
-因为`Integer.valueOf()`可能始终返回同一个 Integer 实例（为了节省内存，`Integer.valueOf()`对于较小的数，始终返回相同的实例），因此，在我们自己创建 Integer 的时候，以下两种方法：
+因为 `Integer.valueOf()` 可能始终返回同一个 Integer 实例（为了节省内存，`Integer.valueOf()` 对于较小的数，始终返回相同的实例），因此，在我们自己创建 Integer 的时候，以下两种方法：
 
-- 方法1：`Integer n = new Integer(100);`
-- 方法2：`Integer n = Integer.valueOf(100);`
+- 方法 1：`Integer n = new Integer(100)`；
+- 方法 2：`Integer n = Integer.valueOf(100)`；
 
-方法2更好，因为方法1总是创建新的 Integer 实例，方法2把内部优化留给 Integer 的实现者去做，即使在当前版本没有优化，也有可能在下一个版本进行优化。
+方法 2 更好，因为方法1总是创建新的 Integer 实例，方法 2 把内部优化留给 Integer 的实现者去做，即使在当前版本没有优化，也有可能在下一个版本进行优化。
 
-我们把能创建“新”对象的静态方法称为**静态工厂方法**。`Integer.valueOf()`就是静态工厂方法，它尽可能地返回缓存的实例以节省内存。
+我们把能创建“新”对象的静态方法称为**静态工厂方法**。`Integer.valueOf()` 就是静态工厂方法，它尽可能地返回缓存的实例以节省内存。
 
 ### 4.2 枚举类型
 
@@ -524,17 +524,17 @@ enum Weekday {
 
 #### 1. enum 定义枚举的好处
 
-* `enum`常量本身带有类型信息，即`Weekday.SUN`类型是`Weekday`，编译器会自动检查出类型错误。
+* enum 常量本身带有类型信息，即 Weekday.SUN 类型是 Weekday，编译器会自动检查出类型错误。
 * 不可能引用到非枚举的值，因为无法通过编译。
 * 不同类型的枚举不能互相比较或者赋值，因为类型不符。
 
 #### 2. enum 和 class 的区别
 
-- `enum`类型的每个常量在JVM中只有一个唯一实例，所以可以直接用`==`比较；
-- 定义的`enum`类型总是继承自`java.lang.Enum`，且无法被继承；
-- 只能定义出`enum`的实例，而无法通过`new`操作符创建`enum`的实例；
+- enum 类型的每个常量在 JVM 中只有一个唯一实例，所以可以直接用 == 比较；
+- 定义的 enum 类型总是继承自 java.lang.Enum，且无法被继承；
+- 只能定义出 enum 的实例，而无法通过 new 操作符创建 enum 的实例；
 - 定义的每个实例都是引用类型的唯一实例；
-- 可以将`enum`类型用于`switch`语句。
+- 可以将 enum 类型用于 switch 语句。
 
 #### 3. name()
 
@@ -556,7 +556,7 @@ int n = Weekday.MON.ordinal(); // 1
 
 方法的名字的第一个单词应以小写字母作为开头，后面的单词则用大写字母开头写，不使用连接符。
 
-下划线可能出现在 JUnit 测试方法名称中用以分隔名称的逻辑组件。例如 `testPop_emptyStack`。
+下划线可能出现在 JUnit 测试方法名称中用以分隔名称的逻辑组件。例如 testPop_emptyStack。
 
 ### 5.1 参数
 
@@ -569,15 +569,15 @@ Java 的参数传递完全等同于赋值运算符的操作[[3]](https://www.zhi
 
 #### 2. 可变参数
 
-可变参数用`类型...`定义，可变参数相当于数组类型，可以把可变参数改写为`String[]`类型，但是，调用方需要自己先构造`String[]`，比较麻烦。另外可变参数可以保证无法传入 null，因为传入0个参数时，接收到的实际值是一个空数组而不是 null。
+可变参数用 `类型...` 定义，可变参数相当于数组类型，可以把可变参数改写为 String[] 类型，但是，调用方需要自己先构造 String[]，比较麻烦。另外可变参数可以保证无法传入 null，因为传入 0 个参数时，接收到的实际值是一个空数组而不是 null。
 
 ### 5.2 构造方法
 
-一个构造方法可以调用其他构造方法，这样做的目的是便于代码复用。调用其他构造方法的语法是`this(…)`。
+一个构造方法可以调用其他构造方法，这样做的目的是便于代码复用。调用其他构造方法的语法是 `this(…)`。
 
 ### 5.3 初始化顺序
 
-对象在class文件加载完毕，以及为各成员在方法区开辟好内存空间之后，就开始所谓“初始化"的步骤
+对象在 Class 文件加载完毕，以及为各成员在方法区开辟好内存空间之后，就开始所谓“初始化"的步骤
 
 1. **基类静态代码块，基类静态成员字段**
 2. **派生类静态代码块，派生类静态成员字段**
@@ -627,7 +627,7 @@ public class Main {
 
 #### 2. 输出
 
-`println`是 print line 的缩写，表示输出并换行。因此，如果输出后不想换行，可以用`print()`。格式化输出使用`System.out.printf()`，通过使用占位符`%?`，`printf()`可以把后面的参数格式化成指定格式
+println 是 print line 的缩写，表示输出并换行。因此，如果输出后不想换行，可以用 `print()`。格式化输出使用 `System.out.printf()`，通过使用占位符 `%?`，`printf()` 可以把后面的参数格式化成指定格式
 
 Java 的格式化功能提供了多种占位符，可以把各种数据类型“格式化”成指定的字符串：
 
@@ -643,24 +643,24 @@ Java 的格式化功能提供了多种占位符，可以把各种数据类型“
 
 #### 3. if 语句
 
-* 多个`if ... else`串联要特别注意判断顺序；
+* 多个 if ... else 串联要特别注意判断顺序；
 
-* 要注意`if`的边界条件；
+* 要注意 if 的边界条件；
 
-* 要注意浮点数判断相等不能直接用`==`运算符；
+* 要注意浮点数判断相等不能直接用 == 运算符；
 
-  应该用`if (Math.abs(x - 0.1) < 0.00001) {...}`
+  应该用 `if (Math.abs(x - 0.1) < 0.00001) {...}`
 
-* 引用类型判断内容相等要使用`equals()`，注意避免`NullPointerException`。
+* 引用类型判断内容相等要使用 `equals()`，注意避免 NullPointerException。
 
-  应该用`if (s1 != null && s1.equals("hello")) {...}`
+  应该用 `if (s1 != null && s1.equals("hello")) {...}`
 
 #### 4. switch 语句
 
-* `switch`的计算结果必须是**整型、字符串或枚举类型**；
-* `case`语句具有**穿透性**，注意千万不要漏写`break`；
-* 总是写上`default`，建议打开`missing default`警告；
-* 从Java 14开始，`switch`语句正式升级为表达式，不再需要`break`，并且允许使用`yield`返回值。
+* switch 的计算结果必须是**整型、字符串或枚举类型**；
+* case 语句具有**穿透性**，注意千万不要漏写 break；
+* 总是写上 default，建议打开 missing default 警告；
+* 从 Java 14 开始，switch 语句正式升级为表达式，不再需要 break，并且允许使用 yield 返回值。
 
 ```java
 public class Main {

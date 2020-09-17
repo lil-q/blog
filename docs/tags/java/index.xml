@@ -73,10 +73,9 @@ public void readFile() throws IOException { try (InputStream input = new FileInp
       <pubDate>Thu, 02 Apr 2020 15:37:30 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</guid>
-      <description>一、Map Map 是一种键-值映射表，当我们调用put(K key, V value)方法时，就把 key 和 value 做了映射并放入 Map。当我们调用V get(K key)时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
- TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map 遍历 要遍历 key 可以使用for each循环遍历 Map 实例的keySet()方法返回的 Set 集合，它包含不重复的 key 的集合：
-for (String key : map.keySet()) {...}  同时遍历 key 和 value 可以使用for each循环遍历 Map 对象的entrySet()集合，它包含每一个 key-value 映射：
-for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.</description>
+      <description>一、Map Map 是一种键-值映射表，当我们调用 put(K key, V value) 方法时，就把 key 和 value 做了映射并放入 Map。当我们调用 V get(K key) 时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
+ TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map 遍历 要遍历 key 可以使用 for each 循环遍历 Map 实例的 keySet() 方法返回的 Set 集合，它包含不重复的 key 的集合：
+for (String key : map.keySet()) {...}  同时遍历 key 和 value 可以使用 for each 循环遍历 Map 对象的 entrySet() 集合，它包含每一个 key-value 映射：</description>
     </item>
     
     <item>
@@ -85,14 +84,13 @@ for (Map.Entry&amp;lt;String, Integer&amp;gt; entry : map.</description>
       <pubDate>Mon, 30 Mar 2020 18:34:55 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E5%9B%9B/</guid>
-      <description>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。【以下内容源码基于 Java 13】J
+      <description>容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。【以下内容源码基于 Java 13】
 一、Collection 二、List List 接口有几个主要的接口方法：
- 在末尾添加一个元素：void add(E e) 在指定索引添加一个元素：void add(int index, E e) 删除指定索引的元素：int remove(int index) 删除某个元素：int remove(Object e) 获取指定索引的元素：E get(int index) 获取链表大小（包含元素的个数）：int size()  List 接口允许我们添加重复的元素，即 List 内部的元素可以重复，List 还允许添加null。调用List.of()，它返回的是一个只读 List：
-List&amp;lt;Integer&amp;gt; list = List.of(1, 2, 5);  但是List.of()方法不接受null值，如果传入null，会抛出NullPointerException异常。
+ 在末尾添加一个元素：void add(E e)； 在指定索引添加一个元素：void add(int index, E e)； 删除指定索引的元素：int remove(int index)； 删除某个元素：int remove(Object e)； 获取指定索引的元素：E get(int index)； 获取链表大小（包含元素的个数）：int size()。  List 接口允许我们添加重复的元素，即 List 内部的元素可以重复，List 还允许添加 null。调用 List.of()，它返回的是一个只读 List：
+List&amp;lt;Integer&amp;gt; list = List.of(1, 2, 5);  但是 List.of() 方法不接受 null 值，如果传入 null，会抛出 NullPointerException 异常。
 2.1 List 遍历 List 的遍历采用了迭代器的设计模式：
 Iterable 接口声明如下：
-public interface Iterable&amp;lt;T&amp;gt; { Iterator&amp;lt;T&amp;gt; iterator(); }  Iterator 接口声明如下：
-public interface Iterator&amp;lt;E&amp;gt; { // 判断是否还有下一个对象，如果有，则返回true，否则false boolean hasNext(); // 返回集合的下个值，此方法只能在hasNext方法返回true时调用 E next(); // 删除集合的当前值，此方法也只能在hasNext方法返回true时调用 void remove(); }  ListIterator 接口声明如下：</description>
+public interface Iterable&amp;lt;T&amp;gt; { Iterator&amp;lt;T&amp;gt; iterator(); }  Iterator 接口声明如下：</description>
     </item>
     
     <item>
@@ -101,15 +99,16 @@ public interface Iterator&amp;lt;E&amp;gt; { // 判断是否还有下一个对�
       <pubDate>Fri, 27 Mar 2020 22:45:02 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%B8%89/</guid>
-      <description>一、反射 由于 JVM 为每个加载的 class 创建了对应的 Class 实例，并在实例中保存了该 class 的所有信息，包括类名、包名、父类、实现的接口、所有方法、字段等，因此，如果获取了某个 Class 实例，我们就可以通过这个 Class 实例获取到该实例对应的 class 的所有信息。这种通过 Class 实例获取 class 信息的方法称为反射（Reflection）。
+      <description>一、反射 由于 JVM 为每个加载的类创建了对应的 Class 实例，并在实例中保存了该类的所有信息，包括类名、包名、父类、实现的接口、所有方法、字段等，因此，如果获取了某个 Class 实例，我们就可以通过这个 Class 实例获取到该实例对应的类的所有信息。这种通过 Class 实例获取类信息的方法称为反射（Reflection）。
 Java 反射主要提供以下功能：
- 在运行时判断任意一个对象所属的类； 在运行时构造任意一个类的对象； 在运行时判断任意一个类所具有的成员变量和方法（通过反射甚至可以调用 private 方法）； 在运行时调用任意一个对象的方法。  重点：是运行时而不是编译时。
-1.1 Class 类 获取一个 class 的 Class 实例有三个方法：
-（1）直接通过一个 class 的静态变量 class 获取：
-Class&amp;lt;?&amp;gt; cls = String.class;  （2）如果我们有一个实例变量，可以通过该实例变量提供的getClass()方法获取：
-String s = &amp;quot;Hello&amp;quot;; Class&amp;lt;?&amp;gt; cls = s.getClass();  （3）如果知道一个 class 的完整类名，可以通过静态方法Class.forName()获取：
-Class&amp;lt;?&amp;gt; cls = Class.forName(&amp;quot;java.lang.String&amp;quot;);  Class.forName()加载类时默认会初始化，而ClassLoader.loadClass()默认不会初始化，只完成了类加载中的第一步加载。
-注意 Class 实例 == 比较和 instanceof 的差别：</description>
+ 在运行时判断任意一个对象所属的类； 在运行时构造任意一个类的对象； 在运行时判断任意一个类所具有的成员变量和方法（甚至可以调用 private 方法）； 在运行时调用任意一个对象的方法。  重点：是运行时而不是编译时。
+1.1 Class 类 获取一个类的 Class 实例有三个方法：
+（1）直接通过一个类的静态变量 class 获取：
+Class&amp;lt;?&amp;gt; cls = String.class;  （2）如果我们有一个实例变量，可以通过该实例变量提供的 getClass() 方法获取：
+String s = &amp;quot;Hello&amp;quot;; Class&amp;lt;?&amp;gt; cls = s.getClass();  （3）如果知道一个类的完整类名，可以通过静态方法 Class.forName() 获取：
+Class&amp;lt;?&amp;gt; cls = Class.forName(&amp;quot;java.lang.String&amp;quot;);  Class.forName() 加载类时默认会初始化，而 ClassLoader.loadClass() 默认不会初始化，只完成了类加载中的第一步加载。
+注意 Class 实例 == 比较和 instanceof 的差别：
+Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因为n是Integer类型 boolean b2 = n instanceof Number; // true，因为n是Number类型的子类 boolean b3 = n.</description>
     </item>
     
     <item>
@@ -120,9 +119,9 @@ Class&amp;lt;?&amp;gt; cls = Class.forName(&amp;quot;java.lang.String&amp;quot;)
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%8C/</guid>
       <description>一、面向对象 Java 是一种面向对象的编程语言。面向对象编程，英文是 Object-Oriented Programming，简称 OOP。
 1.1 权限修饰符     本类 同一个包下（子类和无关类） 不同包下（子类） 不同包下（无关类）     public √ √ √ √   protected √ √ √ ×   default √ √ × ×   private √ × × ×    一个 .java 文件只能包含一个 public 类，但可以包含多个非 public 类。如果有 public 类，文件名必须和 public 类的名字相同。
-1.2 继承 如果父类没有默认的构造方法，子类就必须显式调用super()并给出参数以便让编译器定位到父类的一个合适的构造方法。
+1.2 继承 如果父类没有默认的构造方法，子类就必须显式调用 super() 并给出参数以便让编译器定位到父类的一个合适的构造方法。
 子类不会继承任何父类的构造方法。子类默认的构造方法是编译器自动生成的，不是继承的。
- 向上转型（upcasting）：一个子类类型安全地变为父类类型的赋值。向上转型只能够调用子类重写的方法。 向下转型（downcasting）：一个父类类型强制转型为子类类型。找回向上转型时丢失的子类扩展方法。  instanceof判断一个变量所指向的实例是否是指定类型，或者这个类型的子类。如果一个引用变量为 null，那么对任何instanceof的判断都为 false。</description>
+ 向上转型（upcasting）：一个子类类型安全地变为父类类型的赋值。 向下转型（downcasting）：一个父类类型强制转型为子类类型。  向上转型只能够调用子类重写的方法；找回向上转型时丢失的子类扩展方法。instanceof 判断一个变量所指向的实例是否是指定类型，或者这个类型的子类。如果一个引用变量为 null，那么对任何 instanceof 的判断都为 false。</description>
     </item>
     
     <item>
@@ -137,7 +136,7 @@ Class&amp;lt;?&amp;gt; cls = Class.forName(&amp;quot;java.lang.String&amp;quot;)
 Java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。
   Java Development Kit，JDK：
 Java 开发工具包，是支持 Java 程序开发的最小环境。JDK 对比 JRE 多了 Java language 和工具 API。
-  一、数据类型 1.1 基本类型  byte/8 [-128 ~ 127] char/16 short/16 [-32768 ~ 32767] int/32 [-2147483648 ~ 2147483647] float/32 long/64 [-9223372036854775808 ~ 9223372036854775807] double/64 boolean/~  Java语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要1 bit，但是通常JVM内部会把 boolean 表示为4字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</description>
+  一、数据类型 1.1 基本类型  byte/8 [-128 ~ 127] char/16 short/16 [-32768 ~ 32767] int/32 [-2147483648 ~ 2147483647] float/32 long/64 [-9223372036854775808 ~ 9223372036854775807] double/64 boolean/~  Java 语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要 1 bit，但是通常 JVM 内部会把 boolean 表示为 4 字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</description>
     </item>
     
   </channel>

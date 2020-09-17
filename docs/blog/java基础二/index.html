@@ -61,7 +61,7 @@
       "datePublished": "2020-03-23 14:08:20 \u002b0000 UTC",
       "dateModified" : "2020-03-23 14:08:20 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%8C\/",
-      "wordCount" : "1185",
+      "wordCount" : "1216",
       "keywords" : ["error", "java", "OOP", "Blog"]
     }
   
@@ -119,6 +119,7 @@
 <h2 id="一面向对象">一、面向对象<a class="anchor" href="#一面向对象">#</a></h2>
 <p>Java 是一种面向对象的编程语言。面向对象编程，英文是 Object-Oriented Programming，简称 OOP。</p>
 <h3 id="11-权限修饰符">1.1 权限修饰符<a class="anchor" href="#11-权限修饰符">#</a></h3>
+<br>
 <table>
 <thead>
 <tr>
@@ -162,21 +163,21 @@
 </table>
 <p>一个 .java 文件只能包含一个 public 类，但可以包含多个非 public 类。如果有 public 类，文件名必须和 public 类的名字相同。</p>
 <h3 id="12-继承">1.2 继承<a class="anchor" href="#12-继承">#</a></h3>
-<p>如果父类没有默认的构造方法，子类就必须显式调用<code>super()</code>并给出参数以便让编译器定位到父类的一个合适的构造方法。</p>
+<p>如果父类没有默认的构造方法，子类就必须显式调用 <code>super()</code> 并给出参数以便让编译器定位到父类的一个合适的构造方法。</p>
 <p>子类<strong>不会继承</strong>任何父类的构造方法。子类默认的构造方法是编译器自动生成的，不是继承的。</p>
 <ul>
-<li><strong>向上转型</strong>（upcasting）：一个子类类型安全地变为父类类型的赋值。向上转型只能够调用子类重写的方法。</li>
-<li><strong>向下转型</strong>（downcasting）：一个父类类型强制转型为子类类型。找回向上转型时丢失的子类扩展方法。</li>
+<li><strong>向上转型</strong>（upcasting）：一个子类类型安全地变为父类类型的赋值。</li>
+<li><strong>向下转型</strong>（downcasting）：一个父类类型强制转型为子类类型。</li>
 </ul>
-<p><code>instanceof</code>判断一个变量所指向的实例是否是指定类型，或者这个类型的子类。如果一个引用变量为 null，那么对任何<code>instanceof</code>的判断都为 false。</p>
-<p>利用<code>instanceof</code>，在向下转型前可以先判断：</p>
+<p>向上转型只能够调用子类重写的方法；找回向上转型时丢失的子类扩展方法。instanceof 判断一个变量所指向的实例是否是指定类型，或者这个类型的子类。如果一个引用变量为 null，那么对任何 instanceof 的判断都为 false。</p>
+<p>利用 instanceof，在向下转型前可以先判断：</p>
 <pre><code class="language-java">Person p = new Student();
 if (p instanceof Student) {
     // 只有判断成功才会向下转型:
     Student s = (Student) p; // 一定会成功
 }
 </code></pre>
-<p>从Java 14开始，判断<code>instanceof</code>后，可以直接转型为指定变量，避免再次强制转型。</p>
+<p>从 Java 14 开始，判断 instanceof 后，可以直接转型为指定变量，避免再次强制转型。</p>
 <h3 id="13-override--overload">1.3 Override &amp; Overload<a class="anchor" href="#13-override--overload">#</a></h3>
 <h4 id="1-重写override">1. 重写（Override）</h4>
 <p>存在于继承体系中，指子类实现了一个与父类在方法声明上完全相同的一个方法。</p>
@@ -209,10 +210,10 @@ class SubClass extends SuperClass {
 </code></pre>
 <p>在调用一个方法时，先从本类中查找看是否有对应的方法，如果没有再到父类中查看，看是否从父类继承来。否则就要对参数进行转型，转成父类之后看是否有对应的方法。总的来说，方法调用的优先级为：</p>
 <ul>
-<li>this.func(this)</li>
-<li>super.func(this)</li>
-<li>this.func(super)</li>
-<li>super.func(super)</li>
+<li><code>this.func(this)</code></li>
+<li><code>super.func(this)</code></li>
+<li><code>this.func(super)</code></li>
+<li><code>super.func(super)</code></li>
 </ul>
 <pre><code class="language-java">/*
     A
@@ -279,16 +280,16 @@ class D extends C {
 <p>因为所有的 class 最终都继承自 Object，而 Object 定义了几个重要的方法：</p>
 <h4 id="1-equals">1. equals()</h4>
 <ul>
-<li>对于基本类型，== 判断两个值是否相等，基本类型没有 equals() 方法。</li>
-<li>对于引用类型，== 判断两个变量是否引用同一个对象，而 equals() 判断引用的对象是否等价。</li>
+<li>对于基本类型，== 判断两个值是否相等，基本类型没有 <code>equals()</code> 方法。</li>
+<li>对于引用类型，== 判断两个变量是否引用同一个对象，而 <code>equals()</code> 判断引用的对象是否等价。</li>
 </ul>
-<p><code>equals()</code>具有以下性质：</p>
+<p><code>equals()</code>具有以下性质（x，y &amp; z 非 null）：</p>
 <ul>
-<li>自反性（Reflexive）：对于非 null 的 x 来说，<code>x.equals(x)</code>必须返回 true；</li>
-<li>对称性（Symmetric）：对于非 null 的 x 和 y 来说，如果<code>x.equals(y)</code>为 true，则<code>y.equals(x)</code>也必须为 true；</li>
-<li>传递性（Transitive）：对于非 null 的 x、y 和 z 来说，如果<code>x.equals(y)</code>为 true，<code>y.equals(z)</code>也为 true，那么<code>x.equals(z)</code>也必须为 true；</li>
-<li>一致性（Consistent）：对于非 null 的 x 和 y 来说，只要 x 和 y 状态不变，则<code>x.equals(y)</code>总是一致地返回 true 或者 false；</li>
-<li>对 null 的比较：即<code>x.equals(null)</code>永远返回 false。</li>
+<li>自反性（Reflexive）：<code>x.equals(x)</code> 必须返回 true；</li>
+<li>对称性（Symmetric）：如果 <code>x.equals(y)</code> 为 true，则 <code>y.equals(x)</code> 也必须为 true；</li>
+<li>传递性（Transitive）：如果 <code>x.equals(y)</code> 和 <code>y.equals(z)</code> 为 true，那么 <code>x.equals(z)</code> 也为 true；</li>
+<li>一致性（Consistent）：只要 x 和 y 状态不变，则 <code>x.equals(y)</code> 总是一致地返回 true 或者 false；</li>
+<li>对 null 的比较：即 <code>x.equals(null)</code> 永远返回 false。</li>
 </ul>
 <pre><code class="language-java">public class EqualExample {
 
@@ -316,10 +317,10 @@ class D extends C {
 }
 </code></pre>
 <h4 id="2-hashcode">2. hashCode()</h4>
-<p><code>hashCode()</code>返回哈希值，而<code>equals()</code>是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价，这是因为计算哈希值具有随机性，两个值不同的对象可能计算出相同的哈希值。</p>
-<p>在覆盖<code>equals()</code>方法时应当总是覆盖<code>hashCode()</code>方法，保证等价的两个对象哈希值也相等。</p>
-<p>HashSet 和 HashMap 等集合类使用了<code>hashCode()</code>方法来计算对象应该存储的位置，因此要将对象添加到这些集合类中，需要让对应的类实现<code>hashCode()</code>方法。</p>
-<p>下面的代码中，新建了两个等价的对象，并将它们添加到 HashSet 中。我们希望将这两个对象当成一样的，只在集合中添加一个对象。但是 EqualExample 没有实现<code>hashCode()</code>方法，因此这两个对象的哈希值是不同的，最终导致集合添加了两个等价的对象。</p>
+<p><code>hashCode()</code> 返回哈希值，而 <code>equals()</code> 是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价，这是因为计算哈希值具有随机性，两个值不同的对象可能计算出相同的哈希值。</p>
+<p>在覆盖 <code>equals()</code> 方法时应当总是覆盖 <code>hashCode()</code> 方法，保证等价的两个对象哈希值也相等。</p>
+<p>HashSet 和 HashMap 等集合类使用了 <code>hashCode()</code> 方法来计算对象应该存储的位置，因此要将对象添加到这些集合类中，需要让对应的类实现 <code>hashCode()</code> 方法。</p>
+<p>下面的代码中，新建了两个等价的对象，并将它们添加到 HashSet 中。我们希望将这两个对象当成一样的，只在集合中添加一个对象。但是 EqualExample 没有实现 <code>hashCode()</code> 方法，因此这两个对象的哈希值是不同的，最终导致集合添加了两个等价的对象。</p>
 <pre><code class="language-java">EqualExample e1 = new EqualExample(1, 1, 1);
 EqualExample e2 = new EqualExample(1, 1, 1);
 System.out.println(e1.equals(e2)); // true
@@ -329,7 +330,7 @@ set.add(e2);
 System.out.println(set.size());   // 2
 </code></pre>
 <p>理想的哈希函数应当具有均匀性，即不相等的对象应当均匀分布到所有可能的哈希值上。这就要求了哈希函数要把所有域的值都考虑进来。可以将每个域都当成 R 进制的某一位，然后组成一个 R 进制的整数。</p>
-<p>R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法：<code>31*x == (x&lt;&lt;5)-x</code>，编译器会自动进行这个优化。</p>
+<p>R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法： <code>31*x == (x&lt;&lt;5)-x</code>，编译器会自动进行这个优化。</p>
 <pre><code class="language-java">@Override
 public int hashCode() {
     int result = 17;
@@ -343,8 +344,8 @@ public int hashCode() {
 <p>默认返回 ToStringExample@4554617c 这种形式，其中 @ 后面的数值为散列码的无符号十六进制表示。</p>
 <h4 id="4-clone">4. clone()</h4>
 <p><strong>（1）cloneable</strong></p>
-<p><code>clone()</code>是 Object 的 protected 方法，它不是 public，一个类不显式去重写<code>clone()</code>，其它类就不能直接去调用该类实例的 clone() 方法。</p>
-<p>重写<code>clone()</code>需要实现 Cloneable 接口。应该注意的是，<code>clone()</code>方法并不是 Cloneable 接口的方法，而是 Object 的一个 protected 方法。Cloneable 接口只是规定，如果一个类没有实现 Cloneable 接口又调用了<code>clone()</code>方法，就会抛出 CloneNotSupportedException。</p>
+<p><code>clone()</code> 是 Object 的 protected 方法，它不是 public，一个类不显式去重写 <code>clone()</code>，其它类就不能直接去调用该类实例的 <code>clone()</code> 方法。</p>
+<p>重写 <code>clone()</code> 需要实现 Cloneable 接口。应该注意的是，<code>clone()</code>方法并不是 Cloneable 接口的方法，而是 Object 的一个 protected 方法。Cloneable 接口只是规定，如果一个类没有实现 Cloneable 接口又调用了<code>clone()</code>方法，就会抛出 CloneNotSupportedException。</p>
 <pre><code class="language-java">public class CloneExample implements Cloneable {
     private int a;
     private int b;
@@ -436,7 +437,7 @@ e1.set(2, 222);
 System.out.println(e2.get(2)); // 2
 </code></pre>
 <p><strong>（4）clone() 的替代方案</strong></p>
-<p>使用<code>clone()</code>方法来拷贝一个对象即复杂又有风险，它会抛出异常，并且还需要类型转换。Effective Java 书上讲到，最好不要去使用<code>clone()</code>，可以使用拷贝构造函数或者拷贝工厂来拷贝一个对象。</p>
+<p>使用 <code>clone()</code> 方法来拷贝一个对象即复杂又有风险，它会抛出异常，并且还需要类型转换。Effective Java 书上讲到，最好不要去使用 <code>clone()</code>，可以使用拷贝构造函数或者拷贝工厂来拷贝一个对象。</p>
 <pre><code class="language-java">public class CloneConstructorExample {
 
     private int[] arr;
@@ -497,7 +498,7 @@ System.out.println(e2.get(2)); // 2
 <h4 id="4-使用选择">4. 使用选择</h4>
 <p>使用接口：</p>
 <ul>
-<li>需要让不相关的类都实现一个方法，例如不相关的类都可以实现 Compareable 接口中的<code>compareTo()</code>方法；</li>
+<li>需要让不相关的类都实现一个方法，例如 Compareable 接口中的 <code>compareTo()</code> 方法；</li>
 <li>需要使用多重继承。</li>
 </ul>
 <p>使用抽象类：</p>
@@ -509,10 +510,14 @@ System.out.println(e2.get(2)); // 2
 <p>在很多情况下，接口优先于抽象类。因为接口没有抽象类严格的类层次结构要求，可以灵活地为一个类添加行为。并且从 Java 8 开始，接口也可以有默认的方法实现，使得修改接口的成本也变的很低。</p>
 <h3 id="16-包">1.6 包<a class="anchor" href="#16-包">#</a></h3>
 <p>包没有父子关系。java.util 和 java.util.zip 是不同的包，两者没有任何继承关系。</p>
-<p>Java 编译器最终编译出的 .class 文件只使用<em>完整类名</em>，因此，在代码中，当编译器遇到一个 class 名称时：</p>
+<p>Java 编译器最终编译出的 .class 文件只使用完整类名，因此，在代码中，当编译器遇到一个 class 名称时：</p>
 <ul>
-<li>如果是完整类名，就直接根据完整类名查找这个 class；</li>
-<li>如果是简单类名，按下面的顺序依次查找：
+<li>
+<p>如果是完整类名，就直接根据完整类名查找这个 class；</p>
+</li>
+<li>
+<p>如果是简单类名，按下面的顺序依次查找：</p>
+<br>
 <ul>
 <li>查找当前 package 是否存在这个 class；</li>
 <li>查找 import 的包是否包含这个 class；</li>
@@ -524,16 +529,12 @@ System.out.println(e2.get(2)); // 2
 <p>编写 class 的时候，编译器会自动帮我们做两个 import 动作：</p>
 <ul>
 <li>默认自动 import 当前 package 的其他 class；</li>
-<li>默认自动<code>import java.lang.*</code>。</li>
+<li>默认自动 <code>import java.lang.*</code>。</li>
 </ul>
 <h3 id="17-模块">1.7 模块<a class="anchor" href="#17-模块">#</a></h3>
 <p>从 Java 9 开始，JDK 又引入了模块（Module）。把一堆 class 封装为 jar 仅仅是一个打包的过程，而把一堆 class 封装为模块则不但需要打包，还需要写入依赖关系，并且还可以包含二进制代码（通常是 JNI 扩展）。此外，模块支持多版本，即在同一个模块中可以为不同的 JVM 提供不同的版本。</p>
 <h2 id="二异常处理">二、异常处理<a class="anchor" href="#二异常处理">#</a></h2>
-<p>Java 把异常当作对象来处理，并定义一个基类 java.lang.Throwable 作为所有异常的超类。Throwable 可以用来表示任何可以作为异常抛出的类，分为两种： <strong>Error</strong> 和 <strong>Exception</strong>。其中 Error 用来表示 JVM 无法处理的错误，Exception 分为两种：</p>
-<ul>
-<li><strong>受检异常</strong> ：需要用 try&hellip;catch&hellip; 语句捕获并进行处理，并且可以从异常中恢复；</li>
-<li><strong>非受检异常</strong> ：是程序运行时错误，例如除 0 会引发 Arithmetic Exception，此时程序崩溃并且无法恢复。</li>
-</ul>
+<p>Java 把异常当作对象来处理，并定义一个基类 java.lang.Throwable 作为所有异常的超类。Throwable 可以用来表示任何可以作为异常抛出的类，分为两种： <strong>Error</strong> 和 <strong>Exception</strong>。其中 Error 用来表示 JVM 无法处理的错误。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/PPjwP.png" alt=""></p>
 <p>从图中可以看出所有异常类型都是内置类 Throwable 的子类，因而 Throwable 在异常类的层次结构的顶层。接下来 Throwable 分成了两个不同的分支，一个分支是 Error，它表示不希望被程序捕获或者是程序无法处理的错误。另一个分支是 Exception，它表示用户程序可能捕捉的异常情况或者说是程序可以处理的异常。其中异常类 Exception 又分为运行时异常（RuntimeException）和非运行时异常。Java 异常又可以分为不受检查异常（Unchecked Exception）和检查异常（Checked Exception）。</p>
 <h3 id="21-error--exception">2.1 Error &amp; Exception<a class="anchor" href="#21-error--exception">#</a></h3>
@@ -543,7 +544,7 @@ System.out.println(e2.get(2)); // 2
 </ul>
 <h3 id="22-检查异常--不受检查异常">2.2 检查异常 &amp; 不受检查异常<a class="anchor" href="#22-检查异常--不受检查异常">#</a></h3>
 <ul>
-<li><strong>检查异常</strong>：除了 RuntimeException 及其子类以外，其他的 Exception 类及其子类都属于这种异常，当程序中可能出现这类异常，要么使用 try-catch 语句进行捕获，要么用 throws 子句抛出，否则编译无法通过。</li>
+<li><strong>受检查异常</strong>：除了 RuntimeException 及其子类以外，其他的 Exception 类及其子类都属于这种异常，当程序中可能出现这类异常，要么使用 try-catch 语句进行捕获，要么用 throws 子句抛出，否则编译无法通过。</li>
 <li><strong>不受检查异常</strong>：包括 RuntimeException 及其子类和 Error。</li>
 </ul>
 <p>对于<strong>运行时异常</strong>、<strong>错误</strong>和<strong>检查异常</strong>，Java 技术所要求的异常处理方式有所不同。</p>
@@ -552,8 +553,8 @@ System.out.println(e2.get(2)); // 2
 <p>对于所有的检查异常，Java 规定：一个方法必须捕捉，或者声明抛出方法之外。也就是说，当一个方法选择不捕捉检查异常时，它必须声明将抛出异常。</p>
 <h3 id="23-java-中异常处理机制">2.3 Java 中异常处理机制<a class="anchor" href="#23-java-中异常处理机制">#</a></h3>
 <p>Java 的异常处理本质上是抛出异常和捕获异常。</p>
-<p><strong>抛出异常：<strong>异常情形出现时，程序已经无法继续下去了，因为在当前环境下无法获得必要的信息来解决问题，所能做的就是从当前环境中跳出，并把问题提交给</strong>上一级环境</strong>，这就是抛出异常时所发生的事情。抛出异常后，会有几件事随之发生。首先，是像创建普通的 Java 对象一样将使用 new 在堆上创建一个<strong>异常对象</strong>；然后，当前的执行路径（已经无法继续下去了）被终止，并且从当前环境中弹出<strong>对异常对象的引用</strong>。此时，异常处理机制接管程序，并开始寻找一个恰当的地方继续执行程序，这个恰当的地方就是异常处理程序或者异常处理器，它的任务是将程序从错误状态中恢复，以使程序要么换一种方式运行，要么继续运行下去。</p>
-<p><strong>捕获异常：<strong>在方法抛出异常之后，运行时系统将转为寻找合适的</strong>异常处理器</strong>（exception handler）。潜在的异常处理器是异常发生时<strong>依次存留在调用栈中的方法的集合</strong>。当异常处理器所能处理的异常类型与方法抛出的异常类型相符时，即为合适的异常处理器。运行时系统从发生异常的方法开始，依次回查调用栈中的方法，直至找到含有合适异常处理器的方法并执行。当运行时系统遍历调用栈而未找到合适的异常处理器，则运行时系统终止。同时，意味着 Java 程序的终止。</p>
+<p><strong>抛出异常</strong>：异常情形出现时，程序已经无法继续下去了，因为在当前环境下无法获得必要的信息来解决问题，所能做的就是从当前环境中跳出，并把问题提交给<strong>上一级环境</strong>，这就是抛出异常时所发生的事情。抛出异常后，会有几件事随之发生。首先，是像创建普通的 Java 对象一样将使用 new 在堆上创建一个<strong>异常对象</strong>；然后，当前的执行路径（已经无法继续下去了）被终止，并且从当前环境中弹出<strong>对异常对象的引用</strong>。此时，异常处理机制接管程序，并开始寻找一个恰当的地方继续执行程序，这个恰当的地方就是异常处理程序或者异常处理器，它的任务是将程序从错误状态中恢复，以使程序要么换一种方式运行，要么继续运行下去。</p>
+<p><strong>捕获异常</strong>：在方法抛出异常之后，运行时系统将转为寻找合适的<strong>异常处理器</strong>（exception handler）。潜在的异常处理器是异常发生时<strong>依次存留在调用栈中的方法的集合</strong>。当异常处理器所能处理的异常类型与方法抛出的异常类型相符时，即为合适的异常处理器。运行时系统从发生异常的方法开始，依次回查调用栈中的方法，直至找到含有合适异常处理器的方法并执行。当运行时系统遍历调用栈而未找到合适的异常处理器，则运行时系统终止。同时，意味着 Java 程序的终止。</p>
 <h3 id="24-异常处理基本语法">2.4 异常处理基本语法<a class="anchor" href="#24-异常处理基本语法">#</a></h3>
 <ul>
 <li>try：用来指定一块预防所有异常的程序（监控区域）；</li>
@@ -567,8 +568,8 @@ System.out.println(e2.get(2)); // 2
 <li>finally 语句不是必须的，可写可不写；</li>
 <li>finally 总是最后执行。</li>
 </ol>
-<p>如果没有发生异常，就正常执行<code>try { ... }</code>语句块，然后执行<code>finally</code>。如果发生了异常，就中断执行<code>try { ... }</code>语句块，然后跳转执行匹配的<code>catch</code>语句块，最后执行<code>finally</code>。可见，<code>finally</code>是用来保证一些代码必须执行的。</p>
-<p>某些情况下，可以没有<code>catch</code>，只使用<code>try ... finally</code>结构。例如：</p>
+<p>如果没有发生异常，就正常执行 <code>try { ... }</code> 语句块，然后执行 <code>finally</code>。如果发生了异常，就中断执行 <code>try { ... }</code> 语句块，然后跳转执行匹配的 <code>catch</code> 语句块，最后执行 <code>finally</code>。可见，<code>finally</code> 是用来保证一些代码必须执行的。</p>
+<p>某些情况下，可以没有 <code>catch</code>，只使用 <code>try ... finally</code> 结构。例如：</p>
 <pre><code class="language-java">void process(String file) throws IOException {
     try {
         ...
@@ -577,16 +578,16 @@ System.out.println(e2.get(2)); // 2
     }
 }
 </code></pre>
-<p>因为方法声明了可能抛出的异常，所以可以不写<code>catch</code>。</p>
+<p>因为方法声明了可能抛出的异常，所以可以不写 <code>catch</code>。</p>
 <h3 id="25-异常处理要领">2.5 异常处理要领<a class="anchor" href="#25-异常处理要领">#</a></h3>
 <ol>
 <li>尽量避免出现 runtimeException。例如对于可能出现空指针的代码，带使用对象之前一定要判断一下该对象是否为空，必要的时候对 runtimeException 也进行 try-catch 处理。</li>
-<li>进行 try catch 处理的时候要在 catch 代码块中对异常信息进行记录，通过调用异常类的相关方法获取到异常的相关信息，返回到 web 端，不仅要给用户良好的用户体验，也要能帮助程序员良好的定位异常出现的位置及原因。例如，以前做的一个项目，程序遇到异常页面会显示一个图片告诉用户哪些操作导致程序出现了什么异常，同时图片上有一个按钮用来点击展示异常的详细信息给程序员看的。</li>
+<li>进行 try-catch 处理的时候要在 catch 代码块中对异常信息进行记录，通过调用异常类的相关方法获取到异常的相关信息，返回到 web 端，不仅要给用户良好的用户体验，也要能帮助程序员良好的定位异常出现的位置及原因。例如，以前做的一个项目，程序遇到异常页面会显示一个图片告诉用户哪些操作导致程序出现了什么异常，同时图片上有一个按钮用来点击展示异常的详细信息给程序员看的。</li>
 </ol>
 <h3 id="26-finalfinally--finalize">2.6 final、finally &amp; finalize<a class="anchor" href="#26-finalfinally--finalize">#</a></h3>
 <ol>
 <li>final 用于声明变量、方法和类的，分别表示变量值不可变，方法不可覆盖，类不可以继承；</li>
-<li>finally 是异常处理中的一个关键字，表示 finally{} 里面的代码一定要执行；</li>
+<li>finally 是异常处理中的一个关键字，表示 <code>finally{...}</code> 里面的代码一定要执行；</li>
 <li>finalize 是 Object 类的一个方法，在垃圾回收的时候会调用被回收对象的此方法。</li>
 </ol>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>

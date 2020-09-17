@@ -9,41 +9,41 @@ keywords: [java, 反射, 泛型, 动态代理]
 
 ## 一、反射
 
-由于 JVM 为每个加载的 class 创建了对应的 Class 实例，并在实例中保存了该 class 的所有信息，包括类名、包名、父类、实现的接口、所有方法、字段等，因此，如果获取了某个 Class 实例，我们就可以通过这个 Class 实例获取到该实例对应的 class 的所有信息。这种通过 Class 实例获取 class 信息的方法称为**反射（Reflection）**。
+由于 JVM 为每个加载的类创建了对应的 Class 实例，并在实例中保存了该类的所有信息，包括类名、包名、父类、实现的接口、所有方法、字段等，因此，如果获取了某个 Class 实例，我们就可以通过这个 Class 实例获取到该实例对应的类的所有信息。这种通过 Class 实例获取类信息的方法称为**反射（Reflection）**。
 
 Java 反射主要提供以下功能：
 
 - 在运行时判断任意一个对象所属的类；
 - 在运行时构造任意一个类的对象；
-- 在运行时判断任意一个类所具有的成员变量和方法（通过反射甚至可以调用 private 方法）；
+- 在运行时判断任意一个类所具有的成员变量和方法（甚至可以调用 private 方法）；
 - 在运行时调用任意一个对象的方法。
 
 **重点：是运行时而不是编译时。**
 
 ### 1.1 Class 类
 
-获取一个 class 的 Class 实例有三个方法：
+获取一个类的 Class 实例有三个方法：
 
-（1）直接通过一个 class 的静态变量 class 获取：
+（1）直接通过一个类的静态变量 class 获取：
 
 ```java
 Class<?> cls = String.class;
 ```
 
-（2）如果我们有一个实例变量，可以通过该实例变量提供的`getClass()`方法获取：
+（2）如果我们有一个实例变量，可以通过该实例变量提供的 `getClass()` 方法获取：
 
 ```java
 String s = "Hello";
 Class<?> cls = s.getClass();
 ```
 
-（3）如果知道一个 class 的完整类名，可以通过静态方法`Class.forName()`获取：
+（3）如果知道一个类的完整类名，可以通过静态方法 `Class.forName()` 获取：
 
 ```java
 Class<?> cls = Class.forName("java.lang.String");
 ```
 
-**`Class.forName()`加载类时默认会初始化，而`ClassLoader.loadClass()`默认不会初始化，只完成了类加载中的第一步加载。**
+`Class.forName()` 加载类时默认会初始化，而 `ClassLoader.loadClass()` 默认**不会初始化**，只完成了类加载中的第一步加载。
 
 注意 Class 实例 == 比较和 instanceof 的差别：
 
@@ -68,7 +68,7 @@ Class<?> cls = String.class;
 String s = (String) cls.newInstance();
 ```
 
-上述代码相当于`new String()`。通过`Class.newInstance()`可以创建类实例，它的局限是：只能调用 public 的无参数构造方法。带参数的构造方法，或者非 public 的构造方法都无法通过`Class.newInstance()`被调用。
+上述代码相当于 `new String()`。通过 `Class.newInstance()` 可以创建类实例，它的局限是：只能调用 public 的无参数构造方法。带参数的构造方法，或者非 public 的构造方法都无法通过 `Class.newInstance()` 被调用。
 
 ### 1.2 Field
 
@@ -79,9 +79,9 @@ String s = (String) cls.newInstance();
 - `Field[] getFields()`：获取所有 public 的 field（包括父类）；
 - `Field[] getDeclaredFields()`：获取当前类的所有 field（不包括父类）。
 
-调用`Field.setAccessible(true)`可以开放权限获取 private 修饰的字段，但这似乎会破坏类的封装，反射是一种非常规的用法，使用反射，首先代码非常繁琐，其次，它更多地是给工具或者底层框架来使用，目的是在不知道目标实例任何信息的情况下，获取特定字段的值。
+调用 `Field.setAccessible(true)` 可以开放权限获取 private 修饰的字段，但这似乎会破坏类的封装，反射是一种非常规的用法，使用反射，首先代码非常繁琐，其次，它更多地是给工具或者底层框架来使用，目的是在不知道目标实例任何信息的情况下，获取特定字段的值。
 
-此外，`setAccessible(true)`可能会失败。如果 JVM 运行期存在 SecurityManager，那么它会根据规则进行检查，有可能阻止`setAccessible(true)`。例如，某个 SecurityManager 可能不允许对 java 和 javax 开头的 package 的类调用`setAccessible(true)`，这样可以保证 JVM 核心库的安全。
+此外，`setAccessible(true)` 可能会失败。如果 JVM 运行期存在 SecurityManager，那么它会根据规则进行检查，有可能阻止 `setAccessible(true)`。例如，某个 SecurityManager 可能不允许对 java 和 javax 开头的 package 的类调用 `setAccessible(true)`，这样可以保证 JVM 核心库的安全。
 
 ### 1.3 Method
 
@@ -98,15 +98,15 @@ String s = (String) cls.newInstance();
 String r = (String) m.invoke(s, 6);
 ```
 
-对 Method 实例调用`invoke()`就相当于调用该方法，`invoke()`的第一个参数是对象实例，即在哪个实例上调用该方法，后面的可变参数要与方法参数一致，否则将报错。
+对 Method 实例调用 `invoke()` 就相当于调用该方法，`invoke()` 的第一个参数是对象实例，即在哪个实例上调用该方法，后面的可变参数要与方法参数一致，否则将报错。
 
-调用静态方法时，由于无需指定实例对象，所以`invoke()`方法传入的第一个参数永远为`null`:
+调用静态方法时，由于无需指定实例对象，所以 `invoke()` 方法传入的第一个参数永远为 null:
 
 ```java
 String r = (String) m.invoke(null, 6);
 ```
 
-与访问字段相同，对于非 public 方法通过`Method.setAccessible(true)`允许其调用。
+与访问字段相同，对于非 public 方法通过 `Method.setAccessible(true)` 允许其调用。
 
 使用反射调用方法时，仍然遵循**多态原则**：即总是调用实际类型的覆写方法（如果存在）。
 
@@ -119,13 +119,13 @@ String r = (String) m.invoke(null, 6);
 - `getConstructors()`：获取所有 public 的 Constructor；
 - `getDeclaredConstructors()`：获取所有 Constructor。
 
-调用非 public 的 Constructor 时，必须首先通过`setAccessible(true)`设置允许访问。`setAccessible(true)`可能会失败。
+调用非 public 的 Constructor 时，必须首先通过 `setAccessible(true)` 设置允许访问。 `setAccessible(true)` 可能会失败。
 
 ## 二、泛型
 
 在集合中存储对象并在使用前进行类型转换非常不方便。泛型防止了那种情况的发生。它提供了编译期的类型安全，确保你只能把正确类型的对象放入集合中，避免了在运行时出现 ClassCastException。
 
-可以把`ArrayList<Integer>`向上转型为`List<Integer>`（`T`不能变！），但不能把`ArrayList<Integer>`向上转型为`ArrayList<Number>`（`T`不能变成父类）。
+可以把 `ArrayList<Integer>` 向上转型为 `List<Integer>`，但不能把 `ArrayList<Integer>` 向上转型为 `ArrayList<Number>`。
 
 ### 2.1 静态泛型方法
 
@@ -172,11 +172,11 @@ public class Pair<T, K> {
 Pair<String, Integer> p = new Pair<>("test", 123);
 ```
 
-Java标准库的 Map 就是使用两种泛型类型的例子。它对 Key 使用一种类型，对 Value 使用另一种类型。
+Java 标准库的 Map 就是使用两种泛型类型的例子。它对 Key 使用一种类型，对 Value 使用另一种类型。
 
 ### 2.3 Type Erasure
 
-泛型是通过**类型擦除**来实现的，编译器在编译时擦除了所有类型相关的信息，所以在运行时不存在任何类型相关的信息。例如`List<String>`在运行时仅用一个 List 来表示。这样做的目的，是确保能和 Java 5 之前的版本开发二进制类库进行兼容。你无法在运行时访问到类型参数，因为编译器已经把泛型类型转换成了原始类型。
+泛型是通过**类型擦除**来实现的，编译器在编译时擦除了所有类型相关的信息，所以在运行时不存在任何类型相关的信息。例如 `List<String>` 在运行时仅用一个 List 来表示。这样做的目的，是确保能和 Java 5 之前的版本开发二进制类库进行兼容。你无法在运行时访问到类型参数，因为编译器已经把泛型类型转换成了原始类型。
 
 - 编译器把类型 T 视为 Object；
 - 编译器根据 T 实现安全的强制转型。
@@ -293,9 +293,9 @@ public class Pair<T> {
 }
 ```
 
-这是因为，定义的`equals(T t)`方法实际上会被擦拭成`equals(Object t)`，而这个方法是继承自 Object 的，编译器会阻止一个实际上会变成覆写的泛型方法定义。
+这是因为，定义的 `equals(T t)` 方法实际上会被擦拭成 `equals(Object t)`，而这个方法是继承自 Object 的，编译器会阻止一个实际上会变成覆写的泛型方法定义。
 
-换个方法名，避开与`Object.equals(Object)`的冲突就可以成功编译：
+换个方法名，避开与 `Object.equals(Object)` 的冲突就可以成功编译：
 
 ```java
 public class Pair<T> {
@@ -311,10 +311,10 @@ public class Pair<T> {
 
 ### 2.4 限定通配符
 
-作为方法参数，`<? extends T>`类型和`<? super T>`类型的区别在于：
+作为方法参数，`<? extends T>` 类型和 `<? super T>` 类型的区别在于：
 
-- `<? extends T>`允许调用读方法`T get()`获取 T 的引用，但不允许调用写方法`set(T)`传入 T 的引用（传入 null 除外）；
-- ``<? super T>``允许调用写方法`set(T)`传入 T 的引用，但不允许调用读方法`T get()`获取 T 的引用（获取 Object 除外）。
+- `<? extends T>` 允许调用读方法 `T get()` 获取 T 的引用，但不允许调用写方法 `set(T)` 传入 T 的引用（传入 null 除外）；
+- ``<? super T>`` 允许调用写方法 `set(T)` 传入 T 的引用，但不允许调用读方法 `T get()` 获取 T 的引用（获取 Object 除外）。
 
 一个是允许读不允许写，另一个是允许写不允许读。
 
@@ -335,16 +335,16 @@ public class Collections {
 }
 ```
 
-需要返回 T 的 src 是生产者，因此声明为`List<? extends T>`，需要写入 T 的 dest 是消费者，因此声明为`List<? super T>`。
+需要返回 T 的 src 是生产者，因此声明为 `List<? extends T>`，需要写入 T 的 dest 是消费者，因此声明为 `List<? super T>`。
 
 ### 2.5 无限定通配符
 
-因为`<?>`通配符既没有 extends，也没有 super，因此：
+因为 `<?>` 通配符既没有 extends，也没有 super，因此：
 
-- 不允许调用`set(T)`方法并传入引用（null 除外）；
-- 不允许调用`T get()`方法并获取 T 引用（只能获取 Object 引用）。
+- 不允许调用 `set(T)` 方法并传入引用（null 除外）；
+- 不允许调用 `T get()` 方法并获取 T 引用（只能获取 Object 引用）。
 
-换句话说，既不能读，也不能写，那只能做一些`null`判断：
+换句话说，既不能读，也不能写，那只能做一些 null 判断：
 
 ```java
 static boolean isNull(Pair<?> p) {
@@ -352,7 +352,7 @@ static boolean isNull(Pair<?> p) {
 }
 ```
 
-大多数情况下，可以引入泛型参数`<T>`消除`<?>`通配符：
+大多数情况下，可以引入泛型参数 `<T>` 消除 `<?>` 通配符：
 
 ```java
 static <T> boolean isNull(Pair<T> p) {
@@ -360,7 +360,7 @@ static <T> boolean isNull(Pair<T> p) {
 }
 ```
 
-`<?>`通配符有一个独特的特点，就是：`Pair<?>`是所有`Pair<T>`的超类。
+`<?>` 通配符有一个独特的特点，就是：`Pair<?>` 是所有 `Pair<T>` 的超类。
 
 ## 三、反射和泛型
 
@@ -373,7 +373,7 @@ public Class<?> clazz;
 public Class<T> clazzT;
 ```
 
-调用 Class 的`getSuperclass()`方法返回的 Class 类型是`Class<? super String>`：
+调用 Class 的 `getSuperclass()` 方法返回的 Class 类型是 	`Class<? super String>`：
 
 ```java
 Class<? super String> sup = String.class.getSuperclass();
@@ -392,8 +392,8 @@ Class<? super String> sup = String.class.getSuperclass();
 
 缺点：
 
-1. 冗余。由于代理对象要实现与目标对象一致的接口，会产生过多的代理类。
-2. 不易维护。一旦接口增加方法，目标对象与代理对象都要进行修改。
+* 冗余。由于代理对象要实现与目标对象一致的接口，会产生过多的代理类；
+* 不易维护。一旦接口增加方法，目标对象与代理对象都要进行修改。
 
 ### 4.2 动态代理
 

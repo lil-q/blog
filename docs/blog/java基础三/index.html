@@ -61,7 +61,7 @@
       "datePublished": "2020-03-27 22:45:02 \u002b0000 UTC",
       "dateModified" : "2020-03-27 22:45:02 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%B8%89\/",
-      "wordCount" : "878",
+      "wordCount" : "941",
       "keywords" : ["java", "反射", "泛型", "动态代理", "Blog"]
     }
   
@@ -117,28 +117,28 @@
           <article class="post__content">
               
 <h2 id="一反射">一、反射<a class="anchor" href="#一反射">#</a></h2>
-<p>由于 JVM 为每个加载的 class 创建了对应的 Class 实例，并在实例中保存了该 class 的所有信息，包括类名、包名、父类、实现的接口、所有方法、字段等，因此，如果获取了某个 Class 实例，我们就可以通过这个 Class 实例获取到该实例对应的 class 的所有信息。这种通过 Class 实例获取 class 信息的方法称为<strong>反射（Reflection）</strong>。</p>
+<p>由于 JVM 为每个加载的类创建了对应的 Class 实例，并在实例中保存了该类的所有信息，包括类名、包名、父类、实现的接口、所有方法、字段等，因此，如果获取了某个 Class 实例，我们就可以通过这个 Class 实例获取到该实例对应的类的所有信息。这种通过 Class 实例获取类信息的方法称为<strong>反射（Reflection）</strong>。</p>
 <p>Java 反射主要提供以下功能：</p>
 <ul>
 <li>在运行时判断任意一个对象所属的类；</li>
 <li>在运行时构造任意一个类的对象；</li>
-<li>在运行时判断任意一个类所具有的成员变量和方法（通过反射甚至可以调用 private 方法）；</li>
+<li>在运行时判断任意一个类所具有的成员变量和方法（甚至可以调用 private 方法）；</li>
 <li>在运行时调用任意一个对象的方法。</li>
 </ul>
 <p><strong>重点：是运行时而不是编译时。</strong></p>
 <h3 id="11-class-类">1.1 Class 类<a class="anchor" href="#11-class-类">#</a></h3>
-<p>获取一个 class 的 Class 实例有三个方法：</p>
-<p>（1）直接通过一个 class 的静态变量 class 获取：</p>
+<p>获取一个类的 Class 实例有三个方法：</p>
+<p>（1）直接通过一个类的静态变量 class 获取：</p>
 <pre><code class="language-java">Class&lt;?&gt; cls = String.class;
 </code></pre>
-<p>（2）如果我们有一个实例变量，可以通过该实例变量提供的<code>getClass()</code>方法获取：</p>
+<p>（2）如果我们有一个实例变量，可以通过该实例变量提供的 <code>getClass()</code> 方法获取：</p>
 <pre><code class="language-java">String s = &quot;Hello&quot;;
 Class&lt;?&gt; cls = s.getClass();
 </code></pre>
-<p>（3）如果知道一个 class 的完整类名，可以通过静态方法<code>Class.forName()</code>获取：</p>
+<p>（3）如果知道一个类的完整类名，可以通过静态方法 <code>Class.forName()</code> 获取：</p>
 <pre><code class="language-java">Class&lt;?&gt; cls = Class.forName(&quot;java.lang.String&quot;);
 </code></pre>
-<p><strong><code>Class.forName()</code>加载类时默认会初始化，而<code>ClassLoader.loadClass()</code>默认不会初始化，只完成了类加载中的第一步加载。</strong></p>
+<p><code>Class.forName()</code> 加载类时默认会初始化，而 <code>ClassLoader.loadClass()</code> 默认<strong>不会初始化</strong>，只完成了类加载中的第一步加载。</p>
 <p>注意 Class 实例 == 比较和 instanceof 的差别：</p>
 <pre><code class="language-java">Integer n = new Integer(123);
 
@@ -155,7 +155,7 @@ Class&lt;?&gt; cls = String.class;
 // 创建一个String实例:
 String s = (String) cls.newInstance();
 </code></pre>
-<p>上述代码相当于<code>new String()</code>。通过<code>Class.newInstance()</code>可以创建类实例，它的局限是：只能调用 public 的无参数构造方法。带参数的构造方法，或者非 public 的构造方法都无法通过<code>Class.newInstance()</code>被调用。</p>
+<p>上述代码相当于 <code>new String()</code>。通过 <code>Class.newInstance()</code> 可以创建类实例，它的局限是：只能调用 public 的无参数构造方法。带参数的构造方法，或者非 public 的构造方法都无法通过 <code>Class.newInstance()</code> 被调用。</p>
 <h3 id="12-field">1.2 Field<a class="anchor" href="#12-field">#</a></h3>
 <p>对任意的一个 Object 实例，只要获取了它的 Class 实例，就可以获取它的一切信息。Class 类提供了以下几个方法来获取字段：</p>
 <ul>
@@ -164,8 +164,8 @@ String s = (String) cls.newInstance();
 <li><code>Field[] getFields()</code>：获取所有 public 的 field（包括父类）；</li>
 <li><code>Field[] getDeclaredFields()</code>：获取当前类的所有 field（不包括父类）。</li>
 </ul>
-<p>调用<code>Field.setAccessible(true)</code>可以开放权限获取 private 修饰的字段，但这似乎会破坏类的封装，反射是一种非常规的用法，使用反射，首先代码非常繁琐，其次，它更多地是给工具或者底层框架来使用，目的是在不知道目标实例任何信息的情况下，获取特定字段的值。</p>
-<p>此外，<code>setAccessible(true)</code>可能会失败。如果 JVM 运行期存在 SecurityManager，那么它会根据规则进行检查，有可能阻止<code>setAccessible(true)</code>。例如，某个 SecurityManager 可能不允许对 java 和 javax 开头的 package 的类调用<code>setAccessible(true)</code>，这样可以保证 JVM 核心库的安全。</p>
+<p>调用 <code>Field.setAccessible(true)</code> 可以开放权限获取 private 修饰的字段，但这似乎会破坏类的封装，反射是一种非常规的用法，使用反射，首先代码非常繁琐，其次，它更多地是给工具或者底层框架来使用，目的是在不知道目标实例任何信息的情况下，获取特定字段的值。</p>
+<p>此外，<code>setAccessible(true)</code> 可能会失败。如果 JVM 运行期存在 SecurityManager，那么它会根据规则进行检查，有可能阻止 <code>setAccessible(true)</code>。例如，某个 SecurityManager 可能不允许对 java 和 javax 开头的 package 的类调用 <code>setAccessible(true)</code>，这样可以保证 JVM 核心库的安全。</p>
 <h3 id="13-method">1.3 Method<a class="anchor" href="#13-method">#</a></h3>
 <p>可以通过 Class 实例获取所有 Method 信息。 Class 类提供了以下几个方法来获取 Method：</p>
 <ul>
@@ -177,11 +177,11 @@ String s = (String) cls.newInstance();
 <p>用反射调用方法：</p>
 <pre><code class="language-java">String r = (String) m.invoke(s, 6);
 </code></pre>
-<p>对 Method 实例调用<code>invoke()</code>就相当于调用该方法，<code>invoke()</code>的第一个参数是对象实例，即在哪个实例上调用该方法，后面的可变参数要与方法参数一致，否则将报错。</p>
-<p>调用静态方法时，由于无需指定实例对象，所以<code>invoke()</code>方法传入的第一个参数永远为<code>null</code>:</p>
+<p>对 Method 实例调用 <code>invoke()</code> 就相当于调用该方法，<code>invoke()</code> 的第一个参数是对象实例，即在哪个实例上调用该方法，后面的可变参数要与方法参数一致，否则将报错。</p>
+<p>调用静态方法时，由于无需指定实例对象，所以 <code>invoke()</code> 方法传入的第一个参数永远为 null:</p>
 <pre><code class="language-java">String r = (String) m.invoke(null, 6);
 </code></pre>
-<p>与访问字段相同，对于非 public 方法通过<code>Method.setAccessible(true)</code>允许其调用。</p>
+<p>与访问字段相同，对于非 public 方法通过 <code>Method.setAccessible(true)</code> 允许其调用。</p>
 <p>使用反射调用方法时，仍然遵循<strong>多态原则</strong>：即总是调用实际类型的覆写方法（如果存在）。</p>
 <h3 id="14-constructor">1.4 Constructor<a class="anchor" href="#14-constructor">#</a></h3>
 <p>通过 Class 实例获取 Constructor 的方法如下：</p>
@@ -191,10 +191,10 @@ String s = (String) cls.newInstance();
 <li><code>getConstructors()</code>：获取所有 public 的 Constructor；</li>
 <li><code>getDeclaredConstructors()</code>：获取所有 Constructor。</li>
 </ul>
-<p>调用非 public 的 Constructor 时，必须首先通过<code>setAccessible(true)</code>设置允许访问。<code>setAccessible(true)</code>可能会失败。</p>
+<p>调用非 public 的 Constructor 时，必须首先通过 <code>setAccessible(true)</code> 设置允许访问。 <code>setAccessible(true)</code> 可能会失败。</p>
 <h2 id="二泛型">二、泛型<a class="anchor" href="#二泛型">#</a></h2>
 <p>在集合中存储对象并在使用前进行类型转换非常不方便。泛型防止了那种情况的发生。它提供了编译期的类型安全，确保你只能把正确类型的对象放入集合中，避免了在运行时出现 ClassCastException。</p>
-<p>可以把<code>ArrayList&lt;Integer&gt;</code>向上转型为<code>List&lt;Integer&gt;</code>（<code>T</code>不能变！），但不能把<code>ArrayList&lt;Integer&gt;</code>向上转型为<code>ArrayList&lt;Number&gt;</code>（<code>T</code>不能变成父类）。</p>
+<p>可以把 <code>ArrayList&lt;Integer&gt;</code> 向上转型为 <code>List&lt;Integer&gt;</code>，但不能把 <code>ArrayList&lt;Integer&gt;</code> 向上转型为 <code>ArrayList&lt;Number&gt;</code>。</p>
 <h3 id="21-静态泛型方法">2.1 静态泛型方法<a class="anchor" href="#21-静态泛型方法">#</a></h3>
 <p>对于静态方法，我们可以单独改写为“泛型”方法，只需要使用另一个类型即可：</p>
 <pre><code class="language-java">public class Pair&lt;T&gt; {
@@ -229,9 +229,9 @@ String s = (String) cls.newInstance();
 <p>使用的时候，需要指出两种类型：</p>
 <pre><code class="language-java">Pair&lt;String, Integer&gt; p = new Pair&lt;&gt;(&quot;test&quot;, 123);
 </code></pre>
-<p>Java标准库的 Map 就是使用两种泛型类型的例子。它对 Key 使用一种类型，对 Value 使用另一种类型。</p>
+<p>Java 标准库的 Map 就是使用两种泛型类型的例子。它对 Key 使用一种类型，对 Value 使用另一种类型。</p>
 <h3 id="23-type-erasure">2.3 Type Erasure<a class="anchor" href="#23-type-erasure">#</a></h3>
-<p>泛型是通过<strong>类型擦除</strong>来实现的，编译器在编译时擦除了所有类型相关的信息，所以在运行时不存在任何类型相关的信息。例如<code>List&lt;String&gt;</code>在运行时仅用一个 List 来表示。这样做的目的，是确保能和 Java 5 之前的版本开发二进制类库进行兼容。你无法在运行时访问到类型参数，因为编译器已经把泛型类型转换成了原始类型。</p>
+<p>泛型是通过<strong>类型擦除</strong>来实现的，编译器在编译时擦除了所有类型相关的信息，所以在运行时不存在任何类型相关的信息。例如 <code>List&lt;String&gt;</code> 在运行时仅用一个 List 来表示。这样做的目的，是确保能和 Java 5 之前的版本开发二进制类库进行兼容。你无法在运行时访问到类型参数，因为编译器已经把泛型类型转换成了原始类型。</p>
 <ul>
 <li>编译器把类型 T 视为 Object；</li>
 <li>编译器根据 T 实现安全的强制转型。</li>
@@ -311,8 +311,8 @@ last = new Object();
     }
 }
 </code></pre>
-<p>这是因为，定义的<code>equals(T t)</code>方法实际上会被擦拭成<code>equals(Object t)</code>，而这个方法是继承自 Object 的，编译器会阻止一个实际上会变成覆写的泛型方法定义。</p>
-<p>换个方法名，避开与<code>Object.equals(Object)</code>的冲突就可以成功编译：</p>
+<p>这是因为，定义的 <code>equals(T t)</code> 方法实际上会被擦拭成 <code>equals(Object t)</code>，而这个方法是继承自 Object 的，编译器会阻止一个实际上会变成覆写的泛型方法定义。</p>
+<p>换个方法名，避开与 <code>Object.equals(Object)</code> 的冲突就可以成功编译：</p>
 <pre><code class="language-java">public class Pair&lt;T&gt; {
     public boolean same(T t) {
         return this == t;
@@ -322,10 +322,10 @@ last = new Object();
 <h4 id="2-泛型继承">2. 泛型继承</h4>
 <p>在父类是泛型类型的情况下，编译器就必须把类型 T 保存到子类的 Class 文件中。</p>
 <h3 id="24-限定通配符">2.4 限定通配符<a class="anchor" href="#24-限定通配符">#</a></h3>
-<p>作为方法参数，<code>&lt;? extends T&gt;</code>类型和<code>&lt;? super T&gt;</code>类型的区别在于：</p>
+<p>作为方法参数，<code>&lt;? extends T&gt;</code> 类型和 <code>&lt;? super T&gt;</code> 类型的区别在于：</p>
 <ul>
-<li><code>&lt;? extends T&gt;</code>允许调用读方法<code>T get()</code>获取 T 的引用，但不允许调用写方法<code>set(T)</code>传入 T 的引用（传入 null 除外）；</li>
-<li><code>&lt;? super T&gt;</code>允许调用写方法<code>set(T)</code>传入 T 的引用，但不允许调用读方法<code>T get()</code>获取 T 的引用（获取 Object 除外）。</li>
+<li><code>&lt;? extends T&gt;</code> 允许调用读方法 <code>T get()</code> 获取 T 的引用，但不允许调用写方法 <code>set(T)</code> 传入 T 的引用（传入 null 除外）；</li>
+<li><code>&lt;? super T&gt;</code> 允许调用写方法 <code>set(T)</code> 传入 T 的引用，但不允许调用读方法 <code>T get()</code> 获取 T 的引用（获取 Object 除外）。</li>
 </ul>
 <p>一个是允许读不允许写，另一个是允许写不允许读。</p>
 <h4 id="1-pecs原则">1. PECS原则</h4>
@@ -340,24 +340,24 @@ last = new Object();
     }
 }
 </code></pre>
-<p>需要返回 T 的 src 是生产者，因此声明为<code>List&lt;? extends T&gt;</code>，需要写入 T 的 dest 是消费者，因此声明为<code>List&lt;? super T&gt;</code>。</p>
+<p>需要返回 T 的 src 是生产者，因此声明为 <code>List&lt;? extends T&gt;</code>，需要写入 T 的 dest 是消费者，因此声明为 <code>List&lt;? super T&gt;</code>。</p>
 <h3 id="25-无限定通配符">2.5 无限定通配符<a class="anchor" href="#25-无限定通配符">#</a></h3>
-<p>因为<code>&lt;?&gt;</code>通配符既没有 extends，也没有 super，因此：</p>
+<p>因为 <code>&lt;?&gt;</code> 通配符既没有 extends，也没有 super，因此：</p>
 <ul>
-<li>不允许调用<code>set(T)</code>方法并传入引用（null 除外）；</li>
-<li>不允许调用<code>T get()</code>方法并获取 T 引用（只能获取 Object 引用）。</li>
+<li>不允许调用 <code>set(T)</code> 方法并传入引用（null 除外）；</li>
+<li>不允许调用 <code>T get()</code> 方法并获取 T 引用（只能获取 Object 引用）。</li>
 </ul>
-<p>换句话说，既不能读，也不能写，那只能做一些<code>null</code>判断：</p>
+<p>换句话说，既不能读，也不能写，那只能做一些 null 判断：</p>
 <pre><code class="language-java">static boolean isNull(Pair&lt;?&gt; p) {
     return p.getFirst() == null || p.getLast() == null;
 }
 </code></pre>
-<p>大多数情况下，可以引入泛型参数<code>&lt;T&gt;</code>消除<code>&lt;?&gt;</code>通配符：</p>
+<p>大多数情况下，可以引入泛型参数 <code>&lt;T&gt;</code> 消除 <code>&lt;?&gt;</code> 通配符：</p>
 <pre><code class="language-java">static &lt;T&gt; boolean isNull(Pair&lt;T&gt; p) {
     return p.getFirst() == null || p.getLast() == null;
 }
 </code></pre>
-<p><code>&lt;?&gt;</code>通配符有一个独特的特点，就是：<code>Pair&lt;?&gt;</code>是所有<code>Pair&lt;T&gt;</code>的超类。</p>
+<p><code>&lt;?&gt;</code> 通配符有一个独特的特点，就是：<code>Pair&lt;?&gt;</code> 是所有 <code>Pair&lt;T&gt;</code> 的超类。</p>
 <h2 id="三反射和泛型">三、反射和泛型<a class="anchor" href="#三反射和泛型">#</a></h2>
 <p>Class 在实例化的时候，T 要替换成具体类。Class 它是个通配泛型，? 可以代表任何类型，所以主要用于声明时的限制情况。比如，我们可以这样做申明：</p>
 <pre><code class="language-java">// 可以
@@ -365,7 +365,7 @@ public Class&lt;?&gt; clazz;
 // 不可以，因为 T 需要指定类型
 public Class&lt;T&gt; clazzT;
 </code></pre>
-<p>调用 Class 的<code>getSuperclass()</code>方法返回的 Class 类型是<code>Class&lt;? super String&gt;</code>：</p>
+<p>调用 Class 的 <code>getSuperclass()</code> 方法返回的 Class 类型是 	<code>Class&lt;? super String&gt;</code>：</p>
 <pre><code class="language-java">Class&lt;? super String&gt; sup = String.class.getSuperclass();
 </code></pre>
 <h2 id="四静态代理和动态代理">四、静态代理和动态代理<a class="anchor" href="#四静态代理和动态代理">#</a></h2>
@@ -377,10 +377,10 @@ public Class&lt;T&gt; clazzT;
 <p>需要代理对象和目标对象实现一样的<strong>接口</strong>。</p>
 <p>优点：可以在不修改目标对象的前提下扩展目标对象的功能。</p>
 <p>缺点：</p>
-<ol>
-<li>冗余。由于代理对象要实现与目标对象一致的接口，会产生过多的代理类。</li>
+<ul>
+<li>冗余。由于代理对象要实现与目标对象一致的接口，会产生过多的代理类；</li>
 <li>不易维护。一旦接口增加方法，目标对象与代理对象都要进行修改。</li>
-</ol>
+</ul>
 <h3 id="42-动态代理">4.2 动态代理<a class="anchor" href="#42-动态代理">#</a></h3>
 <ul>
 <li>通过实现接口的方式 -&gt; JDK 动态代理</li>

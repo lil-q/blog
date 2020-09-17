@@ -7,7 +7,7 @@ description: "java List Set Queue"
 keywords: [java, List, Set, Queue]
 ---
 
-容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。【以下内容源码基于 Java 13】J
+容器主要包括 Collection 和 Map 两种，Collection 存储着对象的集合，而 Map 存储着键值对（两个对象）的映射表。【以下内容源码基于 Java 13】
 
 ## 一、Collection
 
@@ -17,20 +17,20 @@ keywords: [java, List, Set, Queue]
 
 **List 接口**有几个主要的接口方法：
 
-- 在末尾添加一个元素：`void add(E e)`
-- 在指定索引添加一个元素：`void add(int index, E e)`
-- 删除指定索引的元素：`int remove(int index)`
-- 删除某个元素：`int remove(Object e)`
-- 获取指定索引的元素：`E get(int index)`
-- 获取链表大小（包含元素的个数）：`int size()`
+- 在末尾添加一个元素：`void add(E e)`；
+- 在指定索引添加一个元素：`void add(int index, E e)`；
+- 删除指定索引的元素：`int remove(int index)`；
+- 删除某个元素：`int remove(Object e)`；
+- 获取指定索引的元素：`E get(int index)`；
+- 获取链表大小（包含元素的个数）：`int size()`。
 
-List 接口允许我们添加重复的元素，即 List 内部的元素可以重复，List 还允许添加`null`。调用`List.of()`，它返回的是一个**只读** List：
+List 接口允许我们添加重复的元素，即 List 内部的元素可以重复，List 还允许添加 null。调用 `List.of()`，它返回的是一个**只读** List：
 
 ```java
 List<Integer> list = List.of(1, 2, 5);
 ```
 
-但是`List.of()`方法不接受`null`值，如果传入`null`，会抛出`NullPointerException`异常。
+但是 `List.of()` 方法不接受 null 值，如果传入 null，会抛出 NullPointerException 异常。
 
 ### 2.1 List 遍历
 
@@ -50,11 +50,11 @@ Iterator 接口声明如下：
 
 ```java
 public interface Iterator<E> {
-    // 判断是否还有下一个对象，如果有，则返回true，否则false
+    // 判断是否还有下一个对象，如果有，则返回 true，否则 false
     boolean hasNext(); 
-    // 返回集合的下个值，此方法只能在hasNext方法返回true时调用
+    // 返回集合的下个值，此方法只能在 hasNext 方法返回 true 时调用
     E next(); 
-    // 删除集合的当前值，此方法也只能在hasNext方法返回true时调用
+    // 删除集合的当前值，此方法也只能在 hasNext 方法返回 true 时调用
     void remove();
 }
 ```
@@ -72,14 +72,14 @@ public interface ListIterator<E> extends Iterator<E> {
     int nextIndex();
     int previousIndex();
     void remove();
-    // 可以使用set()方法替换它访问过的最后一个元素
+    // 可以使用 set() 方法替换它访问过的最后一个元素
     void set(E e);
-    // 可以使用add()方法在next()方法返回的元素之前或previous()方法返回的元素之后插入一个元素
+    // 可以使用 add() 方法在 next() 方法返回的元素之前或 previous() 方法返回的元素之后插入一个元素
     void add(E e); 
 }
 ```
 
-通过 Iterator 遍历 List 永远是最高效的方式。并且，由于 Iterator 遍历是如此常用，所以，Java 的`for each`循环本身就可以帮我们使用 Iterator 遍历。
+通过 Iterator 遍历 List 永远是最高效的方式。并且，由于 Iterator 遍历是如此常用，所以，Java 的 `for each` 循环本身就可以帮我们使用 Iterator 遍历。
 
 ```java
 import java.util.Iterator;
@@ -111,7 +111,7 @@ public class Main {
 
 #### 1. List -> Array
 
-给`toArray(T[])`传入一个类型相同的 Array，List 内部自动把元素复制到传入的 Array 中：
+给 `toArray(T[])` 传入一个类型相同的 Array，List 内部自动把元素复制到传入的 Array 中：
 
 ```java
 import java.util.List;
@@ -126,13 +126,13 @@ public class Main {
 }
 ```
 
-`toArray(T[])`方法的泛型参数`<T>`并不是 List 接口定义的泛型参数`<E>`，所以，我们实际上可以传入其他类型的数组。
+`toArray(T[])` 方法的泛型参数 T 并不是 List 接口定义的泛型参数 E，所以，我们实际上可以传入其他类型的数组。
 
 ```java
 Number[] array = list.toArray(new Number[3]);
 ```
 
-如果传入的数组不够大，那么 List 内部会创建一个新的刚好够大的数组，填充后返回；如果传入的数组比 List 元素还要多，那么填充完元素后，剩下的数组元素一律填充`null`。实际上，最常用的是传入一个“恰好”大小的数组：
+如果传入的数组不够大，那么 List 内部会创建一个新的刚好够大的数组，填充后返回；如果传入的数组比 List 元素还要多，那么填充完元素后，剩下的数组元素一律填充 null。实际上，最常用的是传入一个“恰好”大小的数组：
 
 ```java
 Integer[] array = list.toArray(new Integer[list.size()]);
@@ -145,15 +145,15 @@ Integer[] array = { 1, 2, 3 };
 List<Integer> list = List.of(array);
 ```
 
-对于JDK 11之前的版本，可以使用`Arrays.asList(T...)`方法把 Array 转换成 List。
+对于JDK 11之前的版本，可以使用 `Arrays.asList(T...)` 方法把 Array 转换成 List。
 
 ### 2.3 contains() & indexOf()
 
-List 内部按照放入元素的先后顺序存放，并且每个元素都可以通过索引确定自己的位置。List 提供了`boolean contains(Object o)`方法来判断 List 是否包含某个指定元素。此外，`int indexOf(Object o)`方法可以返回某个元素的索引，如果元素不存在，就返回 -1。
+List 内部按照放入元素的先后顺序存放，并且每个元素都可以通过索引确定自己的位置。List 提供了 `boolean contains(Object o)` 方法来判断 List 是否包含某个指定元素。此外，`int indexOf(Object o)` 方法可以返回某个元素的索引，如果元素不存在，就返回 -1。
 
-List 内部并不是通过`==`判断两个元素是否相等，而是使用`equals()`方法判断两个元素是否相等，所以放入的实例必须要正确 override。
+List 内部并不是通过 == 判断两个元素是否相等，而是使用 `equals()` 方法判断两个元素是否相等，所以放入的实例必须要正确 override。
 
-如果`this.name`为`null`，那么`equals()`方法会报错，因此，需要继续改写如下：
+如果 this.name 为 null，那么 `equals()` 方法会报错，因此，需要继续改写如下：
 
 ```java
 public boolean equals(Object o) {
@@ -172,7 +172,7 @@ public boolean equals(Object o) {
 }
 ```
 
-如果`Person`有好几个引用类型的字段，上面的写法就太复杂了。要简化引用类型的比较，我们使用`Objects.equals()`静态方法：
+如果 Person 有好几个引用类型的字段，上面的写法就太复杂了。要简化引用类型的比较，我们使用 `Objects.equals()` 静态方法：
 
 ```java
 public boolean equals(Object o) {
@@ -220,7 +220,7 @@ RandomAccess 接口标识着该类支持快速随机访问，java.io.Serializabl
 
 **（1）扩容**
 
-添加元素时如果容量不够时，需要使用`grow()`方法进行扩容，新容量的大小默认为 `oldCapacity + (oldCapacity >> 1)`，也就是旧容量的 1.5 倍。当需求的容量大于它时，则会选用两个 List 长度之和作为新容量，扩容操作需要调用 `Arrays.copyOf()` 把原数组整个复制到新数组中，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。
+添加元素时如果容量不够时，需要使用`grow()`方法进行扩容，新容量的大小默认为 `oldCapacity + (oldCapacity >> 1)`，也就是旧容量的 1.5 倍。当需求的容量大于它时，则会选用两个 List 长度之和作为新容量，扩容操作需要调用 `Arrays.copyOf()` 把**原数组整个复制到新数组中**，这个操作代价很高，因此最好在创建 ArrayList 对象时就指定大概的容量大小，减少扩容操作的次数。
 
 ```java
 public boolean addAll(Collection<? extends E> c) {
@@ -256,7 +256,7 @@ private Object[] grow() {
 }
 ```
 
-ArraySupport.class 下的`newLength()`：
+ArraySupport.class 下的 `newLength()`：
 
 ```java
 public static int newLength(int oldLength, int minGrowth, int prefGrowth) {
@@ -271,7 +271,7 @@ public static int newLength(int oldLength, int minGrowth, int prefGrowth) {
 }
 ```
 
-Arrays.class 下的`copyOf()`：
+Arrays.class 下的 `copyOf()`：
 
 ```java
 @SuppressWarnings("unchecked")
@@ -291,7 +291,7 @@ public static <T> T[] copyOf(T[] original, int newLength) {
     }
 ```
 
-System.class 下的`arraycopy()`：
+System.class 下的 `arraycopy()`：
 
 ```java
 public static native void arraycopy(Object src,  int  srcPos,
@@ -301,7 +301,7 @@ public static native void arraycopy(Object src,  int  srcPos,
 
 **（2）删除**
 
-`remove()`调用了`fastRemove()`，其中调用`System.arraycopy()`将 index+1 后面的元素都复制到 index 位置上，该操作的时间复杂度为 O(N)，可以看到 ArrayList 删除元素的代价是非常高的。
+`remove()` 调用了 `fastRemove()`，其中调用 `System.arraycopy()` 将 index+1 后面的元素都复制到 index 位置上，该操作的时间复杂度为 O(N)，可以看到 ArrayList 删除元素的代价是非常高的。
 
 ```java
 public E remove(int index) {
@@ -325,13 +325,13 @@ private void fastRemove(Object[] es, int i) {
 
 **（3）序列化**
 
-保存元素的数组 `elementData` 使用 `transient` 修饰，该关键字声明数组默认不会被序列化。也就是说 `elementData` 的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。
+保存元素的数组 elementData 使用 transient 修饰，该关键字声明数组默认不会被序列化。也就是说 elementData 的生命周期仅存于调用者的内存中而不会写到磁盘里持久化。
 
 ```java
 transient Object[] elementData; // non-private to simplify nested class access
 ```
 
-ArrayList 实现了`writeObject()`和`readObject()`来控制只序列化数组中有元素填充那部分内容。
+ArrayList 实现了 `writeObject()` 和 `readObject()` 来控制只序列化数组中有元素填充那部分内容。
 
 ```java
 private void readObject(java.io.ObjectInputStream s)
@@ -383,7 +383,7 @@ private void writeObject(java.io.ObjectOutputStream s)
 }
 ```
 
-序列化时需要使用 ObjectOutputStream 的`writeObject()`将对象转换为字节流并输出。而`writeObject()`方法在传入的对象存在`writeObject()`的时候会去反射调用该对象的`writeObject()`来实现序列化。反序列化使用的是 ObjectInputStream 的`readObject()`方法，原理类似。
+序列化时需要使用 ObjectOutputStream 的 `writeObject()` 将对象转换为字节流并输出。而 `writeObject()` 方法在传入的对象存在 `writeObject()` 的时候会去反射调用该对象的 `writeObject()` 来实现序列化。反序列化使用的是 ObjectInputStream 的 `readObject()` 方法，原理类似。
 
 ```java
 ArrayList list = new ArrayList();
@@ -393,17 +393,17 @@ oos.writeObject(list);
 
 **（4）fail-fast 机制**
 
- AbstractList.class 中使用 `modCount` 来记录 `ArrayList` 结构发生变化的次数。结构发生变化是指添加或者删除至少一个元素的所有操作，或者是调整内部数组的大小，仅仅只是设置元素的值不算结构发生变化。
+ AbstractList.class 中使用 modCount 来记录 ArrayList 结构发生变化的次数。结构发生变化是指添加或者删除至少一个元素的所有操作，或者是调整内部数组的大小，仅仅只是设置元素的值不算结构发生变化。
 
 ```java
 protected transient int modCount = 0;
 ```
 
-迭代器在调用`next()`、`remove()`方法时都是调用`checkForComodification()`方法，它检测`modCount == expectedModCount` ？ 若不等则抛出`ConcurrentModificationException`异常，从而产生 fail-fast 机制。
+迭代器在调用 `next()`、`remove()` 方法时都是调用 `checkForComodification()` 方法，它检测 `modCount == expectedModCount` ？ 若不等则抛出 `ConcurrentModificationException` 异常，从而产生 fail-fast 机制。
 
 有两种解决方案：
 
-* 在遍历过程中所有涉及到改变`modCount`值的地方全部加上`synchronized`或者直接使用`Collections.synchronizedList`（不推荐）；
+* 在遍历过程中所有涉及到改变 modCount 值的地方全部加上synchronized 或者直接使用 Collections.synchronizedList（不推荐）；
 * 使用 CopyOnWriteArrayList 来替换 ArrayList。
 
 **（5）toArray()**
@@ -414,7 +414,7 @@ public Object[] toArray() {
     }
 ```
 
-注意到传入的`elementData`和返回值是`Object[]`，如果需要传回原格式：
+注意到传入的 `elementData` 和返回值是 `Object[]`，如果需要传回原格式：
 
 ```java
 public <T> T[] toArray(T[] a) {
@@ -470,8 +470,8 @@ private E get(Object[] a, int index) {
 
 使用 CopyOnWriteMap 需要注意两件事情：
 
-1. **减少扩容开销**。根据实际需要，初始化 CopyOnWriteMap 的大小，避免写时 CopyOnWriteMap 扩容的开销。
-2. **使用批量添加**。因为每次添加，容器每次都会进行复制，所以减少添加次数，可以减少容器的复制次数。如使用代码里的`addBlackList()`方法。
+* **减少扩容开销**：根据实际需要，初始化 CopyOnWriteMap 的大小，避免写时 CopyOnWriteMap 扩容的开销。
+* **使用批量添加**：因为每次添加，容器每次都会进行复制，所以减少添加次数，可以减少容器的复制次数。如使用代码里的`addBlackList()`方法。
 
 **（2）适用场景**
 
@@ -492,9 +492,9 @@ Vector 是增删改查方法都加了 synchronized，保证同步，但是每个
 
 Set 用于存储不重复的元素集合，它主要提供以下几个方法：
 
-- 将元素添加进 Set：`boolean add(E e)`
-- 将元素从 Set 删除：`boolean remove(Object e)`
-- 判断是否包含元素：`boolean contains(Object e)`
+- 将元素添加进 Set：`boolean add(E e)`；
+- 将元素从 Set 删除：`boolean remove(Object e)`；
+- 判断是否包含元素：`boolean contains(Object e)`。
 
 有以下实现类：
 
@@ -510,14 +510,14 @@ Set 接口并不保证有序，而 SortedSet 接口则保证元素是有序的�
 
 ## 四、Queue
 
-Queue 实际上是实现了一个先进先出（FIFO：First In First Out）的有序表，队列接口 Queue 定义了以下几个方法：
+Queue 实际上是实现了一个**先进先出**（**F**irst **I**n **F**irst **O**ut，**FIFO**）的有序表，队列接口 Queue 定义了以下几个方法：
 
 - `int size()`：获取队列长度；
 - `boolean add(E)`/`boolean offer(E)`：添加元素到队尾；
 - `E remove()`/`E poll()`：获取队首元素并从队列中删除；
 - `E element()`/`E peek()`：获取队首元素但并不从队列中删除。
 
-对于具体的实现类，有的Queue有最大队列长度限制，有的Queue没有。注意到添加、删除和获取队列元素总是有两个方法，这是因为在添加或获取元素失败时，这两个方法的行为是不同的。我们用一个表格总结如下：
+对于具体的实现类，有的 Queue 有最大队列长度限制，有的 Queue 没有。注意到添加、删除和获取队列元素总是有两个方法，这是因为在添加或获取元素失败时，这两个方法的行为是不同的。我们用一个表格总结如下：
 
 <br>
 
@@ -609,7 +609,7 @@ public class LinkedList<E>
     ...
 ```
 
-LinkedList() 中的节点定义如下：
+LinkedList 中的节点定义如下：
 
 ```java
 private static class Node<E> {

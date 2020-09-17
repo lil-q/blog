@@ -9,7 +9,7 @@ keywords: [java, Map, HashMap, concurrentHashMap]
 
 ## 一、Map
 
-Map 是一种键-值映射表，当我们调用`put(K key, V value)`方法时，就把 key 和 value 做了映射并放入 Map。当我们调用`V get(K key)`时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
+Map 是一种键-值映射表，当我们调用 `put(K key, V value)` 方法时，就把 key 和 value 做了映射并放入 Map。当我们调用 `V get(K key)` 时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/Map3.png"  />
 
@@ -20,13 +20,13 @@ Map 是一种键-值映射表，当我们调用`put(K key, V value)`方法时，
 
 ### 1.1 Map 遍历
 
-要遍历 key 可以使用`for each`循环遍历 Map 实例的`keySet()`方法返回的 Set 集合，它包含不重复的 key 的集合：
+要遍历 key 可以使用 `for each` 循环遍历 Map 实例的 `keySet()` 方法返回的 Set 集合，它包含不重复的 key 的集合：
 
 ```java
 for (String key : map.keySet()) {...}
 ```
 
-同时遍历 key 和 value 可以使用`for each`循环遍历 Map 对象的`entrySet()`集合，它包含每一个 key-value 映射：
+同时遍历 key 和 value 可以使用 `for each` 循环遍历 Map 对象的 `entrySet()` 集合，它包含每一个 key-value 映射：
 
 ```java
 for (Map.Entry<String, Integer> entry : map.entrySet()) {...}
@@ -36,12 +36,16 @@ for (Map.Entry<String, Integer> entry : map.entrySet()) {...}
 
 正确使用 Map 必须保证：
 
-1. 作为 key的对象必须正确覆写`equals()`方法，相等的两个 key 实例调用`equals()`必须返回`true`；
-2. 作为 key 的对象还必须正确覆写`hashCode()`方法，且`hashCode()`方法要严格遵循以下规范：
-   - 如果两个对象相等，则两个对象的`hashCode()`必须相等；
-   - 如果两个对象不相等，则两个对象的`hashCode()`尽量不要相等。
+* 作为 key 的对象必须正确覆写`equals()`方法，相等的两个 key 实例调用`equals()`必须返回`true`；
 
-自己写`hashCode()`时R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法：`31*x == (x<<5)-x`，编译器会自动进行这个优化。
+* 作为 key 的对象还必须正确覆写`hashCode()`方法，且`hashCode()`方法要严格遵循以下规范：
+
+  <br>
+
+  * 如果两个对象相等，则两个对象的`hashCode()`必须相等；
+  * 如果两个对象不相等，则两个对象的`hashCode()`尽量不要相等。
+
+自己写 `hashCode()` 时R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法：`31*x == (x<<5)-x`，编译器会自动进行这个优化。
 
 ```java
 @Override
@@ -54,7 +58,7 @@ public int hashCode() {
 }
 ```
 
-和实现`equals()`方法遇到的问题类似，如果传入值为 null，就会抛`NullPointerException`。为了解决这个问题，我们在计算`hashCode()`的时候，经常借助`Objects.hash()`来计算：
+和实现 `equals()` 方法遇到的问题类似，如果传入值为 null，就会抛 NullPointerException。为了解决这个问题，我们在计算 `hashCode()` 的时候，经常借助 `Objects.hash()` 来计算：
 
 ```java
 int hashCode() {
@@ -62,9 +66,9 @@ int hashCode() {
 }
 ```
 
-所以，编写`equals()`和`hashCode()`遵循的原则是：`equals()`用到的用于比较的每一个字段，都**必须**在`hashCode()`中用于计算；`equals()`中没有使用到的字段，**绝不可**放在`hashCode()`中计算。
+所以，编写 `equals()` 和 `hashCode()` 遵循的原则是：`equals()` 用到的用于比较的每一个字段，都**必须**在 `hashCode()` 中用于计算；`equals()` 中没有使用到的字段，**绝不可**放在 `hashCode()` 中计算。
 
-`Objects.hash()`内部实现实则为`Arrays.hashCode()`方法
+`Objects.hash()` 内部实现实则为 `Arrays.hashCode()` 方法
 
 ```java
 public static int hash(Object... values) {
@@ -72,7 +76,7 @@ public static int hash(Object... values) {
 }
 ```
 
-`Arrays.hashCode()`源码：
+`Arrays.hashCode()` 源码：
 
 ```java
 public static int hashCode(Object a[]) {
@@ -88,30 +92,24 @@ public static int hashCode(Object a[]) {
 }
 ```
 
-注意 Objects.hash(Object...)，它的参数为不定参数，需要为 Object 对象。这会有以下一些影响：
+注意 `Objects.hash(Object...)`，它的参数为不定参数，需要为 Object 对象。这会有以下一些影响：
 
-1. 对基本类型做 hashCode 需要转换为包装类型，如 long 转换为 Long；
-2. 会创建一个 Object 数组。
+* 对基本类型做 hashCode 需要转换为包装类型，如 long 转换为 Long；
+* 会创建一个 Object 数组。
 
-如果`hashCode()`方法被频繁调用的话，会有一定的性能影响。
+如果 `hashCode()` 方法被频繁调用的话，会有一定的性能影响。
 
 ### 1.3 hashCode()
 
-`hashCode()`内部使用了数组，在初始化时默认的数组大小只有 16，任何 key 无论`hashCode()`多大都可以用类似方式处理：
+`hashCode()` 内部使用了数组，在初始化时默认的数组大小只有 16，所以`hashCode()` 需要取余后使用：
 
 ```java
 int index = key.hashCode() & 0xf;
 ```
 
-当这个 hashMap 添加超过16个 key-value 时，hashMap 会自动扩容，没扩容一次容量就会翻倍。因为内存每次扩容会导致重新分配已有的 key-value，所以频繁扩容对 HashMap 的性能影响很大。如果确定要使用 n 个 key-value 的 HashMap，最好在创建时就指定容量：
-
-```java
-Map<String, Integer> map = new HashMap<>(n);
-```
-
 ### 1.4 EnumMap
 
-如果作为 key 的对象是 enum 类型，那么，还可以使用 Java 集合库提供的一种 EnumMap，它在内部以一个非常紧凑的数组存储 value，并且根据 enum 类型的 key 直接定位到内部数组的索引，并不需要计算`hashCode()`，不但效率最高，而且没有额外的空间浪费。
+如果作为 key 的对象是 enum 类型，那么，还可以使用 Java 集合库提供的一种 EnumMap，它在内部以一个非常紧凑的数组存储 value，并且根据 enum 类型的 key 直接定位到内部数组的索引，并不需要计算 `hashCode()`，不但效率最高，而且没有额外的空间浪费。
 
 ### 1.5 TreeMap
 
@@ -131,7 +129,7 @@ Map<Person, Integer> map = new TreeMap<>(new Comparator<Person>() {
 * 如果 a == b，则返回 0；
 * 如果 a > b，则返回正数，通常是 1。
 
-TreeMap 内部根据比较结果对 Key 进行排序。要严格按照`compare()`规范实现比较逻辑，否则，TreeMap 将不能正常工作。
+TreeMap 内部根据比较结果对 Key 进行排序。要严格按照 `compare()` 规范实现比较逻辑，否则，TreeMap 将不能正常工作。
 
 [nowcoder面试题 找工作](https://www.nowcoder.com/practice/46e837a4ea9144f5ad2021658cb54c4d?tpId=98&tqId=32824&tPage=1&rp=1&ru=/ta/2019test&qru=/ta/2019test/question-ranking)
 
@@ -244,7 +242,7 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 **（2）put()**
 
-public 修饰的`put()`方法调用了`putVal()`方法：
+public 修饰的 `put()` 方法调用了 `putVal()` 方法：
 
 ```java
 public V put(K key, V value) {
@@ -256,27 +254,27 @@ public V put(K key, V value) {
 final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                boolean evict) {
     Node<K,V>[] tab; Node<K,V> p; int n, i;
-    // 当table不存在或长度为0时，新建一个table
+    // 当 table 不存在或长度为 0 时，新建一个 table
     if ((tab = table) == null || (n = tab.length) == 0)
         n = (tab = resize()).length;
-    // 当桶下标对应的node不存在时，新建该Node加入table
+    // 当桶下标对应的 node 不存在时，新建该 Node 加入 table
     if ((p = tab[i = (n - 1) & hash]) == null)
         tab[i] = newNode(hash, key, value, null);
-    // 当桶下标对应的Node已经存在时
+    // 当桶下标对应的 Node 已经存在时
     else {
         Node<K,V> e; K k;
-        // key相同时
+        // key 相同时
         if (p.hash == hash &&
             ((k = p.key) == key || (key != null && key.equals(k))))
             e = p;
-        // Node为TreeNode时
+        // Node 为 TreeNode 时
         else if (p instanceof TreeNode)
             e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
-        // key不相同，采用尾插法插入Node
+        // key 不相同，采用尾插法插入 Node
         else {
             //遍历链表
             for (int binCount = 0; ; ++binCount) {
-                // 到链表末尾但没有相同key，则添加新Node
+                // 到链表末尾但没有相同 key，则添加新 Node
                 if ((e = p.next) == null) {
                     p.next = newNode(hash, key, value, null);
                     // 链表过长，将链表转为树结构
@@ -284,7 +282,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
                         treeifyBin(tab, hash);
                     break;
                 }
-                // 找到相同key
+                // 找到相同 key
                 if (e.hash == hash &&
                     ((k = e.key) == key || (key != null && key.equals(k))))
                     break;
@@ -345,7 +343,7 @@ final Node<K,V> getNode(int hash, Object key) {
 
 **（5）桶下标**
 
-首先，传入`putVal()`的`hash(key)`处理如下，对于 key 为 null 的键值对，返回的 hash 值为 0；其余则是将所得 hashCode 右移 16 位后于原 hashCode 作异或处理：
+首先，传入 `putVal()` 的 `hash(key)` 处理如下，对于 key 为 null 的键值对，返回的 hash 值为 0；其余则是将所得 hashCode 右移 16 位后于原 hashCode 作异或处理：
 
 ```java
 static final int hash(Object key) {
@@ -405,7 +403,7 @@ int threshold;
 static final float DEFAULT_LOAD_FACTOR = 0.75f;
 ```
 
-扩容使用 `resize()` 实现，需要注意的是，扩容操作同样需要把 oldTable 的所有键值对重新插入 newTable 中，包括链表和黑红树的拆分，因此这一步是很费时的。
+扩容使用 `resize()` 实现，需要注意的是，扩容操作同样需要**把 oldTable 的所有键值对重新插入 newTable 中**，包括链表和黑红树的拆分，因此这一步是很费时的。
 
 在进行扩容时，需要把键值对重新计算桶下标，从而放到对应的桶上。在前面提到，HashMap 使用 hash % capacity 来确定桶下标。capacity 为 2 的 n 次方这一特点能够极大降低重新计算桶下标操作的复杂度。
 
@@ -423,9 +421,9 @@ new capacity : 00100000
 
 ### 2.3 与  Hashtable  的比较
 
-- Hashtable 使用 synchronized 来进行同步。
-- HashMap 可以插入键为 null 的 Entry。
-- HashMap 的迭代器是 fail-fast 迭代器。
+- Hashtable 使用 synchronized 来进行同步；
+- HashMap 可以插入键为 null 的 Entry；
+- HashMap 的迭代器是 fail-fast 迭代器；
 - HashMap 不能保证随着时间的推移 Map 中的元素次序是不变的。
 
 ### 2.4 简易实现
@@ -544,41 +542,43 @@ ConcurrentHashMap 和 HashMap 实现上类似，最主要的差别是 Concurrent
 Segment 继承自 ReentrantLock。默认的并发级别为 16，也就是说默认创建 16 个 Segment。
 
 ```java
+static final int DEFAULT_CONCURRENCY_LEVEL = 16;
+```
+
+### 3.2 size 操作
+
+每个 Segment 维护了一个 count 变量来统计该 Segment 中的键值对个数。在执行 size 操作时，需要遍历所有 Segment 然后把 count 累计起来。
+
+ConcurrentHashMap 在执行 size 操作时先尝试不加锁，如果连续两次不加锁操作得到的结果一致，那么可以认为这个结果是正确的。尝试次数使用 RETRIES_BEFORE_LOCK 定义，该值为 2，retries 初始值为 -1，因此尝试次数为 3。如果尝试的次数超过 3 次，就需要对每个 Segment 加锁。
+
+### 3.3 JDK 1.8 的改动
+
+JDK 1.7 使用分段锁机制来实现并发更新操作，核心类为 Segment，它继承自重入锁 ReentrantLock，并发度与 Segment 数量相等。
+
+JDK 1.8 使用了 **CAS** 操作来支持更高的并发度，在 CAS 操作失败时使用内置锁 **synchronized**，并且 JDK 1.8 的实现也在链表过长时会转换为**红黑树**。
+
+#### 1. 读不加锁
+
+我们通常使用读写锁来保护对一堆数据的读写操作。读时加读锁，写时加写锁。 ConcurrentHashMap 对数据的写操作是不需要分 2 次写的（没有中间状态），读操作也是不需要 2 次读取的。假如一个写操作需要分多次写，必然会有中间状态，如果读不加锁，那么可能就会读到中间状态，那就不对了。
+
+虽然 ConcurrentHashMap 的读不需要锁，但是需要保证能读到最新数据，所以必须加 **volatile**。
+
+```java
+transient volatile Node<K,V>[] table;
+```
+
+数组的引用需要加 volatile，保证扩容完成时新旧表交替的可见性。
+
+```java
 static final class HashEntry<K,V> {
     final int hash;
     final K key;
     volatile V value;
     volatile HashEntry<K,V> next;
 }
-
-static final int DEFAULT_CONCURRENCY_LEVEL = 16;
 ```
 
-### 3.2 size 操作
-
-每个 Segment 维护了一个 count 变量来统计该 Segment 中的键值对个数。
-
-在执行 size 操作时，需要遍历所有 Segment 然后把 count 累计起来。
-
-ConcurrentHashMap 在执行 size 操作时先尝试不加锁，如果连续两次不加锁操作得到的结果一致，那么可以认为这个结果是正确的。
-
-尝试次数使用 RETRIES_BEFORE_LOCK 定义，该值为 2，retries 初始值为 -1，因此尝试次数为 3。
-
-如果尝试的次数超过 3 次，就需要对每个 Segment 加锁。
-
-### 3.3 JDK 1.8 的改动
-
-JDK 1.7 使用分段锁机制来实现并发更新操作，核心类为 Segment，它继承自重入锁 ReentrantLock，并发度与 Segment 数量相等。
-
-JDK 1.8 使用了 **CAS** 操作来支持更高的并发度，在 CAS 操作失败时使用内置锁 **synchronized**。
-
-并且 JDK 1.8 的实现也在链表过长时会转换为**红黑树**。
-
-#### 1. 读不加锁
-
-我们通常使用读写锁来保护对一堆数据的读写操作。读时加读锁，写时加写锁。 ConcurrentHashMap 对数据的写操作是不需要分 2 次写的（没有中间状态），读操作也是不需要 2 次读取的。假如一个写操作需要分多次写，必然会有中间状态，如果读不加锁，那么可能就会读到中间状态，那就不对了。
-
-虽然 ConcurrentHashMap 的读不需要锁，但是需要保证能读到最新数据，所以必须加 **volatile**。即数组的引用需要加 volatile，同时一个 Node 节点中的 **val** 和 **next** 属性也必须要加 volatile。
+同时一个 Node 节点中的 **val** 和 **next** 属性也必须要加 volatile。
 
 #### 2. 迁移中的并发处理
 
