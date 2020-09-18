@@ -61,7 +61,7 @@
       "datePublished": "2020-07-17 16:16:51 \u002b0000 UTC",
       "dateModified" : "2020-07-17 16:16:51 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/mysql\/",
-      "wordCount" : "428",
+      "wordCount" : "445",
       "keywords" : ["database", "mysql", "Blog"]
     }
   
@@ -121,7 +121,7 @@
 <p><strong>优势</strong>：减少 I/O 次数，加快检索速度；根据索引分组和排序，可以加快分组和排序；</p>
 <p><strong>劣势</strong>：索引本身也是表，因此会占用存储空间，一般来说，索引表占用的空间的数据表的1.5倍；索引表的维护和创建需要时间成本，这个成本随着数据量增大而增大；构建索引会降低数据表的修改操作（删除，添加，修改）的效率，因为在修改数据表的同时还需要修改索引表。</p>
 <p>常见的索引类型有：主键索引、唯一索引、普通索引、全文索引、组合索引</p>
-<p><strong>（1）主键索引</strong>：即主索引，根据主键pk_clolum（length）建立索引，<strong>不允许重复，不允许空值</strong></p>
+<p><strong>（1）主键索引</strong>：即主索引，根据主键 pk_clolum（length）建立索引，<strong>不允许重复，不允许空值</strong></p>
 <pre><code class="language-sql">ALTER TABLE 'table_name' ADD PRIMARY KEY pk_index('col')；
 </code></pre>
 <p><strong>（2）唯一索引</strong>：用来建立索引的列的值必须是<strong>唯一的，允许空值</strong></p>
@@ -172,7 +172,7 @@
 <li>无法用于排序与分组；</li>
 <li>只支持精确查找，无法用于部分查找和范围查找。</li>
 </ul>
-<p>InnoDB 存储引擎有一个特殊的功能叫“自适应哈希索引”，当某个索引值被使用的非常频繁时，会在 B+Tree 索引之上再创建一个哈希索引，这样就让 B+Tree 索引具有哈希索引的一些优点，比如快速的哈希查找。</p>
+<p>InnoDB 存储引擎有一个特殊的功能叫 “自适应哈希索引”，当某个索引值被使用的非常频繁时，会在 B+ Tree 索引之上再创建一个哈希索引，这样就让 B+ Tree 索引具有哈希索引的一些优点，比如快速的哈希查找。</p>
 <h4 id="3-全文索引">3. 全文索引</h4>
 <p>MyISAM 存储引擎支持全文索引，用于查找文本中的关键词，而不是直接比较是否相等查找条件使用 MATCH AGAINST，而不是普通的 WHERE。全文索引使用倒排索引实现，它记录着关键词到其所在文档的映射。InnoDB 存储引擎在 MySQL 5.6.4 版本中也开始支持全文索引。</p>
 <h4 id="4-空间数据索引">4. 空间数据索引</h4>
@@ -231,19 +231,19 @@ customer_id_selectivity: 0.0373
 <p>有些系统为了提高运行效率，就必须降低范式标准，适当保留冗余数据。此外可以满足以下规则：</p>
 <ul>
 <li>根据自己的业务选择合适的引擎；</li>
-<li>表的字段尽可能使用<strong>NOT NULL</strong>；</li>
-<li>如果知道字符串固定长度，那么就用char型，不要用varchar型；</li>
+<li>表的字段尽可能使用 <strong>NOT NULL</strong>；</li>
+<li>如果知道字符串固定长度，那么就用 char 型，不要用 varchar 型；</li>
 <li>主从分离，读从库，写主库；</li>
 <li>当表的字段过多时，进行垂直分割；如果数据过多时，进行水平分割。</li>
 </ul>
 <h3 id="22-sql语句优化">2.2 SQL语句优化<a class="anchor" href="#22-sql语句优化">#</a></h3>
 <ul>
-<li>不使用Select *，只查询需要的字段，查询所有占用内存；</li>
+<li>不使用 Select *，只查询需要的字段，查询所有占用内存；</li>
 <li>使用 LIMIT 语句来限制返回的数据，当<a href="https://hackernoon.com/please-dont-use-offset-and-limit-for-your-pagination-8ux3u4y">数据量很大时避免使用<code>OFFSET</code></a>；</li>
 <li>多表连接时，尽量小表驱动大表，即小表 join 大表；</li>
 <li>使用缓存存储过程；</li>
 <li>使用枚举或整数代替字符串类型；</li>
-<li>开启慢查询，对慢sql使用explain或desc进行性能分析，并优化sql。</li>
+<li>开启慢查询，对慢 SQL 使用 explain 或 desc 进行性能分析，并优化 SQL。</li>
 </ul>
 <h3 id="23-重构查询方式">2.3 重构查询方式<a class="anchor" href="#23-重构查询方式">#</a></h3>
 <h4 id="1-切分大查询">1. 切分大查询</h4>

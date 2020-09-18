@@ -61,7 +61,7 @@
       "datePublished": "2020-09-16 10:42:08 \u002b0800 CST",
       "dateModified" : "2020-09-16 10:42:08 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A1%8C%E4%B8%BA%E5%9E%8B\/",
-      "wordCount" : "415",
+      "wordCount" : "416",
       "keywords" : ["design_pattern", "迭代器", "Fail-Fast", "Blog"]
     }
   
@@ -255,7 +255,7 @@ interface Caller&lt;E&gt; {
 <pre><code class="language-java">1 2 3 4 Exception in thread &quot;Thread-1&quot; java.util.ConcurrentModificationException
 </code></pre>
 <p>在第 5 秒时，我们对 qms 中的数据进行了改动，这导致叫号器报出了异常。</p>
-<p>当然，这里只是为了展示迭代器和 Fail-Fast，实际生活中的叫号器不应该是这样的实现，如果我们每次加入新的号码都要处理异常就很不方便了，比如需要处理高并发问题时，生产者 - 消费者模式是不错的选择。</p>
+<p>当然，这里只是为了展示迭代器和 Fail-Fast，实际生活中的叫号器不应该是这样的实现，如果我们每次加入新的号码都要处理异常就很不方便了，比如需要处理高并发问题时，“生产者 - 消费者” 模式是不错的选择。</p>
 
 
               

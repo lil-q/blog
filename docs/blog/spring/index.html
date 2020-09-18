@@ -61,7 +61,7 @@
       "datePublished": "2020-09-09 18:07:37 \u002b0800 CST",
       "dateModified" : "2020-09-09 18:07:37 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/spring\/",
-      "wordCount" : "680",
+      "wordCount" : "697",
       "keywords" : ["spring", "spring boot", "ioc", "aop", "循环依赖", "Blog"]
     }
   
@@ -224,7 +224,7 @@
 <tbody>
 <tr>
 <td><strong>singletonObjects</strong></td>
-<td>用于存放完全初始化好的 Bean，从该缓存中取出的 Bean 可以直接使用</td>
+<td>存放完全初始化好的 Bean，从该缓存中取出的 Bean 可以直接使用</td>
 </tr>
 <tr>
 <td><strong>earlySingletonObjects</strong></td>
@@ -236,10 +236,10 @@
 </tr>
 </tbody>
 </table>
-<p>简单的来说就是在实例化和属性赋值之间加入了暴露<strong>单例工厂 singletonFactorie</strong> 的过程，并在第二次需要创建 A 时找到<strong>早期引用 earlySingletonObject</strong> 来提前跳出循环：</p>
+<p>简单的来说就是在实例化和属性赋值之间加入了<strong>暴露单例工厂</strong>的过程，即把单例工厂加入到 <em>singletonFactories</em> 缓存中。如果出现循环依赖，在第二次需要创建 A 时找到第一次加入 <em>singletonFactories</em> 缓存的单例工厂并调用 <code>getObject()</code> 获取早期引用并将其加入 <em>earlySingletonObjects</em> 来提前跳出循环，之后再出现循环创建 A，则直接从 <em>earlySingletonObjects</em> 缓存中获取早期引用即可，具体步骤如下：</p>
 <ul>
-<li>实例化；</li>
-<li>暴露 singletonFactorie，将其加入到 singletonFactories；</li>
+<li>实例化 A；</li>
+<li>暴露单例工厂，将其加入到 <em>singletonFactories</em>；</li>
 <li>解析依赖，A 解析到 B，B 又解析到 A；</li>
 <li>不再对 A 进行完整的创建过程，否则会陷入循环依赖，具体分支如下：</li>
 </ul>
@@ -266,7 +266,7 @@
     return (singletonObject != NULL_OBJECT ? singletonObject : null);
 }
 </code></pre>
-<p>为什么同时需要 earlySingletonObjects 和 singletonFactories 两个缓存来解决循环依赖问题呢？</p>
+<p>为什么同时需要 <em>earlySingletonObjects</em> 和 <em>singletonFactories</em> 两个缓存来解决循环依赖问题呢？</p>
 <p>其实这是为了兼顾到 AOP，对于普通对象，确实只要返回刚创建完的早期引用就好了，但对于内部有被 AOP 增强的方法的对象，需要返回的是代理对象。可以看到 ObjectFactory 匿名内部类里面调用的 getEarlyBeanReference 方法如下：</p>
 <pre><code class="language-java">protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, Object bean) {
     Object exposedObject = bean;
@@ -286,13 +286,13 @@
 <h3 id="24-beanfactory">2.4 BeanFactory<a class="anchor" href="#24-beanfactory">#</a></h3>
 <p>BeanFactory 和 ApplicationContext 的区别在于，BeanFactory 的实现是按需创建，即第一次获取 Bean 时才创建这个 Bean，而 ApplicationContext 会一次性创建所有的 Bean。实际上，ApplicationContext 接口是从 BeanFactory 接口继承而来的，并且，ApplicationContext 提供了一些额外的功能，包括国际化支持、事件和通知机制等。通常情况下，我们总是使用 ApplicationContext，很少会考虑使用 BeanFactory。</p>
 <h3 id="25-autowired">2.5 Autowired<a class="anchor" href="#25-autowired">#</a></h3>
-<p><code>@Autowired</code>是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到<code>@Autowied</code>、<code>@Resource</code>或<code>@Inject</code>时，就会在 IoC 容器自动查找需要的 Bean，并装配给该对象的属性。在使用<code>@Autowired</code>时，首先在容器中查询对应类型的 Bean：</p>
+<p><code>@Autowired</code> 是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到 <code>@Autowied</code>、<code>@Resource</code> 或 <code>@Inject</code> 时，就会在 IoC 容器自动查找需要的 Bean，并装配给该对象的属性。在使用 <code>@Autowired</code> 时，首先在容器中查询对应类型的 Bean：</p>
 <ul>
 <li>如果查询结果刚好为一个，就将该 Bean 装配给<code>@Autowired</code>指定的数据；</li>
 <li>如果查询的结果不止一个，那么<code>@Autowired</code>会根据名称来查找；</li>
 <li>如果上述查找的结果为空，那么会抛出异常。解决方法时，使用<code>required=false</code>。</li>
 </ul>
-<p><code>@Resource</code>注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过<code>@Resource</code>的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 Bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 Bean 名称寻找依赖对象。</p>
+<p><code>@Resource</code> 注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过 <code>@Resource</code> 的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 Bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 Bean 名称寻找依赖对象。</p>
 <h2 id="三aop">三、AOP<a class="anchor" href="#三aop">#</a></h2>
 <p><strong>面向切面编程</strong>（<strong>A</strong>spect-<strong>O</strong>riented <strong>P</strong>rogramming，<strong>AOP</strong>）能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。</p>
 <p>Spring AOP 就是基于动态代理的，如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 <strong>JDK Proxy</strong> 去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候 Spring AOP 会使用 <strong>Cglib</strong> 生成一个被代理对象的子类来作为代理。</p>

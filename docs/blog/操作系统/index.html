@@ -61,7 +61,7 @@
       "datePublished": "2020-05-10 00:08:33 \u002b0000 UTC",
       "dateModified" : "2020-05-10 00:08:33 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F\/",
-      "wordCount" : "500",
+      "wordCount" : "554",
       "keywords" : ["operating system", "Blog"]
     }
   
@@ -155,7 +155,7 @@
 <li><strong>虚拟内存</strong>等。</li>
 </ol>
 <h4 id="3-文件管理">3. 文件管理</h4>
-<p>为用户进程分配I/O设备，提高CPU和I/O设备的利用率。</p>
+<p>为用户进程分配 I/O 设备，提高 CPU 和 I/O 设备的利用率。</p>
 <ol>
 <li><strong>文件存储空间的管理</strong>；</li>
 <li><strong>目录管理</strong>；</li>
@@ -174,8 +174,14 @@
 <p>如果一个进程在用户态需要使用内核态的功能，就进行系统调用从而陷入内核，由操作系统代为完成。</p>
 <h4 id="1-指令划分">1. 指令划分</h4>
 <ul>
-<li><strong>特权指令</strong>：只能由操作系统使用，如启动I/O、内存清零、修改程序状态字、设置时钟、允许/禁止终端、停机；</li>
-<li><strong>非特权指令</strong>：用户程序可以使用的指令。如控制转移、算数运算、取数指令、访管指令（使用户程序从用户态陷入内核态）。</li>
+<li>
+<p><strong>特权指令</strong>：只能由操作系统使用。</p>
+<p>如启动 I/O、内存清零、修改程序状态字、设置时钟、允许/禁止终端、停机。</p>
+</li>
+<li>
+<p><strong>非特权指令</strong>：用户程序可以使用的指令。</p>
+<p>如控制转移、算数运算、取数指令、访管指令（使用户程序从用户态陷入内核态）。</p>
+</li>
 </ul>
 <h4 id="2-内核态和用户态">2. 内核态和用户态</h4>
 <ul>
@@ -190,7 +196,7 @@
 <h4 id="3-cpu-状态的切换">3. CPU 状态的切换</h4>
 <ul>
 <li><strong>用户态 -&gt; 内核态</strong>：唯一途径是通过中断、异常、陷入机制（访管指令）；</li>
-<li><strong>内核态 -&gt; 用户态</strong>：设置程序状态字PSW。</li>
+<li><strong>内核态 -&gt; 用户态</strong>：设置程序状态字 PSW。</li>
 </ul>
 <p>CPU 上下文切换：</p>
 <ol>
@@ -233,17 +239,17 @@
 <h3 id="22-进程的状态">2.2 进程的状态<a class="anchor" href="#22-进程的状态">#</a></h3>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/os/os4.png" alt=""></p>
 <ul>
-<li><strong>运行状态</strong>：CPU就绪；其他所需资源就绪。</li>
-<li><strong>就绪状态</strong>：CPU未就绪；其他所需资源就绪。</li>
-<li><strong>阻塞状态</strong>：CPU未就绪；其他所需资源未就绪。</li>
-<li><strong>创建状态</strong>：操作系统为新进程分配资源、创建PCB。</li>
-<li><strong>终止状态</strong>：操作系统回收进程的资源、撤销PCB。</li>
+<li><strong>运行状态</strong>：CPU 就绪；其他所需资源就绪；</li>
+<li><strong>就绪状态</strong>：CPU 未就绪；其他所需资源就绪；</li>
+<li><strong>阻塞状态</strong>：CPU 未就绪；其他所需资源未就绪；</li>
+<li><strong>创建状态</strong>：操作系统为新进程分配资源、创建 PCB；</li>
+<li><strong>终止状态</strong>：操作系统回收进程的资源、撤销 PCB。</li>
 </ul>
 <p>只有就绪态和运行态可以相互转换，其它的都是<strong>单向转换</strong>。就绪状态的进程通过调度算法从而获得 CPU 时间，转为运行状态；而运行状态的进程，在分配给它的 CPU 时间片用完之后就会转为就绪状态，等待下一次调度。</p>
 <p>阻塞状态是缺少需要的资源从而由运行状态转换而来，但是该资源不包括 CPU 时间，缺少 CPU 时间会从运行态转换为就绪态。</p>
 <h3 id="23-进程同步">2.3 进程同步<a class="anchor" href="#23-进程同步">#</a></h3>
 <ul>
-<li>同步：多个进程因为合作产生的直接制约关系，使得进程有一定的先后执行关系。</li>
+<li>同步：多个进程因为合作产生的直接制约关系，使得进程有一定的先后执行关系；</li>
 <li>互斥：多个进程在同一时刻只有一个进程能进入临界区。</li>
 </ul>
 <p><strong>临界区</strong>：对临界资源进行访问的那段代码称为临界区。</p>
@@ -259,15 +265,15 @@ exit section
 <p><strong>（2）原子操作指令</strong></p>
 <p>比较常见的原子操作指令包括 <a href="https://en.wikipedia.org/wiki/Test-and-set">test and set</a>、<a href="https://en.wikipedia.org/wiki/Compare-and-swap">compare and swap</a>。</p>
 <h4 id="2-信号量机制">2. 信号量机制</h4>
-<p>semaphore有一个<strong>整型变量（S）<strong>和两个</strong>原子操作</strong>组成。S表示资源的数量，而两个原子操作一般被成为P操作和V操作（有时也被成为wait、signal）。</p>
-<p>P操作表示申请一个资源，P操作的定义：S=S-1，若S&gt;=0，则执行P操作的线程继续执行；若S&lt;0，则置该线程为阻塞状态，并将其插入阻塞队列。伪码如下：</p>
+<p>semaphore 由一个<strong>整型变量（S）<strong>和两个</strong>原子操作</strong>组成。S 表示资源的数量，而两个原子操作一般被成为 <em>P</em> 操作和 <em>V</em> 操作（有时也被成为wait、signal）。</p>
+<p><em>P</em> 操作表示申请一个资源，<em>P</em> 操作的定义：S = S - 1，若 S &gt;= 0，则执行 <em>P</em> 操作的线程继续执行；若 S &lt; 0，则置该线程为阻塞状态，并将其插入阻塞队列。伪码如下：</p>
 <pre><code class="language-java">Procedure P（Var S：Semaphore）；
 　　Begin
 　　　　S：=S-1；
 　　　　If S&lt;0 then w(S) {执行P操作的线程插入等待队列}
 　　End；
 </code></pre>
-<p>V操作表示释放一个资源，V操作定义：S=S+1，若S&gt;0则执行V操作的线程继续执行；若S&lt;0，则从阻塞状态唤醒一个线程，并将其插入就绪队列。伪代码如下：</p>
+<p><em>V</em> 操作表示释放一个资源，<em>V</em> 操作定义：S = S + 1，若 S &gt; 0 则执行 <em>V</em> 操作的线程继续执行；若 S &lt; 0，则从阻塞状态唤醒一个线程，并将其插入就绪队列。伪代码如下：</p>
 <pre><code class="language-java">Procedure V（Var S：Semaphore）；
 　　Begin
 　　　　S：=S+1
@@ -304,7 +310,7 @@ exit section
 <p>为了防止低优先级的进程永远等不到调度，可以随着时间的推移增加等待进程的优先级。</p>
 <p><strong>（3）多级反馈队列</strong></p>
 <p>一个进程需要执行 100 个时间片，如果采用时间片轮转调度算法，那么需要交换 100 次。</p>
-<p>多级队列是为这种需要连续执行多个时间片的进程考虑，它设置了多个队列，每个队列时间片大小都不同，例如 1,2,4,8,..。进程在第一个队列没执行完，就会被移到下一个队列。这种方式下，之前的进程只需要交换 7 次。</p>
+<p>多级队列是为这种需要连续执行多个时间片的进程考虑，它设置了多个队列，每个队列时间片大小都不同，例如 1, 2, 4, 8, &hellip;，进程在第一个队列没执行完，就会被移到下一个队列。这种方式下，之前的进程只需要交换 7 次。</p>
 <p>每个队列优先权也不同，最上面的优先权最高。因此只有上一个队列没有进程在排队，才能调度当前队列上的进程。</p>
 <p>可以将这种调度算法看成是时间片轮转调度算法和优先级调度算法的结合。</p>
 <h4 id="3-实时系统">3. 实时系统</h4>

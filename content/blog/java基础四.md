@@ -147,7 +147,7 @@ List<Integer> list = List.of(array);
 
 对于JDK 11之前的版本，可以使用 `Arrays.asList(T...)` 方法把 Array 转换成 List。
 
-### 2.3 contains() & indexOf()
+### 2.3 contains()
 
 List 内部按照放入元素的先后顺序存放，并且每个元素都可以通过索引确定自己的位置。List 提供了 `boolean contains(Object o)` 方法来判断 List 是否包含某个指定元素。此外，`int indexOf(Object o)` 方法可以返回某个元素的索引，如果元素不存在，就返回 -1。
 

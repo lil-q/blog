@@ -103,16 +103,16 @@ Spring 中使用了三个 Map 作为缓存以解决这个问题：
 
 <br>
 
-| 缓存                      | 用途                                                         |
-| ------------------------- | ------------------------------------------------------------ |
-| **singletonObjects**      | 用于存放完全初始化好的 Bean，从该缓存中取出的 Bean 可以直接使用 |
-| **earlySingletonObjects** | 存放原始的 Bean 对象（尚未填充属性），用于解决循环依赖       |
-| **singletonFactories**    | 存放 Bean 工厂对象，用于解决循环依赖                         |
+| 缓存                      | 用途                                                        |
+| ------------------------- | ----------------------------------------------------------- |
+| **singletonObjects**      | 存放完全初始化好的 Bean，从该缓存中取出的 Bean 可以直接使用 |
+| **earlySingletonObjects** | 存放原始的 Bean 对象（尚未填充属性），用于解决循环依赖      |
+| **singletonFactories**    | 存放 Bean 工厂对象，用于解决循环依赖                        |
 
-简单的来说就是在实例化和属性赋值之间加入了暴露**单例工厂 singletonFactorie** 的过程，并在第二次需要创建 A 时找到**早期引用 earlySingletonObject** 来提前跳出循环：
+简单的来说就是在实例化和属性赋值之间加入了**暴露单例工厂**的过程，即把单例工厂加入到 *singletonFactories* 缓存中。如果出现循环依赖，在第二次需要创建 A 时找到第一次加入 *singletonFactories* 缓存的单例工厂并调用 `getObject()` 获取早期引用并将其加入 *earlySingletonObjects* 来提前跳出循环，之后再出现循环创建 A，则直接从 *earlySingletonObjects* 缓存中获取早期引用即可，具体步骤如下：
 
-* 实例化；
-* 暴露 singletonFactorie，将其加入到 singletonFactories；
+* 实例化 A；
+* 暴露单例工厂，将其加入到 *singletonFactories*；
 * 解析依赖，A 解析到 B，B 又解析到 A；
 * 不再对 A 进行完整的创建过程，否则会陷入循环依赖，具体分支如下：
 
@@ -141,7 +141,7 @@ protected Object getSingleton(String beanName, boolean allowEarlyReference) {
 }
 ```
 
-为什么同时需要 earlySingletonObjects 和 singletonFactories 两个缓存来解决循环依赖问题呢？
+为什么同时需要 *earlySingletonObjects* 和 *singletonFactories* 两个缓存来解决循环依赖问题呢？
 
 其实这是为了兼顾到 AOP，对于普通对象，确实只要返回刚创建完的早期引用就好了，但对于内部有被 AOP 增强的方法的对象，需要返回的是代理对象。可以看到 ObjectFactory 匿名内部类里面调用的 getEarlyBeanReference 方法如下： 
 
@@ -169,13 +169,13 @@ BeanFactory 和 ApplicationContext 的区别在于，BeanFactory 的实现是按
 
 ### 2.5 Autowired
 
-`@Autowired`是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到`@Autowied`、`@Resource`或`@Inject`时，就会在 IoC 容器自动查找需要的 Bean，并装配给该对象的属性。在使用`@Autowired`时，首先在容器中查询对应类型的 Bean：
+`@Autowired` 是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到 `@Autowied`、`@Resource` 或 `@Inject` 时，就会在 IoC 容器自动查找需要的 Bean，并装配给该对象的属性。在使用 `@Autowired` 时，首先在容器中查询对应类型的 Bean：
 
 - 如果查询结果刚好为一个，就将该 Bean 装配给`@Autowired`指定的数据；
 - 如果查询的结果不止一个，那么`@Autowired`会根据名称来查找；
 - 如果上述查找的结果为空，那么会抛出异常。解决方法时，使用`required=false`。
 
-`@Resource`注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过`@Resource`的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 Bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 Bean 名称寻找依赖对象。
+`@Resource` 注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过 `@Resource` 的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 Bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 Bean 名称寻找依赖对象。
 
 ## 三、AOP
 

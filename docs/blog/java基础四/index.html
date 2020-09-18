@@ -61,7 +61,7 @@
       "datePublished": "2020-03-30 18:34:55 \u002b0000 UTC",
       "dateModified" : "2020-03-30 18:34:55 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E5%9B%9B\/",
-      "wordCount" : "1599",
+      "wordCount" : "1597",
       "keywords" : ["java", "List", "Set", "Queue", "Blog"]
     }
   
@@ -216,7 +216,7 @@ public class Main {
 List&lt;Integer&gt; list = List.of(array);
 </code></pre>
 <p>对于JDK 11之前的版本，可以使用 <code>Arrays.asList(T...)</code> 方法把 Array 转换成 List。</p>
-<h3 id="23-contains--indexof">2.3 contains() &amp; indexOf()<a class="anchor" href="#23-contains--indexof">#</a></h3>
+<h3 id="23-contains">2.3 contains()<a class="anchor" href="#23-contains">#</a></h3>
 <p>List 内部按照放入元素的先后顺序存放，并且每个元素都可以通过索引确定自己的位置。List 提供了 <code>boolean contains(Object o)</code> 方法来判断 List 是否包含某个指定元素。此外，<code>int indexOf(Object o)</code> 方法可以返回某个元素的索引，如果元素不存在，就返回 -1。</p>
 <p>List 内部并不是通过 == 判断两个元素是否相等，而是使用 <code>equals()</code> 方法判断两个元素是否相等，所以放入的实例必须要正确 override。</p>
 <p>如果 this.name 为 null，那么 <code>equals()</code> 方法会报错，因此，需要继续改写如下：</p>
@@ -769,7 +769,7 @@ private E get(Object[] a, int index) {
       <ul>
         <li><a href="#21-list-遍历">2.1 List 遍历</a></li>
         <li><a href="#22-list-和-array-转换">2.2 List 和 Array 转换</a></li>
-        <li><a href="#23-contains--indexof">2.3 contains() &amp; indexOf()</a></li>
+        <li><a href="#23-contains">2.3 contains()</a></li>
         <li><a href="#24-list-实现类">2.4 List 实现类</a></li>
       </ul>
     </li>

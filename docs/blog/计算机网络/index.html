@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "780",
+      "wordCount" : "785",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -131,11 +131,11 @@
 <ul>
 <li>电路交换：整个报文的比特流连续地从源点直达终点，好像在一个管道中传送一样。</li>
 <li>报文交换：整个报文先传送到相邻结点，全部存储下来后查找转发表，转发到下一个结点。</li>
-<li>分组交换：单个分组（如p1，整个报文的一部分）传送到相邻结点，存储下来后查找转发表，转达到下一个结点。</li>
+<li>分组交换：单个分组传送到相邻结点，存储下来后查找转发表，转达到下一个结点。</li>
 </ul>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web1.png" alt=""></p>
 <h4 id="3-时延">3. 时延</h4>
-<p>总时延 = 排队时延 + 处理时延 + 发送时延 + 传播时延</p>
+<p>总时延 = 排队时延 + 处理时延 + 发送时延 + 传播时延：</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web2.png" alt=""></p>
 <p><strong>（1）排队时延</strong></p>
 <p>分组在路由器的输入队列和输出队列中排队等待的时间，取决于网络当前的通信量。</p>
@@ -223,13 +223,13 @@
 <ol>
 <li>确定基本退避时间，即争用期 2τ；</li>
 <li>定义参数 k，k 与冲突次数有关， k 不超过16时，k = <em>min</em>(冲突次数，10)；</li>
-<li>从离散的整数集合 [0,1,2，……，(2^k-1)] 中随机的取出一个数 r，等待的时延为 r 倍的基本退避时间，等于 r x 2t；</li>
+<li>从离散的整数集合 [0,1,2，……，(2^k-1)] 中随机的取出一个数 r，等待的时延为 r 倍的基本退避时间，等于 r x 2τ；</li>
 <li>当冲突次数超过 16 次后，发送失败，丢弃传输的帧，发送错误报告。</li>
 </ol>
 <h3 id="23-ppp-协议">2.3 PPP 协议<a class="anchor" href="#23-ppp-协议">#</a></h3>
 <p>互联网用户通常需要连接到某个 ISP 之后才能接入到互联网，PPP 协议是用户计算机和 ISP 进行通信时所使用的数据链路层协议。</p>
 <h3 id="24-mac-地址">2.4 MAC 地址<a class="anchor" href="#24-mac-地址">#</a></h3>
-<p>MAC 地址是链路层地址，长度为 6 字节（48 位），用于唯一标识网络适配器（网卡），存放在 <strong>Ethernet 首部</strong>。。一台主机拥有多少个网络适配器就有多少个 MAC 地址。例如笔记本电脑普遍存在无线网络适配器和有线网络适配器，因此就有两个 MAC 地址。</p>
+<p>MAC 地址是链路层地址，长度为 6 字节（48 位），用于唯一标识网络适配器（网卡），存放在 <strong>Ethernet 首部</strong>。一台主机拥有多少个网络适配器就有多少个 MAC 地址。例如笔记本电脑普遍存在无线网络适配器和有线网络适配器，因此就有两个 MAC 地址。</p>
 <h2 id="三网络层">三、网络层<a class="anchor" href="#三网络层">#</a></h2>
 <h3 id="31-网际互连协议-ip">3.1 网际互连协议 IP<a class="anchor" href="#31-网际互连协议-ip">#</a></h3>
 <p>IP 是整个 TCP/IP 协议族的核心，也是构成互联网的基础。IP 地址的编址方式经历了三个历史阶段：</p>
@@ -333,7 +333,7 @@
 <li>进入快速恢复算法</li>
 </ul>
 <p><strong>（4）快恢复</strong></p>
-<p>快速重传和快速恢复算法一般同时使用，在<code>cwnd = cwnd/2</code> &amp;  <code>ssthresh = cwnd</code>之后：</p>
+<p>快速重传和快速恢复算法一般同时使用，在 <code>cwnd = cwnd/2</code> &amp; <code>ssthresh = cwnd</code> 之后：</p>
 <ul>
 <li>拥塞窗口 <code>cwnd = ssthresh + n</code> （ 确认有 n 个数据包已接受）</li>
 <li>重传丢失的数据包</li>
@@ -346,14 +346,14 @@
 <p><strong>最大报文段大小</strong>（<strong>M</strong>aximum <strong>S</strong>egment <strong>S</strong>ize，<strong>MSS</strong>）：指的是 <strong>TCP</strong> 提交给 <strong>IP 层</strong>的最大数据报长度，其中不包括 TCP 首部长度。<strong>MSS 由 TCP 链接的过程中由双方协商得出</strong>（取较小值），其中 SYN 字段中的选项部分包括了这个信息。如果 MSS + TCP 首部 + IP 首部大于 MTU，那么 IP 报文就会分片，如果小于，那么就可以不需要分片正常发送。</p>
 <p><strong>IP</strong> 和 <strong>TCP</strong> 具有分片的能力，而 UDP 没有，比如应用层中的 DNS 协议在发现报文大于 512 字节时会使用 TCP 来传输。</p>
 <h3 id="45-粘包">4.5 粘包<a class="anchor" href="#45-粘包">#</a></h3>
-<p>粘包会在在流传输中出现，UDP不会出现粘包，因为它有<strong>消息边界</strong>，TCP 粘包有以下两种情况。</p>
+<p>粘包会在在流传输中出现，UDP 不会出现粘包，因为它有<strong>消息边界</strong>，TCP 粘包有以下两种情况。</p>
 <ol>
 <li>发送端需要等缓冲区满才发送出去，造成粘包；</li>
 <li>接收方不及时接收缓冲区的包，造成多个包接收。</li>
 </ol>
 <p>通常有以下解决办法：</p>
 <ol>
-<li>对于发送方引起的粘包现象，用户可通过编程设置来避免，TCP提供了强制数据立即传送的操作指令 push，TCP软件收到该操作指令后，就立即将本段数据发送出去，而不必等待发送缓冲区满；</li>
+<li>对于发送方引起的粘包现象，用户可通过编程设置来避免，TCP 提供了强制数据立即传送的操作指令 push，TCP 软件收到该操作指令后，就立即将本段数据发送出去，而不必等待发送缓冲区满；</li>
 <li>对于接收方引起的粘包，则可通过优化程序设计、精简接收进程工作量、提高接收进程优先级等措施，使其及时接收数据，从而尽量避免出现粘包现象；</li>
 <li>由接收方控制，将一包数据按结构字段，人为控制分多次接收，然后合并，通过这种手段来避免粘包。</li>
 </ol>
@@ -379,6 +379,8 @@
 </ul>
 <blockquote>
 <p><strong>传输层安全性协议</strong>（<strong>T</strong>ransport <strong>L</strong>ayer <strong>S</strong>ecurity，<strong>TLS</strong>）及其前身<strong>安全套接层</strong>（<strong>S</strong>ecure <strong>S</strong>ockets <strong>L</strong>ayer，<strong>SSL</strong>）是一种安全协议，目的是为互联网通信提供安全及数据完整性保障。</p>
+</blockquote>
+<blockquote>
 <p><strong>数字证书认证机构</strong>（<strong>C</strong>ertificate <strong>A</strong>uthority，<strong>CA</strong>）是负责发放和管理<strong>数字证书</strong>的权威机构</p>
 </blockquote>
 <h3 id="53-socket">5.3 socket<a class="anchor" href="#53-socket">#</a></h3>
