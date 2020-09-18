@@ -61,7 +61,7 @@
       "datePublished": "2019-12-04 21:53:50 \u002b0000 UTC",
       "dateModified" : "2019-12-04 21:53:50 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%A0%91-tree\/",
-      "wordCount" : "863",
+      "wordCount" : "876",
       "keywords" : ["tree", "BST", "二叉搜索树", "Blog"]
     }
   
@@ -127,7 +127,7 @@
 <li>树里面没有环路（cycle）。</li>
 </ul>
 <p><strong>术语</strong></p>
-<ol>
+<ul>
 <li><strong>节点的度(Degree)</strong>：一个节点含有的子树的个数称为该节点的度；</li>
 <li><strong>树的度(Degree of tree)</strong>：一棵树中，最大的节点度称为树的度；</li>
 <li><strong>叶节点(Leaf)</strong>：度为零的节点；</li>
@@ -140,7 +140,7 @@
 <li><strong>高度(height)</strong>：对于任意节点 n，n 的高度为从n到一片树叶的最长路径长，所有树叶的高度为 0；</li>
 <li><strong>节点的祖先(ancestor)</strong>：从根到该节点所经分支上的所有节点；</li>
 <li><strong>森林(forest)</strong>：由 m（m &gt;= 0）棵互不相交的树的集合称为森林。</li>
-</ol>
+</ul>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/height-depth.jpg" alt="层次深度和高度" style="zoom:80%;" /></p>
 <p><strong>分类</strong></p>
 <p>本文将介绍二叉树（Binary tree）、二叉搜索树（Binary search tree）和字典树（Trie）。关于AVL树（AVL tree）、红黑树（Red–black tree）和Ｂ树（B-tree），不做深入探讨。</p>
@@ -153,7 +153,7 @@
 </ol>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/BinaryTree2.png" alt="full"></p>
 <h2 id="二二叉树">二、二叉树<a class="anchor" href="#二二叉树">#</a></h2>
-<p><strong>二叉树</strong>（Binary tree）是每个节点最多只有两个分支（即不存在分支度大于 2 的节点）的树结构。通常分支被称作“左子树”或“右子树”。二叉树的分支具有左右次序，不能随意颠倒。</p>
+<p><strong>二叉树</strong>（Binary tree）是每个节点最多只有两个分支（即不存在分支度大于 2 的节点）的树结构。通常分支被称作 “左子树” 或 “右子树”。二叉树的分支具有左右次序，不能随意颠倒。</p>
 <pre><code class="language-python"># 建一个单节点
 class Node(object):
     def __init__(self, value):
@@ -249,7 +249,7 @@ def preorderTraversalIter(root):
     print(root.val)
 </code></pre>
 <p><strong>迭代</strong></p>
-<p>比较tricky的办法是吧后序遍历转变成中右左遍历的倒序，代码如下</p>
+<p>比较 tricky 的办法是吧后序遍历转变成中右左遍历的倒序，代码如下</p>
 <pre><code class="language-python"># 方法一
 def postorderTraversalIter(root):
     res = []
@@ -370,10 +370,10 @@ def postorderTraversalIter(root):
 <h3 id="二叉搜索树的建立">二叉搜索树的建立<a class="anchor" href="#二叉搜索树的建立">#</a></h3>
 <h4 id="1-插入节点">1. 插入节点</h4>
 <ol>
-<li>若 b 是空树，则将<code>node</code>所指节点作为根节点插入，否则：</li>
-<li>若<code>node.val</code>等于 b 的根节点的数据域之值，则返回，否则：</li>
-<li>若<code>node.val</code>小于 b 的根节点的数据域之值，则把s所指节点插入到左子树中，否则：</li>
-<li>把<code>node</code>所指节点插入到右子树中</li>
+<li>若 b 是空树，则将 <code>node</code> 所指节点作为根节点插入，否则：</li>
+<li>若 <code>node.val</code> 等于 b 的根节点的数据域之值，则返回，否则：</li>
+<li>若 <code>node.val</code> 小于 b 的根节点的数据域之值，则把s所指节点插入到左子树中，否则：</li>
+<li>把 <code>node</code> 所指节点插入到右子树中</li>
 </ol>
 <p>新插入节点总是叶子节点，所以数字组成相同但是排序不同的序列所构造的二叉搜索树其实是不同的。但是序列化（见后文）的结果是一致的。</p>
 <h4 id="2-查找节点">2. 查找节点</h4>

@@ -61,7 +61,7 @@
       "datePublished": "2019-11-17 15:49:44 \u002b0000 UTC",
       "dateModified" : "2019-11-17 15:49:44 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E5%A0%86-heap\/",
-      "wordCount" : "181",
+      "wordCount" : "209",
       "keywords" : ["heap", "堆排序", "heapify", "Blog"]
     }
   
@@ -125,13 +125,13 @@
 </ol>
 <p>当父节点的键值总是大于或等于任何一个子节点的键值时为最大堆。 当父节点的键值总是小于或等于任何一个子节点的键值时为最小堆。 本文以最大堆作为例子，最小堆类似。</p>
 <h2 id="二堆的建立">二、堆的建立<a class="anchor" href="#二堆的建立">#</a></h2>
-<p>堆的建立并不建立一个新的树，而是对数组进行原地改动，第一个数（index=0）为完全二叉树的level 0，即根，第二个数和第三个数为level 1，以此类推。</p>
+<p>堆的建立并不建立一个新的树，而是对数组进行原地改动，第一个数（index=0）为完全二叉树的 level 0，即根，第二个数和第三个数为 level 1，以此类推。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/%E5%BB%BA%E5%A0%86.png" alt="建堆"></p>
 <p>由于数组是升序数组，我们直接得到了最小堆。但是如果要进行升序排序，算法上需要建立最大堆。也就是说，当原数组是升序时，堆排序算法遇到了最坏情况。本文也以这种情况作为例子。</p>
 <pre><code class="language-python">nums=[1,2,3,4,5]
 </code></pre>
 <h3 id="21-堆的维护">2.1 堆的维护<a class="anchor" href="#21-堆的维护">#</a></h3>
-<p>上图的根节点是1，小于子节点，那么这显然违反了最大堆的性质，这时候需要让该元素在最大堆中逐级下降，维护最大堆的性质。处理一次维护的代码如下：</p>
+<p>上图的根节点是 1，小于子节点，那么这显然违反了最大堆的性质，这时候需要让该元素在最大堆中逐级下降，维护最大堆的性质。处理一次维护的代码如下：</p>
 <pre><code class="language-python">def adjust_heap(idx, max_len,nums):
     left = 2 * idx + 1
     right = 2 * idx + 2
@@ -146,10 +146,10 @@
 </code></pre>
 <h3 id="22-建立最大堆">2.2 建立最大堆<a class="anchor" href="#22-建立最大堆">#</a></h3>
 <ol>
-<li>自底向上处理， 因为数组<code>list[n//2,n]</code>中的所有元素都在堆树的叶节点中，因此可以看成只包含一个元素的堆， 无需维护。其中<code>n=len(list)</code>；</li>
-<li>从<code>index=n//2-1</code>开始，直到<code>index=0</code>，对每一个节点或根进行一次维护。</li>
+<li>自底向上处理， 因为数组 <code>list[n//2, n]</code> 中的所有元素都在堆树的叶节点中，因此可以看成只包含一个元素的堆， 无需维护。其中 <code>n = len(list)</code>；</li>
+<li>从 <code>index = n//2 - 1</code> 开始，直到 <code>index = 0</code>，对每一个节点或根进行一次维护。</li>
 </ol>
-<p><em>注意：一次维护并不是最多只交换一次，而是交换到某节点满足最大堆条件或者<code>index&gt;=n</code>为止。</em></p>
+<p>注意：一次维护并不是最多只交换一次，而是交换到某节点满足最大堆条件或者 <code>index&gt;=n</code> 为止。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/heapflow.png" alt="heapflow"></p>
 <pre><code class="language-python">def build_heap(nums):    
     n = len(nums)
@@ -161,7 +161,7 @@ print(&quot;heap:&quot;,heap)
 #输出：heap: [5, 4, 3, 1, 2]
 </code></pre>
 <h2 id="三最大堆中插入节点">三、最大堆中插入节点<a class="anchor" href="#三最大堆中插入节点">#</a></h2>
-<p>最大堆的插入节点的思想就是先在堆的最后添加一个节点，也就是在<code>list.append()</code>，然后沿着堆树上升。跟最大堆的初始建立过程大致相同。</p>
+<p>最大堆的插入节点的思想就是先在堆的最后添加一个节点，也就是在 <code>list.append()</code>，然后沿着堆树上升。跟最大堆的初始建立过程大致相同。</p>
 <pre><code class="language-python">def heap_insert(heap,num):
     heap=heap+[num]
     n=len(heap)
@@ -177,7 +177,7 @@ print(&quot;heapIns:&quot;,heap)
 </code></pre>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/heapinsert.png" alt="charu"></p>
 <h2 id="四最大堆节点的删除">四、最大堆节点的删除<a class="anchor" href="#四最大堆节点的删除">#</a></h2>
-<p>对一个节点的删除就是交换该节点和最后一个叶子节点的值，然后从该节点开始一次<code>adjust_heap()</code>：</p>
+<p>对一个节点的删除就是交换该节点和最后一个叶子节点的值，并从该节点开始一次 <code>adjust_heap()</code>：</p>
 <pre><code class="language-python">def heap_delete(heap,idx):
     n=len(heap)
     heap[idx],heap[-1]=heap[-1],heap[idx]
@@ -189,7 +189,7 @@ print(&quot;heapDel:&quot;,heap)
 #输出：heapDel: [5, 4, 3, 1, 2]
 </code></pre>
 <h2 id="五堆排序">五、堆排序<a class="anchor" href="#五堆排序">#</a></h2>
-<p>特殊地，当我们交换根和最后一个叶子节点时，就能够提出最大值，并且存放在<code>index=-1</code>的位置。然后再对前n-1个数组成的最大堆进行该处理，以此类推，最终完成堆排序。</p>
+<p>特殊地，当我们交换根和最后一个叶子节点时，就能够提出最大值，并且存放在 <code>index=-1</code> 的位置。然后再对前 n - 1 个数组成的最大堆进行该处理，以此类推，最终完成堆排序。</p>
 <pre><code class="language-python">def heap_sorted(heap):
     for i in range(1, len(heap)):
         heap[0], heap[-i] = heap[-i], heap[0]

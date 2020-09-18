@@ -8,18 +8,18 @@ description: "十种排序算法的python实现及复杂度分析"
 keywords: [sort, 排序, 算法]
 ---
 
-十种排序算法的python实现及复杂度分析
+十种排序算法的 python 实现及复杂度分析
 
 ## 分类
 
 评价排序算法的几个指标：
 
-* **时间复杂度**：包括平均时间复杂度、最坏时间复杂度和最好时间复杂度。一般而言，好的性能是$O(nlog_2n)$，坏的性能是$O(n^2)$。对于一个排序理想的性能是O(n)，但平均而言不可能达到。基于比较的排序算法对大多数输入而言至少需要$O(nlog_2n)$。
+* **时间复杂度**：包括平均时间复杂度、最坏时间复杂度和最好时间复杂度。一般而言，好的性能是 $O(nlog_2n)$，坏的性能是 $O(n^2)$。对于一个排序理想的性能是 $O(n)$，但平均而言不可能达到。基于比较的排序算法对大多数输入而言至少需要 $O(nlog_2n)$。
 * **空间复杂度**：内存使用量
-* **稳定性**： 稳定排序算法会让原本有相等键值的纪录维持相对次序。也就是如果一个排序算法是**稳定**的，当有两个相等键值的纪录**R**和**S**，且在原本的列表中**R**出现在**S**之前，在排序过的列表中**R**也将会是在**S**之前。
+* **稳定性**： 稳定排序算法会让原本有相等键值的纪录维持相对次序。也就是如果一个排序算法是**稳定**的，当有两个相等键值的纪录 **R** 和 **S**，且在原本的列表中 **R** 出现在 **S** 之前，在排序过的列表中 **R** 也将会是在 **S** 之前。
 *  **依据排序的方法**：插入、交换、选择、合并等等。  
 
-本文介绍了以下几种排序，推荐**可视化网站[visualgo]( https://visualgo.net/zh/sorting )**，下文代码都采用数组作为输入。
+本文介绍了以下几种排序，推荐**可视化网站 [visualgo]( https://visualgo.net/zh/sorting )**，下文代码都采用数组作为输入。
 
 <br>
 
@@ -37,9 +37,9 @@ keywords: [sort, 排序, 算法]
 |    桶排序     |      $O(n+k)$       |      $O(n^2)$       |       $O(n)$        |    $O(n+k)$     |  稳定  |
 
 * 均按从小到大排列 
-* k代表数值中的"数字"个数
-* n代表数据规模
-* m代表数据的最大值减最小值
+* k 代表数值中的 "数字" 个数
+* n 代表数据规模
+* m 代表数据的最大值减最小值
 
 
 
@@ -71,7 +71,7 @@ def bubble_sorted(nums):
     return nums
 ```
 
-但是，该算法的最优时间复杂度[并不是O(n)，而是$O(n^2)$]( https://www.cnblogs.com/melon-h/archive/2012/09/20/2694941.html )。需改写才能实现最优理想状态：
+但是，该算法的最优时间复杂度并不是 $O(n)$，而是 $O(n^2)$[[5]]( https://www.cnblogs.com/melon-h/archive/2012/09/20/2694941.html)。需改写才能实现最优理想状态：
 
 ```python
 def bubble_sorted(nums):
@@ -97,9 +97,9 @@ def bubble_sorted(nums):
 
 **流程**
 
-1. 初始状态：无序区为R[1..n]，有序区为空；
-2. 第i趟排序(i=1,2,3…n-1)开始时，当前有序区和无序区分别为R[1..i-1]和R(i..n）。该趟排序从当前无序区中-选出关键字最小的记录 R[k]，将它与无序区的第1个记录R交换，使R[1..i]和R[i+1..n)分别变为记录个数增加1个的新有序区和记录个数减少1个的新无序区；
-3. n-1趟结束，数组有序化了。
+1. 初始状态：无序区为 R[1..n]，有序区为空；
+2. 第 i 趟排序（i = 1, 2, 3, …, n-1）开始时，当前有序区和无序区分别为 R[1, ..., i - 1] 和 R[i, ..., n]。该趟排序从当前无序区中选出关键字最小的记录 R[k]，将它与无序区的第 1 个记录R交换，使 R[1, ..., i] 和 R[i + 1, ..., n] 分别变为记录个数增加 1 个的新有序区和记录个数减少 1 个的新无序区；
+3. n - 1 趟结束，数组有序化了。
 
 ![选择流程](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/selection_sort.gif)
 
@@ -130,9 +130,9 @@ def selection_sorted(nums):
 1. 从第一个元素开始，该元素可以认为已经被排序；
 2. 取出下一个元素，在已经排序的元素序列中从后向前扫描；
 3. 如果该元素（已排序）大于新元素，将该元素移到下一位置；
-4. 重复步骤3，直到找到已排序的元素小于或者等于新元素的位置；
+4. 重复步骤 3，直到找到已排序的元素小于或者等于新元素的位置；
 5. 将新元素插入到该位置后；
-6. 重复步骤2~5。
+6. 重复步骤 2 ~ 5。
 
 ![插入流程](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/insertion_sort.gif)
 
@@ -155,8 +155,8 @@ def insertion_sorted(nums):
 
 ## 堆排序
 
-数据分区：（最大堆，有序区）。
-从堆顶把根卸出来放在有序区之前，再恢复堆。 [关于堆](https://lil-q.github.io/2019/11/17/%E5%A0%86-heap/)
+数据分区：（最大堆，有序区）。<br>
+从堆顶把根卸出来放在有序区之前，再恢复堆。 [关于堆](https://lil-q.github.io/blog/%E5%A0%86-heap/)
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Sorting_heapsort_anim.gif" alt="heap" style="zoom:50%;" />
 
@@ -204,7 +204,7 @@ def heap_sorted(nums):
 
 **流程**
 
-1. 把长度为n的输入序列分成两个长度为n/2的子序列；
+1. 把长度为 n 的输入序列分成两个长度为 n/2 的子序列；
 2. 对这两个子序列分别采用归并排序；
 3. 将两个排序好的子序列合并成一个最终的排序序列。
 
@@ -239,11 +239,11 @@ def merge_sort(L):
     return merge(left, right)
 ```
 
-时间复杂度是O(nlogn)，归并的空间复杂度为临时的数组和递归时压入栈的数据占用的空间：n + logn，所以空间复杂度为: O(n)。[参考]( https://blog.csdn.net/YuZhiHui_No1/article/details/44223225 ) 
+时间复杂度是 O(nlogn)，归并的空间复杂度为临时的数组和递归时压入栈的数据占用的空间：n + logn，所以空间复杂度为: O(n)[[6]](https://blog.csdn.net/YuZhiHui_No1/article/details/44223225)。
 
 **迭代法（Bottom-up）**
 
-重写merge()，实现O(1)
+重写 merge()，实现 O(1)：
 
 ```python
 def merge_iter(nums,l1,l2,r2):
@@ -261,7 +261,7 @@ def merge_iter(nums,l1,l2,r2):
 		r2-=1
 ```
 
-这里参考了[leetcode 88.合并两个有序数组]( https://leetcode-cn.com/problems/merge-sorted-array/solution/he-bing-liang-ge-you-xu-shu-zu-by-leetcode/ )，采用双指针从后往前合并两个有序数组（其实也就是一个数组切片的前一半和后一半），实现了空间复杂度O(1)。
+这里参考了[leetcode 88.合并两个有序数组]( https://leetcode-cn.com/problems/merge-sorted-array/solution/he-bing-liang-ge-you-xu-shu-zu-by-leetcode/ )，采用双指针从后往前合并两个有序数组（其实也就是一个数组切片的前一半和后一半），实现了空间复杂度 O(1)。
 
 ![merge](https://qttblog.oss-cn-hangzhou.aliyuncs.com/merge.jpg)
 
@@ -299,7 +299,7 @@ def msi(nums):
 		step = offset
 ```
 
-[时间复杂度是$O(nlog^2n)$,空间复杂度为: O(1)](https://zh.wikipedia.org/wiki/排序算法 )。
+时间复杂度是 $O(nlog^2n)$，空间复杂度为: O(1)。
 
 
 
@@ -337,7 +337,7 @@ def quick_sorted(nums):
     return quick_sorted(left) + mid + quick_sorted(right)
 ```
 
-需要${\Omega (n)}$的额外存储空间，也就跟归并排序一样不好。额外需要的存储空间，在实际实现时，也会极度影响速度和缓存的性能 。下面是原地排序的代码， [平均可以达到$O(\log n)$的空间复杂度]( [https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F#Python%E5%8E%9F%E5%9C%B0%E6%8E%92%E5%BA%8F%E7%89%88%E6%9C%AC](https://zh.wikipedia.org/wiki/快速排序#Python原地排序版本) )。 
+需要 ${\Omega (n)}$ 的额外存储空间，也就跟归并排序一样不好。额外需要的存储空间，在实际实现时，也会极度影响速度和缓存的性能 。下面是原地排序的代码， 平均可以达到 $O(\log n)$ 的空间复杂度[[7]](https://zh.wikipedia.org/wiki/快速排序#Python原地排序版本)。 
 
 ```python
 def quick_sorted_inp(nums, first, last):
@@ -539,3 +539,7 @@ def insertion_sorted(nums):
 2.  [wiki](https://zh.wikipedia.org/wiki/排序算法) 
 3.  [数据结构与算法](https://github.com/amusi/Deep-Learning-Interview-Book/blob/master/docs/数据结构与算法.md) 
 4.  [十种排序算法](https://www.cnblogs.com/onepixel/p/7674659.html) 
+5.  [冒泡排序最佳情况的时间复杂度，为什么是O(n)](https://www.cnblogs.com/melon-h/archive/2012/09/20/2694941.html)
+6.  [归并算法复杂度](https://blog.csdn.net/YuZhiHui_No1/article/details/44223225)
+7.  [快速排序 python 原地](https://zh.wikipedia.org/wiki/快速排序#Python原地排序版本)
+
