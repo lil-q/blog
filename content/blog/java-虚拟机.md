@@ -17,7 +17,7 @@ keywords: [jvm, java, GC]
 
 ### 1.2 Java 虚拟机栈
 
-每个 Java 方法在执行的同时会创建一个栈帧用于**存储局部变量表**、**操作数栈**、**动态连接**、**方法出口**等信息。从方法调用直至执行完成的过程，对应着一个栈帧在 Java 虚拟机栈中**入栈**和**出栈**的过程。
+每个 Java 方法在执行的同时会创建一个栈帧用于存储**局部变量表**、**操作数栈**、**动态连接**、**方法出口**等信息。从方法调用直至执行完成的过程，对应着一个栈帧在 Java 虚拟机栈中**入栈**和**出栈**的过程。
 
 该区域可能抛出以下异常：
 
@@ -26,7 +26,7 @@ keywords: [jvm, java, GC]
 
 ### 1.3 本地方法栈
 
-本地方法栈与 Java 虚拟机栈类似，它们之间的区别只不过是本地方法栈为本地方法服务。
+本地方法栈与虚拟机栈类似，它们之间的区别只不过是本地方法栈为本地方法服务。
 
 本地方法一般是用其它语言（C、C++ 或汇编语言等）编写的，并且被编译为基于本机硬件和操作系统的程序，对待这些方法需要特别处理。
 
@@ -449,7 +449,7 @@ System.out.println(ConstClass.HELLOWORLD);
 
 #### 1. 实现
 
-以下是抽象类 java.lang.ClassLoader 的代码片段，其中的`loadClass()`方法运行过程如下：先检查类是否已经加载过，如果没有则让父类加载器去加载。当父类加载器加载失败时抛出 ClassNotFoundException，此时尝试自己去加载。
+以下是抽象类 java.lang.ClassLoader 的代码片段，其中的 `loadClass()` 方法运行过程如下：先检查类是否已经加载过，如果没有则让父类加载器去加载。当父类加载器加载失败时抛出 ClassNotFoundException，此时尝试自己去加载。
 
 ```java
 public abstract class ClassLoader {
@@ -497,11 +497,11 @@ public abstract class ClassLoader {
 
 #### 2. 破坏双亲委派
 
-双亲委派机制只是一种推荐模式，如果要实现隔离类，可以重写 ClassLoader 类中的`findClass()`方法，但是这样的复用性较差。
+双亲委派机制只是一种推荐模式，如果要实现隔离类，可以重写 ClassLoader 类中的 `findClass()` 方法，但是这样的复用性较差。
 
 例如 JNDI 服务，它的代码由启动类加载器来完成加载，但是同时又需要调用由其他厂商实现并部署在应用程序的 ClassPath 下的 JNDI **服务提供者接口**（**S**ervice **P**rovider **I**nterface，**SPI**）的代码，启动类加载器是无法加载这些代码的。
 
-为解决这一困境，Java 引入了**线程上下文加载器**（Thread Context ClassLoader）。这个类加载器可以通过`java.lang.Thread`类的`setContextClassLoader() `方法设置，如果创建线程时未设置，将会从`java.lang.Thread`类继承一个，如果全局范围内都没有设置，则默认为应用程序类加载器。
+为解决这一困境，Java 引入了**线程上下文加载器**（Thread Context ClassLoader）。这个类加载器可以通过 java.lang.Thread 类的 `setContextClassLoader() ` 方法设置，如果创建线程时未设置，将会从 java.lang.Thread 类继承一个，如果全局范围内都没有设置，则默认为应用程序类加载器。
 
 #### 3. tomcat 为什么需要破坏双亲委派？
 

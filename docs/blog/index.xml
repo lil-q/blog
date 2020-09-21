@@ -20,10 +20,10 @@
       <guid>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A1%8C%E4%B8%BA%E5%9E%8B/</guid>
       <description>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。
 一、迭代器 - Iterator 迭代器使用非常广，它提供了一种顺序访问聚合对象元素的方法，并且不暴露聚合对象的内部表示。JDK 中使用 Iterable 接口来实现迭代功能：
-public interface Iterable&amp;lt;T&amp;gt; { Iterator&amp;lt;T&amp;gt; iterator(); }  Iterable 接口下定义了一个 Iterator()方法，用来生成一个 iterator，Iterator 接口主要定义了下面两个方法：
-public interface Iterator&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  在使用时，先创建一个迭代器，通过hasNext()判断其是否还有下一个值并使用next()获取。JDK 中的 Collection 继承自 Iterable，所以 Collection 下的实现类都是可迭代的。Map 的迭代通过其下的 keySet 和 entrySet 两个 set 实现，Set 继承自 Collection，所以也是可迭代的。
+public interface Iterable&amp;lt;T&amp;gt; { Iterator&amp;lt;T&amp;gt; iterator(); }  Iterable 接口下定义了一个 Iterator() 方法，用来生成一个 iterator，Iterator 接口主要定义了下面两个方法：
+public interface Iterator&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  在使用时，先创建一个迭代器，通过 hasNext() 判断其是否还有下一个值并使用 next() 获取。JDK 中的 Collection 继承自 Iterable，所以 Collection 下的实现类都是可迭代的。Map 的迭代通过其下的 keySet 和 entrySet 两个 set 实现，Set 继承自 Collection，所以也是可迭代的。
 1.1 叫号器 运用迭代器可以实现一个简单的叫号器（queue management system，qms），首先模仿 JDK 定义下面两个接口：
-interface ManagementSystem&amp;lt;E&amp;gt; { Caller&amp;lt;E&amp;gt; createCaller(); } interface Caller&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  ManagementSystem 管理系统接口需要定义一个获取叫号器 caller 的方法，这里 Caller 和 Iterator 功能相同，通过hasNext()判断其是否还有下一个号码并使用next()获取。</description>
+interface ManagementSystem&amp;lt;E&amp;gt; { Caller&amp;lt;E&amp;gt; createCaller(); } interface Caller&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  ManagementSystem 管理系统接口需要定义一个获取叫号器 caller 的方法，这里 Caller 和 Iterator 功能相同，通过 hasNext() 判断其是否还有下一个号码并使用 next() 获取。</description>
     </item>
     
     <item>
@@ -35,7 +35,7 @@ interface ManagementSystem&amp;lt;E&amp;gt; { Caller&amp;lt;E&amp;gt; createCall
       <description>为了保存数据，需要持久层；为了实现持久层，需要数据库；为了管理数据库，需要数据库管理系统；为了操作数据库管理系统，需要持久层框架。
 一、持久层 储存在内存之上的数据在断电后就会清除，与之相对的，储存在硬盘中的数据可以长时间、安全的保存，称之为持久层。
 企业应用中的数据（各种订单数据、客户数据、库存数据等）十分重要，所以需要把数据持久化。持久化可以通过很多方式，写文件和数据库都可以，一般会把数据持久化到数据库中，因为可以很方便的查询、统计和分析，而且数据库 ACID 特性中的持久性（durability）就是针对的持久层。
-二、JDBC 对于 java，最开始是使用 JDBC 来进行数据库管理的。java数据库连接（Java Database Connectivity，JDBC）是 java 提供的一个操作数据库的 API。它是由各种数据库厂商提供类和接口组成的数据库驱动，为多种数据库提供统一访问，使用数据库时只需要调用 JDBC 接口就行了，大致的步骤如下：
+二、JDBC 对于 Java，最开始是使用 JDBC 来进行数据库管理的。Java数据库连接（Java Database Connectivity，JDBC）是 Java 提供的一个操作数据库的 API。它是由各种数据库厂商提供类和接口组成的数据库驱动，为多种数据库提供统一访问，使用数据库时只需要调用 JDBC 接口就行了，大致的步骤如下：
 public class JDBCTest { // JDBC driver name and database URL static final String JDBC_DRIVER = &amp;quot;com.mysql.cj.jdbc.Driver&amp;quot;; static final String DB_URL = &amp;quot;jdbc:mysql://localhost:port/DB_name?...&amp;quot;; // Database credentials static final String USER = &amp;quot;root&amp;quot;; static final String PASS = &amp;quot;password&amp;quot;; public static void main(String[] args) { Connection conn = null; Statement stmt = null; try { //STEP 1: Register JDBC driver Class.</description>
     </item>
     
@@ -46,8 +46,8 @@ public class JDBCTest { // JDBC driver name and database URL static final String
       
       <guid>https://lil-q.github.io/blog/spring/</guid>
       <description>&amp;ldquo;From configuration to security, web apps to big data—whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need—Spring is modular by design.&amp;rdquo;
- Spring是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 spring 生态的基石。
-一、Spring Framework  &amp;ldquo;Provides core support for dependency injection, transaction management, web apps, data access, messaging, and more. Spring focuses on the &amp;ldquo;plumbing&amp;rdquo; of enterprise applications so that teams can focus on application-level business logic, without unnecessary ties to specific deployment environments.</description>
+ Spring 是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 spring 生态的基石。
+一、Spring Framework  &amp;ldquo;Provides core support for dependency injection, transaction management, web apps, data access, messaging, and more.</description>
     </item>
     
     <item>
@@ -77,7 +77,7 @@ public class Rectangle { int length; int width; public void setLength(int length
 一、概述 超文本传输协议（HTTP）是一种用于分布式、协作式和超媒体信息系统的应用层协议。HTTP是万维网的数据通信的基础。
 表现层状态转换（REST）本身并没有创造新的技术、组件或服务，而隐藏在 RESTful 背后的理念就是使用 Web 的现有特征和能力， 更好地使用现有 Web 标准中的一些准则和约束。虽然 REST 本身受 Web 技术的影响很深， 但是理论上 REST 架构风格并不是绑定在 HTTP 上，只不过目前 HTTP 是唯一与 REST 相关的实例。
 1.1 URI 统一资源标识符（Uniform Resource Identifier，URI）是一个用于标识某一互联网资源名称的字符串。URI的最常见的形式是统一资源定位符（Uniform Resource Locator，URL），经常指定为非正式的网址。更罕见的用法是统一资源名称（Uniform Resource Name，URN），其目的是通过提供一种途径。用于在特定的名字空间资源的标识，以补充网址。在RESTful架构中 URI 不应该有动词，动词应该放在HTTP协议中。
-资源是一种信息实体，它可以有多种外在表现形式。“资源”具体呈现出来的形式，叫做它的&amp;quot;表现层&amp;rdquo;（Representation）。URI只代表资源的实体，不代表它的形式。严格地说，有些网址最后的 &amp;ldquo;.html&amp;rdquo; 后缀名是不必要的，因为这个后缀名表示格式，属于&amp;quot;表现层&amp;quot;范畴，而 URI 应该只代表&amp;quot;资源&amp;quot;的位置。它的具体表现形式，应该在 HTTP 请求的头信息中用 Accept 和 Content-Type 字段指定，这两个字段才是对&amp;quot;表现层&amp;quot;的描述。
+资源是一种信息实体，它可以有多种外在表现形式。“资源” 具体呈现出来的形式，叫做它的 &amp;ldquo;表现层&amp;rdquo;（Representation）。URI只代表资源的实体，不代表它的形式。严格地说，有些网址最后的 &amp;ldquo;.html&amp;rdquo; 后缀名是不必要的，因为这个后缀名表示格式，属于 &amp;ldquo;表现层&amp;rdquo; 范畴，而 URI 应该只代表 &amp;ldquo;资源&amp;rdquo; 的位置。它的具体表现形式，应该在 HTTP 请求的头信息中用 Accept 和 Content-Type 字段指定，这两个字段才是对 &amp;ldquo;表现层&amp;rdquo; 的描述。
 因为不同的版本，可以理解成同一种资源的不同表现形式，所以应该采用同一个 URI。版本号可以在 HTTP 请求头信息的 Accept 字段中进行区分（参见Versioning REST Services）：
 1.2 如何理解 RESTful REST 本身受 Web 技术的影响很深，可以借助 WEB 来理解 RESTful。网站是采用客户端/服务器模式，建立在分布式体系上，通过互联网通信，具有高延时（high latency）、高并发等特点的一种软件。表现层（Representation）的含义是把资源具体的形式呈现出来。表现层上的网站交互就是客户端获取或修改服务器端储存的资源，而这些获取或修改的操作就是资源的状态转换。具体的实现很简单</description>
     </item>
@@ -135,7 +135,7 @@ B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点�
       <description>一、内存区域 1.1 程序计数器 程序计数器是程序控制流的指示器，分支、循环、跳转、异常处理、线程恢复等基础功能都依赖这个计数器。记录正在执行的虚拟机字节码指令的地址（如果正在执行的是本地方法则为空）。
 1.2 Java 虚拟机栈 每个 Java 方法在执行的同时会创建一个栈帧用于存储局部变量表、操作数栈、动态连接、方法出口等信息。从方法调用直至执行完成的过程，对应着一个栈帧在 Java 虚拟机栈中入栈和出栈的过程。
 该区域可能抛出以下异常：
- 当线程请求的栈深度超过最大值，会抛出 StackOverflowError 异常； 栈进行动态扩展时如果无法申请到足够内存，会抛出 OutOfMemoryError 异常。  1.3 本地方法栈 本地方法栈与 Java 虚拟机栈类似，它们之间的区别只不过是本地方法栈为本地方法服务。
+ 当线程请求的栈深度超过最大值，会抛出 StackOverflowError 异常； 栈进行动态扩展时如果无法申请到足够内存，会抛出 OutOfMemoryError 异常。  1.3 本地方法栈 本地方法栈与虚拟机栈类似，它们之间的区别只不过是本地方法栈为本地方法服务。
 本地方法一般是用其它语言（C、C++ 或汇编语言等）编写的，并且被编译为基于本机硬件和操作系统的程序，对待这些方法需要特别处理。
 1.4 堆 所有对象都在这里分配内存，是垃圾收集的主要区域（&amp;ldquo;GC 堆&amp;rdquo;）。
 现代的垃圾收集器基本都是采用分代收集算法，其主要的思想是针对不同类型的对象采取不同的垃圾回收算法。可以将堆分成两块：
@@ -197,7 +197,7 @@ public class Singleton { // 急切的创建了uniqueInstance, 所以叫饿汉式
       <description>网络把主机连接起来，而互连网（internet）是把多种不同的网络连接起来，因此互连网是网络的网络。
 一、概述 1. 主机之间的通信方式   客户-服务器（C/S）：客户是服务的请求方，服务器是服务的提供方。
   对等（P2P）：不区分客户和服务器。
-  2. 报文交换  电路交换：整个报文的比特流连续地从源点直达终点，好像在一个管道中传送一样。 报文交换：整个报文先传送到相邻结点，全部存储下来后查找转发表，转发到下一个结点。 分组交换：单个分组传送到相邻结点，存储下来后查找转发表，转达到下一个结点。  3. 时延 总时延 = 排队时延 + 处理时延 + 发送时延 + 传播时延：
+  2. 报文交换  电路交换：整个报文的比特流连续地从源点直达终点。 报文交换：整个报文存储到相邻结点并查找转发表不断跳转。 分组交换：单个分组存储到相邻结点并查找转发表不断跳转。  3. 时延 总时延 = 排队时延 + 处理时延 + 发送时延 + 传播时延：
 （1）排队时延
 分组在路由器的输入队列和输出队列中排队等待的时间，取决于网络当前的通信量。
 （2）处理时延

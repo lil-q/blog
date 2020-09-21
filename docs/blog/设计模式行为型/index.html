@@ -31,7 +31,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.c4ff55c4c110e477d6af24de399f1d98ff8f26c26b502c631e6763d0b525ac4c.css" integrity="sha256-xP9VxMEQ5HfWryTeOZ8dmP&#43;PJsJrUCxjHmdj0LUlrEw="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.56326de82df2d4841928d404adcb91e5331820b2201ba73b8a71fed24212515d.css" integrity="sha256-VjJt6C3y1IQZKNQErcuR5TMYILIgG6c7inH&#43;0kISUV0="/>
   
   
    
@@ -61,7 +61,7 @@
       "datePublished": "2020-09-16 10:42:08 \u002b0800 CST",
       "dateModified" : "2020-09-16 10:42:08 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A1%8C%E4%B8%BA%E5%9E%8B\/",
-      "wordCount" : "416",
+      "wordCount" : "431",
       "keywords" : ["design_pattern", "迭代器", "Fail-Fast", "Blog"]
     }
   
@@ -124,7 +124,7 @@
     Iterator&lt;T&gt; iterator();
 }
 </code></pre>
-<p>Iterable 接口下定义了一个 <code>Iterator()</code>方法，用来生成一个 iterator，Iterator 接口主要定义了下面两个方法：</p>
+<p>Iterable 接口下定义了一个 <code>Iterator()</code> 方法，用来生成一个 iterator，Iterator 接口主要定义了下面两个方法：</p>
 <pre><code class="language-java">public interface Iterator&lt;E&gt; {
 
     boolean hasNext();
@@ -132,7 +132,7 @@
     E next();
 }
 </code></pre>
-<p>在使用时，先创建一个迭代器，通过<code>hasNext()</code>判断其是否还有下一个值并使用<code>next()</code>获取。JDK 中的 Collection 继承自 Iterable，所以 Collection 下的实现类都是可迭代的。Map 的迭代通过其下的 keySet 和 entrySet 两个 set 实现，Set 继承自 Collection，所以也是可迭代的。</p>
+<p>在使用时，先创建一个迭代器，通过 <code>hasNext()</code> 判断其是否还有下一个值并使用 <code>next()</code> 获取。JDK 中的 Collection 继承自 Iterable，所以 Collection 下的实现类都是可迭代的。Map 的迭代通过其下的 keySet 和 entrySet 两个 set 实现，Set 继承自 Collection，所以也是可迭代的。</p>
 <h3 id="11-叫号器">1.1 叫号器<a class="anchor" href="#11-叫号器">#</a></h3>
 <p>运用迭代器可以实现一个简单的叫号器（queue management system，qms），首先模仿 JDK 定义下面两个接口：</p>
 <pre><code class="language-java">interface ManagementSystem&lt;E&gt; {
@@ -147,7 +147,7 @@ interface Caller&lt;E&gt; {
     E next();
 }
 </code></pre>
-<p>ManagementSystem 管理系统接口需要定义一个获取叫号器 caller 的方法，这里 Caller 和 Iterator 功能相同，通过<code>hasNext()</code>判断其是否还有下一个号码并使用<code>next()</code>获取。</p>
+<p>ManagementSystem 管理系统接口需要定义一个获取叫号器 caller 的方法，这里 Caller 和 Iterator 功能相同，通过 <code>hasNext()</code> 判断其是否还有下一个号码并使用 <code>next()</code> 获取。</p>
 <pre><code class="language-java">public class QMS implements ManagementSystem&lt;Integer&gt; {
     List&lt;Integer&gt; table;
     private int curNum;
@@ -202,7 +202,7 @@ interface Caller&lt;E&gt; {
     }
 }
 </code></pre>
-<p>先不考虑与 modCount 相关的代码，这个实现其实非常简单，使用当前等待的人数 curNum 初始化 qms（创建一个 list 存放 curNum 个号码），如果还有人加入，用<code>addNum()</code>方法把新号码放入 list 中。开始叫号时，使用<code>createCaller()</code>方法创建叫号器 caller，接下来的叫号工作就交由叫号器 caller 来完成了。用一个测试类来测试一下：</p>
+<p>先不考虑与 modCount 相关的代码，这个实现其实非常简单，使用当前等待的人数 curNum 初始化 qms（创建一个 list 存放 curNum 个号码），如果还有人加入，用 <code>addNum()</code> 方法把新号码放入 list 中。开始叫号时，使用 <code>createCaller()</code> 方法创建叫号器 caller，接下来的叫号工作就交由叫号器 caller 来完成了。用一个测试类来测试一下：</p>
 <pre><code class="language-java">class QMSTest1 {
 
     public static void main(String[] args) {
@@ -223,7 +223,7 @@ interface Caller&lt;E&gt; {
 </blockquote>
 <p>回到刚才的场景，首先我们需要统计总共的票数，然后打开叫号器开始工作。这时候有一个黑客想要插队，他轻松就破解了叫号系统，并且在 qms 的 table 中 5 号的后面又插入了一个号码：5 号。当原本的 5 号客户结束服务后，叫号系统又叫了一次五号，黑客先生拿着自己用打印机打的 5 号就走了进去。一旁等待的众人十分气愤但又无可奈何&hellip;&hellip;</p>
 <p>通常 Iterator 是工作在一个独立的线程中，我们在创建 Iterator 时传入的是数据的浅拷贝，也就是说，如果在 Iterator 工作的同时有另一个线程对数据进行了修改，Iterator 的工作就会出错。Fail-Fast 机制就是用来处理这种情况的。</p>
-<p>对于 qms 中的每一次<code>addNum()</code>操作，modCount 都会自增 1；而我们在创建 caller 时会传入当前的 modCount 并存放在 caller 下定义的 final 变量 expectedModCount 中。每一次迭代前总是验证 modCount 是否与预期值相同，如果不同就说明原数据已经被篡改，直接抛出异常而不是等待错误发生再处理，正如其名：Fail-Fast。</p>
+<p>对于 qms 中的每一次 <code>addNum()</code> 操作，modCount 都会自增 1；而我们在创建 caller 时会传入当前的 modCount 并存放在 caller 下定义的 final 变量 expectedModCount 中。每一次迭代前总是验证 modCount 是否与预期值相同，如果不同就说明原数据已经被篡改，直接抛出异常而不是等待错误发生再处理，正如其名：Fail-Fast。</p>
 <pre><code class="language-java">class QMSTest2 {
 
     public static void main(String[] args) {

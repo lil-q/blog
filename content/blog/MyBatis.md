@@ -19,7 +19,7 @@ toc: true
 
 ## 二、JDBC
 
-对于 java，最开始是使用 JDBC 来进行数据库管理的。**java数据库连接**（**J**ava **D**atabase **C**onnectivity，**JDBC**）是 java 提供的一个操作数据库的 API。它是由各种数据库厂商提供类和接口组成的数据库驱动，为多种数据库提供统一访问，使用数据库时只需要调用 JDBC 接口就行了，大致的步骤如下：
+对于 Java，最开始是使用 JDBC 来进行数据库管理的。**Java数据库连接**（**J**ava **D**atabase **C**onnectivity，**JDBC**）是 Java 提供的一个操作数据库的 API。它是由各种数据库厂商提供类和接口组成的数据库驱动，为多种数据库提供统一访问，使用数据库时只需要调用 JDBC 接口就行了，大致的步骤如下：
 
 ```java
 public class JDBCTest {
@@ -87,7 +87,7 @@ public class JDBCTest {
 
 可大致总结为六个步骤：
 
-1. 通过类加载注册特定数据库的 driver；
+1. 通过类加载注册特定数据库的 Driver；
 2. 通过 URL、用户名和密码建立连接 Connection；
 3. 创建 JDBC Statements 对象；
 4. 设置 SQL 语句进行查询；
@@ -96,7 +96,7 @@ public class JDBCTest {
 
 ### 2.1 SPI
 
-那么类加载是如何注册 driver 的呢？可以在 MySQL 的 jar 包 com.mysql.cj.jdbc 下找到 MySQL 的 Driver，其中包含静态代码块：
+那么类加载是如何注册 Driver 的呢？我们可以在 MySQL 的 jar 包 com.mysql.cj.jdbc 下找到 MySQL 的 Driver，其中包含静态代码块：
 
 ```java
 public class Driver extends NonRegisteringDriver implements java.sql.Driver {
@@ -114,7 +114,7 @@ public class Driver extends NonRegisteringDriver implements java.sql.Driver {
 }
 ```
 
-所以`Class.forName("com.mysql.cj.jdbc.Driver")`加载时，就会创建相应的 Driver 并自动加入到 DriverManager 下的 *registeredDrivers* 这个 list 中。
+ `Class.forName("com.mysql.cj.jdbc.Driver")` 加载时，就会创建相应的 Driver 对象并自动加入到 DriverManager 下的 *registeredDrivers* 这个 list 中。
 
 ```java
 public class DriverManager {
@@ -125,7 +125,7 @@ public class DriverManager {
 
 假如我们同时可能会用到两个数据库，则需要分别加载这两个数据库的 driver。那么当我们需要特定一个数据库时，JDBC 是如何找到特定的那个数据库的呢？
 
-其实在第二步建立连接时 JDBC 会去 *registeredDrivers* 这个 list 中按照 URL 找到相对应的 driver：
+其实在第二步建立连接时 JDBC 会去 *registeredDrivers* 这个 list 中按照 URL 找到相对应的 Driver：
 
 ```java
 for (DriverInfo aDriver : registeredDrivers) {
@@ -151,13 +151,13 @@ for (DriverInfo aDriver : registeredDrivers) {
 }
 ```
 
-上面 DriverManager 管理多个数据库的 driver 就是用到了 SPI 的思想，管理者提供一个接口，服务提供商们按照接口的规范来实现功能。
+上面 DriverManager 管理多个数据库的 Driver 就是用到了 SPI 的思想，管理者提供一个接口，服务提供商们按照接口的规范来实现功能。
 
 > **Service Provider Interface** (**SPI**) is an API intended to be implemented or extended by a third party. It can be used to enable framework extension and replaceable components.
 
 如果我们使用的 JDBC 版本是 4.0 及以后的版本，那么第一步的手动类加载其实可以删去，因为 JDBC 采用新的规范让 SPI 帮我们完成了这一步。我们可以在 MySQL 的 jar 包 com.mysql.cj.jdbc 下找到 META-INF.services 中的 java.sql.Driver 文件，其中记录了 MySQL 所使用的 Driver 的全限定名，DriverManager 中的 ServiceLoader 会根据这个全限定名来完成注册。
 
-这里还涉及到一个与类加载相关的问题：JDBC 属于 java 提供的服务，DriverManager 的类加载器应该是 Bootstrap Class Loarder，但是 MySQL 等提供的第三方服务不应该使用这个加载器，而应该用 Application Class Loader。 为了解决这个问题，只能打破双亲委派机制了，比如使用线程上下文类加载器（Thread Context ClassLoader）。
+这里还涉及到一个与类加载相关的问题：JDBC 属于 Java 提供的服务，DriverManager 的类加载器应该是 Bootstrap Class Loarder，但是 MySQL 等提供的第三方服务不应该使用这个加载器，而应该用 Application Class Loader。 为了解决这个问题，只能打破双亲委派机制了，比如使用线程上下文类加载器（Thread Context ClassLoader）。
 
 ### 2.2 JDBC 存在的问题
 
@@ -170,7 +170,7 @@ for (DriverInfo aDriver : registeredDrivers) {
 
 > **ORM**(**O**bject-**R**elational **M**apping) in computer science is a programming technique for converting data between incompatible type systems using object-oriented programming languages. This creates, in effect, a "virtual object database" that can be used from within the programming language. 
 
-java 是面向对象的语言，ORM 就是建立对象与数据库表之间的关系，从而达到操作对象就相当于操作数据库表的目的，ORM 能够大大减少重复性代码。
+Java 是面向对象的语言，ORM 就是建立对象与数据库表之间的关系，从而达到操作对象就相当于操作数据库表的目的，ORM 能够大大减少重复性代码。
 
 ### 3.1 JPA
 
@@ -207,7 +207,7 @@ InputStream inputStream = Resources.getResourceAsStream(resource);
 
 **SqlSessionFactoryBuilder** 实例化后，一旦创建了 SqlSessionFactory，就不再需要它了。 因此 SqlSessionFactoryBuilder 实例的最佳作用域是方法作用域（也就是局部方法变量）。 
 
-**SqlSessionFactory** 一旦被创建就应该在应用的运行期间一直存在，没有任何理由丢弃它或重新创建另一个实例。 使用 SqlSessionFactory 的最佳实践是在应用运行期间不要重复创建多次，多次重建 SqlSessionFactory 被视为一种代码“坏习惯”。因此 SqlSessionFactory 的最佳作用域是应用作用域。 
+**SqlSessionFactory** 一旦被创建就应该在应用的运行期间一直存在，没有任何理由丢弃它或重新创建另一个实例。 使用 SqlSessionFactory 的最佳实践是在应用运行期间不要重复创建多次，多次重建 SqlSessionFactory 被视为一种代码 “坏习惯”。因此 SqlSessionFactory 的最佳作用域是应用作用域。 
 
 有很多方法可以做到，最简单的就是使用单例模式或者静态单例模式，比如下面这个简单的单例模式：
 
@@ -241,11 +241,11 @@ try (SqlSession session = sqlSessionFactory.openSession()) {
 }
 ```
 
-特殊的，如果多个请求属于同一个事务，那么多个请求都在共用一个 SqlSession[[6]](http://objcoding.com/2019/03/20/mybatis-sqlsession/)。
+特殊的，如果多个请求属于同一个事务，那么多个请求都在共用一个 SqlSession [[6]](http://objcoding.com/2019/03/20/mybatis-sqlsession/)。
 
 ### 4.3 执行 SQL 语句
 
-在拿到 SqlSession 对象后，我们调用它的各种方法来进行相应的操作。在加载 XML 配置的时候，mapping.xml 的 namespace 和 id 信息就会存放为 mappedStatements 的 key，对应的，SQL 语句就是对应的 value。MyBatis 先通过 mappedStatements 找到相应的 statement，使用`prepareStatement()`方法进行预编译，预编译能够提高效率并防止 SQL 注入。
+在拿到 SqlSession 对象后，我们调用它的各种方法来进行相应的操作。在加载 XML 配置的时候，mapping.xml 的 namespace 和 id 信息就会存放为 mappedStatements 的 key，对应的，SQL 语句就是对应的 value。MyBatis 先通过 mappedStatements 找到相应的 statement，使用 `prepareStatement()` 方法进行预编译，预编译能够提高效率并防止 SQL 注入。
 
 ### 4.4 事务
 
@@ -267,16 +267,16 @@ SQL 语句统一在 XML 文件中编辑保存，并通过键值对的形式储�
 
 Mybatis 在处理 #{} 时，会将 SQL 语句中的 #{} 替换为 ? 号，调用 PreparedStatement 的`set()`方法来赋值；Mybatis 在处理 ${} 时，就是把 ${} 替换成变量的值。
 
-MyBatis 实现了动态 SQL，这样在 java 代码中就不需要考虑 SQL 语句相关的业务逻辑了，包含以下标签：`if` / `choose` / `when` / `otherwise` / `trim` / `where` / `set` / `foreach`。
+MyBatis 实现了动态 SQL，这样在 Java 代码中就不需要考虑 SQL 语句相关的业务逻辑了，包含以下标签：`if` / `choose` / `when` / `otherwise` / `trim` / `where` / `set` / `foreach`。
 
 #### 4. 结果映射和结果缓存
 
-结果映射有两种方式，第一种是使用`<resultMap>`标签，逐一定义列名和对象属性名之间的映射关系。第二种是使用 SQL 列的别名功能，将列别名书写为对象属性名，不区分大小写。
+结果映射有两种方式，第一种是使用 `<resultMap>` 标签，逐一定义列名和对象属性名之间的映射关系。第二种是使用 SQL 列的别名功能，将列别名书写为对象属性名，不区分大小写。
 
 MyBatis 提供两个级别的缓存：
 
-* 一级缓存是 SqlSession 级别的缓存。在操作数据库时需要构造 sqlSession 对象，这个对象中（内存区域）有一个数据结构（HashMap）用于存储缓存数据。不同的 sqlSession 之间的缓存数据区域（HashMap）是互相不影响的。
-* 二级缓存是 mapper 级别的缓存。多个 sqlSession 去操作同一个 Mapper 的 SQL 语句可以共用二级缓存，二级缓存是跨 SqlSession 的。
+* 一级缓存是 SqlSession 级别的缓存。在操作数据库时需要构造 SqlSession 对象，这个对象中（内存区域）有一个数据结构（HashMap）用于存储缓存数据。不同的 SqlSession 之间的缓存数据区域（HashMap）是互相不影响的。
+* 二级缓存是 mapper 级别的缓存。多个 SqlSession 去操作同一个 Mapper 的 SQL 语句可以共用二级缓存，二级缓存是跨 SqlSession 的。
 
 ## 参考
 

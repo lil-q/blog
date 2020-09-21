@@ -11,7 +11,7 @@ toc: true
 
 > "From configuration to security, web apps to big data—whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need—Spring is modular by design."
 
-Spring是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 spring 生态的基石。
+Spring 是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 spring 生态的基石。
 
 ## 一、Spring Framework
 
@@ -223,15 +223,15 @@ TransactionDefinition 接口中定义了五个表示隔离级别的常量，其�
 
 - **TransactionDefinition.ISOLATION_DEFAULT**：  
 
-  使用后端数据库默认的隔离级别，Mysql 默认采用的 REPEATABLE_READ隔离级别 Oracle 默认采用的 READ_COMMITTED隔离级别.
+  使用后端数据库默认的隔离级别，Mysql 默认采用的 REPEATABLE_READ隔离级别 Oracle 默认采用的 READ_COMMITTED隔离级别。
 
 - **TransactionDefinition.ISOLATION_READ_UNCOMMITTED**: 
 
-  最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读
+  最低的隔离级别，允许读取尚未提交的数据变更，可能会导致脏读、幻读或不可重复读。
 
 - **TransactionDefinition.ISOLATION_READ_COMMITTED**:   
 
-  允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生
+  允许读取并发事务已经提交的数据，可以阻止脏读，但是幻读或不可重复读仍有可能发生。
 
 - **TransactionDefinition.ISOLATION_REPEATABLE_READ**:  
 

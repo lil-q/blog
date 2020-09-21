@@ -31,7 +31,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.c4ff55c4c110e477d6af24de399f1d98ff8f26c26b502c631e6763d0b525ac4c.css" integrity="sha256-xP9VxMEQ5HfWryTeOZ8dmP&#43;PJsJrUCxjHmdj0LUlrEw="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.56326de82df2d4841928d404adcb91e5331820b2201ba73b8a71fed24212515d.css" integrity="sha256-VjJt6C3y1IQZKNQErcuR5TMYILIgG6c7inH&#43;0kISUV0="/>
   
   
    
@@ -61,7 +61,7 @@
       "datePublished": "2020-07-16 20:30:14 \u002b0000 UTC",
       "dateModified" : "2020-07-16 20:30:14 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%95%B0%E6%8D%AE%E5%BA%93\/",
-      "wordCount" : "458",
+      "wordCount" : "455",
       "keywords" : ["Blog"]
     }
   
@@ -370,12 +370,14 @@ SELECT * FROM table WHERE ? for update;
 <p>视图（view）是一种虚拟存在的表，是一个逻辑表，本身并不包含数据。作为一个select语句保存在数据字典中的。</p>
 <p>通过视图，可以展现基表的部分数据；视图数据来自定义视图的查询中使用的表，使用视图动态生成。</p>
 <h3 id="61-优点">6.1 优点<a class="anchor" href="#61-优点">#</a></h3>
-<p><strong>1. 简单</strong>：使用视图的用户完全不需要关心后面对应的表的结构、关联条件和筛选条件，对用户来说已经是过滤好的复合条件的结果集。</p>
-<p><strong>2. 安全</strong>：使用视图的用户只能访问他们被允许查询的结果集，对表的权限管理并不能限制到某个行某个列，但是通过视图就可以简单的实现。</p>
-<p><strong>3. 数据独立</strong>：一旦视图的结构确定了，可以屏蔽表结构变化对用户的影响，源表增加列对视图没有影响；源表修改列名，则可以通过修改视图来解决，不会造成对访问者的影响。</p>
+<ul>
+<li><strong>简单</strong>：使用视图的用户完全不需要关心后面对应的表的结构、关联条件和筛选条件，对用户来说已经是过滤好的复合条件的结果集。</li>
+<li><strong>安全</strong>：使用视图的用户只能访问他们被允许查询的结果集，对表的权限管理并不能限制到某个行某个列，但是通过视图就可以简单的实现。</li>
+<li><strong>数据独立</strong>：一旦视图的结构确定了，可以屏蔽表结构变化对用户的影响，源表增加列对视图没有影响；源表修改列名，则可以通过修改视图来解决，不会造成对访问者的影响。</li>
+</ul>
 <p>总而言之，使用视图的大部分情况是为了<strong>保障数据安全性，提高查询效率</strong>。</p>
 <h3 id="62-不能更新的情况">6.2 不能更新的情况<a class="anchor" href="#62-不能更新的情况">#</a></h3>
-<ol>
+<ul>
 <li>若视图是由两个以上基本表导出的；</li>
 <li>若视图的字段来自字段表达式或常数，则不允许对视图执行INSTER和UPDATE操作，但允许delete；</li>
 <li>若视图的字段来自聚集函数；</li>
@@ -383,7 +385,7 @@ SELECT * FROM table WHERE ? for update;
 <li>若视图中含有DISTINCT短语；</li>
 <li>若视图定义中有嵌套查询，并且内层查询的FROM子句中涉及的表也是导出该视图的基本表；</li>
 <li>一个不允许更新的视图上定义的视图不允许更新。</li>
-</ol>
+</ul>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
 <li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86">CYC CS-Notes</a></li>

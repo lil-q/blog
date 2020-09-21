@@ -31,7 +31,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.c4ff55c4c110e477d6af24de399f1d98ff8f26c26b502c631e6763d0b525ac4c.css" integrity="sha256-xP9VxMEQ5HfWryTeOZ8dmP&#43;PJsJrUCxjHmdj0LUlrEw="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.56326de82df2d4841928d404adcb91e5331820b2201ba73b8a71fed24212515d.css" integrity="sha256-VjJt6C3y1IQZKNQErcuR5TMYILIgG6c7inH&#43;0kISUV0="/>
   
   
    
@@ -61,7 +61,7 @@
       "datePublished": "2020-07-23 09:46:01 \u002b0000 UTC",
       "dateModified" : "2020-07-23 09:46:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/http-restful\/",
-      "wordCount" : "270",
+      "wordCount" : "278",
       "keywords" : ["Blog"]
     }
   
@@ -122,13 +122,13 @@
 <p><strong>表现层状态转换</strong>（REST）本身并没有创造新的技术、组件或服务，而隐藏在 RESTful 背后的理念就是使用 Web 的现有特征和能力， 更好地使用现有 Web 标准中的一些准则和约束。虽然 REST 本身受 Web 技术的影响很深， 但是理论上 REST 架构风格并不是绑定在 HTTP 上，只不过目前 HTTP 是唯一与 REST 相关的实例。</p>
 <h3 id="11-uri">1.1 URI<a class="anchor" href="#11-uri">#</a></h3>
 <p><strong>统一资源标识符</strong>（<strong>U</strong>niform <strong>R</strong>esource <strong>I</strong>dentifier，<strong>URI</strong>）是一个用于标识某一互联网资源名称的字符串。URI的最常见的形式是<strong>统一资源定位符</strong>（<strong>U</strong>niform <strong>R</strong>esource <strong>L</strong>ocator，<strong>URL</strong>），经常指定为非正式的网址。更罕见的用法是统一资源名称（<strong>U</strong>niform <strong>R</strong>esource <strong>N</strong>ame，<strong>URN</strong>），其目的是通过提供一种途径。用于在特定的<strong>名字空间</strong>资源的标识，以补充网址。在RESTful架构中 <strong>URI 不应该有动词，动词应该放在HTTP协议中</strong>。</p>
-<p><strong>资源</strong>是一种信息实体，它可以有多种外在表现形式。“资源”具体呈现出来的形式，叫做它的&quot;表现层&rdquo;（Representation）。URI只代表资源的实体，不代表它的形式。严格地说，有些网址最后的 &ldquo;.html&rdquo; 后缀名是不必要的，因为这个后缀名表示格式，属于&quot;表现层&quot;范畴，而 URI 应该只代表&quot;资源&quot;的<strong>位置</strong>。它的具体表现形式，应该在 HTTP 请求的<strong>头信息</strong>中用 <strong>Accept</strong> 和 <strong>Content-Type</strong> 字段指定，这两个字段才是对&quot;表现层&quot;的描述。</p>
+<p><strong>资源</strong>是一种信息实体，它可以有多种外在表现形式。“资源” 具体呈现出来的形式，叫做它的 &ldquo;表现层&rdquo;（Representation）。URI只代表资源的实体，不代表它的形式。严格地说，有些网址最后的 &ldquo;.html&rdquo; 后缀名是不必要的，因为这个后缀名表示格式，属于 &ldquo;表现层&rdquo; 范畴，而 URI 应该只代表 &ldquo;资源&rdquo; 的<strong>位置</strong>。它的具体表现形式，应该在 HTTP 请求的<strong>头信息</strong>中用 <strong>Accept</strong> 和 <strong>Content-Type</strong> 字段指定，这两个字段才是对 &ldquo;表现层&rdquo; 的描述。</p>
 <p>因为不同的版本，可以理解成同一种资源的不同表现形式，所以应该采用同一个 URI。版本号可以在 HTTP 请求头信息的 Accept 字段中进行区分（参见<a href="http://www.informit.com/articles/article.aspx?p=1566460">Versioning REST Services</a>）：</p>
 <h3 id="12-如何理解-restful">1.2 如何理解 RESTful<a class="anchor" href="#12-如何理解-restful">#</a></h3>
 <p>REST 本身受 Web 技术的影响很深，可以借助 WEB 来理解 RESTful。网站是采用<strong>客户端/服务器</strong>模式，建立在分布式体系上，通过互联网通信，具有高延时（high latency）、高并发等特点的一种软件。<strong>表现层</strong>（Representation）的含义是把<strong>资源</strong>具体的形式呈现出来。表现层上的网站交互就是客户端获取或修改服务器端储存的资源，而这些获取或修改的操作就是资源的状态转换。具体的实现很简单</p>
 <ul>
 <li>用<strong>名词</strong>（<strong>URL</strong>）表示<strong>资源</strong>；</li>
-<li>用<strong>动词</strong>（<strong>GET / POST / PUT / DELETE</strong>）表示对<strong>资源状态的转换</strong>：</li>
+<li>用<strong>动词</strong>（<strong>GET</strong> / <strong>POST</strong> / <strong>PUT</strong> / <strong>DELETE</strong>）表示对<strong>资源状态的转换</strong>：</li>
 </ul>
 <p>比如在使用 spring boot 实现一个 WEB 应用时：</p>
 <pre><code class="language-java">// 查询所有记录
