@@ -61,7 +61,7 @@
       "datePublished": "2020-09-14 12:00:08 \u002b0800 CST",
       "dateModified" : "2020-09-14 12:00:08 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/mybatis\/",
-      "wordCount" : "865",
+      "wordCount" : "867",
       "keywords" : ["MyBatis", "持久层", "SPI", "打破双亲委派", "Blog"]
     }
   
@@ -184,12 +184,11 @@
     }
 }
 </code></pre>
-<p>可大致总结为六个步骤：</p>
+<p>可大致总结为五个步骤：</p>
 <ol>
 <li>通过类加载注册特定数据库的 Driver；</li>
 <li>通过 URL、用户名和密码建立连接 Connection；</li>
-<li>创建 JDBC Statements 对象；</li>
-<li>设置 SQL 语句进行查询；</li>
+<li>创建 JDBC Statements 对象并进行 SQL 语句查询；</li>
 <li>获取结果 ResultSet；</li>
 <li>释放相关资源（关闭 Connection，关闭 Statement，关闭 ResultSet）。</li>
 </ol>
@@ -216,7 +215,7 @@
 }
 </code></pre>
 <p>假如我们同时可能会用到两个数据库，则需要分别加载这两个数据库的 driver。那么当我们需要特定一个数据库时，JDBC 是如何找到特定的那个数据库的呢？</p>
-<p>其实在第二步建立连接时 JDBC 会去 <em>registeredDrivers</em> 这个 list 中按照 URL 找到相对应的 Driver：</p>
+<p>其实在第二步 <code>DriverManager.getConnection(DB_URL,USER,PASS)</code> 建立连接时传入了 URL，JDBC 会根据这个 URL 去 <em>registeredDrivers</em> 中找到相对应的 Driver：</p>
 <pre><code class="language-java">for (DriverInfo aDriver : registeredDrivers) {
     // If the caller does not have permission to load the driver then
     // skip it.
@@ -310,7 +309,7 @@ InputStream inputStream = Resources.getResourceAsStream(resource);
 <h3 id="43-执行-sql-语句">4.3 执行 SQL 语句<a class="anchor" href="#43-执行-sql-语句">#</a></h3>
 <p>在拿到 SqlSession 对象后，我们调用它的各种方法来进行相应的操作。在加载 XML 配置的时候，mapping.xml 的 namespace 和 id 信息就会存放为 mappedStatements 的 key，对应的，SQL 语句就是对应的 value。MyBatis 先通过 mappedStatements 找到相应的 statement，使用 <code>prepareStatement()</code> 方法进行预编译，预编译能够提高效率并防止 SQL 注入。</p>
 <h3 id="44-事务">4.4 事务<a class="anchor" href="#44-事务">#</a></h3>
-<p>当使用 Spring 整合的 MyBatis时，Spring 封装了很多处理细节，这样我们就不用写大量的冗余代码，可以专注于业务开发。MyBatis 的 SqlSession 提供了几个方法来处理事务，但是当使用 MyBatis-Spring 时，所有的 Bean 将会注入由 Spring 管理的 SqlSession 或映射器。也就是说，Spring 将负责处理事务。</p>
+<p>当使用 Spring 整合的 MyBatis 时，Spring 封装了很多处理细节，这样我们就不用写大量的冗余代码，可以专注于业务开发。MyBatis 的 SqlSession 提供了几个方法来处理事务，但是当使用 MyBatis-Spring 时，所有的 Bean 将会注入由 Spring 管理的 SqlSession 或映射器。也就是说，Spring 将负责处理事务。</p>
 <h2 id="五mybatis-所做的改进">五、MyBatis 所做的改进<a class="anchor" href="#五mybatis-所做的改进">#</a></h2>
 <p>对比 JDBC 来说，MyBatis 进行了很多改进，具体表现在以下四个方面：</p>
 <h4 id="1-连接获取和释放">1. 连接获取和释放</h4>
@@ -318,7 +317,7 @@ InputStream inputStream = Resources.getResourceAsStream(resource);
 <h4 id="2-sql-统一管理">2. SQL 统一管理</h4>
 <p>SQL 语句统一在 XML 文件中编辑保存，并通过键值对的形式储存在 mappedStatements 中。</p>
 <h4 id="3-传入参数映射和动态-sql">3. 传入参数映射和动态 SQL</h4>
-<p>Mybatis 在处理 #{} 时，会将 SQL 语句中的 #{} 替换为 ? 号，调用 PreparedStatement 的<code>set()</code>方法来赋值；Mybatis 在处理 ${} 时，就是把 ${} 替换成变量的值。</p>
+<p>Mybatis 在处理 #{} 时，会将 SQL 语句中的 #{} 替换为 ? 号，调用 PreparedStatement 的 <code>set()</code> 方法来赋值；Mybatis 在处理 ${} 时，就是把 ${} 替换成变量的值。</p>
 <p>MyBatis 实现了动态 SQL，这样在 Java 代码中就不需要考虑 SQL 语句相关的业务逻辑了，包含以下标签：<code>if</code> / <code>choose</code> / <code>when</code> / <code>otherwise</code> / <code>trim</code> / <code>where</code> / <code>set</code> / <code>foreach</code>。</p>
 <h4 id="4-结果映射和结果缓存">4. 结果映射和结果缓存</h4>
 <p>结果映射有两种方式，第一种是使用 <code>&lt;resultMap&gt;</code> 标签，逐一定义列名和对象属性名之间的映射关系。第二种是使用 SQL 列的别名功能，将列别名书写为对象属性名，不区分大小写。</p>

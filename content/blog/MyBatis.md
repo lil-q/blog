@@ -85,12 +85,11 @@ public class JDBCTest {
 }
 ```
 
-可大致总结为六个步骤：
+可大致总结为五个步骤：
 
 1. 通过类加载注册特定数据库的 Driver；
 2. 通过 URL、用户名和密码建立连接 Connection；
-3. 创建 JDBC Statements 对象；
-4. 设置 SQL 语句进行查询；
+3. 创建 JDBC Statements 对象并进行 SQL 语句查询；
 5. 获取结果 ResultSet；
 6. 释放相关资源（关闭 Connection，关闭 Statement，关闭 ResultSet）。
 
@@ -125,7 +124,7 @@ public class DriverManager {
 
 假如我们同时可能会用到两个数据库，则需要分别加载这两个数据库的 driver。那么当我们需要特定一个数据库时，JDBC 是如何找到特定的那个数据库的呢？
 
-其实在第二步建立连接时 JDBC 会去 *registeredDrivers* 这个 list 中按照 URL 找到相对应的 Driver：
+其实在第二步 `DriverManager.getConnection(DB_URL,USER,PASS)` 建立连接时传入了 URL，JDBC 会根据这个 URL 去 *registeredDrivers* 中找到相对应的 Driver：
 
 ```java
 for (DriverInfo aDriver : registeredDrivers) {
@@ -249,7 +248,7 @@ try (SqlSession session = sqlSessionFactory.openSession()) {
 
 ### 4.4 事务
 
-当使用 Spring 整合的 MyBatis时，Spring 封装了很多处理细节，这样我们就不用写大量的冗余代码，可以专注于业务开发。MyBatis 的 SqlSession 提供了几个方法来处理事务，但是当使用 MyBatis-Spring 时，所有的 Bean 将会注入由 Spring 管理的 SqlSession 或映射器。也就是说，Spring 将负责处理事务。
+当使用 Spring 整合的 MyBatis 时，Spring 封装了很多处理细节，这样我们就不用写大量的冗余代码，可以专注于业务开发。MyBatis 的 SqlSession 提供了几个方法来处理事务，但是当使用 MyBatis-Spring 时，所有的 Bean 将会注入由 Spring 管理的 SqlSession 或映射器。也就是说，Spring 将负责处理事务。
 
 ## 五、MyBatis 所做的改进
 
@@ -265,7 +264,7 @@ SQL 语句统一在 XML 文件中编辑保存，并通过键值对的形式储�
 
 #### 3. 传入参数映射和动态 SQL
 
-Mybatis 在处理 #{} 时，会将 SQL 语句中的 #{} 替换为 ? 号，调用 PreparedStatement 的`set()`方法来赋值；Mybatis 在处理 ${} 时，就是把 ${} 替换成变量的值。
+Mybatis 在处理 #{} 时，会将 SQL 语句中的 #{} 替换为 ? 号，调用 PreparedStatement 的 `set()` 方法来赋值；Mybatis 在处理 ${} 时，就是把 ${} 替换成变量的值。
 
 MyBatis 实现了动态 SQL，这样在 Java 代码中就不需要考虑 SQL 语句相关的业务逻辑了，包含以下标签：`if` / `choose` / `when` / `otherwise` / `trim` / `where` / `set` / `foreach`。
 

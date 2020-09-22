@@ -36,14 +36,14 @@ for (Map.Entry<String, Integer> entry : map.entrySet()) {...}
 
 正确使用 Map 必须保证：
 
-* 作为 key 的对象必须正确覆写`equals()`方法，相等的两个 key 实例调用`equals()`必须返回`true`；
+* 作为 key 的对象必须正确覆写 `equals()` 方法，相等的两个 key 实例调用 `equals()` 必须返回 `true`；
 
-* 作为 key 的对象还必须正确覆写`hashCode()`方法，且`hashCode()`方法要严格遵循以下规范：
+* 作为 key 的对象还必须正确覆写 `hashCode()` 方法，且 `hashCode()` 方法要严格遵循以下规范：
 
   <br>
 
-  * 如果两个对象相等，则两个对象的`hashCode()`必须相等；
-  * 如果两个对象不相等，则两个对象的`hashCode()`尽量不要相等。
+  * 如果两个对象相等，则两个对象的 `hashCode()` 必须相等；
+  * 如果两个对象不相等，则两个对象的 `hashCode()` 尽量不要相等。
 
 自己写 `hashCode()` 时R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法：`31*x == (x<<5)-x`，编译器会自动进行这个优化。
 
@@ -367,14 +367,18 @@ JDK1.8 开始，HashMap 由链表的头插法改变成了**尾插法**，因此�
 
 **（7）黑红树**
 
-当链表变长时，查找和添加的速度会变慢，JDK1.8 后加入了链表转换为黑红树的机制，当链表长度超过 TREEIFY_THRESHOLD（默认为8）时，会转化成黑红树。
+当链表变长时，查找和添加的速度会变慢，JDK1.8 后加入了链表转换为黑红树的机制，默认情况下，当链表长度超过 8 时，会转化成黑红树；树节点少于 6 时，重写转换回链表。
 
 ```java
 static final int TREEIFY_THRESHOLD = 8;
 static final int UNTREEIFY_THRESHOLD = 6;
 ```
 
-在键类没有实现 comparable 接口的情况下，HashMap 会做以下三步处理：
+源码中对 TREEIFY_THRESHOLD 默认是 8 的原因解释如下。在完全随机且加载因子默认为 0.75 的情况下，根据泊松分布，一个桶内出现 8 个 Node 的概率只有 0.00000006。 
+
+> Because TreeNodes are about twice the size of regular nodes, we use them only when bins contain enough nodes to warrant use (see TREEIFY_THRESHOLD). And when they become too small (due to removal or resizing) they are converted back to plain bins.  In usages with well-distributed user hashCodes, tree bins are rarely used. Ideally, under random hashCodes, the frequency of nodes in bins follows a Poisson distribution with a parameter of about 0.5 on average for the default resizing threshold of 0.75, although with a large variance because of resizing granularity. Ignoring variance, the expected occurrences of list size k are (exp(-0.5) * pow(0.5, k) / factorial(k)). 
+
+如果键类没有实现 comparable 接口，HashMap 会做以下三步处理：
 
 1. 比较键与键之间 hash 值的大小，如果 hash 值相同，则
 2. 检测键类是否实现了 Comparable 接口，是则调用 `compareTo()` 方法进行比较，否则

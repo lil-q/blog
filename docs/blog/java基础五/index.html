@@ -61,7 +61,7 @@
       "datePublished": "2020-04-02 15:37:30 \u002b0000 UTC",
       "dateModified" : "2020-04-02 15:37:30 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%94\/",
-      "wordCount" : "2178",
+      "wordCount" : "2313",
       "keywords" : ["java", "Map", "HashMap", "concurrentHashMap", "Blog"]
     }
   
@@ -136,14 +136,14 @@
 <p>正确使用 Map 必须保证：</p>
 <ul>
 <li>
-<p>作为 key 的对象必须正确覆写<code>equals()</code>方法，相等的两个 key 实例调用<code>equals()</code>必须返回<code>true</code>；</p>
+<p>作为 key 的对象必须正确覆写 <code>equals()</code> 方法，相等的两个 key 实例调用 <code>equals()</code> 必须返回 <code>true</code>；</p>
 </li>
 <li>
-<p>作为 key 的对象还必须正确覆写<code>hashCode()</code>方法，且<code>hashCode()</code>方法要严格遵循以下规范：</p>
+<p>作为 key 的对象还必须正确覆写 <code>hashCode()</code> 方法，且 <code>hashCode()</code> 方法要严格遵循以下规范：</p>
 <br>
 <ul>
-<li>如果两个对象相等，则两个对象的<code>hashCode()</code>必须相等；</li>
-<li>如果两个对象不相等，则两个对象的<code>hashCode()</code>尽量不要相等。</li>
+<li>如果两个对象相等，则两个对象的 <code>hashCode()</code> 必须相等；</li>
+<li>如果两个对象不相等，则两个对象的 <code>hashCode()</code> 尽量不要相等。</li>
 </ul>
 </li>
 </ul>
@@ -402,11 +402,15 @@ i = (n - 1) &amp; hash;
 <p><strong>（6）拉链法</strong></p>
 <p>JDK1.8 开始，HashMap 由链表的头插法改变成了<strong>尾插法</strong>，因此不再会造成死循环，改成尾插法也是为了能够更好的维护 jdk1.8 中 HashMap 的红黑树结构。</p>
 <p><strong>（7）黑红树</strong></p>
-<p>当链表变长时，查找和添加的速度会变慢，JDK1.8 后加入了链表转换为黑红树的机制，当链表长度超过 TREEIFY_THRESHOLD（默认为8）时，会转化成黑红树。</p>
+<p>当链表变长时，查找和添加的速度会变慢，JDK1.8 后加入了链表转换为黑红树的机制，默认情况下，当链表长度超过 8 时，会转化成黑红树；树节点少于 6 时，重写转换回链表。</p>
 <pre><code class="language-java">static final int TREEIFY_THRESHOLD = 8;
 static final int UNTREEIFY_THRESHOLD = 6;
 </code></pre>
-<p>在键类没有实现 comparable 接口的情况下，HashMap 会做以下三步处理：</p>
+<p>源码中对 TREEIFY_THRESHOLD 默认是 8 的原因解释如下。在完全随机且加载因子默认为 0.75 的情况下，根据泊松分布，一个桶内出现 8 个 Node 的概率只有 0.00000006。</p>
+<blockquote>
+<p>Because TreeNodes are about twice the size of regular nodes, we use them only when bins contain enough nodes to warrant use (see TREEIFY_THRESHOLD). And when they become too small (due to removal or resizing) they are converted back to plain bins.  In usages with well-distributed user hashCodes, tree bins are rarely used. Ideally, under random hashCodes, the frequency of nodes in bins follows a Poisson distribution with a parameter of about 0.5 on average for the default resizing threshold of 0.75, although with a large variance because of resizing granularity. Ignoring variance, the expected occurrences of list size k are (exp(-0.5) * pow(0.5, k) / factorial(k)).</p>
+</blockquote>
+<p>如果键类没有实现 comparable 接口，HashMap 会做以下三步处理：</p>
 <ol>
 <li>比较键与键之间 hash 值的大小，如果 hash 值相同，则</li>
 <li>检测键类是否实现了 Comparable 接口，是则调用 <code>compareTo()</code> 方法进行比较，否则</li>

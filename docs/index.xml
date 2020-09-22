@@ -151,8 +151,7 @@ B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点�
  新生代（Young Generation） 老年代（Old Generation）  堆不需要连续内存，当前主流的 Java 虚拟机都是按照可扩展来实现的（通过参数 -Xmx 和 -Xms 设定），增加失败会抛出 OutOfMemoryError 异常。
 栈和堆的区别如下：
  功能：栈的功能是运行，堆的功能是储存； 共享性：栈是线程隔离的，堆是线程共享的； 异常错误 ：栈可能报出 StackOverflowError 异常和 OutOfMemoryError 异常，堆报出后者； 空间：栈的空间连续，堆的空间不连续，栈的空间远小于堆。  1.5 方法区 用于存放已被加载的类信息、常量、静态变量、即时编译器编译后的代码等数据。
-和堆一样不需要连续的内存，并且可以动态扩展，动态扩展失败一样会抛出 OutOfMemoryError 异常。
-对这块区域进行垃圾回收的主要目标是对常量池的回收和对类的卸载，但是一般比较难实现。
+和堆一样不需要连续的内存，并且可以动态扩展，动态扩展失败一样会抛出 OutOfMemoryError 异常。对这块区域进行垃圾回收的主要目标是对常量池的回收和对类的卸载，但是一般比较难实现。
 HotSpot 虚拟机把它当成永久代来进行垃圾回收。但很难确定永久代的大小，因为它受到很多因素影响，并且每次 Full GC 之后永久代的大小都会改变，所以经常会抛出 OutOfMemoryError 异常。为了更容易管理方法区，从 JDK 1.</description>
     </item>
     
@@ -361,13 +360,14 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
       <pubDate>Fri, 20 Mar 2020 19:33:14 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/</guid>
-      <description>Java Virtual Machine，JVM：
+      <description>Java 介于编译型语言和解释型语言之间。编译型语言如C、C++，代码是直接编译成机器码执行，但是不同的平台（x86、ARM等）CPU的指令集不同，因此，需要编译出每一种平台的对应机器码。解释型语言如 Python、Ruby 没有这个问题，可以由解释器直接加载源码然后运行，代价是运行效率太低。而 Java 是将代码编译成一种 “字节码”，它类似于抽象的 CPU 指令，然后，针对不同平台编写虚拟机，不同平台的虚拟机负责加载字节码并执行，这样就实现了 “一次编写，到处运行” 的效果。
+字节码便于虚拟机读取，不用再解析字符串，所以运行速度比直接解析源代码快。在语言发送改变或引入新的功能时，只需要改变编译规则即可，字节码仍可以遵照原来的规则运行。此外，字节码也可以由其他语言生成，如 Groovy，Scala 等。
+  Java Virtual Machine，JVM：
 整个 Java 实现跨平台的最核心的部分，所有的 Java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
   Java Runtime Environment，JRE：
 Java 运行环境。在 JDK 的安装目录里你可以找到 jre 目录，里面有两个文件夹 bin 和 lib ，在这里可以认为 bin 里的就是 jvm，lib 中则是 jvm 工作所需要的类库，而 bin 和 lib 和起来就称为 JRE。
   Java Development Kit，JDK：
-Java 开发工具包，是支持 Java 程序开发的最小环境。JDK 对比 JRE 多了 Java language 和工具 API。
-  一、数据类型 1.1 基本类型  byte/8 [-128 ~ 127] char/16 short/16 [-32768 ~ 32767] int/32 [-2147483648 ~ 2147483647] float/32 long/64 [-9223372036854775808 ~ 9223372036854775807] double/64 boolean/~  Java 语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要 1 bit，但是通常 JVM 内部会把 boolean 表示为 4 字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</description>
+Java 开发工具包，是支持 Java 程序开发的最小环境。JDK 对比 JRE 多了 Java language 和工具 API。</description>
     </item>
     
     <item>
