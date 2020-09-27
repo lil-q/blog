@@ -44,9 +44,9 @@ keywords: [tree, BST, 二叉搜索树]
 
 这里区分一下完全二叉树、满二叉树、完美二叉树:
 
-1. 完全二叉树：最后一层的叶子节点均需在最左边
-2. 满二叉树：满足完全二叉树性质，树中除了叶子节点，每个节点都有两个子节点
-3. 完美二叉树：满足满二叉树性质，树的叶子节点铺满最后一层
+* 完全二叉树：最后一层的叶子节点均需在最左边；
+* 满二叉树：满足完全二叉树性质，树中除了叶子节点，每个节点都有两个子节点；
+* 完美二叉树：满足满二叉树性质，树的叶子节点铺满最后一层
 
 ![full](https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/BinaryTree2.png)
 
@@ -86,7 +86,7 @@ for i in range(3):
 
 ### 2.1 二叉树的遍历
 
-二叉树的遍历有前序遍历、中序遍历、后序遍历和层序遍历等，这里用迭代和递归两个方法介绍。
+二叉树的遍历有前序遍历、中序遍历、后序遍历和层序遍历等，可用迭代和递归两个方法。
 
 #### 1. 前序遍历
 
@@ -279,10 +279,10 @@ def reconstruct(root):
 
 **二叉查找树**（Binary Search Tree），也称为**二叉搜索树**、**有序二叉树**（ordered binary tree）或**排序二叉树**（sorted binary tree），是指一棵空树或者具有下列性质的二叉树：
 
-1. 若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值
-2. 若任意节点的右子树不空，则右子树上所有节点的值均大于它的根节点的值
-3. 任意节点的左、右子树也分别为二叉查找树
-4. 没有键值相等的节点
+* 若任意节点的左子树不空，则左子树上所有节点的值均小于它的根节点的值；
+* 若任意节点的右子树不空，则右子树上所有节点的值均大于它的根节点的值；
+* 任意节点的左、右子树也分别为二叉查找树；
+* 没有键值相等的节点。
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/225px-Binary_search_tree.svg.png" alt="bst" style="zoom:67%;" />
 
@@ -298,89 +298,31 @@ def reconstruct(root):
 | 插入 | O(log *n*) | O(*n*) |
 | 删除 | O(log *n*) | O(*n*) |
 
+### 3.1 插入节点
 
-
-### 二叉搜索树的建立
-
-#### 1. 插入节点
-
-1. 若 b 是空树，则将 `node` 所指节点作为根节点插入，否则：
-2. 若 `node.val` 等于 b 的根节点的数据域之值，则返回，否则：
-3. 若 `node.val` 小于 b 的根节点的数据域之值，则把s所指节点插入到左子树中，否则：
-4. 把 `node` 所指节点插入到右子树中
+1. 若 b 是空树，则将 `node` 所指节点作为根节点插入，否则；
+2. 若 `node.val` 等于 b 的根节点的数据域之值，则返回，否则；
+3. 若 `node.val` 小于 b 的根节点的数据域之值，则把s所指节点插入到左子树中，否则；
+4. 把 `node` 所指节点插入到右子树中。
 
 新插入节点总是叶子节点，所以数字组成相同但是排序不同的序列所构造的二叉搜索树其实是不同的。但是序列化（见后文）的结果是一致的。
 
-#### 2. 查找节点
+### 3.2 查找节点
 
 1. 若 b 是空树，则搜索失败，否则：
 2. 若 x 等于 b 的根节点的数据域之值，则查找成功；否则：
 3. 若 x 小于 b 的根节点的数据域之值，则搜索左子树；否则：
 4. 查找右子树
 
-#### 3. 删除节点
+### 3.3 删除节点
 
-[leetcode 450](https://leetcode-cn.com/problems/delete-node-in-a-bst/solution/pythonchang-gui-jie-fa-by-lil-q/)非递归，较为复杂的解法。
-
-```python
-class Solution:
-    def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
-        # 删除节点返回新的子树    
-        def delete(node):
-            # 没有子节点，返回None
-            if not node.left and not node.right:return None
-            # 没有左子节点，返回右子节点
-            elif not node.left:return node.right
-            # 没有右子节点，返回左子节点
-            elif not node.right:return node.left
-            # 待删除节点度为2，详细讨论
-            else:
-                # 左子节点没有右子节点
-                if not node.left.right:
-                    node.left.right=node.right
-                    return node.left
-                # 右子节点没有左子节点
-                elif not node.left.right:
-                    node.left.right=node.right
-                    return node.left 
-                # 都不满足，返回左子树最大值
-                else:
-                    # 记录父节点pre
-                    pre=left=node.left
-                    while left.right:
-                        pre=left
-                        left=left.right
-                    # 保存待最大值的左子树到父节点的右子树
-                    pre.right=left.left
-                    left.left=node.left
-                    left.right=node.right
-                    return left
-        
-        if not root:return root        
-        if root.val==key:
-            root=delete(root)
-            return root
-        father=node=root
-        while node.val!=key:
-            if node.val>key:
-                father=node
-                node=node.left
-            else:
-                father=node
-                node=node.right
-            if not node:return root
-        if father.left==node:father.left=delete(node)
-        else: father.right=delete(node)
-        return root
-```
-
-这里给出递归的方式。递归的好处在于不用考虑寻找父节点以及待删除结点到底是父节点的左子节点还是右子节点。
+这里给出递归的方式。递归的好处在于不用考虑寻找父节点以及待删除结点到底是父节点的左子节点还是右子节点（[leetcode 450 非递归，较为复杂的解法](https://leetcode-cn.com/problems/delete-node-in-a-bst/solution/pythonchang-gui-jie-fa-by-lil-q/)）。
 
 在二叉查找树删去一个结点，分三种情况讨论：
 
-1. 若待删除结点 p 为叶子结点，即 PL（左子树）和 PR（右子树）均为空树。由于删去叶子结点不破坏整棵树的结构，则只需修改其双亲结点的指针即可。
-2. 若待删除结点只有左子树 PL 或右子树 PR，此时只要令 PL 或 PR 直接成为其双亲结点 f 的左子树（当 p 是左子树）或右子树（当 p 是右子树）即可，作此修改也不破坏二叉查找树的特性。
-3. 若 p 结点的左子树和右子树均不空。在删去 p 之后，为保持其它元素之间的相对位置不变，可按中序遍历保持有序进行调整，可以有两种做法：其一是令 p 的左子树为 f 的左/右（依 p 是 f 的左子树还是右子树而定）子树，s 为 p 左子树的最右下的结点，而 p 的右子树为 s 的右子树；其二是令 p 的直接前驱（in-order predecessor）或直接后继（in-order successor）替代 p，然后再从二叉查找树中删去它的直接前驱（或直接后继）。
+* 若待删除结点 p 为叶子结点，即 PL（左子树）和 PR（右子树）均为空树。由于删去叶子结点不破坏整棵树的结构，则只需修改其双亲结点的指针即可。
+* 若待删除结点只有左子树 PL 或右子树 PR，此时只要令 PL 或 PR 直接成为其双亲结点 f 的左子树（当 p 是左子树）或右子树（当 p 是右子树）即可，作此修改也不破坏二叉查找树的特性。
+* 若 p 结点的左子树和右子树均不空。在删去 p 之后，为保持其它元素之间的相对位置不变，可按中序遍历保持有序进行调整，可以有两种做法：其一是令 p 的左子树为 f 的左/右（依 p 是 f 的左子树还是右子树而定）子树，s 为 p 左子树的最右下的结点，而 p 的右子树为 s 的右子树；其二是令 p 的直接前驱（in-order predecessor）或直接后继（in-order successor）替代 p，然后再从二叉查找树中删去它的直接前驱（或直接后继）。
 
 ![deletenode](https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/720px-Binary_search_tree_delete.svg.png)
 
@@ -426,7 +368,7 @@ class Trie:
 
 ## 五、B 树 & B+ 树
 
-**B树**（B-tree）是一种自平衡的树，能够保持数据有序。这种数据结构能够让查找数据、顺序访问、插入数据及删除的动作，都在对数时间内完成。B 树，概括来说是一个一般化的二叉查找树（binary search tree）一个节点可以拥有 2 个以上的子节点。与自平衡二叉查找树不同，B树适用于读写相对大的数据块的存储系统，例如磁盘。B 树减少定位记录时所经历的中间过程，从而加快存取速度。B 树这种数据结构可以用来描述外部存储。这种数据结构常被应用在数据库和文件系统的实现上。
+**B 树**（B-tree）是一种自平衡的树，能够保持数据有序。这种数据结构能够让查找数据、顺序访问、插入数据及删除的动作，都在对数时间内完成。B 树，概括来说是一个一般化的二叉查找树（binary search tree）一个节点可以拥有 2 个以上的子节点。与自平衡二叉查找树不同，B树适用于读写相对大的数据块的存储系统，例如磁盘。B 树减少定位记录时所经历的中间过程，从而加快存取速度。B 树这种数据结构可以用来描述外部存储。这种数据结构常被应用在数据库和文件系统的实现上。
 
 **B+ 树**是一种树数据结构，通常用于数据库和操作系统的文件系统中。B+ 树的特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反。
 

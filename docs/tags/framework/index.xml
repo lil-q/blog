@@ -21,7 +21,7 @@
       <description>为了保存数据，需要持久层；为了实现持久层，需要数据库；为了管理数据库，需要数据库管理系统；为了操作数据库管理系统，需要持久层框架。
 一、持久层 储存在内存之上的数据在断电后就会清除，与之相对的，储存在硬盘中的数据可以长时间、安全的保存，称之为持久层。
 企业应用中的数据（各种订单数据、客户数据、库存数据等）十分重要，所以需要把数据持久化。持久化可以通过很多方式，写文件和数据库都可以，一般会把数据持久化到数据库中，因为可以很方便的查询、统计和分析，而且数据库 ACID 特性中的持久性（durability）就是针对的持久层。
-二、JDBC 对于 Java，最开始是使用 JDBC 来进行数据库管理的。Java数据库连接（Java Database Connectivity，JDBC）是 Java 提供的一个操作数据库的 API。它是由各种数据库厂商提供类和接口组成的数据库驱动，为多种数据库提供统一访问，使用数据库时只需要调用 JDBC 接口就行了，大致的步骤如下：
+二、JDBC 对于 Java，最开始是使用 JDBC 来进行数据库管理的。Java 数据库连接（Java Database Connectivity，JDBC）是 Java 提供的一个操作数据库的 API。它是由各种数据库厂商提供类和接口组成的数据库驱动，为多种数据库提供统一访问，使用数据库时只需要调用 JDBC 接口就行了，大致的步骤如下：
 public class JDBCTest { // JDBC driver name and database URL static final String JDBC_DRIVER = &amp;quot;com.mysql.cj.jdbc.Driver&amp;quot;; static final String DB_URL = &amp;quot;jdbc:mysql://localhost:port/DB_name?...&amp;quot;; // Database credentials static final String USER = &amp;quot;root&amp;quot;; static final String PASS = &amp;quot;password&amp;quot;; public static void main(String[] args) { Connection conn = null; Statement stmt = null; try { //STEP 1: Register JDBC driver Class.</description>
     </item>
     
@@ -32,7 +32,7 @@ public class JDBCTest { // JDBC driver name and database URL static final String
       
       <guid>https://lil-q.github.io/blog/spring/</guid>
       <description>&amp;ldquo;From configuration to security, web apps to big data—whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need—Spring is modular by design.&amp;rdquo;
- Spring 是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 spring 生态的基石。
+ Spring 是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 Spring 生态的基石。
 一、Spring Framework  &amp;ldquo;Provides core support for dependency injection, transaction management, web apps, data access, messaging, and more.</description>
     </item>
     

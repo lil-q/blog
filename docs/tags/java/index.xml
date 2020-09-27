@@ -73,7 +73,7 @@ public void readFile() throws IOException { try (InputStream input = new FileInp
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</guid>
       <description>一、Map Map 是一种键-值映射表，当我们调用 put(K key, V value) 方法时，就把 key 和 value 做了映射并放入 Map。当我们调用 V get(K key) 时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
- TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map 遍历 要遍历 key 可以使用 for each 循环遍历 Map 实例的 keySet() 方法返回的 Set 集合，它包含不重复的 key 的集合：
+ TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map 遍历 Map 本身没有实现 Iterable 接口，要遍历 key 可以使用 for each 循环遍历 Map 实例的 keySet() 方法返回的 Set 集合，它包含不重复的 key 的集合：
 for (String key : map.keySet()) {...}  同时遍历 key 和 value 可以使用 for each 循环遍历 Map 对象的 entrySet() 集合，它包含每一个 key-value 映射：</description>
     </item>
     
@@ -116,7 +116,7 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
       <pubDate>Mon, 23 Mar 2020 14:08:20 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%8C/</guid>
-      <description>一、面向对象 Java 是一种面向对象的编程语言。面向对象编程，英文是 Object-Oriented Programming，简称 OOP。
+      <description>一、面向对象 Java 是一种面向对象的编程语言。面向对象程序设计（Object-Oriented Programming，OOP）是一种具有对象概念的程序编程典范，同时也是一种程序开发的抽象方针。
 1.1 权限修饰符     本类 同一个包下（子类和无关类） 不同包下（子类） 不同包下（无关类）     public √ √ √ √   protected √ √ √ ×   default √ √ × ×   private √ × × ×    一个 .java 文件只能包含一个 public 类，但可以包含多个非 public 类。如果有 public 类，文件名必须和 public 类的名字相同。
 1.2 继承 如果父类没有默认的构造方法，子类就必须显式调用 super() 并给出参数以便让编译器定位到父类的一个合适的构造方法。
 子类不会继承任何父类的构造方法。子类默认的构造方法是编译器自动生成的，不是继承的。
@@ -129,8 +129,8 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
       <pubDate>Fri, 20 Mar 2020 19:33:14 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/</guid>
-      <description>Java 介于编译型语言和解释型语言之间。编译型语言如C、C++，代码是直接编译成机器码执行，但是不同的平台（x86、ARM等）CPU的指令集不同，因此，需要编译出每一种平台的对应机器码。解释型语言如 Python、Ruby 没有这个问题，可以由解释器直接加载源码然后运行，代价是运行效率太低。而 Java 是将代码编译成一种 “字节码”，它类似于抽象的 CPU 指令，然后，针对不同平台编写虚拟机，不同平台的虚拟机负责加载字节码并执行，这样就实现了 “一次编写，到处运行” 的效果。
-字节码便于虚拟机读取，不用再解析字符串，所以运行速度比直接解析源代码快。在语言发送改变或引入新的功能时，只需要改变编译规则即可，字节码仍可以遵照原来的规则运行。此外，字节码也可以由其他语言生成，如 Groovy，Scala 等。
+      <description>Java 介于编译型语言和解释型语言之间。编译型语言如 C、C++，代码是直接编译成机器码执行，但是不同的平台（x86、ARM 等）CPU 的指令集不同，因此，需要编译出每一种平台的对应机器码。解释型语言如 Python、Ruby 没有这个问题，可以由解释器直接加载源码然后运行，代价是运行效率太低。而 Java 是将代码编译成一种 “字节码”，它类似于抽象的 CPU 指令，然后，针对不同平台编写虚拟机，不同平台的虚拟机负责加载字节码并执行，这样就实现了 “一次编写，到处运行” 的效果。
+字节码便于虚拟机读取，不用再解析字符串，所以运行速度比直接解析源代码快。在语言发生改变或引入新的功能时，只需要改变编译规则即可，字节码仍可以遵照原来的规则运行。此外，字节码也可以由其他语言生成，如 Groovy，Scala 等。
   Java Virtual Machine，JVM：
 整个 Java 实现跨平台的最核心的部分，所有的 Java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
   Java Runtime Environment，JRE：

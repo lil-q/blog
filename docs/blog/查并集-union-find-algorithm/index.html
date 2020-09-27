@@ -61,7 +61,7 @@
       "datePublished": "2020-01-02 12:54:02 \u002b0000 UTC",
       "dateModified" : "2020-01-02 12:54:02 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%9F%A5%E5%B9%B6%E9%9B%86-union-find-algorithm\/",
-      "wordCount" : "434",
+      "wordCount" : "532",
       "keywords" : ["union find algorithm", "Blog"]
     }
   
@@ -125,7 +125,7 @@
 </ul>
 <p>也就是说，不支持集合的分离、删除。</p>
 <h2 id="二quick-find算法">二、Quick-Find算法<a class="anchor" href="#二quick-find算法">#</a></h2>
-<p>以下图为例，连通关系为<code>[(1,2), (0, 1), (0, 3), (4, 7), (5, 6), (5, 7), (7, 8), (8, 9)]</code>。</p>
+<p>以下图为例，连通关系为 [(1,2), (0, 1), (0, 3), (4, 7), (5, 6), (5, 7), (7, 8), (8, 9)]。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/uf1.png" alt="uf"></p>
 <p>首先初始化所有节点，认为它们属于一个组，因此不连通的节点必然就属于不同的组：</p>
 <br>
@@ -161,7 +161,7 @@
 </tr>
 </tbody>
 </table>
-<p>输入pair<code>(1, 2)</code>，则将<strong>所有</strong><code>group number</code>为<code>0</code>和<code>1</code>的<code>element</code>改为一致（都为<code>0</code>或都为<code>1</code>，这里以较小值为例）。</p>
+<p>输入 <code>pair(1, 2)</code>，则将<strong>所有</strong> <em>group number</em> 为 0 和 1 的 <em>element</em> 改为一致（都为 0 或都为 1，这里以较小值为例）。</p>
 <br>
 <table>
 <thead>
@@ -195,7 +195,7 @@
 </tr>
 </tbody>
 </table>
-<p>输入pair<code>(0， 1)</code>，这里就需要把<code>element 1</code>和<code>element 2</code>的<code>group number</code>都改为<code>0</code>，：</p>
+<p>输入 <code>pair(0， 1)</code>，这里就需要把 <em>element 1</em> 和 <em>element 2</em> 的 <em>group number</em> 都改为 0：</p>
 <br>
 <table>
 <thead>
@@ -229,7 +229,7 @@
 </tr>
 </tbody>
 </table>
-<p>正因为每次都需要找到所有的特定<code>group number</code>的<code>element</code>，所以<code>union</code>的时间复杂度为O(N)，<code>find</code>的时间复杂度为O(1)。N为<code>element</code>的个数，下同。</p>
+<p>正因为每次都需要找到所有的特定 <em>group number</em> 的 <em>element</em>，所以 <code>union</code> 的时间复杂度为 O(N)，<code>find</code> 的时间复杂度为 O(1)。<em>N</em> 为 <em>element</em> 的个数，下同。</p>
 <p><strong>代码</strong></p>
 <pre><code class="language-python">class QuickFind(object):
     id = []
@@ -256,9 +256,9 @@
             self.count -= 1 
 </code></pre>
 <h2 id="三quick-union算法">三、Quick-Union算法<a class="anchor" href="#三quick-union算法">#</a></h2>
-<p>对于只需要实现查找和合并的并查集，O(n)的时间复杂度还是太高了，当时间复杂度需要降低到对数级，我们自然想到了<strong>树</strong>这个数据结构。由于并查集初始化中每一个<code>element</code>对于一个<code>group number</code>，所以可以通过数组中的跳转来实现树的寻找父节点功能。以下图为例，最开始每一个<code>element</code>的父节点都是自身，每次查找沿着父节点向上， 直到根节点。每次合并把找到的两个根节点的其中一个设置为另一个的父节点。</p>
+<p>对于只需要实现查找和合并的并查集，O(n) 的时间复杂度还是太高了，当时间复杂度需要降低到对数级，我们自然想到了<strong>树</strong>这个数据结构。由于并查集初始化中每一个 <em>element</em> 对于一个 <em>group number</em>，所以可以通过数组中的跳转来实现树的寻找父节点功能。以下图为例，最开始每一个 <em>element</em> 的父节点都是自身，每次查找沿着父节点向上， 直到根节点。每次合并把找到的两个根节点的其中一个设置为另一个的父节点。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/1339479431_6633.png" alt="qu"></p>
-<p><code>union</code>和<code>find</code>的时间复杂度取决于树的高度。</p>
+<p><code>union</code> 和 <code>find</code> 的时间复杂度取决于树的高度。</p>
 <p><strong>代码</strong></p>
 <pre><code class="language-python">class QuickUnion(object):
     id = []
@@ -284,11 +284,11 @@
             self.id[root_q] = root_p
             self.count -= 1 
 </code></pre>
-<p><em>注意：此时<code>self.id</code>存放的不再是每个元素的组别而是父节点。</em></p>
+<p>注意：此时 <code>self.id</code> 存放的不再是每个元素的组别而是父节点。</p>
 <h2 id="四weighted-quick-union-算法">四、Weighted Quick-Union 算法<a class="anchor" href="#四weighted-quick-union-算法">#</a></h2>
-<p>既然采用了<strong>树</strong>的结构，就有可能出现极端情况，是的树操作的时间复杂度退化成O(N)。为了避免这种情况，常规方法是使用平衡树，而对于并查集，只需要在<code>union</code>时，选择将小的树合并到大树上就可以了。</p>
+<p>既然采用了<strong>树</strong>的结构，就有可能出现极端情况，是的树操作的时间复杂度退化成 O(N)。为了避免这种情况，常规方法是使用平衡树，而对于并查集，只需要在 <code>union</code> 时，选择将小的树合并到大树上就可以了。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/1339479587_5986.png" alt="wqu"></p>
-<p>理论上在平衡树合并两个树时，应当用根的高度来衡量两个树的大小，但是这里使用根节点的子孙节点的数量来衡量，<code>union</code>和<code>find</code>的时间复杂度接近于O(log  N)。这是因为这个方法还可以优化，通过路径压缩可以将<code>union</code>和<code>find</code>的时间复杂度降低至O(1)，而这样做会改变根的高度。</p>
+<p>理论上在平衡树合并两个树时，应当用根的高度来衡量两个树的大小，但是这里使用根节点的子孙节点的数量来衡量，<code>union</code> 和 <code>find</code> 的时间复杂度接近于 O(log  N)。这是因为这个方法还可以优化，通过路径压缩可以将 <code>union</code> 和 <code>find</code> 的时间复杂度降低至 O(1)，而这样做会改变根的高度。</p>
 <p><strong>代码</strong></p>
 <pre><code class="language-python">class WeightedQuickUnion(object):
     id = []
@@ -321,22 +321,22 @@
                 self.sz[root_p] += self.sz[root_q]               
             self.count -=1
 </code></pre>
-<p>输出<code>self.sz</code>可以看到<code>id = 1</code>和<code>id = 5</code>的组别包含了所有元素，<code>id = 4</code>组中的<code>(4, 7)</code>实际上已经移动到<code>id = 5</code>组中。</p>
+<p>输出 <code>self.sz</code> 可以看到 <code>id = 1</code> 和 <code>id = 5</code> 的组别包含了所有元素，<code>id = 4</code> 组中的 <code>(4, 7)</code> 实际上已经移动到 <code>id = 5</code> 组中。</p>
 <pre><code class="language-python">size:  [1, 4, 1, 1, 2, 6, 1, 1, 1, 1]
 </code></pre>
 <h2 id="五path-compression">五、Path Compression<a class="anchor" href="#五path-compression">#</a></h2>
-<p>第一种方法是在<code>find</code>方法的执行过程中保存所有路过的中间节点到一个数组中，然后在<code>while</code>循环结束之后，将这些中间节点的父节点指向根节点。但是这个方法在<code>find</code>操作很频繁时会频繁生成中间节点数组，相应的分配销毁的时间自然就上升了。另一种方法是在寻找<code>q</code>的根节点的同时不断改变父节点，相当于在寻找根节点的同时，不断地将<code>q</code>移动到上一级的节点下，对路径进行了压缩，使整个树结构扁平化。相应的实现如下，实际上只需要在<code>find</code>方法中添加一行代码。</p>
+<p>第一种方法是在 <code>find</code> 方法的执行过程中保存所有路过的中间节点到一个数组中，然后在 <code>while</code> 循环结束之后，将这些中间节点的父节点指向根节点。但是这个方法在 <code>find</code> 操作很频繁时会频繁生成中间节点数组，相应的分配销毁的时间自然就上升了。另一种方法是在寻找 <code>q</code> 的根节点的同时不断改变父节点，相当于在寻找根节点的同时，不断地将 <code>q</code> 移动到上一级的节点下，对路径进行了压缩，使整个树结构扁平化。相应的实现如下，实际上只需要在 <code>find</code> 方法中添加一行代码。</p>
 <pre><code class="language-python">def find(self, p):   
         while (p != self.id[p]):
             self.id[p] = self.id[self.id[p]]
             p = self.id[p]
         return p
 </code></pre>
-<p>这样<code>self.id</code>中保存的既是个元素的组别又是各元素的父节点，正因为如此<code>union</code>和<code>find</code>的时间复杂度降低到了O(1)。</p>
+<p>这样 <code>self.id</code> 中保存的既是个元素的组别又是各元素的父节点，正因为如此 <code>union</code> 和 <code>find</code> 的时间复杂度降低到了 O(1)。</p>
 <pre><code class="language-python">final parent/id list is 1,1,1,1,5,5,5,5,5,5
 </code></pre>
 <h2 id="六总结">六、总结<a class="anchor" href="#六总结">#</a></h2>
-<p>随着一步步地深入，我们最终将查并集<code>union</code>和<code>find</code>的时间复杂度降低到了O(1)。本文中的四种算法的时间复杂度如下表所示。</p>
+<p>随着一步步地深入，我们最终将查并集 <code>union</code> 和 <code>find</code> 的时间复杂度降低到了 O(1)。本文中的四种算法的时间复杂度如下表所示。</p>
 <br>
 <table>
 <thead>
@@ -374,7 +374,7 @@
 </tr>
 </tbody>
 </table>
-<p>需要注意<code>Path Compression</code>是将各节点压缩到根节点下，所以<code>Weighted</code>仍然有意义。当然如果还需要输出连通路径，这个方法是没办法实现的，需要BFS或DFS算法来实现。</p>
+<p>需要注意 Path Compression 是将各节点压缩到根节点下，所以 Weighted 仍然有意义。当然如果还需要输出连通路径，这个方法是没办法实现的，需要 BFS 或 DFS 算法来实现。</p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
 <li><a href="https://github.com/lil-q/data-structures-python/tree/master/Union-Find">完整测试代码地址</a></li>

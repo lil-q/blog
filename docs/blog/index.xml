@@ -18,12 +18,12 @@
       <pubDate>Wed, 16 Sep 2020 10:42:08 +0800</pubDate>
       
       <guid>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E8%A1%8C%E4%B8%BA%E5%9E%8B/</guid>
-      <description>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。
+      <description>设计模式（Design pattern）代表了最佳实践，通常被有经验的软件开发人员所采用。
 一、迭代器 - Iterator 迭代器使用非常广，它提供了一种顺序访问聚合对象元素的方法，并且不暴露聚合对象的内部表示。JDK 中使用 Iterable 接口来实现迭代功能：
-public interface Iterable&amp;lt;T&amp;gt; { Iterator&amp;lt;T&amp;gt; iterator(); }  Iterable 接口下定义了一个 Iterator() 方法，用来生成一个 iterator，Iterator 接口主要定义了下面两个方法：
-public interface Iterator&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  在使用时，先创建一个迭代器，通过 hasNext() 判断其是否还有下一个值并使用 next() 获取。JDK 中的 Collection 继承自 Iterable，所以 Collection 下的实现类都是可迭代的。Map 的迭代通过其下的 keySet 和 entrySet 两个 set 实现，Set 继承自 Collection，所以也是可迭代的。
-1.1 叫号器 运用迭代器可以实现一个简单的叫号器（queue management system，qms），首先模仿 JDK 定义下面两个接口：
-interface ManagementSystem&amp;lt;E&amp;gt; { Caller&amp;lt;E&amp;gt; createCaller(); } interface Caller&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  ManagementSystem 管理系统接口需要定义一个获取叫号器 caller 的方法，这里 Caller 和 Iterator 功能相同，通过 hasNext() 判断其是否还有下一个号码并使用 next() 获取。</description>
+public interface Iterable&amp;lt;T&amp;gt; { Iterator&amp;lt;T&amp;gt; iterator(); }  Iterable 接口下定义了一个 Iterator() 方法，用来生成一个 Iterator，Iterator 接口主要定义了下面两个方法：
+public interface Iterator&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  在使用时，先创建一个迭代器，通过 hasNext() 判断其是否还有下一个值并使用 next() 获取。JDK 中的 Collection 继承自 Iterable，所以 Collection 下的实现类都是可迭代的。Map 的迭代通过其下的 KeySet 和 EntrySet 两个 Set 实现，Set 继承自 Collection，所以也是可迭代的。
+1.1 叫号器 运用迭代器可以实现一个简单的叫号器（Queue Management System，QMS），首先模仿 JDK 定义下面两个接口：
+interface ManagementSystem&amp;lt;E&amp;gt; { Caller&amp;lt;E&amp;gt; createCaller(); } interface Caller&amp;lt;E&amp;gt; { boolean hasNext(); E next(); }  ManagementSystem 管理系统接口需要定义一个获取叫号器 Caller 的方法，这里 Caller 和 Iterator 功能相同，通过 hasNext() 判断其是否还有下一个号码并使用 next() 获取。</description>
     </item>
     
     <item>
@@ -35,7 +35,7 @@ interface ManagementSystem&amp;lt;E&amp;gt; { Caller&amp;lt;E&amp;gt; createCall
       <description>为了保存数据，需要持久层；为了实现持久层，需要数据库；为了管理数据库，需要数据库管理系统；为了操作数据库管理系统，需要持久层框架。
 一、持久层 储存在内存之上的数据在断电后就会清除，与之相对的，储存在硬盘中的数据可以长时间、安全的保存，称之为持久层。
 企业应用中的数据（各种订单数据、客户数据、库存数据等）十分重要，所以需要把数据持久化。持久化可以通过很多方式，写文件和数据库都可以，一般会把数据持久化到数据库中，因为可以很方便的查询、统计和分析，而且数据库 ACID 特性中的持久性（durability）就是针对的持久层。
-二、JDBC 对于 Java，最开始是使用 JDBC 来进行数据库管理的。Java数据库连接（Java Database Connectivity，JDBC）是 Java 提供的一个操作数据库的 API。它是由各种数据库厂商提供类和接口组成的数据库驱动，为多种数据库提供统一访问，使用数据库时只需要调用 JDBC 接口就行了，大致的步骤如下：
+二、JDBC 对于 Java，最开始是使用 JDBC 来进行数据库管理的。Java 数据库连接（Java Database Connectivity，JDBC）是 Java 提供的一个操作数据库的 API。它是由各种数据库厂商提供类和接口组成的数据库驱动，为多种数据库提供统一访问，使用数据库时只需要调用 JDBC 接口就行了，大致的步骤如下：
 public class JDBCTest { // JDBC driver name and database URL static final String JDBC_DRIVER = &amp;quot;com.mysql.cj.jdbc.Driver&amp;quot;; static final String DB_URL = &amp;quot;jdbc:mysql://localhost:port/DB_name?...&amp;quot;; // Database credentials static final String USER = &amp;quot;root&amp;quot;; static final String PASS = &amp;quot;password&amp;quot;; public static void main(String[] args) { Connection conn = null; Statement stmt = null; try { //STEP 1: Register JDBC driver Class.</description>
     </item>
     
@@ -46,7 +46,7 @@ public class JDBCTest { // JDBC driver name and database URL static final String
       
       <guid>https://lil-q.github.io/blog/spring/</guid>
       <description>&amp;ldquo;From configuration to security, web apps to big data—whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need—Spring is modular by design.&amp;rdquo;
- Spring 是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 spring 生态的基石。
+ Spring 是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 Spring 生态的基石。
 一、Spring Framework  &amp;ldquo;Provides core support for dependency injection, transaction management, web apps, data access, messaging, and more.</description>
     </item>
     
@@ -59,7 +59,7 @@ public class JDBCTest { // JDBC driver name and database URL static final String
       <description>面向对象程序设计（Object-Oriented Programming，OOP）是一种具有对象概念的程序编程典范，同时也是一种程序开发的抽象方针。对象则指的是类的实例。它将对象作为程序的基本单元，将程序和数据封装其中，以提高软件的重用性、灵活性和扩展性，对象里的程序可以访问及经常修改对象相关连的资料。在面向对象程序编程里，计算机程序会被设计成彼此相关的对象。
 一、特性 1.1 封装 利用抽象数据类型将数据和基于数据的操作封装在一起，使其构成一个不可分割的独立实体。数据被保护在抽象数据类型的内部，尽可能地隐藏内部的细节，只保留一些对外的接口使其与外部发生联系。用户无需关心对象内部的细节，但可以通过对象对外提供的接口来访问该对象。
 优点：
- 减少耦合：可以独立地开发、测试、优化、使用、理解和修改； 减轻维护的负担：可以更容易被理解，并且在调试的时候可以不影响其他模块； 有效地调节性能：可以通过剖析来确定哪些模块影响了系统的性能； 提高软件的可重用性； 降低了构建大型系统的风险：即使整个系统不可用，但是这些独立的模块却有可能是可用的。  1.2 继承 继承是指在某种情况下，一个类会有子类。子类比原本的类（称为父类）要更加具体化。java 只允许单继承，一个子类只能继承自一个父类，使用extends关键字。也就是说对于一个类，只能认为它属于另一个大类，如果它需要实现其他功能时，则还要实现功能接口（interface），使用implements关键字。
+ 减少耦合：可以独立地开发、测试、优化、使用、理解和修改； 减轻维护的负担：可以更容易被理解，并且在调试的时候可以不影响其他模块； 有效地调节性能：可以通过剖析来确定哪些模块影响了系统的性能； 提高软件的可重用性； 降低了构建大型系统的风险：即使整个系统不可用，但是这些独立的模块却有可能是可用的。  1.2 继承 继承是指在某种情况下，一个类会有子类。子类比原本的类（称为父类）要更加具体化。java 只允许单继承，一个子类只能继承自一个父类，使用 extends 关键字。也就是说对于一个类，只能认为它属于另一个大类，如果它需要实现其他功能时，则还要实现功能接口（interface），使用 implements 关键字。
 1.3 多态 C++ 中的虚函数就是为了多态。Java 中其实没有虚函数的概念，它的普通函数就相当于 C++ 的虚函数，动态绑定是 Java 的默认行为。如果 Java 中不希望某个函数具有虚函数特性，可以加上 final 关键字变成非虚函数。
 方法的重写（Override）和重载（Overload）是 java 多态性的不同表现。重写解决的是子类与父类针对同一方法需要采取不同实现方式的问题，通过 JVM 在类加载时（解析阶段）的动态绑定机制实现。重载是面向使用者的，针对不同的调用方式返回不同的结果。
 二、设计原则 错误的设计类会带来很多问题，比如下面的悖论（为了方便理解，下文中长方形指代长宽不等的矩形）。
@@ -90,7 +90,7 @@ public class Rectangle { int length; int width; public void setLength(int length
       <guid>https://lil-q.github.io/blog/mysql/</guid>
       <description>/maɪ ˌɛskjuːˈɛl/
 一、索引 优势：减少 I/O 次数，加快检索速度；根据索引分组和排序，可以加快分组和排序；
-劣势：索引本身也是表，因此会占用存储空间，一般来说，索引表占用的空间的数据表的1.5倍；索引表的维护和创建需要时间成本，这个成本随着数据量增大而增大；构建索引会降低数据表的修改操作（删除，添加，修改）的效率，因为在修改数据表的同时还需要修改索引表。
+劣势：索引本身也是表，因此会占用存储空间，一般来说，索引表占用的空间的数据表的 1.5 倍；索引表的维护和创建需要时间成本，这个成本随着数据量增大而增大；构建索引会降低数据表的修改操作（删除，添加，修改）的效率，因为在修改数据表的同时还需要修改索引表。
 常见的索引类型有：主键索引、唯一索引、普通索引、全文索引、组合索引
 （1）主键索引：即主索引，根据主键 pk_clolum（length）建立索引，不允许重复，不允许空值
 ALTER TABLE &#39;table_name&#39; ADD PRIMARY KEY pk_index(&#39;col&#39;)；  （2）唯一索引：用来建立索引的列的值必须是唯一的，允许空值
@@ -98,7 +98,7 @@ ALTER TABLE &#39;table_name&#39; ADD UNIQUE index_name(&#39;col&#39;)；  （3�
 ALTER TABLE &#39;table_name&#39; ADD INDEX index_name(&#39;col&#39;)；  （4）全文索引：用大文本对象的列构建的索引
 ALTER TABLE &#39;table_name&#39; ADD FULLTEXT INDEX ft_index(&#39;col&#39;)；  （5）组合索引：用多个列组合构建的索引，这多个列中的值不允许有空值
 ALTER TABLE &#39;table_name&#39; ADD INDEX index_name(&#39;col1&#39;,&#39;col2&#39;,&#39;col3&#39;)；  1.1 实现原理 1. B+ 数 B 树是一种自平衡的树，能够保持数据有序。当描述一颗 B 树时需要指定它的阶数，阶数表示了一个结点最多有多少个孩子结点，一般用字母 m 表示阶数。当 m 取 2 时，就是我们常见的二叉搜索树。
-B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反，具体请参考[2]。</description>
+B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反，具体请参考 [2]。</description>
     </item>
     
     <item>
@@ -152,7 +152,7 @@ HotSpot 虚拟机把它当成永久代来进行垃圾回收。但很难确定永
       <pubDate>Tue, 12 May 2020 23:30:13 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B/</guid>
-      <description>设计模式（Design pattern）代表了最佳的实践，通常被有经验的面向对象的软件开发人员所采用。
+      <description>设计模式（Design pattern）代表了最佳实践，通常被有经验的软件开发人员所采用。
 一、单例 - Singleton 单例模式属于创建型设计模式，确保一个类只有一个实例，并提供该实例的全局访问点。一般有两种情况需要用到单例：
  资源共享：节约系统资源，不需要频繁创建和销毁的对象，如日志文件，应用配置等； 资源控制：方便资源之间的互相通信，如线程池等。  以下是一些常见的单例应用场景：
  Windows 的任务管理器（Task Manager）和回收站（Recycle Bin）在整个系统运行过程中，只维护仅有的一个实例。 网站的计数器，一般也是采用单例模式实现，否则难以同步。 在操作系统中，打印池（Print Spooler）是一个用于管理打印任务的应用程序，通过打印池用户可以删除、中止或者改变打印任务的优先级，在一个系统中只允许运行一个打印池对象，如果重复创建打印池则抛出异常。  实现: 使用一个私有构造函数、一个私有静态变量以及一个公有静态函数来实现。
@@ -286,7 +286,7 @@ public void readFile() throws IOException { try (InputStream input = new FileInp
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</guid>
       <description>一、Map Map 是一种键-值映射表，当我们调用 put(K key, V value) 方法时，就把 key 和 value 做了映射并放入 Map。当我们调用 V get(K key) 时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
- TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map 遍历 要遍历 key 可以使用 for each 循环遍历 Map 实例的 keySet() 方法返回的 Set 集合，它包含不重复的 key 的集合：
+ TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map 遍历 Map 本身没有实现 Iterable 接口，要遍历 key 可以使用 for each 循环遍历 Map 实例的 keySet() 方法返回的 Set 集合，它包含不重复的 key 的集合：
 for (String key : map.keySet()) {...}  同时遍历 key 和 value 可以使用 for each 循环遍历 Map 对象的 entrySet() 集合，它包含每一个 key-value 映射：</description>
     </item>
     
@@ -329,7 +329,7 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
       <pubDate>Mon, 23 Mar 2020 14:08:20 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%8C/</guid>
-      <description>一、面向对象 Java 是一种面向对象的编程语言。面向对象编程，英文是 Object-Oriented Programming，简称 OOP。
+      <description>一、面向对象 Java 是一种面向对象的编程语言。面向对象程序设计（Object-Oriented Programming，OOP）是一种具有对象概念的程序编程典范，同时也是一种程序开发的抽象方针。
 1.1 权限修饰符     本类 同一个包下（子类和无关类） 不同包下（子类） 不同包下（无关类）     public √ √ √ √   protected √ √ √ ×   default √ √ × ×   private √ × × ×    一个 .java 文件只能包含一个 public 类，但可以包含多个非 public 类。如果有 public 类，文件名必须和 public 类的名字相同。
 1.2 继承 如果父类没有默认的构造方法，子类就必须显式调用 super() 并给出参数以便让编译器定位到父类的一个合适的构造方法。
 子类不会继承任何父类的构造方法。子类默认的构造方法是编译器自动生成的，不是继承的。
@@ -342,8 +342,8 @@ Integer n = new Integer(123); boolean b1 = n instanceof Integer; // true，因�
       <pubDate>Fri, 20 Mar 2020 19:33:14 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/</guid>
-      <description>Java 介于编译型语言和解释型语言之间。编译型语言如C、C++，代码是直接编译成机器码执行，但是不同的平台（x86、ARM等）CPU的指令集不同，因此，需要编译出每一种平台的对应机器码。解释型语言如 Python、Ruby 没有这个问题，可以由解释器直接加载源码然后运行，代价是运行效率太低。而 Java 是将代码编译成一种 “字节码”，它类似于抽象的 CPU 指令，然后，针对不同平台编写虚拟机，不同平台的虚拟机负责加载字节码并执行，这样就实现了 “一次编写，到处运行” 的效果。
-字节码便于虚拟机读取，不用再解析字符串，所以运行速度比直接解析源代码快。在语言发送改变或引入新的功能时，只需要改变编译规则即可，字节码仍可以遵照原来的规则运行。此外，字节码也可以由其他语言生成，如 Groovy，Scala 等。
+      <description>Java 介于编译型语言和解释型语言之间。编译型语言如 C、C++，代码是直接编译成机器码执行，但是不同的平台（x86、ARM 等）CPU 的指令集不同，因此，需要编译出每一种平台的对应机器码。解释型语言如 Python、Ruby 没有这个问题，可以由解释器直接加载源码然后运行，代价是运行效率太低。而 Java 是将代码编译成一种 “字节码”，它类似于抽象的 CPU 指令，然后，针对不同平台编写虚拟机，不同平台的虚拟机负责加载字节码并执行，这样就实现了 “一次编写，到处运行” 的效果。
+字节码便于虚拟机读取，不用再解析字符串，所以运行速度比直接解析源代码快。在语言发生改变或引入新的功能时，只需要改变编译规则即可，字节码仍可以遵照原来的规则运行。此外，字节码也可以由其他语言生成，如 Groovy，Scala 等。
   Java Virtual Machine，JVM：
 整个 Java 实现跨平台的最核心的部分，所有的 Java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
   Java Runtime Environment，JRE：
@@ -475,10 +475,9 @@ SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_c
       <description>查并集的进化之路
 一、定义 并查集是一种树形的数据结构，顾名思义，它用于处理一些不交集的 合并 及 查询 问题。 它支持两种操作：
  查找（Find）：确定某个元素处于哪个子集； 合并（Union）：将两个子集合并成一个集合。  也就是说，不支持集合的分离、删除。
-二、Quick-Find算法 以下图为例，连通关系为[(1,2), (0, 1), (0, 3), (4, 7), (5, 6), (5, 7), (7, 8), (8, 9)]。
+二、Quick-Find算法 以下图为例，连通关系为 [(1,2), (0, 1), (0, 3), (4, 7), (5, 6), (5, 7), (7, 8), (8, 9)]。
 首先初始化所有节点，认为它们属于一个组，因此不连通的节点必然就属于不同的组：
-   element 0 1 2 3 4 5 6 7 8 9     group number / id 0 1 2 3 4 5 6 7 8 9    输入pair(1, 2)，则将所有group number为0和1的element改为一致（都为0或都为1，这里以较小值为例）。
-   element 0 1 2 3 4 5 6 7 8 9     group number / id 0 1 1 3 4 5 6 7 8 9    输入pair(0， 1)，这里就需要把element 1和element 2的group number都改为0，：</description>
+   element 0 1 2 3 4 5 6 7 8 9     group number / id 0 1 2 3 4 5 6 7 8 9    输入 pair(1, 2)，则将所有 group number 为 0 和 1 的 element 改为一致（都为 0 或都为 1，这里以较小值为例）。</description>
     </item>
     
     <item>
@@ -493,10 +492,10 @@ SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_c
 简单来说，就是图 $G$ 就是一个结点的集合 $V$ 和边的集合 $E$ ，其中任意一条边都可以表示为两个结点之间的关系。若 $e_i\in E$ 表示为 $\langle u,v\rangle$ ，则有 $u\in V , v\in V$ 。
 1.1 基本概念 无向图：每条边都是无向边的图。
 有向图：每条边都是有向边的图。
-有权图：每条边具有一定的权重（weight），通常是一个数字
-无权图：每条边均没有权重，也可以理解为权为 1
-连通图：所有的点都有路径相连
-非连通图：存在某两个点没有路径相连
+有权图：每条边具有一定的权重（weight），通常是一个数字。
+无权图：每条边均没有权重，也可以理解为权为 1。
+连通图：所有的点都有路径相连。
+非连通图：存在某两个点没有路径相连。
 邻接：关联于同一条边的两个点 $u$ 和 $v$ 称为邻接的；关联于同一个点的两条边 $e_1$ 和 $e_2$ 是邻接的（或相邻的）。</description>
     </item>
     
@@ -512,7 +511,7 @@ SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_c
  节点的度(Degree)：一个节点含有的子树的个数称为该节点的度； 树的度(Degree of tree)：一棵树中，最大的节点度称为树的度； 叶节点(Leaf)：度为零的节点； 分支节点(Branch node)：度不为零的节点； 父节点(Parent)：若一个节点含有子节点，则这个节点称为其子节点的父节点； 子节点(child)：一个节点含有的子树的根节点称为该节点的子节点； 兄弟节点(siblings)：具有相同父节点的节点互称为兄弟节点； 层次(level)：从根开始定义起，根为第 1 层，根的子节点为第 2 层，以此类推； 深度(depth)：对于任意节点 n，n 的深度为从根到n的唯一路径长，根的深度为 0； 高度(height)：对于任意节点 n，n 的高度为从n到一片树叶的最长路径长，所有树叶的高度为 0； 节点的祖先(ancestor)：从根到该节点所经分支上的所有节点； 森林(forest)：由 m（m &amp;gt;= 0）棵互不相交的树的集合称为森林。  分类
 本文将介绍二叉树（Binary tree）、二叉搜索树（Binary search tree）和字典树（Trie）。关于AVL树（AVL tree）、红黑树（Red–black tree）和Ｂ树（B-tree），不做深入探讨。
 这里区分一下完全二叉树、满二叉树、完美二叉树:
- 完全二叉树：最后一层的叶子节点均需在最左边 满二叉树：满足完全二叉树性质，树中除了叶子节点，每个节点都有两个子节点 完美二叉树：满足满二叉树性质，树的叶子节点铺满最后一层  二、二叉树 二叉树（Binary tree）是每个节点最多只有两个分支（即不存在分支度大于 2 的节点）的树结构。通常分支被称作 “左子树” 或 “右子树”。二叉树的分支具有左右次序，不能随意颠倒。
+ 完全二叉树：最后一层的叶子节点均需在最左边； 满二叉树：满足完全二叉树性质，树中除了叶子节点，每个节点都有两个子节点； 完美二叉树：满足满二叉树性质，树的叶子节点铺满最后一层  二、二叉树 二叉树（Binary tree）是每个节点最多只有两个分支（即不存在分支度大于 2 的节点）的树结构。通常分支被称作 “左子树” 或 “右子树”。二叉树的分支具有左右次序，不能随意颠倒。
 # 建一个单节点 class Node(object): def __init__(self, value): self.</description>
     </item>
     
@@ -523,7 +522,7 @@ SELECT column, another_column, … FROM mytable WHERE condition AND/OR another_c
       
       <guid>https://lil-q.github.io/blog/%E5%A0%86-heap/</guid>
       <description>经过努力，最值总会冒上来的！
-一、定义  在通常情况下，使用列表储存堆，堆树是一颗完全二叉树，二项堆和斐波那契堆不属于二叉树 堆树中某个节点的值总是不大于或不小于其孩子节点的值 堆树中每个节点的子树都是堆树  当父节点的键值总是大于或等于任何一个子节点的键值时为最大堆。 当父节点的键值总是小于或等于任何一个子节点的键值时为最小堆。 本文以最大堆作为例子，最小堆类似。
+一、定义  通常情况下，使用列表储存堆，堆树是完全二叉树，而二项堆和斐波那契堆不属于二叉树； 堆树中某个节点的值总是不大于或不小于其孩子节点的值； 堆树中每个节点的子树都是堆树 。  当父节点的键值总是大于或等于任何一个子节点的键值时为最大堆。 当父节点的键值总是小于或等于任何一个子节点的键值时为最小堆。 本文以最大堆作为例子，最小堆类似。
 二、堆的建立 堆的建立并不建立一个新的树，而是对数组进行原地改动，第一个数（index=0）为完全二叉树的 level 0，即根，第二个数和第三个数为 level 1，以此类推。
 由于数组是升序数组，我们直接得到了最小堆。但是如果要进行升序排序，算法上需要建立最大堆。也就是说，当原数组是升序时，堆排序算法遇到了最坏情况。本文也以这种情况作为例子。
 nums=[1,2,3,4,5]  2.1 堆的维护 上图的根节点是 1，小于子节点，那么这显然违反了最大堆的性质，这时候需要让该元素在最大堆中逐级下降，维护最大堆的性质。处理一次维护的代码如下：

@@ -61,7 +61,7 @@
       "datePublished": "2020-03-23 14:08:20 \u002b0000 UTC",
       "dateModified" : "2020-03-23 14:08:20 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%8C\/",
-      "wordCount" : "1216",
+      "wordCount" : "1221",
       "keywords" : ["error", "java", "OOP", "Blog"]
     }
   
@@ -117,7 +117,7 @@
           <article class="post__content">
               
 <h2 id="一面向对象">一、面向对象<a class="anchor" href="#一面向对象">#</a></h2>
-<p>Java 是一种面向对象的编程语言。面向对象编程，英文是 Object-Oriented Programming，简称 OOP。</p>
+<p>Java 是一种面向对象的编程语言。<strong>面向对象程序设计</strong>（<strong>O</strong>bject-<strong>O</strong>riented <strong>P</strong>rogramming，<strong>OOP</strong>）是一种具有对象概念的程序编程典范，同时也是一种程序开发的抽象方针。</p>
 <h3 id="11-权限修饰符">1.1 权限修饰符<a class="anchor" href="#11-权限修饰符">#</a></h3>
 <br>
 <table>
@@ -281,14 +281,14 @@ class D extends C {
 <h4 id="1-equals">1. equals()</h4>
 <ul>
 <li>对于基本类型，== 判断两个值是否相等，基本类型没有 <code>equals()</code> 方法。</li>
-<li>对于引用类型，== 判断两个变量是否引用同一个对象，而 <code>equals()</code> 判断引用的对象是否等价。</li>
+<li>对于引用类型，== 判断是否引用同一个对象，而 <code>equals()</code> 判断引用的对象是否等价。</li>
 </ul>
-<p><code>equals()</code>具有以下性质（x，y &amp; z 非 null）：</p>
+<p><code>equals()</code> 具有以下性质（x，y &amp; z 非 null）：</p>
 <ul>
 <li>自反性（Reflexive）：<code>x.equals(x)</code> 必须返回 true；</li>
-<li>对称性（Symmetric）：如果 <code>x.equals(y)</code> 为 true，则 <code>y.equals(x)</code> 也必须为 true；</li>
-<li>传递性（Transitive）：如果 <code>x.equals(y)</code> 和 <code>y.equals(z)</code> 为 true，那么 <code>x.equals(z)</code> 也为 true；</li>
-<li>一致性（Consistent）：只要 x 和 y 状态不变，则 <code>x.equals(y)</code> 总是一致地返回 true 或者 false；</li>
+<li>对称性（Symmetric）： <code>x.equals(y)</code> 为 true，则 <code>y.equals(x)</code> 也必须为 true；</li>
+<li>传递性（Transitive）： <code>x.equals(y)</code> 和 <code>y.equals(z)</code> 为 true，则 <code>x.equals(z)</code> 也为 true；</li>
+<li>一致性（Consistent）： x 和 y 状态不变，则 <code>x.equals(y)</code> 总是一致返回 true 或者 false；</li>
 <li>对 null 的比较：即 <code>x.equals(null)</code> 永远返回 false。</li>
 </ul>
 <pre><code class="language-java">public class EqualExample {
@@ -330,7 +330,7 @@ set.add(e2);
 System.out.println(set.size());   // 2
 </code></pre>
 <p>理想的哈希函数应当具有均匀性，即不相等的对象应当均匀分布到所有可能的哈希值上。这就要求了哈希函数要把所有域的值都考虑进来。可以将每个域都当成 R 进制的某一位，然后组成一个 R 进制的整数。</p>
-<p>R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法： <code>31*x == (x&lt;&lt;5)-x</code>，编译器会自动进行这个优化。</p>
+<p>R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法： <em>31 * x == (x &laquo; 5) - x</em>，编译器会自动进行这个优化。</p>
 <pre><code class="language-java">@Override
 public int hashCode() {
     int result = 17;
@@ -341,7 +341,7 @@ public int hashCode() {
 }
 </code></pre>
 <h4 id="3-tostring">3. toString()</h4>
-<p>默认返回 ToStringExample@4554617c 这种形式，其中 @ 后面的数值为散列码的无符号十六进制表示。</p>
+<p>默认返回 <em>ToStringExample@4554617c</em> 这种形式，其中 <em>@</em> 后面的数值为散列码的无符号十六进制表示。</p>
 <h4 id="4-clone">4. clone()</h4>
 <p><strong>（1）cloneable</strong></p>
 <p><code>clone()</code> 是 Object 的 protected 方法，它不是 public，一个类不显式去重写 <code>clone()</code>，其它类就不能直接去调用该类实例的 <code>clone()</code> 方法。</p>
@@ -472,11 +472,11 @@ System.out.println(e2.get(2)); // 2
 </code></pre>
 <h3 id="15-抽象类和接口">1.5 抽象类和接口<a class="anchor" href="#15-抽象类和接口">#</a></h3>
 <p>接口和抽象类都是继承树的上层，他们的共同点如下：</p>
-<ol>
+<ul>
 <li>都是上层的抽象层。</li>
-<li>都不能被实例化</li>
+<li>都不能被实例化。</li>
 <li>都能包含抽象的方法，这些抽象的方法用于描述类具备的功能，但是不提供具体的实现。</li>
-</ol>
+</ul>
 <h4 id="1-抽象类">1. 抽象类</h4>
 <p>抽象类和抽象方法都使用 abstract 关键字进行声明，抽象方法默认 public 修饰，不能使用 private。如果一个类中包含抽象方法，那么这个类必须声明为<strong>抽象类</strong>。抽象类可以没有抽象方法，可以拥有 private 修饰的成员（非抽象方法）。</p>
 <p>抽象类和普通类最大的区别是，抽象类<strong>不能被实例化，只能被继承</strong>。</p>
@@ -485,7 +485,7 @@ System.out.println(e2.get(2)); // 2
 <p>接口是抽象类的延伸，在 Java 8 之前，它可以看成是一个完全抽象的类，也就是说它不能有任何的方法实现。</p>
 <p>从 Java 8 开始，接口也可以拥有默认的方法实现，这是因为不支持默认方法的接口的维护成本太高了。在 Java 8 之前，如果一个接口想要添加新的方法，那么要修改所有实现了该接口的类，让它们都实现新增的方法。</p>
 <ul>
-<li>接口的<strong>成员</strong>（字段 + 方法）默认都是 public 的，并且不允许定义为 private 或者 protected。</li>
+<li>接口的<strong>成员</strong>（字段 + 方法）默认都是 public 的，不允许定义为 private 或者 protected。</li>
 <li>接口的<strong>字段</strong>默认都是 static 和 final 的。</li>
 </ul>
 <h4 id="3-接口和抽象类的区别">3. 接口和抽象类的区别：</h4>
@@ -564,10 +564,10 @@ System.out.println(e2.get(2)); // 2
 <li>finally：确保一段代码无论发生什么异常都会被执行的一段代码。</li>
 </ul>
 <p>注意 finally 有几个特点：</p>
-<ol>
+<ul>
 <li>finally 语句不是必须的，可写可不写；</li>
 <li>finally 总是最后执行。</li>
-</ol>
+</ul>
 <p>如果没有发生异常，就正常执行 <code>try { ... }</code> 语句块，然后执行 <code>finally</code>。如果发生了异常，就中断执行 <code>try { ... }</code> 语句块，然后跳转执行匹配的 <code>catch</code> 语句块，最后执行 <code>finally</code>。可见，<code>finally</code> 是用来保证一些代码必须执行的。</p>
 <p>某些情况下，可以没有 <code>catch</code>，只使用 <code>try ... finally</code> 结构。例如：</p>
 <pre><code class="language-java">void process(String file) throws IOException {

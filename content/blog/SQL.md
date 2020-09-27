@@ -88,14 +88,14 @@ WHERE condition(s);
 SELECT column, another_column, … 
 FROM mytable 
 WHERE condition(s)
-ORDER BY column ASC/DESC;
+ORDER BY column1 ASC/DESC, column2 ASC/DESC;
 ```
 
 `ASC`：升序；`DESC`：降序。
 
 ## 七、选取 - LIMIT & OFFSET
 
-`LIMIT` 和 `OFFSET` 子句通常和`ORDER BY` 语句一起使用，当我们对整个结果集排序之后，我们可以 `LIMIT`来指定只返回多少行结果，用 `OFFSET`来指定从哪一行开始返回：
+`LIMIT` 和 `OFFSET` 子句通常和 `ORDER BY` 语句一起使用，当我们对整个结果集排序之后，我们可以 `LIMIT` 来指定只返回多少行结果，用 `OFFSET` 来指定从哪一行开始返回：
 
 ```sql
 SELECT column, another_column, …
@@ -107,13 +107,13 @@ LIMIT num_limit OFFSET num_offset;
 
 ## 八、多表联合 - JOIN
 
-`主键(primary key)`, 一般关系数据表中，都会有一个属性列设置为 `主键(primary key)`。主键是唯一标识一条数据的，不会重复复（想象你的身份证号码)。一个最常见的主键就是auto-incrementing integer(自增ID，每写入一行数据ID+1, 当然字符串，hash值等只要是每条数据是唯一的也可以设为主键。借助`主键(primary key)`（当然其他唯一性的属性也可以），我们可以把两个表中具有相同 主键ID的数据连接起来。
+主键（primary key），一般关系数据表中，都会有一个属性列设置为 `primary key`。主键是唯一标识一条数据的，不会重复复（想象你的身份证号码)。一个最常见的主键就是 auto-incrementing integer（自增 ID，每写入一行数据 ID + 1, 当然字符串，hash 值等只要是每条数据是唯一的也可以设为主键。借助 `primary key`（当然其他唯一性的属性也可以），我们可以把两个表中具有相同主键 ID 的数据连接起来。
 
 ![joins](https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/joins.png)
 
 ### INNER JOIN
 
-用INNER JOIN 连接表的语法。通过`ON`条件描述的关联关系;`INNER JOIN` 先将两个表数据连接到一起. 两个表中如果通过ID互相找不到的数据将会舍弃：
+用 INNER JOIN 连接表的语法。通过 `ON` 条件描述的关联关系；`INNER JOIN` 先将两个表数据连接到一起. 两个表中如果通过 ID 互相找不到的数据将会舍弃：
 
 ```sql
 SELECT table1.column, table2.another_table_column, … 
@@ -129,7 +129,7 @@ LIMIT num_limit OFFSET num_offset;
 
 `INNER JOIN` 只会保留两个表都存在的数据（还记得之前的交集吗），这看起来意味着一些数据的丢失，在某些场景下会有问题.
 
-用LEFT/RIGHT/FULL JOINs 做多表查询：
+用 LEFT/RIGHT/FULL JOINs 做多表查询：
 
 ```sql
 SELECT table1.column, table2.another_table_column, … 
@@ -143,7 +143,7 @@ LIMIT num_limit OFFSET num_offset;
 
 ## 九、表达式 - AS
 
-当我们用表达式对col属性计算时，很多事可以在SQL内完成，这让SQL更加灵活，但表达式如果长了则很难一下子读懂。所以SQL提供了`AS`关键字， 来给表达式取一个别名：
+当我们用表达式对 col 属性计算时，很多事可以在 SQL 内完成，这让 SQL 更加灵活，但表达式如果长了则很难一下子读懂。所以 SQL 提供了`AS`关键字， 来给表达式取一个别名：
 
 ```sql
 SELECT col_expression AS expr_description
@@ -167,7 +167,7 @@ LIMIT num_limit OFFSET num_offset;
 | **AVG(column)**                     | 对column所有行取平均值.                                      |
 | **SUM(column)**                     | 对column所有行求和.                                          |
 
-当不求整组数据时，可以使用`GROUP BY` 对数据分组：
+当不求整组数据时，可以使用 `GROUP BY` 对数据分组：
 
 ```sql
 SELECT column, count(*)*100/(SELECT count(*) FROM table1) FROM table1 
@@ -175,9 +175,9 @@ WHERE column in (1,3,5,7)
 GROUP BY column;
 ```
 
-可以通过嵌套一个select来实现百分比的求解。
+可以通过嵌套一个 select 来实现百分比的求解。
 
-数据库是先对数据做`WHERE`，然后对结果做分组，如果我们要对分组完的数据再筛选就需要使用 `HAVING` 语法：
+数据库是先对数据做 `WHERE`，然后对结果做分组，如果我们要对分组完的数据再筛选就需要使用 `HAVING` 语法：
 
 ```sql
 SELECT group_by_column, AGG_FUNC(column_expression) AS aggregate_result_alias, …
@@ -189,7 +189,7 @@ HAVING group_condition;
 
 ## 十一、总结
 
-完整的SELECT查询：
+完整的 SELECT 查询：
 
 ```sql
 SELECT DISTINCT column, AGG_FUNC(column_or_expression), …
@@ -205,31 +205,31 @@ LIMIT count OFFSET COUNT;
 
 **1. FROM 和 JOINs**
 
-`FROM` 或 `JOIN`会第一个执行，确定一个整体的数据范围. 如果要JOIN不同表，可能会生成一个临时Table来用于 下面的过程。总之第一步可以简单理解为确定一个数据源表（含临时表)。
+`FROM` 或 `JOIN` 会第一个执行，确定一个整体的数据范围. 如果要 JOIN 不同表，可能会生成一个临时 Table 来用于 下面的过程。总之第一步可以简单理解为确定一个数据源表（含临时表)。
 
 **2. WHERE**
 
-我们确定了数据来源 `WHERE` 语句就将在这个数据源中按要求进行数据筛选，并丢弃不符合要求的数据行，所有的筛选col属性 只能来自`FROM`圈定的表. AS别名还不能在这个阶段使用，因为可能别名是一个还没执行的表达式。
+我们确定了数据来源 `WHERE` 语句就将在这个数据源中按要求进行数据筛选，并丢弃不符合要求的数据行，所有的筛选 col 属性 只能来自 `FROM` 圈定的表. AS 别名还不能在这个阶段使用，因为可能别名是一个还没执行的表达式。
 
 **3. GROUP BY**
 
-如果你用了 `GROUP BY` 分组，那`GROUP BY` 将对之前的数据进行分组，统计等，并将是结果集缩小为分组数.这意味着 其他的数据在分组后丢弃。
+如果你用了 `GROUP BY` 分组，那 `GROUP BY` 将对之前的数据进行分组，统计等，并将是结果集缩小为分组数.这意味着 其他的数据在分组后丢弃。
 
 **4. HAVING**
 
-如果你用了 `GROUP BY` 分组, `HAVING` 会在分组完成后对结果集再次筛选。AS别名也不能在这个阶段使用。
+如果你用了 `GROUP BY` 分组，`HAVING` 会在分组完成后对结果集再次筛选。AS 别名也不能在这个阶段使用。
 
 **5. SELECT**
 
-确定结果之后，`SELECT`用来对结果col简单筛选或计算，决定输出什么数据。
+确定结果之后，`SELECT` 用来对结果 col 简单筛选或计算，决定输出什么数据。
 
 **6. DISTINCT**
 
-如果数据行有重复`DISTINCT` 将负责排重。
+如果数据行有重复 `DISTINCT` 将负责排重。
 
 **7. ORDER BY**
 
-在结果集确定的情况下，`ORDER BY` 对结果做排序。因为`SELECT`中的表达式已经执行完了。此时可以用AS别名。
+在结果集确定的情况下，`ORDER BY` 对结果做排序。因为 `SELECT` 中的表达式已经执行完了。此时可以用 AS 别名。
 
 **8. LIMIT / OFFSET**
 

@@ -11,9 +11,9 @@ keywords: [heap, 堆排序, heapify]
 
 ## 一、定义
 
-1.  在通常情况下，使用列表储存堆，堆树是一颗[完全二叉树](https://www.zhihu.com/question/36134980/answer/87490177)，二项堆和斐波那契堆不属于二叉树 
-2.  堆树中某个节点的值总是不大于或不小于其孩子节点的值 
-3.  堆树中每个节点的子树都是堆树 
+* 通常情况下，使用列表储存堆，堆树是[完全二叉树](https://www.zhihu.com/question/36134980/answer/87490177)，而二项堆和斐波那契堆不属于二叉树； 
+* 堆树中某个节点的值总是不大于或不小于其孩子节点的值； 
+* 堆树中每个节点的子树都是堆树 。
 
 当父节点的键值总是大于或等于任何一个子节点的键值时为最大堆。 当父节点的键值总是小于或等于任何一个子节点的键值时为最小堆。 本文以最大堆作为例子，最小堆类似。
 
@@ -52,7 +52,7 @@ def adjust_heap(idx, max_len,nums):
 1. 自底向上处理， 因为数组 `list[n//2, n]` 中的所有元素都在堆树的叶节点中，因此可以看成只包含一个元素的堆， 无需维护。其中 `n = len(list)`；
 2. 从 `index = n//2 - 1` 开始，直到 `index = 0`，对每一个节点或根进行一次维护。
 
-注意：一次维护并不是最多只交换一次，而是交换到某节点满足最大堆条件或者 `index>=n` 为止。
+一次维护并不是最多只交换一次，而是交换到某节点满足最大堆条件或者 `index >= n` 为止。
 
 ![heapflow](https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/heapflow.png)
 
@@ -110,13 +110,13 @@ print("heapDel:",heap)
 
 ## 五、堆排序
 
-特殊地，当我们交换根和最后一个叶子节点时，就能够提出最大值，并且存放在 `index=-1` 的位置。然后再对前 n - 1 个数组成的最大堆进行该处理，以此类推，最终完成堆排序。
+特殊地，当我们交换根和最后一个叶子节点时，就能够提出最大值，并且存放在 `index = -1` 的位置。然后再对前 n - 1 个数组成的最大堆进行该处理，以此类推，最终完成堆排序。
 
 ```python
 def heap_sorted(heap):
     for i in range(1, len(heap)):
         heap[0], heap[-i] = heap[-i], heap[0]
-        adjust_heap(0, n - i,heap)
+        adjust_heap(0, n - i, heap)
     return heap
 heapSort=heap_sorted(heap)
 print("heapSort:",heapSort)

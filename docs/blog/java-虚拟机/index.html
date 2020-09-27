@@ -61,7 +61,7 @@
       "datePublished": "2020-07-07 11:17:47 \u002b0000 UTC",
       "dateModified" : "2020-07-07 11:17:47 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E8%99%9A%E6%8B%9F%E6%9C%BA\/",
-      "wordCount" : "1085",
+      "wordCount" : "1107",
       "keywords" : ["jvm", "java", "GC", "Blog"]
     }
   
@@ -153,7 +153,7 @@
 <h4 id="1-运行时常量池">1. 运行时常量池</h4>
 <p>需要区分 Class 文件中指定的<strong>常量池</strong>和<strong>运行时常量池</strong>的区别：</p>
 <p>Class 文件中紧接着主、次版本号之后的是常量池（Constant Pool）入口，常量池可以比喻为 Class 文件里的资源仓库，它是 Class 文件结构中与其他项目关联最多的数据，通常也是占用 Class 文件空间最大的数据项目之一。Class 文件中的常量池中主要存放两大类常量：字面量（ Literal）和符号引用（ Symbolic References）。在虚拟机加载 Class 文件的解析阶段 JVM 会将常量池内的符号引用替换为直接引用，字面量在<strong>编译时期</strong>就确定。</p>
-<p>运行时常量池（Runtime Constant Pool）是方法区的一部分。 Class 文件中的常量池表所包含的生成的各种字面量与符号引用将在<strong>类加载后</strong>存放到方法区的运行时常量池中。不仅如此，还可以使用 String 的<code>intern()</code>方法在运行过程将字符串添加到运行时常量池。</p>
+<p>运行时常量池（Runtime Constant Pool）是方法区的一部分。 Class 文件中的常量池表所包含的生成的各种字面量与符号引用将在<strong>类加载后</strong>存放到方法区的运行时常量池中。不仅如此，还可以使用 String 的 <code>intern()</code> 方法在运行过程将字符串添加到运行时常量池。</p>
 <h3 id="16-直接内存">1.6 直接内存<a class="anchor" href="#16-直接内存">#</a></h3>
 <p>在 JDK 1.4 中新引入了 NIO 类，它可以使用 Native 函数库直接分配堆外内存，然后通过 Java 堆里的 DirectByteBuffer 对象作为这块内存的引用进行操作。这样能在一些场景中显著提高性能，因为避免了在堆内存和堆外内存来回拷贝数据。</p>
 <h2 id="二垃圾收集">二、垃圾收集<a class="anchor" href="#二垃圾收集">#</a></h2>
@@ -204,7 +204,7 @@
 <h3 id="22-垃圾收集算法">2.2 垃圾收集算法<a class="anchor" href="#22-垃圾收集算法">#</a></h3>
 <h4 id="1-标记---清除">1. 标记 - 清除</h4>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/jvm2.png" alt="img" style="zoom:67%;" /></p>
-<p>在标记阶段，程序会检查每个对象是否为活动对象，如果是活动对象，则程序会在对象头部打上标记。</p>
+<p>在标记阶段，程序会检查每个对象是否为活动对象，如果是活动对象，会在对象头部打上标记。</p>
 <p>在清除阶段，会进行对象回收并取消标志位，另外，还会判断回收后的分块与前一个空闲分块是否连续，若连续，会合并这两个分块。回收对象就是把对象作为分块，连接到被称为 “空闲链表” 的单向链表，之后进行分配时只需要遍历这个空闲链表，就可以找到分块。</p>
 <p>在分配时，程序会搜索空闲链表寻找空间大于等于新对象大小 size 的块 block。如果它找到的块等于 size，会直接返回这个分块；如果找到的块大于 size，会将块分割成大小为 size 与 (block - size) 的两部分，返回大小为 size 的分块，并把大小为 (block - size) 的块返回给空闲链表。</p>
 <p>不足：</p>
@@ -221,7 +221,7 @@
 <h4 id="3-标记---整理">3. 标记 - 整理</h4>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/jvm3.png" alt="img" style="zoom:67%;" /></p>
 <p>让所有存活的对象都向一端移动，然后直接清理掉端边界以外的内存。</p>
-<p>标记 - 整理算法是移动式的，这是优缺点并存的决策。移动对象则<strong>内存回收</strong>时会更复杂；不移动对象则<strong>内存分配</strong>时会更复杂。从垃圾收集的<strong>停顿时间</strong>来看，对象的移动操作必须全程暂停用户的应用程序才能进行，被称为“<strong>Stop The World</strong>”；不移动对象停顿时间会更短，甚至不需要停顿。从整个<strong>吞吐量</strong>来看，移动对象会更划算。</p>
+<p>标记 - 整理算法是移动式的，这是优缺点并存的决策。移动对象则<strong>内存回收</strong>时会更复杂；不移动对象则<strong>内存分配</strong>时会更复杂。从垃圾收集的<strong>停顿时间</strong>来看，对象的移动操作必须全程暂停用户的应用程序才能进行，被称为 “<strong>Stop The World</strong>”；不移动对象停顿时间会更短，甚至不需要停顿。从整个<strong>吞吐量</strong>来看，移动对象会更划算。</p>
 <p>优点：不会产生内存碎片</p>
 <p>不足：需要移动大量对象，处理效率比较低。</p>
 <h4 id="4-分代收集">4. 分代收集</h4>
@@ -255,7 +255,7 @@
 <h4 id="1-调用-systemgc">1. 调用 System.gc()</h4>
 <p>只是建议虚拟机执行 Full GC，但是虚拟机不一定真正去执行。不建议使用这种方式，而是让虚拟机管理内存。</p>
 <h4 id="2-老年代空间不足">2. 老年代空间不足</h4>
-<p>老年代空间不足的常见场景为前文所讲的大对象直接进入老年代、长期存活的对象进入老年代等。</p>
+<p>老年代空间不足的常见场景为大对象直接进入老年代、长期存活的对象进入老年代等。</p>
 <p>为了避免以上原因引起的 Full GC，应当尽量不要创建过大的对象以及数组。除此之外，可以通过 -Xmn 虚拟机参数调大新生代的大小，让对象尽量在新生代被回收掉，不进入老年代。还可以通过 -XX:MaxTenuringThreshold 调大对象进入老年代的年龄，让对象在新生代多存活一段时间。</p>
 <h4 id="3-空间分配担保失败">3. 空间分配担保失败</h4>
 <p>使用复制算法的 Minor GC 需要老年代的内存空间作担保，如果担保失败会执行一次 Full GC。</p>
@@ -295,9 +295,9 @@
 <li>由其他文件生成，例如由 JSP 文件生成对应的 Class 类。</li>
 </ul>
 <h4 id="2-验证">2. 验证</h4>
-<p>确保 Class 文件的字节流中包含的信息符合当前虚拟机的要求，并且不会危害虚拟机自身的安全。</p>
+<p>确保 Class 文件的字节流中包含的信息符合当前虚拟机的要求并不会危害虚拟机自身的安全。</p>
 <h4 id="3-准备">3. 准备</h4>
-<p>准备阶段为<strong>类变量分配内存并设置初始值</strong>，类变量是被 static 修饰的变量，使用的是<strong>方法区的内存</strong>。</p>
+<p>准备阶段为<strong>类变量分配内存并设置初始值</strong>，类变量（被 static 修饰）使用的是<strong>方法区的内存</strong>。</p>
 <p>实例变量不会在这阶段分配内存，它会在对象实例化时随着对象一起被分配在堆中。应该注意到，实例化不是类加载的一个过程，类加载发生在所有实例化操作之前，并且类加载只进行一次，实例化可以进行多次。</p>
 <p>初始值一般为 0 值，例如下面的类变量 value 被初始化为 0 而不是 123。</p>
 <pre><code class="language-java">public static int value = 123;
@@ -326,10 +326,10 @@
 <li>在第 1 条不能满足的情况下，寻找可以“凑合”的方法。标准就是通过将参数类型进行自动转型之后再进行匹配。如果匹配到多个自动转型后的方法签名<code>f(A)</code>和<code>f(B)</code>，则用下面的标准来确定合适的方法：传递给<code>f(A)</code>方法的参数都可以传递给<code>f(B)</code>，则<code>f(A)</code>最合适。反之<code>f(B)</code>最合适 。</li>
 <li>如果仍然在声明类型中找不到“合适”的方法，则编译阶段就无法通过。</li>
 </ol>
-<p>然后，根据在堆中创建对象的<strong>实际类型</strong>找到对应的方法表，从中确定具体的方法在内存中的位置。</p>
+<p>然后，根据在堆中创建对象的<strong>实际类型</strong>找到对应的方法表，从中确定具体方法在内存中的位置。</p>
 <h4 id="5-初始化">5. 初始化</h4>
 <p>初始化阶段才真正开始执行类中定义的 Java 程序代码。初始化阶段是虚拟机执行类构造器 <code>&lt;clinit&gt;()</code> 方法的过程。在准备阶段，类变量已经赋过一次系统要求的初始值，而在初始化阶段，根据程序员通过程序制定的主观计划去初始化类变量和其它资源。</p>
-<p><code>&lt;clinit&gt;()</code>是由编译器自动收集类中所有类变量的赋值动作和静态语句块中的语句合并产生的，编译器收集的顺序由语句在源文件中出现的顺序决定。特别注意的是，静态语句块只能访问到定义在它之前的类变量，定义在它之后的类变量只能赋值，不能访问。例如以下代码：</p>
+<p><code>&lt;clinit&gt;()</code> 是由编译器自动收集类中所有类变量的赋值动作和静态语句块中的语句合并产生的，编译器收集的顺序由语句在源文件中出现的顺序决定。特别注意的是，静态语句块只能访问到定义在它之前的类变量，定义在它之后的类变量只能赋值，不能访问。例如以下代码：</p>
 <pre><code class="language-java">public class Test {
     static {
         i = 0;                // 给变量赋值可以正常编译通过
@@ -338,7 +338,7 @@
     static int i = 1;
 }
 </code></pre>
-<p>由于父类的<code>&lt;clinit&gt;()</code>方法先执行，也就意味着父类中定义的静态语句块的执行要优先于子类。例如以下代码：</p>
+<p>由于父类的 <code>&lt;clinit&gt;()</code> 方法先执行，也就意味着父类中定义的静态语句块的执行要优先于子类。例如以下代码：</p>
 <pre><code class="language-java">static class Parent {
     public static int A = 1;
     static {
@@ -354,8 +354,8 @@ public static void main(String[] args) {
      System.out.println(Sub.B);  // 2
 }
 </code></pre>
-<p>接口中不可以使用静态语句块，但仍然有类变量初始化的赋值操作，因此接口与类一样都会生成<code>&lt;clinit&gt;()</code>方法。但接口与类不同的是，执行接口的<code>&lt;clinit&gt;()</code>方法不需要先执行父接口的<code>&lt;clinit&gt;()</code>方法。只有当父接口中定义的变量使用时，父接口才会初始化。另外，接口的实现类在初始化时也一样不会执行接口的<code>&lt;clinit&gt;()</code>方法。</p>
-<p>虚拟机会保证一个类的<code>&lt;clinit&gt;()</code>方法在多线程环境下被正确的加锁和同步，如果多个线程同时初始化一个类，只会有一个线程执行这个类的<code>&lt;clinit&gt;()</code>方法，其它线程都会阻塞等待，直到活动线程执行<code>&lt;clinit&gt;()</code>方法完毕。如果在一个类的<code>&lt;clinit&gt;()</code>方法中有耗时的操作，就可能造成多个线程阻塞，在实际过程中此种阻塞很隐蔽。</p>
+<p>接口中不可以使用静态语句块，但仍然有类变量初始化的赋值操作，因此接口与类一样都会生成 <code>&lt;clinit&gt;()</code> 方法。但接口与类不同的是，执行接口的 <code>&lt;clinit&gt;()</code> 方法不需要先执行父接口的 <code>&lt;clinit&gt;()</code> 方法。只有当父接口中定义的变量使用时，父接口才会初始化。另外，接口的实现类在初始化时也一样不会执行接口的 <code>&lt;clinit&gt;()</code> 方法。</p>
+<p>虚拟机会保证一个类的 <code>&lt;clinit&gt;()</code> 方法在多线程环境下被正确的加锁和同步，如果多个线程同时初始化一个类，只会有一个线程执行这个类的 <code>&lt;clinit&gt;()</code> 方法，其它线程都会阻塞等待，直到活动线程执行 <code>&lt;clinit&gt;()</code> 方法完毕。如果在一个类的 <code>&lt;clinit&gt;()</code> 方法中有耗时的操作，就可能造成多个线程阻塞，在实际过程中此种阻塞很隐蔽。</p>
 <h3 id="42-类初始化时机">4.2 类初始化时机<a class="anchor" href="#42-类初始化时机">#</a></h3>
 <h4 id="1-主动引用">1. 主动引用</h4>
 <p>虚拟机规范中并没有强制约束何时进行加载，但是规范严格规定了有且只有下列六种情况<strong>必须对类进行初始化</strong>（加载、验证、准备都会随之发生）：</p>
@@ -441,7 +441,7 @@ public static void main(String[] args) {
 <h4 id="2-破坏双亲委派">2. 破坏双亲委派</h4>
 <p>双亲委派机制只是一种推荐模式，如果要实现隔离类，可以重写 ClassLoader 类中的 <code>findClass()</code> 方法，但是这样的复用性较差。</p>
 <p>例如 JNDI 服务，它的代码由启动类加载器来完成加载，但是同时又需要调用由其他厂商实现并部署在应用程序的 ClassPath 下的 JNDI <strong>服务提供者接口</strong>（<strong>S</strong>ervice <strong>P</strong>rovider <strong>I</strong>nterface，<strong>SPI</strong>）的代码，启动类加载器是无法加载这些代码的。</p>
-<p>为解决这一困境，Java 引入了<strong>线程上下文加载器</strong>（Thread Context ClassLoader）。这个类加载器可以通过 java.lang.Thread 类的 <code>setContextClassLoader() </code> 方法设置，如果创建线程时未设置，将会从 java.lang.Thread 类继承一个，如果全局范围内都没有设置，则默认为应用程序类加载器。</p>
+<p>为解决这一困境，Java 引入了<strong>线程上下文加载器</strong>（Thread Context ClassLoader）。这个类加载器可以通过 java.lang.Thread 类的 <code>setContextClassLoader()</code> 方法设置，如果创建线程时未设置，将会从 java.lang.Thread 类继承一个，如果全局范围内都没有设置，则默认为应用程序类加载器。</p>
 <h4 id="3-tomcat-为什么需要破坏双亲委派">3. tomcat 为什么需要破坏双亲委派？</h4>
 <p>每个 Tomcat 的 webappClassLoader 需要加载自己的目录下的 class 文件，不会传递给父类加载器。tomcat 之所以需要创建如此多的 classloader 主要目的有：</p>
 <ul>
@@ -452,8 +452,8 @@ public static void main(String[] args) {
 <h2 id="五对象创建">五、对象创建<a class="anchor" href="#五对象创建">#</a></h2>
 <h3 id="51-分配内存">5.1 分配内存<a class="anchor" href="#51-分配内存">#</a></h3>
 <p>在类加载检查通过后，接下来虚拟机将为新生对象分配内存。对象所需内存的大小在类加载完成后便<strong>可完全确定</strong>，为对象分配空间的任务实际上便等同于把一块确定大小的内存块从 Java 堆中划分出来。</p>
-<p><strong>指针碰撞（Bump The Pointer）：<strong>假设 Java 堆中内存是</strong>绝对规整的</strong>，所有被使用过的内存都被放在一边，空闲的内存被放在另一边，中间放着一个指针作为分界点的指示器，那所分配内存就仅仅是把那个指针向空闲空间方向挪动一段与对象大小相等的距离。</p>
-<p><strong>空闲列表（Free List）：<strong>如果 Java 堆中的内存并</strong>不是规整的</strong>，已被使用的内存和空闲的内存相互交错在一起，虚拟机就必须维护一个列表，记录上哪些内存块是可用的，在分配的时候从列表中找到一块足够大的空间划分给对象实例，并更新列表上的记录。</p>
+<p><strong>指针碰撞（Bump The Pointer）</strong>：假设 Java 堆中内存是<strong>绝对规整的</strong>，所有被使用过的内存都被放在一边，空闲的内存被放在另一边，中间放着一个指针作为分界点的指示器，那所分配内存就仅仅是把那个指针向空闲空间方向挪动一段与对象大小相等的距离。</p>
+<p><strong>空闲列表（Free List）</strong>：如果 Java 堆中的内存并<strong>不是规整的</strong>，已被使用的内存和空闲的内存相互交错在一起，虚拟机就必须维护一个列表，记录上哪些内存块是可用的，在分配的时候从列表中找到一块足够大的空间划分给对象实例，并更新列表上的记录。</p>
 <p>选择哪种分配方式由 Java 堆是否规整决定，而 Java 堆是否规整又由所采用的垃圾收集器是否带有<strong>空间压缩整理（Compact）的能力</strong>决定。因此，当使用 Serial、ParNew 等带压缩整理过程的收集器时，系统采用的分配算法是指针碰撞，既简单又高效；而当使用 CMS 这种基于清除 （Sweep）算法的收集器时，理论上就只能采用较为复杂的空闲列表来分配内存。</p>
 <h4 id="1-内存布局">1. 内存布局</h4>
 <p>在 HotSpot 虚拟机里，对象在堆内存中的存储布局可以划分为三个部分：<strong>对象头</strong>（Header）、<strong>实例数据</strong>（Instance Data）和<strong>对齐填充</strong>（Padding）。</p>

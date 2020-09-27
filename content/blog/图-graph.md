@@ -26,13 +26,13 @@ keywords: [graph, Dijkstra, Floyd-Warshall, Prim, Kruskal]
 
 有向图：每条边都是有向边的图。
 
-有权图：每条边具有一定的权重（weight），通常是一个数字
+有权图：每条边具有一定的权重（weight），通常是一个数字。
 
-无权图：每条边均没有权重，也可以理解为权为 1
+无权图：每条边均没有权重，也可以理解为权为 1。
 
-连通图：所有的点都有路径相连
+连通图：所有的点都有路径相连。
 
-非连通图：存在某两个点没有路径相连
+非连通图：存在某两个点没有路径相连。
 
 邻接：关联于同一条边的两个点 $u$ 和 $v$ 称为邻接的；关联于同一个点的两条边 $e_1$ 和 $e_2$ 是邻接的（或相邻的）。
 
@@ -83,7 +83,7 @@ keywords: [graph, Dijkstra, Floyd-Warshall, Prim, Kruskal]
 
 邻接表英文名是 *adjacency list*。它的形式是 `vector adj[n]` ，用 `adj[i]` 存以 $i$ 为起点的边。
 
-用 `vector` 无法科学地删除，所以常用 `list` 实现。
+用 *vector* 无法科学地删除，所以常用 *list* 实现。
 
 它的特点是可以用来按顺序访问一个结点的出边（或者入边）。
 
@@ -198,7 +198,7 @@ if __name__ == '__main__':
     print("广度优先搜索：", t2)
 ```
 
-注意：这里用 index 表示节点名称，最后还需要映射出结果（假设0, 1, 2, 3...分别对应A, B, C, D...下文会使用字典来实现邻接表，这样就不需要这一步了）：
+注意：这里用 index 表示节点名称，最后还需要映射出结果（假设0, 1, 2, 3...分别对应A, B, C, D, ... 下文会使用字典来实现邻接表，这样就不需要这一步了）：
 
 ```python
 vertexs = ["A", "B", "C", "D", "E", "F", "G"]
@@ -537,4 +537,4 @@ path:  [('C', 'G'), ('A', 'C'), ('B', 'E'), ('D', 'G'), ('F', 'G'), ('A', 'B')]
 5. [生成树（生成森林）详解](http://data.biancheng.net/view/202.html)
 6. [Representing graphs](https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs)
 7. [wiki-Floyd–Warshall](https://en.wikipedia.org/wiki/Floyd–Warshall_algorithm)
-8. [一个小练习😀](https://leetcode-cn.com/problems/course-schedule/solution/course-schedule-tuo-bu-pai-xu-bfsdfsliang-chong-fa/)
+8. [一个小练习😀](https://leetcode-cn.com/problems/course-schedule/)

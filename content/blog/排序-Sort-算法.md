@@ -45,16 +45,16 @@ keywords: [sort, 排序, 算法]
 
 ## 冒泡排序
 
-数据分区：（无序区，有序区）。
+数据分区：（无序区，有序区）。<br>
 从无序区透过交换找出最大元素放到有序区前端。 
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Bubble_sort_animation.gif" alt="冒泡排序" style="zoom: 50%;" />
 
 **流程**
 
-1. 比较相邻的元素。如果第一个比第二个大，就交换他们两个。
-2. 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数。
-3. 针对所有的元素重复以上的步骤，除了最后一个。
+1. 比较相邻的元素，如果第一个比第二个大，就交换他们两个；
+2. 对每一对相邻元素作同样的工作，从开始第一对到结尾的最后一对。这步做完后，最后的元素会是最大的数；
+3. 针对所有的元素重复以上的步骤，除了最后一个；
 4. 持续每次对越来越少的元素重复上面的步骤，直到没有任何一对数字需要比较。
 
 ![冒泡流程](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/bubble_sort.gif)
@@ -71,7 +71,7 @@ def bubble_sorted(nums):
     return nums
 ```
 
-但是，该算法的最优时间复杂度并不是 $O(n)$，而是 $O(n^2)$[[5]]( https://www.cnblogs.com/melon-h/archive/2012/09/20/2694941.html)。需改写才能实现最优理想状态：
+但是，该算法的最优时间复杂度并不是 $O(n)$，而是 $O(n^2)$ [[5]]( https://www.cnblogs.com/melon-h/archive/2012/09/20/2694941.html)。需改写才能实现最优理想状态：
 
 ```python
 def bubble_sorted(nums):
@@ -162,9 +162,9 @@ def insertion_sorted(nums):
 
 **流程**
 
-1. 最大堆调整（Max Heapify）：将堆的末端子节点作调整，使得子节点永远小于父节点
-2. 创建最大堆（Build Max Heap）：将堆中的所有数据重新排序
-3. 堆排序（HeapSort）：移除位在第一个数据的根节点，并做最大堆调整的递归运算
+1. 最大堆调整（Max Heapify）：将堆的末端子节点作调整，使得子节点永远小于父节点；
+2. 创建最大堆（Build Max Heap）：将堆中的所有数据重新排序；
+3. 堆排序（HeapSort）：移除位在第一个数据的根节点，并做最大堆调整的递归运算。
 
 **代码**
 
@@ -239,11 +239,11 @@ def merge_sort(L):
     return merge(left, right)
 ```
 
-时间复杂度是 O(nlogn)，归并的空间复杂度为临时的数组和递归时压入栈的数据占用的空间：n + logn，所以空间复杂度为: O(n)[[6]](https://blog.csdn.net/YuZhiHui_No1/article/details/44223225)。
+时间复杂度是 O(nlogn)，归并的空间复杂度为临时的数组和递归时压入栈的数据占用的空间：n + logn，所以空间复杂度为: O(n) [[6]](https://blog.csdn.net/YuZhiHui_No1/article/details/44223225)。
 
 **迭代法（Bottom-up）**
 
-重写 merge()，实现 O(1)：
+重写 `merge()`，实现 $O(1)$：
 
 ```python
 def merge_iter(nums,l1,l2,r2):
@@ -299,7 +299,7 @@ def msi(nums):
 		step = offset
 ```
 
-时间复杂度是 $O(nlog^2n)$，空间复杂度为: O(1)。
+时间复杂度是 $O(nlog^2n)$，空间复杂度为: $O(1)$。
 
 
 
@@ -337,7 +337,7 @@ def quick_sorted(nums):
     return quick_sorted(left) + mid + quick_sorted(right)
 ```
 
-需要 ${\Omega (n)}$ 的额外存储空间，也就跟归并排序一样不好。额外需要的存储空间，在实际实现时，也会极度影响速度和缓存的性能 。下面是原地排序的代码， 平均可以达到 $O(\log n)$ 的空间复杂度[[7]](https://zh.wikipedia.org/wiki/快速排序#Python原地排序版本)。 
+需要 ${\Omega (n)}$ 的额外存储空间，也就跟归并排序一样不好。额外需要的存储空间，在实际实现时，也会极度影响速度和缓存的性能 。下面是原地排序的代码， 平均可以达到 $O(\log n)$ 的空间复杂度 [[7]](https://zh.wikipedia.org/wiki/快速排序#Python原地排序版本)。 
 
 ```python
 def quick_sorted_inp(nums, first, last):
@@ -366,8 +366,8 @@ def quick_sorted_inp(nums, first, last):
 
 希尔排序是基于插入排序的以下两点性质而提出改进方法的：
 
-> 1. 插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率
-> 2. 但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位
+* 插入排序在对几乎已经排好序的数据操作时，效率高，即可以达到线性排序的效率；
+* 但插入排序一般来说是低效的，因为插入排序每次只能将数据移动一位。
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Sorting_shellsort_anim.gif" alt="shell" style="zoom:50%;" />
 
@@ -399,7 +399,7 @@ def shell_sorted(nums):
     return nums
 ```
 
-实际上使用 1，2，4，8...的增量序列有时会在 gap=1 时浪费很多时间，*Mark Allen Weiss* 指出，最好的增量序列是 *Sedgewick* 提出的 (1, 5, 19, 41, 109,...)，该序列的项来自 9 * 4^i - 9 * 2^i + 1 和 4^i - 3 * 2^i + 1 这两个算式。[使用 Sedgewick增量 的希尔排序的完整C语言程序](https://blog.csdn.net/u013630349/article/details/48250109)
+实际上使用 1，2，4，8... 的增量序列有时会在 gap = 1 时浪费很多时间，*Mark Allen Weiss* 指出，最好的增量序列是 *Sedgewick* 提出的 (1, 5, 19, 41, 109,...)，该序列的项来自 9 * 4^i - 9 * 2^i + 1 和 4^i - 3 * 2^i + 1 这两个算式。[使用 Sedgewick增量 的希尔排序的完整C语言程序](https://blog.csdn.net/u013630349/article/details/48250109)
 
 
 
@@ -447,7 +447,7 @@ def counting_sorted(nums):
 
 1. 取得数组中的最大数，并取得位数；
 2. 从最低位开始取每个位组成 radix 数组；
-3. 对 radix 进行计数排序（利用计数排序适用于小范围数的特点）；
+3. 对 radix 进行计数排序（利用计数排序适用于小范围数的特点）。
 
 ![radix](https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/radix_sorted.gif)
 
@@ -475,7 +475,7 @@ def radix_sorted(nums):
 
 ## 桶排序
 
-桶排序是计数排序的升级版。它利用了函数的映射关系，高效与否的关键就在于这个映射函数的确定。桶排序 (Bucket sort)的工作的原理：假设输入数据服从均匀分布，将数据分到有限数量的桶里，每个桶再分别排序（有可能再使用别的排序算法或是以递归方式继续使用桶排序进行排）。
+桶排序是计数排序的升级版。它利用了函数的映射关系，高效与否的关键就在于这个映射函数的确定。桶排序（Bucket sort）的工作的原理：假设输入数据服从均匀分布，将数据分到有限数量的桶里，每个桶再分别排序（有可能再使用别的排序算法或是以递归方式继续使用桶排序进行排）。
 
 **流程**
 

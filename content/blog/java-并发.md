@@ -50,18 +50,18 @@ Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互
 
 ### 2.2 volatile
 
-关键字 volatile 可以说是 Java 虚拟机提供的最轻量级的同步机制，它将具备两项特性：**对所有线程的可见性**和**禁止指令重排序优化**。具体规则如下：
+关键字 *volatile* 可以说是 Java 虚拟机提供的最轻量级的同步机制，它将具备两项特性：**对所有线程的可见性**和**禁止指令重排序优化**。具体规则如下：
 
 1. 在工作内存中，每次使用 Ⅴ 前都必须先**从主内存刷新最新的值**，用于保证能看见其他线程对变量所做的修改。即 use 动作 与 load、read 动作相关联的，必须连续且一起出现。
 
 2. 在工作内存中，每次修改Ⅴ后都必须**立刻同步回主内存中**，用于保证其他线程可以看到自己对变量 V 所做的修改。即 assign 动作与 store、write 动作相关联的，必须连续且一起出现。
 
-3. volatile 修饰的变量**不会被指令重排序优化**，从而保证代码的执行顺序与程序的顺序相同。
+3. *volatile* 修饰的变量**不会被指令重排序优化**，从而保证代码的执行顺序与程序的顺序相同。
 
 只有一个处理器访问内存时，并不需要内存屏障；但如果有两个或更多处理器访问同一块内存，且其中有一个在观测另一个，就需要内存屏障来保证一致性了。在程序运行过程中，所有的变更会先在寄存器或本地 cache 中完成，然后才会被拷贝到主存以跨越内存栅栏，此种跨越序列或顺序称为 happens-before。Java 内存屏障主要有 Load 和 Store 两类：
 
-* **Load Barrier**：在读指令前插入读屏障，可以让高速缓存中的数据失效，重新从主内存加载数据 ；
-* **Store Barrier**：在写指令之后插入写屏障，能让写入缓存的最新数据写回到主内存。
+* **Load Barrier**：读指令前插入读屏障，让高速缓存中的数据失效，重新从主内存加载数据 ；
+* **Store Barrier**：写指令之后插入写屏障，能让写入缓存的最新数据写回到主内存。
 
 在实际使用中，又分为以下四种：
 
@@ -76,13 +76,13 @@ Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互
 
 #### 1. 原子性
 
-Java 内存模型保证了 read、load、use、assign、store、write、lock 和 unlock **单个操作**具有原子性，例如对一个 int 类型的变量执行 assign 赋值操作，这个操作就是原子性的。但是 Java 内存模型允许虚拟机将没有被 volatile 修饰的 64 位数据（long，double）的读写操作划分为两次 32 位的操作来进行，即 load、store、read 和 write 操作可以不具备原子性。AtomicInteger 能保证多个线程修改的原子性。
+Java 内存模型保证了 read、load、use、assign、store、write、lock 和 unlock **单个操作**具有原子性，例如对一个 int 类型的变量执行 assign 赋值操作，这个操作就是原子性的。但是 Java 内存模型允许虚拟机将没有被 volatile 修饰的 64 位数据（long，double）的读写操作划分为两次 32 位的操作来进行，即 load、store、read 和 write 操作可以不具备原子性。*AtomicInteger* 能保证多个线程修改的原子性。
 
 ```java
 private AtomicInteger cnt = new AtomicInteger();
 ```
 
-除了使用原子类之外，也可以使用 synchronized 互斥锁来保证操作的原子性。它对应的内存间交互操作为：lock 和 unlock，在虚拟机实现上对应的字节码指令为 monitorenter 和 monitorexit。
+除了使用原子类之外，也可以使用 *synchronized* 互斥锁来保证操作的原子性。它对应的内存间交互操作为：lock 和 unlock，在虚拟机实现上对应的字节码指令为 monitorenter 和 monitorexit。
 
 ```java
 public synchronized void add() {
@@ -98,15 +98,15 @@ public synchronized int get() {
 
 可见性指当一个线程修改了共享变量的值，其它线程能够**立即得知**这个修改。Java 内存模型是通过在变量修改后将新值同步回主内存，在变量读取前从主内存刷新变量值来实现可见性的。主要有三种实现可见性的方式：
 
-- volatile
-- synchronized，对一个变量执行 unlock 操作之前，必须把变量值同步回主内存。
-- final，被 final 关键字修饰的字段在构造器中一旦初始化完成，并且没有发生 this 逃逸（其它线程通过 this 引用访问到初始化了一半的对象），那么其它线程就能看见 final 字段的值。
+- *volatile*；
+- *synchronized*，对一个变量执行 unlock 操作之前，必须把变量值同步回主内存；
+- *final*，被 *final* 关键字修饰的字段在构造器中一旦初始化完成，并且没有发生 *this* 逃逸（其它线程通过 *this* 引用访问到初始化了一半的对象），那么其它线程就能看见 *final* 字段的值。
 
-对前面的线程不安全示例中的 cnt 变量使用 volatile 修饰，不能解决线程不安全问题，因为 volatile 并**不能**保证操作的**原子性**。
+对前面的线程不安全示例中的 *cnt* 变量使用 *volatile* 修饰，不能解决线程不安全问题，因为 *volatile* 并**不能**保证操作的**原子性**。
 
 #### 3. 有序性
 
-Java 程序中天然的有序性可以总结为一句话：如果在本线程内观察，所有的操作都是有序的：如果在一个线程中观察另一个线程所有的操作都是无序的。前半句是指 “线程内似表现为串行的语义”，后半句是指 “指令重排序现象” 和工作内存与主内存同步延迟现象。Java 语言提供了 volatile 和 synchronized 两个关键字来保证线程之间操作的有序性， volatile 关键字本身就包含了**禁止指令重排序**的语义，而 synchronized 则是由“一个变量在同一个时刻只允许一条线程对其进行 lock 操作”这条规则获得的，这个规则决定了持有同一个锁的两个同步块只能**串行**地进入。
+Java 程序中天然的有序性可以总结为一句话：如果在本线程内观察，所有的操作都是有序的：如果在一个线程中观察另一个线程所有的操作都是无序的。前半句是指 “线程内似表现为串行的语义”，后半句是指 “指令重排序现象” 和工作内存与主内存同步延迟现象。Java 语言提供了 *volatile* 和 *synchronized* 两个关键字来保证线程之间操作的有序性， *volatile* 关键字本身就包含了**禁止指令重排序**的语义，而 *synchronized* 则是由 “一个变量在同一个时刻只允许一条线程对其进行 lock 操作” 这条规则获得的，这个规则决定了持有同一个锁的两个同步块只能**串行**地进入。
 
 ### 2.4 先行发生原则
 
@@ -118,25 +118,25 @@ Java 程序中天然的有序性可以总结为一句话：如果在本线程内
 
 一个 unlock 操作先行发生于后面对同一个锁的 lock 操作。
 
-**3. volatile 变量规则（Volatile Variable Rule）**
+**3. *volatile* 变量规则（Volatile Variable Rule）**
 
-对一个 volatile 变量的写操作先行发生于后面对这个变量的读操作。
+对一个 *volatile* 变量的写操作先行发生于后面对这个变量的读操作。
 
 **4. 线程启动规则（Thread Start Rule）**
 
-Thread 对象的 start() 方法调用先行发生于此线程的每一个动作。
+Thread 对象的 `start()` 方法调用先行发生于此线程的每一个动作。
 
 **5. 线程加入规则（Thread Join Rule）**
 
-Thread 对象的结束先行发生于 join() 方法返回。
+Thread 对象的结束先行发生于 `join()` 方法返回。
 
 **6. 线程中断规则（Thread Interruption Rule）**
 
-对线程 interrupt() 方法的调用先行发生于被中断线程的代码检测到中断事件的发生，可以通过 interrupted() 方法检测到是否有中断发生。
+对线程 `interrupt()` 方法的调用先行发生于被中断线程的代码检测到中断事件的发生，可以通过 `interrupted()` 方法检测到是否有中断发生。
 
 **7. 对象终结规则（Finalizer Rule）**
 
-一个对象的初始化完成（构造函数执行结束）先行发生于它的 finalize() 方法的开始。
+一个对象的初始化完成（构造函数执行结束）先行发生于它的 `finalize()` 方法的开始。
 
 **8. 传递性（Transitivity）**
 
@@ -146,14 +146,14 @@ Thread 对象的结束先行发生于 join() 方法返回。
 
 主流的操作系统都提供了线程实现， Java 语言则提供了在不同硬件和操作系统平台下对线程操作的统一处理，每个已经调用过 `start()` 方法且还未结束的 Java.lang.Thread 类的实例就代表着一个线程。有三种使用线程的方法：
 
-- 实现 Runnable 接口（可用lambda表达式）：
+- 实现 *Runnable* 接口（可用 lambda 表达式）：
 
   ```java
   MyRunnable mr = new MyRunnable();
   Thread thread = new Thread(mr);
   ```
 
-- 实现 Callable 接口：
+- 实现 *Callable* 接口：
 
   ```java
   MyCallable mc = new MyCallable();
@@ -161,7 +161,7 @@ Thread 对象的结束先行发生于 join() 方法返回。
   Thread thread = new Thread(ft);
   ```
 
-- 继承 Thread 类：
+- 继承 *Thread* 类：
 
   ```java
   MyThread mt = new MyThread();
@@ -169,10 +169,10 @@ Thread 对象的结束先行发生于 join() 方法返回。
 
 实现接口会更好一些，因为：
 
-- Java 不支持多重继承，因此继承了 Thread 类就无法继承其它类，但是可以实现多个接口；
-- 类可能只要求可执行就行，继承整个 Thread 类开销过大。
+- Java 不支持多重继承，因此继承了 *Thread* 类就无法继承其它类，但是可以实现多个接口；
+- 类可能只要求可执行就行，继承整个 *Thread* 类开销过大。
 
-通过调用 `start()` 启动一个新线程；一个线程对象只能调用一次 `start()` 方法；必须调用 Thread 实例的 `start()` 方法才能启动新线程，`start()` 方法内部调用了一个 `private native void start0()` 方法，native 修饰符表示这个方法是由 JVM 虚拟机内部的 C 代码实现的。
+通过调用 `start()` 启动一个新线程；一个线程对象只能调用一次 `start()` 方法；必须调用 *Thread* 实例的 `start()` 方法才能启动新线程，`start()` 方法内部调用了一个 `private native void start0()` 方法，*native* 修饰符表示这个方法是由 JVM 虚拟机内部的 C 代码实现的。
 
 ### 3.1 实现
 
@@ -266,27 +266,27 @@ Thread.currentThread().hashCode(); // 获取当前线程 hashCode
 
 #### 1. InterruptedException
 
-通过调用一个线程的 `interrupt()` 来中断该线程，如果该线程处于阻塞、限期等待或者无限期等待状态，那么就会抛出 InterruptedException，从而提前结束该线程。但是不能中断 I/O 阻塞和 synchronized 锁阻塞。
+通过调用一个线程的 `interrupt()` 来中断该线程，如果该线程处于阻塞、限期等待或者无限期等待状态，那么就会抛出 *InterruptedException*，从而提前结束该线程。但是不能中断 I/O 阻塞和 *synchronized* 锁阻塞。
 
 #### 2. interrupted()
 
-如果一个线程的 `run()` 方法执行一个无限循环，并且没有执行 `sleep()` 等会抛出 InterruptedException 的操作，那么调用线程的 `interrupt()` 方法就无法使线程提前结束。
+如果一个线程的 `run()` 方法执行一个无限循环，并且没有执行 `sleep()` 等会抛出 *InterruptedException* 的操作，那么调用线程的 `interrupt()` 方法就无法使线程提前结束。
 
 但是调用 `interrupt()` 方法会设置线程的中断标记，此时调用 `interrupted()` 方法会返回 true。因此可以在循环体中使用 `interrupted()` 方法来判断线程是否处于中断状态，从而提前结束线程。
 
 #### 3. Executor
 
-调用 Executor 的 `shutdown()` 方法会等待线程都执行完毕之后再关闭，但是如果调用的是 `shutdownNow()` 方法，则相当于调用每个线程的 `interrupt()` 方法。
+调用 *Executor* 的 `shutdown()` 方法会等待线程都执行完毕之后再关闭，但是如果调用的是 `shutdownNow()` 方法，则相当于调用每个线程的 `interrupt()` 方法。
 
 ### 3.4 线程池
 
-* **corePoolSize**：核心线程数量，核心线程不会被回收，即使没有任务执行，也会保持空闲状态；
-* **maximumPoolSize**：池允许最大的线程数；
-* **keepAliveTime**：非核心线程的存活时间；
-* **unit**：keepAliveTime 的单位；
-* **workQueue**：当前线程数超过 corePoolSize 时，新的任务会存在 workQueue 中，处在等待状态；
-* **threadFactory**：创建线程的工厂类，通常自定义一个 threadFactory 设置线程的名称以快速定位；
-* **handler**：线程池执行拒绝策略。
+* ***corePoolSize***：核心线程数量，核心线程不会被回收，没有任务执行时会保持空闲状态；
+* ***maximumPoolSize***：池允许最大的线程数；
+* ***keepAliveTime***：非核心线程的存活时间；
+* ***unit***：keepAliveTime 的单位；
+* ***workQueue***：线程数超过 *corePoolSize* 时，新的任务存在 *workQueue* 中，处在等待状态；
+* ***threadFactory***：创建线程的工厂类，可自定义 *threadFactory* 设置线程的名称以快速定位；
+* ***handler***：线程池执行拒绝策略。
 
 #### 1. 线程池的优势
 
@@ -298,26 +298,26 @@ Thread.currentThread().hashCode(); // 获取当前线程 hashCode
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency2.png" style="zoom:150%;" />
 
-1. 如果当前运行的线程少于 `corePoolSize`，则创建新线程来执行任务（需要获取全局锁）；
-2. 如果运行的线程等于或多于 `corePoolSize`，则将任务加入 BlockingQueue ；
+1. 如果当前运行的线程少于 *corePoolSize*，则创建新线程来执行任务（需要获取全局锁）；
+2. 如果运行的线程等于或多于 *corePoolSize*，则将任务加入 BlockingQueue ；
 3. 如果无法将任务加入 BlockingQueue （队列已满），则在非 corePool 中创建新的线程来处理任务（需要获取全局锁）；
-4. 如果创建新线程将使当前运行的线程超出 `maximumPoolSize`，任务将被拒绝，并调用 `RejectedExecutionHandler.rejectedExecution()` 方法。
+4. 如果创建新线程将使当前运行的线程超出 *maximumPoolSize*，任务将被拒绝，并调用 `RejectedExecutionHandler.rejectedExecution()` 方法。
 
-ThreadPoolExecutor 采取上述步骤的总体设计思路，是为了在执行 `execute()` 方法时，尽可能地避免获取全局锁（那将会是一个严重的可伸缩瓶颈）。在 ThreadPoolExecutor 完成预热之后（当前运行的线程数大于等于 corePoolSize），几乎所有的 `execute()` 方法调用都是执行步骤 2，而步骤 2 不需要获取全局锁。线程池有四种拒绝策略：
+*ThreadPoolExecutor* 采取上述步骤的总体设计思路，是为了在执行 `execute()` 方法时，尽可能地避免获取全局锁（那将会是一个严重的可伸缩瓶颈）。在 *ThreadPoolExecutor* 完成预热之后（当前运行的线程数大于等于 *corePoolSize*），几乎所有的 `execute()` 方法调用都是执行步骤 2，而步骤 2 不需要获取全局锁。线程池有四种拒绝策略：
 
-1. AbortPolicy：丢弃任务并抛出 RejectedExecutionException 异常；
+1. AbortPolicy：丢弃任务并抛出 *RejectedExecutionException* 异常；
 2. DiscardPolicy：丢弃任务，但是不抛出异常；
 3. DisCardOldSetPolicy：丢弃队列最前面的任务，然后提交新来的任务；
 4. CallerRunPolicy：由调用线程（提交任务的线程，主线程）处理该任务。
 
 #### 3. 创建线程池
 
-Executor 管理多个异步任务的执行，而无需程序员显式地管理线程的生命周期。这里的异步是指多个任务的执行互不干扰，不需要进行同步操作。主要有四种 Executor：
+*Executor* 管理多个异步任务的执行，而无需程序员显式地管理线程的生命周期。这里的异步是指多个任务的执行互不干扰，不需要进行同步操作。主要有四种 *Executor*：
 
-- `CachedThreadPool`：一个任务创建一个线程；
-- `FixedThreadPool`：所有任务只能使用固定大小的线程；
-- `ScheduledThreadPool`：支持定时及周期性任务执行；
-- `SingleThreadExecutor`：相当于大小为 1 的 `FixedThreadPool`。
+- *CachedThreadPool*：一个任务创建一个线程；
+- *FixedThreadPool*：所有任务只能使用固定大小的线程；
+- *ScheduledThreadPool*：支持定时及周期性任务执行；
+- *SingleThreadExecutor*：相当于大小为 1 的 *FixedThreadPool*。
 
 ```java
 public static void main(String[] args) {
@@ -333,12 +333,12 @@ public static void main(String[] args) {
 
 **（1）高并发、任务执行时间短的业务**
 
-线程池线程数可以设置为CPU核数+1，减少线程上下文的切换。
+线程池线程数可以设置为 CPU 核数 + 1，减少线程上下文的切换。
 
 **（2）并发不高、任务执行时间长的业务**
 
-- IO密集型任务，因为IO操作并不占用CPU，可以适当加大线程池中的线程数目（2 * CPU核数），让CPU处理更多的业务；
-- CPU密集型任务，同（1）。
+- IO 密集型任务，因为 IO 操作并不占用 CPU，可以适当加大线程池中的线程数目（2 * CPU 核数），让 CPU 处理更多的业务；
+- CPU 密集型任务，同（1）。
 
 **（3）并发高、业务执行时间长的业务**
 
@@ -356,8 +356,8 @@ public static void main(String[] args) {
 | 移除 | remove()  | poll()     | take()   | poll(time, unit)     |
 | 检查 | element() | peek()     |          |                      |
 
-* 核心线程在获取任务时，通过阻塞队列的**`take()`**方法实现**一直阻塞（存活）**；
-* 在获取任务时通过阻塞队列的**`poll(time,unit)`**方法实现**延迟死亡**。
+* 核心线程在获取任务时，通过阻塞队列的 **`take()`** 方法实现**一直阻塞（存活）**；
+* 在获取任务时通过阻塞队列的 **`poll(time,unit)`** 方法实现**延迟死亡**。
 
 #### 6. ctl
 
@@ -368,15 +368,15 @@ private static int workerCountOf(int c)  { return c & COUNT_MASK; }
 private static int ctlOf(int rs, int wc) { return rs | wc; }
 ```
 
-ctl 是一个打包两个概念字段的原子整数。
+*ctl* 是一个打包两个概念字段的原子整数。
 
-* workerCount：指示线程的有效数量；
+* *workerCount*：指示线程的有效数量；
 
-* runState：指示线程池的运行状态：
+* *runState*：指示线程池的运行状态：
 
   RUNNING、SHUTDOWN、STOP、TIDYING、TERMINATED 等。
 
-int 类型有 32 位，其中 ctl 的低 29 为用于表示 workerCount，高 3 位用于表示 runState。ctl 这么设计的主要好处是将对 runState 和 workerCount 的操作封装成了一个原子操作。runState 和 workerCount 是线程池正常运转中的 2 个最重要属性，线程池在某一时刻该做什么操作，取决于这 2 个属性的值。
+*int* 类型有 32 位，其中 *ctl* 的低 29 为用于表示 *workerCount*，高 3 位用于表示 *runState*。*ctl* 这么设计的主要好处是将对 *runState* 和 *workerCount* 的操作封装成了一个原子操作。*runState* 和 *workerCount* 是线程池正常运转中的 2 个最重要属性，线程池在某一时刻该做什么操作，取决于这 2 个属性的值。
 
 因此无论是查询还是修改，我们必须保证对这 2 个属性的操作是属于**同一时刻**的，也就是原子操作，否则就会出现错乱的情况。
 
@@ -390,25 +390,25 @@ int 类型有 32 位，其中 ctl 的低 29 为用于表示 workerCount，高 3 
 
 ### 4.2 wait() & notify()
 
-调用 `wait()` 使得线程等待某个条件满足，线程在等待时会被挂起，当其他线程的运行使得这个条件满足时，其它线程会调用 `notify()` 或者 `notifyAll()` 来唤醒挂起的线程。它们都**属于 Object 的一部分**，而不属于 Thread。
+调用 `wait()` 使得线程等待某个条件满足，线程在等待时会被挂起，当其他线程的运行使得这个条件满足时，其它线程会调用 `notify()` 或者 `notifyAll()` 来唤醒挂起的线程。它们都**属于 Object 的一部分**，而不属于 *Thread*。
 
-只能用在同步方法或者同步控制块中使用，否则会在运行时抛出 IllegalMonitorStateException。使用 `wait()` 挂起期间，线程会**释放锁**。这是因为，如果没有释放锁，那么其它线程就无法进入对象的同步方法或者同步控制块中，那么就无法执行 `notify()` 或者 `notifyAll()` 来唤醒挂起的线程，造成死锁。
+只能用在同步方法或者同步控制块中使用，否则会在运行时抛出 *IllegalMonitorStateException*。使用 `wait()` 挂起期间，线程会**释放锁**。这是因为，如果没有释放锁，那么其它线程就无法进入对象的同步方法或者同步控制块中，那么就无法执行 `notify()` 或者 `notifyAll()` 来唤醒挂起的线程，造成死锁。
 
 **wait() 和 sleep() 的区别**
 
-- `wait()` 是 Object 的方法，而 `sleep()` 是 Thread 的静态方法；
+- `wait()` 是 *Object* 的方法，而 `sleep()` 是 *Thread* 的静态方法；
 - `wait()` 会释放锁，`sleep()` 不会。
 
 ### 4.3 await() & signal()
 
-java.util.concurrent 类库中提供了 Condition 类来实现线程之间的协调。
+java.util.concurrent 类库中提供了 *Condition* 类来实现线程之间的协调。
 
 ```java
 private Lock lock = new ReentrantLock();
 private Condition condition = lock.newCondition();
 ```
 
-使用 Condition 时，引用的 Condition 对象必须从 Lock 实例的 `newCondition()` 返回，这样才能获得一个绑定了 Lock 实例的 Condition 实例。Condition 提供的 `await()`、`signal()`、`signalAll()` 原理和 synchronized 锁对象的 `wait()`、`notify()`、`notifyAll()` 是一致的，并且其行为也是一样的：
+使用 *Condition* 时，引用的 *Condition* 对象必须从 *Lock* 实例的 `newCondition()` 返回，这样才能获得一个绑定了 *Lock* 实例的 *Condition* 实例。*Condition* 提供的 `await()`、`signal()`、`signalAll()` 原理和 *synchronized* 锁对象的 `wait()`、`notify()`、`notifyAll()` 是一致的，并且其行为也是一样的：
 
 - `await()` 会释放当前锁，进入等待状态；
 - `signal()` 会唤醒某个等待线程；
@@ -425,7 +425,7 @@ if (condition.await(1, TimeUnit.SECOND)) {
 }
 ```
 
-可见，使用 Condition 配合 Lock，我们可以实现更灵活的线程同步。
+可见，使用 *Condition* 配合 *Lock*，我们可以实现更灵活的线程同步。
 
 ## 五、线程安全
 
@@ -435,10 +435,10 @@ if (condition.await(1, TimeUnit.SECOND)) {
 
 不可变（Immutable）的对象一定是线程安全的，不需要再采取任何的线程安全保障措施。只要一个不可变的对象被正确地构建出来，永远也不会看到它在多个线程之中处于不一致的状态。多线程环境下，应当尽量使对象成为不可变，来满足线程安全。不可变的类型：
 
-- final 关键字修饰的基本数据类型
-- String
-- 枚举类型
-- Number 部分子类，如 Long 和 Double 等数值包装类型，BigInteger 和 BigDecimal 等大数据类型。但同为 Number 的原子类 AtomicInteger 和 AtomicLong 则是可变的。
+- *final* 关键字修饰的基本数据类型；
+- *String*；
+- 枚举类型；
+- *Number* 部分子类，如 *Long* 和 *Double* 等数值包装类型，*BigInteger* 和 *BigDecimal* 等大数据类型。但同为 *Number* 的原子类 *AtomicInteger* 和 *AtomicLong* 则是可变的。
 
 对于集合类型，可以使用 `Collections.unmodifiableXXX()` 方法来获取一个不可变的集合。
 
@@ -446,11 +446,11 @@ if (condition.await(1, TimeUnit.SECOND)) {
 
 互斥是实现同步的一种手段，临界区（ Critical Section）、互斥量（ Mutex）和信号量（ Semap hore）都是常见的互斥实现方式。因此在“互斥同步”这四个字里面，**互斥是因，同步是果；互斥是方法，同步是目的**。
 
-Java 提供了两种锁机制来控制多个线程对共享资源的互斥访问，第一个是 JVM 实现的 synchronized，而另一个是 JDK 实现的 ReentrantLock。
+Java 提供了两种锁机制来控制多个线程对共享资源的互斥访问，第一个是 JVM 实现的 *synchronized*，而另一个是 JDK 实现的 *ReentrantLock*。
 
 #### 1. synchronized
 
-synchronized 关键字，这是一种块结构（ Block Structured）的同步语法。 synchronized 关键字经过 Javac 编译之后，会在同步块的前后分别形成 **monitorenter** 和 **monitorexit** 这两个字节码指令。这两个字节码指令都需要一个 **reference 类型的参数**来指明要锁定和解锁的对象。
+*synchronized* 关键字，这是一种块结构（ Block Structured）的同步语法。 *synchronized* 关键字经过 Javac 编译之后，会在同步块的前后分别形成 **monitorenter** 和 **monitorexit** 这两个字节码指令。这两个字节码指令都需要一个 **reference 类型的参数**来指明要锁定和解锁的对象。
 
 （1）同步**代码块**和同步**非静态方法**，可以实现同步一个**对象**：
 
@@ -490,7 +490,7 @@ Java 虚拟机会在 monitorenter 对应的机器码指令之后临界区开始�
 
 #### 2. ReentrantLock
 
-ReentrantLock 是可重入锁，它和 synchronized 一样，一个线程可以多次获取同一个锁。和 synchronized 不同的是，ReentrantLock 可以尝试获取锁：
+*ReentrantLock* 是可重入锁，它和 *synchronized* 一样，一个线程可以多次获取同一个锁。和 *synchronized* 不同的是，*ReentrantLock* 可以尝试获取锁：
 
 ```java
 if (lock.tryLock(1, TimeUnit.SECONDS)) {
@@ -502,23 +502,23 @@ if (lock.tryLock(1, TimeUnit.SECONDS)) {
 }
 ```
 
-上述代码在尝试获取锁的时候，最多等待1秒。如果1秒后仍未获取到锁，`tryLock()`返回 false，程序就可以做一些额外处理，而不是无限等待下去。
+上述代码在尝试获取锁的时候，最多等待 1 秒。如果 1 秒后仍未获取到锁，`tryLock()` 返回 false，程序就可以做一些额外处理，而不是无限等待下去。
 
 #### 3. 比较
 
-* **锁的实现**：synchronized 是 JVM 实现的，而 ReentrantLock 是 JDK 实现的；
-* **性能**：synchronized 与 ReentrantLock 大致相同；
-* **等待可中断**：ReentrantLock 可中断，而 synchronized 不行；
-* **公平锁**：synchronized 中的锁是非公平的，ReentrantLock 默认非公平，可设置为公平；
-* **锁绑定多个条件**：一个 ReentrantLock 可以同时绑定多个 Condition 对象。
+* **锁的实现**：*synchronized* 是 JVM 实现的，而 *ReentrantLock* 是 JDK 实现的；
+* **性能**：*synchronized* 与 *ReentrantLock* 大致相同；
+* **等待可中断**：*ReentrantLock* 可中断，而 *synchronized* 不行；
+* **公平锁**：*synchronized* 中的锁是非公平的，*ReentrantLock* 默认非公平，可设置为公平；
+* **锁绑定多个条件**：一个 *ReentrantLock* 可以同时绑定多个 *Condition* 对象。
 
 #### 4. 总结
 
-推荐在 synchronized 与 ReentrantLock 都可满足需要时优先使用 synchronized，synchronized 是在 Java 语法层面的同步，足够清晰，也足够简单。
+推荐在 *synchronized* 与 *ReentrantLock* 都可满足需要时优先使用 *synchronized*，*synchronized* 是在 Java 语法层面的同步，足够清晰，也足够简单。
 
- ReentrantLock 应该确保在 finally 块中释放锁，否则一旦受同步保护的代码块中抛出异常，则有可能永远不会释放持有的锁。而使用 synchronized 的话则可以由 Java 虛拟机来确保即使出现异常，锁也能被自动释放。
+*ReentrantLock* 应该确保在 *finally* 块中释放锁，否则一旦受同步保护的代码块中抛出异常，则有可能永远不会释放持有的锁。而使用 *synchronized* 的话则可以由 Java 虛拟机来确保即使出现异常，锁也能被自动释放。
 
-从长远来看，Java 虚拟机更容易针对 synchronized 来进行优化，因为 Java 虚拟机可以在线程和对象的元数据中记录 synchronized 中锁的相关信息，而使用 J.U.C 中的 Lock 的话，Java 虚拟机是很难得知具体哪些锁对象是由特定线程锁持有的。
+从长远来看，Java 虚拟机更容易针对 *synchronized* 来进行优化，因为 Java 虚拟机可以在线程和对象的元数据中记录 *synchronized* 中锁的相关信息，而使用 J.U.C 中的 *Lock* 的话，Java 虚拟机是很难得知具体哪些锁对象是由特定线程锁持有的。
 
 ### 5.3 非阻塞同步
 
@@ -534,9 +534,9 @@ if (lock.tryLock(1, TimeUnit.SECONDS)) {
 
 #### 2. AtomicInteger
 
-J.U.C 包里面的整数原子类 AtomicInteger 的方法调用了 Unsafe 类的 CAS 操作。
+J.U.C 包里面的整数原子类 *AtomicInteger* 的方法调用了 *Unsafe* 类的 CAS 操作。
 
-以下代码使用了 AtomicInteger 执行了自增的操作。
+以下代码使用了 *AtomicInteger* 执行了自增的操作。
 
 ```java
 private AtomicInteger cnt = new AtomicInteger();
@@ -546,7 +546,7 @@ public void add() {
 }
 ```
 
-以下代码是 `incrementAndGet()` 的源码，它调用了 Unsafe 的 `getAndAddInt() `。
+以下代码是 `incrementAndGet()` 的源码，它调用了 *Unsafe* 的 `getAndAddInt() `。
 
 ```java
 public final int incrementAndGet() {
@@ -571,9 +571,9 @@ public final int getAndAddInt(Object var1, long var2, int var4) {
 
 #### 3. ABA问题
 
-[ABA问题](https://www.zhihu.com/question/23281499)就是如果一个变量初次读取的时候是 A 值，它的值被改成了 B，后来又被改回为 A，那 CAS 操作就会误认为它从来没有被改变过。
+[ABA 问题](https://www.zhihu.com/question/23281499)就是如果一个变量初次读取的时候是 A 值，它的值被改成了 B，后来又被改回为 A，那 CAS 操作就会误认为它从来没有被改变过。
 
-J.U.C 包提供了一个带有标记的原子引用类 AtomicStampedReference 来解决这个问题，它可以通过控制变量值的版本来保证 CAS 的正确性。大部分情况下 ABA 问题不会影响程序并发的正确性，如果需要解决 ABA 问题，**改用传统的互斥同步可能会比原子类更高效**。
+J.U.C 包提供了一个带有标记的原子引用类 *AtomicStampedReference* 来解决这个问题，它可以通过控制变量值的版本来保证 CAS 的正确性。大部分情况下 ABA 问题不会影响程序并发的正确性，如果需要解决 ABA 问题，**改用传统的互斥同步可能会比原子类更高效**。
 
 ### 5.4 无同步方案
 
@@ -610,7 +610,7 @@ public class ThreadLocalExample1 {
 }
 ```
 
-每个 Thread 都有一个 ThreadLocal.ThreadLocalMap 对象。
+每个 *Thread* 都有一个 ThreadLocal.ThreadLocalMap 对象。
 
 ```java
 /* ThreadLocal values pertaining to this thread. This map is maintained
@@ -618,11 +618,11 @@ public class ThreadLocalExample1 {
 ThreadLocal.ThreadLocalMap threadLocals = null;
 ```
 
-当调用一个 ThreadLocal 的 `set(T value)` 方法时，先得到当前线程的 ThreadLocalMap 对象，然后将 ThreadLocal -> value 键值对插入到该 Map 中。
+当调用一个 *ThreadLocal* 的 `set(T value)` 方法时，先得到当前线程的 *ThreadLocalMap* 对象，然后将 *ThreadLocal -> value* 键值对插入到该 *Map* 中。
 
-ThreadLocal 从理论上讲并不是用来解决多线程并发问题的，因为根本不存在多线程竞争。
+*ThreadLocal* 从理论上讲并不是用来解决多线程并发问题的，因为根本不存在多线程竞争。
 
-在一些场景 (尤其是使用线程池) 下，由于 ThreadLocal.ThreadLocalMap 的底层数据结构导致 ThreadLocal 有内存泄漏的情况，应该尽可能在每次使用 ThreadLocal 后手动调用 `remove()`，以避免出现 ThreadLocal 经典的内存泄漏甚至是造成自身业务混乱的风险。
+在一些场景 (尤其是使用线程池) 下，由于 ThreadLocal.ThreadLocalMap 的底层数据结构导致 *ThreadLocal* 有内存泄漏的情况，应该尽可能在每次使用 *ThreadLocal* 后手动调用 `remove()`，以避免出现 *ThreadLocal* 经典的内存泄漏甚至是造成自身业务混乱的风险。
 
 #### 3. 可重入代码
 
@@ -640,7 +640,7 @@ ThreadLocal 从理论上讲并不是用来解决多线程并发问题的，因�
 
 在 JDK 1.6 中引入了自适应的自旋锁。自适应意味着自旋的次数不再固定了，而是由前一次在同一个锁上的自旋次数及锁的拥有者的状态来决定。如果在同一个锁对象上，自旋等待刚刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也很有可能再次成功，进而允许自旋等待持续相对更长的时间，比如持续 100 次忙循环。另一方面，如果对于某个锁，自旋很少成功获得过锁，那在以后要获取这个锁时将有可能直接省略掉自旋过程，以避免浪费处理器资源。
 
-java 中有以下几种实现[[11]](https://zhuanlan.zhihu.com/p/40729293)：
+java 中有以下几种实现 [[11]](https://zhuanlan.zhihu.com/p/40729293)：
 
 * **TicketLock**：主要解决的是公平性的问题。
 
@@ -662,7 +662,7 @@ public static String concatString(String s1, String s2, String s3) {
 }
 ```
 
-String 是一个不可变的类，编译器会对 String 的拼接自动优化。在 JDK 1.5 之前，会转化为 StringBuffer 对象的连续 `append()` 操作：
+*String* 是一个不可变的类，编译器会对 *String* 的拼接自动优化。在 JDK 1.5 之前，会转化为 *StringBuffer* 对象的连续 `append()` 操作：
 
 ```java
 public static String concatString(String s1, String s2, String s3) {
@@ -674,7 +674,7 @@ public static String concatString(String s1, String s2, String s3) {
 }
 ```
 
-每个 `append()` 方法中都有一个同步块。虚拟机观察变量 sb，很快就会发现它的动态作用域被限制在 `concatString()` 方法内部。也就是说，sb 的所有引用永远不会逃逸到 `concatString()` 方法之外，其他线程无法访问到它，因此可以进行消除。
+每个 `append()` 方法中都有一个同步块。虚拟机观察变量 *sb*，很快就会发现它的动态作用域被限制在 `concatString()` 方法内部。也就是说，*sb* 的所有引用永远不会逃逸到 `concatString()` 方法之外，其他线程无法访问到它，因此可以进行消除。
 
 ### 6.3 锁粗化
 
@@ -718,21 +718,21 @@ JDK 1.6 引入了偏向锁和轻量级锁，从而让锁拥有了四个状态：
 
 ### 7.1 AQS
 
-AbstractQueuedSynchronizer（AQS）定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的 ReentrantLock/Semaphore/CountDownLatch...
+*AbstractQueuedSynchronizer*（AQS）定义了一套多线程访问共享资源的同步器框架，许多同步类实现都依赖于它，如常用的 *ReentrantLock*/*Semaphore*/*CountDownLatch*...
 
-AQS 维护了一个 `volatile int state`（代表共享资源）和一个 FIFO 线程等待队列（多线程争用资源被阻塞时会进入此队列）。
+AQS 维护了一个 *volatile int state*（代表共享资源）和一个 FIFO 线程等待队列（多线程争用资源被阻塞时会进入此队列）。
 
 <img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency6.png" style="zoom:150%;" />
 
 ### 7.2 CountDownLatch
 
-CountDownLatch 类位于 java.util.concurrent 包下，利用它可以实现类似计数器的功能。比如有一个任务 A，它要等待其他 4 个任务执行完毕之后才能执行，此时就可以利用 CountDownLatch 来实现这种功能了。CountDownLatch 类只提供了一个构造器：
+*CountDownLatch* 类位于 java.util.concurrent 包下，利用它可以实现类似计数器的功能。比如有一个任务 A，它要等待其他 4 个任务执行完毕之后才能执行，此时就可以利用 *CountDownLatch* 来实现这种功能了。*CountDownLatch* 类只提供了一个构造器：
 
 ```java
 public CountDownLatch(int count) {  };  //参数count为计数值
 ```
 
-然后下面这 3 个方法是 CountDownLatch 类中最重要的方法：
+然后下面这 3 个方法是 *CountDownLatch* 类中最重要的方法：
 
 ```java
 //调用await()方法的线程会被挂起，它会等待直到count值为0才继续执行
@@ -745,7 +745,7 @@ public void countDown() { };
 
 ### 7.3 CyclicBarrier
 
-回环栅栏，通过它可以实现让一组线程等待至某个状态之后再全部同时执行。叫做回环是因为当所有等待线程都被释放以后，CyclicBarrier 可以被重用。我们暂且把这个状态就叫做 barrier，当调用 `await()` 方法之后，线程就处于 barrier 了。CyclicBarrier 提供 2 个构造器：
+回环栅栏，通过它可以实现让一组线程等待至某个状态之后再全部同时执行。叫做回环是因为当所有等待线程都被释放以后，*CyclicBarrier* 可以被重用。我们暂且把这个状态就叫做 barrier，当调用 `await()` 方法之后，线程就处于 barrier 了。*CyclicBarrier* 提供 2 个构造器：
 
 ```java
 // 参数parties指让多少个线程或者任务等待至barrier状态；
@@ -754,7 +754,7 @@ public CyclicBarrier(int parties) {...}
 public CyclicBarrier(int parties, Runnable barrierAction) {...}
 ```
 
-CyclicBarrier 中最重要的方法就是 `await()` 方法，它有 2 个重载版本：
+*CyclicBarrier* 中最重要的方法就是 `await()` 方法，它有 2 个重载版本：
 
 ```java
 // 挂起当前线程，直至所有线程都到达barrier状态再同时执行后续任务；
@@ -765,7 +765,7 @@ public int await(long timeout, TimeUnit unit) throws InterruptedException,Broken
 
 ### 7.4 Semaphore
 
-信号量，Semaphore 可以控同时访问的线程个数，通过 `acquire()` 获取一个许可，如果没有就等待，而 `release()` 释放一个许可。它提供了 2 个构造器：
+信号量 *Semaphore* 可以控同时访问的线程个数，通过 `acquire()` 获取一个许可，如果没有就等待，而 `release()` 释放一个许可。它提供了 2 个构造器：
 
 ```java
 //参数permits表示许可数目，即同时可以允许多少线程进行访问
@@ -778,7 +778,7 @@ public Semaphore(int permits, boolean fair) {
 }
 ```
 
-下面说一下 Semaphore 类中比较重要的几个方法，首先是 `acquire()`、`release()` 方法：
+下面说一下 *Semaphore* 类中比较重要的几个方法，首先是 `acquire()`、`release()` 方法：
 
 ```java
 public void acquire() throws InterruptedException {  }     //获取一个许可
@@ -802,26 +802,26 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 
 ### 7.5 总结
 
-* CountDownLatch 一般用于某个线程 A 等待若干个其他线程执行完任务之后才执行，不能重用；
-* CyclicBarrier 一般用于一组线程互相等待至某个状态，然后这一组线程再同时执行，可以重用；
-* Semaphore 其实和锁有点类似，它一般用于控制对某组资源的访问权限。
+* *CountDownLatch* 常用于某个线程等待若干个其他线程执行完任务之后才执行，不能重用；
+* *CyclicBarrier* 常用于一组线程互相等待至某个状态，然后这组线程再同时执行，可以重用；
+* *Semaphore* 其实和锁有点类似，一般用于控制对某组资源的访问权限。
 
 [其他一些组件](https://cyc2018.github.io/CS-Notes/#/notes/Java%20并发?id=八、juc-其它组件)
 
 ## 八、多线程开发良好的实践
 
 - 给线程起个有意义的名字，这样可以方便找 Bug。
-- 缩小同步范围，从而减少锁争用。例如对于 synchronized，应该尽量使用同步块而不是同步方法。
-- 多用同步工具少用 `wait()` 和 `notify()`。首先，CountDownLatch, CyclicBarrier, Semaphore 和 Exchanger 这些同步类简化了编码操作，而用 `wait()` 和 `notify()` 很难实现复杂控制流；其次，这些同步类是由最好的企业编写和维护，在后续的 JDK 中还会不断优化和完善。
-- 使用 BlockingQueue 实现生产者消费者问题。
-- 多用并发集合少用同步集合，例如应该使用 ConcurrentHashMap 而不是 Hashtable。
+- 缩小同步范围，从而减少锁争用。例如对于 *synchronized*，应该尽量使用同步块而不是同步方法。
+- 多用同步工具少用 `wait()` 和 `notify()`。首先，*CountDownLatch*，*CyclicBarrier*，*Semaphore* 和 *Exchanger* 这些同步类简化了编码操作，而用 `wait()` 和 `notify()` 很难实现复杂控制流；其次，这些同步类是由最好的企业编写和维护，在后续的 JDK 中还会不断优化和完善。
+- 使用 *BlockingQueue* 实现生产者消费者问题。
+- 多用并发集合少用同步集合，例如应该使用 *ConcurrentHashMap* 而不是 *Hashtable*。
 - 使用本地变量和不可变类来保证线程安全。
 - 使用线程池而不是直接创建线程，这是因为创建线程代价很高，线程池可以有效地利用有限的线程来启动任务。
 
 ## 参考
 
 1. 《深入理解 Java 虚拟机》
-2. [CyC CS-Notes](https://cyc2018.github.io/CS-Notes/#/notes/Java 并发?id=一、使用线程)
+2. [CyC CS-Notes](https://cyc2018.github.io/CS-Notes/#/notes/Java%20并发?id=一、使用线程)
 3. [廖雪峰java教程](https://www.liaoxuefeng.com/wiki/1252599548343744/1255943750561472)
 4. [CountDownLatch、CyclicBarrier 和 Semaphore](https://www.cnblogs.com/dolphin0520/p/3920397.html)
 5. [Java线程池(ThreadPoolExecutor)](https://blog.csdn.net/fuyuwei2015/article/details/72758179)

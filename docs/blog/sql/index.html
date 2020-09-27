@@ -61,7 +61,7 @@
       "datePublished": "2020-01-16 13:59:07 \u002b0000 UTC",
       "dateModified" : "2020-01-16 13:59:07 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/sql\/",
-      "wordCount" : "943",
+      "wordCount" : "994",
       "keywords" : ["database", "sql", "题解", "Blog"]
     }
   
@@ -239,11 +239,11 @@ WHERE condition(s);
 <pre><code class="language-sql">SELECT column, another_column, … 
 FROM mytable 
 WHERE condition(s)
-ORDER BY column ASC/DESC;
+ORDER BY column1 ASC/DESC, column2 ASC/DESC;
 </code></pre>
 <p><code>ASC</code>：升序；<code>DESC</code>：降序。</p>
 <h2 id="七选取---limit--offset">七、选取 - LIMIT &amp; OFFSET<a class="anchor" href="#七选取---limit--offset">#</a></h2>
-<p><code>LIMIT</code> 和 <code>OFFSET</code> 子句通常和<code>ORDER BY</code> 语句一起使用，当我们对整个结果集排序之后，我们可以 <code>LIMIT</code>来指定只返回多少行结果，用 <code>OFFSET</code>来指定从哪一行开始返回：</p>
+<p><code>LIMIT</code> 和 <code>OFFSET</code> 子句通常和 <code>ORDER BY</code> 语句一起使用，当我们对整个结果集排序之后，我们可以 <code>LIMIT</code> 来指定只返回多少行结果，用 <code>OFFSET</code> 来指定从哪一行开始返回：</p>
 <pre><code class="language-sql">SELECT column, another_column, …
 FROM table1
 WHERE condition(s)
@@ -251,10 +251,10 @@ ORDER BY column ASC/DESC, another_column ASC/DESC, …
 LIMIT num_limit OFFSET num_offset;
 </code></pre>
 <h2 id="八多表联合---join">八、多表联合 - JOIN<a class="anchor" href="#八多表联合---join">#</a></h2>
-<p><code>主键(primary key)</code>, 一般关系数据表中，都会有一个属性列设置为 <code>主键(primary key)</code>。主键是唯一标识一条数据的，不会重复复（想象你的身份证号码)。一个最常见的主键就是auto-incrementing integer(自增ID，每写入一行数据ID+1, 当然字符串，hash值等只要是每条数据是唯一的也可以设为主键。借助<code>主键(primary key)</code>（当然其他唯一性的属性也可以），我们可以把两个表中具有相同 主键ID的数据连接起来。</p>
+<p>主键（primary key），一般关系数据表中，都会有一个属性列设置为 <code>primary key</code>。主键是唯一标识一条数据的，不会重复复（想象你的身份证号码)。一个最常见的主键就是 auto-incrementing integer（自增 ID，每写入一行数据 ID + 1, 当然字符串，hash 值等只要是每条数据是唯一的也可以设为主键。借助 <code>primary key</code>（当然其他唯一性的属性也可以），我们可以把两个表中具有相同主键 ID 的数据连接起来。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/joins.png" alt="joins"></p>
 <h3 id="inner-join">INNER JOIN<a class="anchor" href="#inner-join">#</a></h3>
-<p>用INNER JOIN 连接表的语法。通过<code>ON</code>条件描述的关联关系;<code>INNER JOIN</code> 先将两个表数据连接到一起. 两个表中如果通过ID互相找不到的数据将会舍弃：</p>
+<p>用 INNER JOIN 连接表的语法。通过 <code>ON</code> 条件描述的关联关系；<code>INNER JOIN</code> 先将两个表数据连接到一起. 两个表中如果通过 ID 互相找不到的数据将会舍弃：</p>
 <pre><code class="language-sql">SELECT table1.column, table2.another_table_column, … 
 FROM table1 （主表） 
 INNER JOIN table2 （要连接的表）    
@@ -265,7 +265,7 @@ LIMIT num_limit OFFSET num_offset;
 </code></pre>
 <h3 id="outer-joins">OUTER JOINs<a class="anchor" href="#outer-joins">#</a></h3>
 <p><code>INNER JOIN</code> 只会保留两个表都存在的数据（还记得之前的交集吗），这看起来意味着一些数据的丢失，在某些场景下会有问题.</p>
-<p>用LEFT/RIGHT/FULL JOINs 做多表查询：</p>
+<p>用 LEFT/RIGHT/FULL JOINs 做多表查询：</p>
 <pre><code class="language-sql">SELECT table1.column, table2.another_table_column, … 
 FROM table1 （主表） 
 LEFT/RIGHT/FULL JOIN table2 （要连接的表）    
@@ -275,7 +275,7 @@ ORDER BY table1.column, … ASC/DESC
 LIMIT num_limit OFFSET num_offset;
 </code></pre>
 <h2 id="九表达式---as">九、表达式 - AS<a class="anchor" href="#九表达式---as">#</a></h2>
-<p>当我们用表达式对col属性计算时，很多事可以在SQL内完成，这让SQL更加灵活，但表达式如果长了则很难一下子读懂。所以SQL提供了<code>AS</code>关键字， 来给表达式取一个别名：</p>
+<p>当我们用表达式对 col 属性计算时，很多事可以在 SQL 内完成，这让 SQL 更加灵活，但表达式如果长了则很难一下子读懂。所以 SQL 提供了<code>AS</code>关键字， 来给表达式取一个别名：</p>
 <pre><code class="language-sql">SELECT col_expression AS expr_description
 FROM table1 AS newTableName
 WHERE condition(s)
@@ -315,13 +315,13 @@ LIMIT num_limit OFFSET num_offset;
 </tr>
 </tbody>
 </table>
-<p>当不求整组数据时，可以使用<code>GROUP BY</code> 对数据分组：</p>
+<p>当不求整组数据时，可以使用 <code>GROUP BY</code> 对数据分组：</p>
 <pre><code class="language-sql">SELECT column, count(*)*100/(SELECT count(*) FROM table1) FROM table1 
 WHERE column in (1,3,5,7)
 GROUP BY column;
 </code></pre>
-<p>可以通过嵌套一个select来实现百分比的求解。</p>
-<p>数据库是先对数据做<code>WHERE</code>，然后对结果做分组，如果我们要对分组完的数据再筛选就需要使用 <code>HAVING</code> 语法：</p>
+<p>可以通过嵌套一个 select 来实现百分比的求解。</p>
+<p>数据库是先对数据做 <code>WHERE</code>，然后对结果做分组，如果我们要对分组完的数据再筛选就需要使用 <code>HAVING</code> 语法：</p>
 <pre><code class="language-sql">SELECT group_by_column, AGG_FUNC(column_expression) AS aggregate_result_alias, …
 FROM mytable
 WHERE condition
@@ -329,7 +329,7 @@ GROUP BY column
 HAVING group_condition;
 </code></pre>
 <h2 id="十一总结">十一、总结<a class="anchor" href="#十一总结">#</a></h2>
-<p>完整的SELECT查询：</p>
+<p>完整的 SELECT 查询：</p>
 <pre><code class="language-sql">SELECT DISTINCT column, AGG_FUNC(column_or_expression), …
 FROM mytable
 JOIN another_table
@@ -341,19 +341,19 @@ ORDER BY column ASC/DESC
 LIMIT count OFFSET COUNT;
 </code></pre>
 <p><strong>1. FROM 和 JOINs</strong></p>
-<p><code>FROM</code> 或 <code>JOIN</code>会第一个执行，确定一个整体的数据范围. 如果要JOIN不同表，可能会生成一个临时Table来用于 下面的过程。总之第一步可以简单理解为确定一个数据源表（含临时表)。</p>
+<p><code>FROM</code> 或 <code>JOIN</code> 会第一个执行，确定一个整体的数据范围. 如果要 JOIN 不同表，可能会生成一个临时 Table 来用于 下面的过程。总之第一步可以简单理解为确定一个数据源表（含临时表)。</p>
 <p><strong>2. WHERE</strong></p>
-<p>我们确定了数据来源 <code>WHERE</code> 语句就将在这个数据源中按要求进行数据筛选，并丢弃不符合要求的数据行，所有的筛选col属性 只能来自<code>FROM</code>圈定的表. AS别名还不能在这个阶段使用，因为可能别名是一个还没执行的表达式。</p>
+<p>我们确定了数据来源 <code>WHERE</code> 语句就将在这个数据源中按要求进行数据筛选，并丢弃不符合要求的数据行，所有的筛选 col 属性 只能来自 <code>FROM</code> 圈定的表. AS 别名还不能在这个阶段使用，因为可能别名是一个还没执行的表达式。</p>
 <p><strong>3. GROUP BY</strong></p>
-<p>如果你用了 <code>GROUP BY</code> 分组，那<code>GROUP BY</code> 将对之前的数据进行分组，统计等，并将是结果集缩小为分组数.这意味着 其他的数据在分组后丢弃。</p>
+<p>如果你用了 <code>GROUP BY</code> 分组，那 <code>GROUP BY</code> 将对之前的数据进行分组，统计等，并将是结果集缩小为分组数.这意味着 其他的数据在分组后丢弃。</p>
 <p><strong>4. HAVING</strong></p>
-<p>如果你用了 <code>GROUP BY</code> 分组, <code>HAVING</code> 会在分组完成后对结果集再次筛选。AS别名也不能在这个阶段使用。</p>
+<p>如果你用了 <code>GROUP BY</code> 分组，<code>HAVING</code> 会在分组完成后对结果集再次筛选。AS 别名也不能在这个阶段使用。</p>
 <p><strong>5. SELECT</strong></p>
-<p>确定结果之后，<code>SELECT</code>用来对结果col简单筛选或计算，决定输出什么数据。</p>
+<p>确定结果之后，<code>SELECT</code> 用来对结果 col 简单筛选或计算，决定输出什么数据。</p>
 <p><strong>6. DISTINCT</strong></p>
-<p>如果数据行有重复<code>DISTINCT</code> 将负责排重。</p>
+<p>如果数据行有重复 <code>DISTINCT</code> 将负责排重。</p>
 <p><strong>7. ORDER BY</strong></p>
-<p>在结果集确定的情况下，<code>ORDER BY</code> 对结果做排序。因为<code>SELECT</code>中的表达式已经执行完了。此时可以用AS别名。</p>
+<p>在结果集确定的情况下，<code>ORDER BY</code> 对结果做排序。因为 <code>SELECT</code> 中的表达式已经执行完了。此时可以用 AS 别名。</p>
 <p><strong>8. LIMIT / OFFSET</strong></p>
 <p>最后 <code>LIMIT</code> 和 <code>OFFSET</code> 从排序的结果中截取部分数据。</p>
 <h2 id="十二题解">十二、题解<a class="anchor" href="#十二题解">#</a></h2>

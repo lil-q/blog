@@ -61,7 +61,7 @@
       "datePublished": "2019-12-27 17:53:49 \u002b0000 UTC",
       "dateModified" : "2019-12-27 17:53:49 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E5%9B%BE-graph\/",
-      "wordCount" : "1342",
+      "wordCount" : "1344",
       "keywords" : ["graph", "Dijkstra", "Floyd-Warshall", "Prim", "Kruskal", "Blog"]
     }
   
@@ -125,10 +125,10 @@
 <h3 id="11-基本概念">1.1 基本概念<a class="anchor" href="#11-基本概念">#</a></h3>
 <p>无向图：每条边都是无向边的图。</p>
 <p>有向图：每条边都是有向边的图。</p>
-<p>有权图：每条边具有一定的权重（weight），通常是一个数字</p>
-<p>无权图：每条边均没有权重，也可以理解为权为 1</p>
-<p>连通图：所有的点都有路径相连</p>
-<p>非连通图：存在某两个点没有路径相连</p>
+<p>有权图：每条边具有一定的权重（weight），通常是一个数字。</p>
+<p>无权图：每条边均没有权重，也可以理解为权为 1。</p>
+<p>连通图：所有的点都有路径相连。</p>
+<p>非连通图：存在某两个点没有路径相连。</p>
 <p>邻接：关联于同一条边的两个点 $u$ 和 $v$ 称为邻接的；关联于同一个点的两条边 $e_1$ 和 $e_2$ 是邻接的（或相邻的）。</p>
 <h3 id="12-结点的度数">1.2 结点的度数<a class="anchor" href="#12-结点的度数">#</a></h3>
 <p>设图 $G= \langle V,E\rangle$ 为一个有向图， $v\in V$ ，关联于结点 $v$ 的 <strong>边</strong> 的条数，称为点 $v$ 的度数，记作 $\deg(v)$ 。</p>
@@ -152,7 +152,7 @@
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/549bca1a52774846b25caff86d244d03ee63fd38.png" alt="matrix" style="zoom:50%;" /></p>
 <h3 id="23-邻接表">2.3 邻接表<a class="anchor" href="#23-邻接表">#</a></h3>
 <p>邻接表英文名是 <em>adjacency list</em>。它的形式是 <code>vector adj[n]</code> ，用 <code>adj[i]</code> 存以 $i$ 为起点的边。</p>
-<p>用 <code>vector</code> 无法科学地删除，所以常用 <code>list</code> 实现。</p>
+<p>用 <em>vector</em> 无法科学地删除，所以常用 <em>list</em> 实现。</p>
 <p>它的特点是可以用来按顺序访问一个结点的出边（或者入边）。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/cc82379521bd84738e86d6cf9552738ca9138420.png" alt="linklist" style="zoom:50%;" /></p>
 <pre><code class="language-python">[ [1, 6, 8],
@@ -245,7 +245,7 @@ if __name__ == '__main__':
     t2 = graph.bfs(0)
     print(&quot;广度优先搜索：&quot;, t2)
 </code></pre>
-<p>注意：这里用 index 表示节点名称，最后还需要映射出结果（假设0, 1, 2, 3&hellip;分别对应A, B, C, D&hellip;下文会使用字典来实现邻接表，这样就不需要这一步了）：</p>
+<p>注意：这里用 index 表示节点名称，最后还需要映射出结果（假设0, 1, 2, 3&hellip;分别对应A, B, C, D, &hellip; 下文会使用字典来实现邻接表，这样就不需要这一步了）：</p>
 <pre><code class="language-python">vertexs = [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;]
 t3 = list(map(lambda x: vertexs[x], t1))
 print(&quot;深度优先搜索：&quot;, t3)
@@ -526,7 +526,7 @@ def kruskal(graph):
 <li><a href="http://data.biancheng.net/view/202.html">生成树（生成森林）详解</a></li>
 <li><a href="https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs">Representing graphs</a></li>
 <li><a href="https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">wiki-Floyd–Warshall</a></li>
-<li><a href="https://leetcode-cn.com/problems/course-schedule/solution/course-schedule-tuo-bu-pai-xu-bfsdfsliang-chong-fa/">一个小练习😀</a></li>
+<li><a href="https://leetcode-cn.com/problems/course-schedule/">一个小练习😀</a></li>
 </ol>
 
 

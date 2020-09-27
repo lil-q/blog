@@ -61,7 +61,7 @@
       "datePublished": "2020-09-09 18:07:37 \u002b0800 CST",
       "dateModified" : "2020-09-09 18:07:37 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/spring\/",
-      "wordCount" : "698",
+      "wordCount" : "702",
       "keywords" : ["spring", "spring boot", "ioc", "aop", "循环依赖", "Blog"]
     }
   
@@ -119,7 +119,7 @@
 <blockquote>
 <p>&ldquo;From configuration to security, web apps to big data—whatever the infrastructure needs of your application may be, there is a Spring Project to help you build it. Start small and use just what you need—Spring is modular by design.&rdquo;</p>
 </blockquote>
-<p>Spring 是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 spring 生态的基石。</p>
+<p>Spring 是一个生态体系，也可以说是技术体系，是集大成者，它包含了 Spring Framework、Spring Boot、Spring Cloud等。平时常说的 Spring 其实是指 Spring Framework，它是整个 Spring 生态的基石。</p>
 <h2 id="一spring-framework">一、Spring Framework<a class="anchor" href="#一spring-framework">#</a></h2>
 <blockquote>
 <p>&ldquo;Provides core support for dependency injection, transaction management, web apps, data access, messaging, and more. Spring focuses on the &ldquo;plumbing&rdquo; of enterprise applications so that teams can focus on application-level business logic, without unnecessary ties to specific deployment environments.&rdquo;</p>
@@ -135,22 +135,22 @@
 <h2 id="二ioc--di">二、IoC &amp; DI<a class="anchor" href="#二ioc--di">#</a></h2>
 <p>下图是传统的程序设计，对象的创建都由客户端来完成，如果一个系统有大量的组件，其生命周期和相互之间的依赖关系都由组件自身来维护，不但大大增加了系统的复杂度，而且会导致组件之间极为紧密的耦合，继而给测试和维护带来了极大的困难，解决这个问题的关键就是 IoC。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/spring1.png" style="zoom:150%;" /></p>
-<p><strong>控制反转</strong>（<strong>I</strong>nverse <strong>o</strong>f <strong>C</strong>ontrol，<strong>IoC</strong>）是一种<strong>设计思想</strong>，是将原本在程序中手动创建对象的控制权，交由 Spring 框架来管理。  IoC 在其他语言中也有应用，并非 Spirng 特有。IoC 主要的实现方式有两种：依赖查找和依赖注入，依赖注入是更可取的方式[2]。Martin Fowler 认为 IoC 应改名为 DI：IoC 太普遍了，应当用更加准确的定义 DI 来指代它。</p>
+<p><strong>控制反转</strong>（<strong>I</strong>nverse <strong>o</strong>f <strong>C</strong>ontrol，<strong>IoC</strong>）是一种<strong>设计思想</strong>，是将原本在程序中手动创建对象的控制权，交由 Spring 框架来管理。  IoC 在其他语言中也有应用，并非 Spirng 特有。IoC 主要的实现方式有两种：依赖查找和依赖注入，依赖注入是更可取的方式 [2]。Martin Fowler 认为 IoC 应改名为 DI：IoC 太普遍了，应当用更加准确的定义 DI 来指代它。</p>
 <p><strong>依赖注入</strong>（<strong>D</strong>ependency <strong>I</strong>njection，<strong>DI</strong>）指组件之间依赖关系由容器在<strong>运行期</strong>决定，即由容器动态的将某个依赖关系注入到组件之中。依赖注入的目的并非为软件系统带来更多功能，而是为了提升组件重用的频率，并为系统搭建一个灵活、可扩展的平台。通过依赖注入机制，我们只需要通过简单的配置，而无需任何代码就可指定目标需要的资源，完成自身的业务逻辑，而不需要关心具体的资源来自何处，由谁实现。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/spring2.png" style="zoom:150%;" /></p>
 <p>IoC 容器是 Spring 用来实现 IoC 的载体， IoC 容器就像是一个工厂一样，当我们需要创建一个对象的时候，只需要配置好配置文件或注解即可，完全不用考虑对象是如何被创建出来的。</p>
-<p>IoC 的思想最核心的地方在于，资源不是由使用资源的双方来管理，而是由不使用资源的第三方来管理<a href="https://www.zhihu.com/question/23277575">[3]</a>，这样做带来的好处主要有:</p>
+<p>IoC 的思想最核心的地方在于，资源不是由使用资源的双方来管理，而是由不使用资源的第三方来管理 <a href="https://www.zhihu.com/question/23277575">[3]</a>，这样做带来的好处主要有:</p>
 <ul>
 <li>资源集中管理，实现资源的<strong>可配置</strong>和<strong>易管理</strong>;</li>
 <li>降低了使用资源双方的依赖程度，即<strong>解耦</strong>。</li>
 </ul>
 <h3 id="21-bean">2.1 Bean<a class="anchor" href="#21-bean">#</a></h3>
-<p>Bean 就是 IoC 容器负责管理的对象，有如下规范：</p>
+<p><em>Bean</em> 就是 IoC 容器负责管理的对象，有如下规范：</p>
 <ul>
-<li>所有属性为 private；</li>
+<li>所有属性为 <em>private</em>；</li>
 <li>提供默认构造方法；</li>
-<li>提供 getter 和 setter；</li>
-<li>实现 serializable 接口。</li>
+<li>提供 <em>getter</em> 和 <em>setter</em>；</li>
+<li>实现 <em>serializable</em> 接口。</li>
 </ul>
 <p>当在 Spring 中定义一个 Bean 时，必须声明该 Bean 的作用域的选项。Spring 框架支持以下五个作用域，后三个只在 web-aware Spring ApplicationContext 的上下文中有效。</p>
 <br>
@@ -184,21 +184,21 @@
 </tr>
 </tbody>
 </table>
-<p><strong>单例 Bean 存在线程问题</strong>，主要是因为当多个线程操作同一个对象的时候，对这个对象的非静态成员变量的写操作会存在线程安全问题。</p>
+<p><strong>单例 <em>Bean</em> 存在线程问题</strong>，主要是因为当多个线程操作同一个对象的时候，对这个对象的非静态成员变量的写操作会存在线程安全问题。</p>
 <p>常见的有两种解决办法：</p>
 <ul>
-<li>在Bean对象中尽量避免定义可变的成员变量（不太现实）；</li>
-<li>在类中定义一个 <strong>ThreadLocal</strong> 成员变量，将需要的可变成员变量保存在 ThreadLocal 中（推荐的一种方式）。</li>
+<li>在 <em>Bean</em> 对象中尽量避免定义可变的成员变量（不太现实）；</li>
+<li>在类中定义一个 <em><strong>ThreadLocal</strong></em> 成员变量，将需要的可变成员变量保存在 <em>ThreadLocal</em> 中（推荐的一种方式）。</li>
 </ul>
 <h3 id="22-bean-的生命周期">2.2 Bean 的生命周期<a class="anchor" href="#22-bean-的生命周期">#</a></h3>
-<p>我们一般使用 <code>@Autowired</code> 注解自动装配 Bean，要想把类标识成可用于 <code>@Autowired</code> 注解自动装配的 Bean 的类，采用以下注解可实现：</p>
+<p>我们一般使用 <code>@Autowired</code> 注解自动装配 <em>Bean</em>，要想把类标识成可用于 <code>@Autowired</code> 注解自动装配的 <em>Bean</em> 的类，采用以下注解可实现：</p>
 <ul>
 <li><code>@Component</code> ：通用的注解，可标注任意类为 Spring 组件；</li>
 <li><code>@Repository</code> : 对应持久层即 Dao 层，主要用于数据库相关操作；</li>
 <li><code>@Service</code> : 对应服务层，主要涉及一些复杂的逻辑，需要用到 Dao 层；</li>
 <li><code>@Controller</code> : 对应 Spring MVC 控制层，主要用户接受用户请求并调用 Service 层返回数据给前端页面。</li>
 </ul>
-<p>Bean 的生命周期概括起来就是 4 个阶段：</p>
+<p><em>Bean</em> 的生命周期概括起来就是 4 个阶段：</p>
 <ul>
 <li><strong>实例化（Instantiation）</strong></li>
 <li><strong>属性填充（Populate）</strong></li>
@@ -208,11 +208,11 @@
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/spring3.png" style="zoom:150%;" /></p>
 <p>Spring 当中提供了两种实例化方案： <strong>BeanUtils</strong> 和 <strong>Cglib</strong> 方式。BeanUtils 实现机制是通过 Java 的反射机制，Cglib 是一个第三方类库采用的是一种字节码加强方式机制。 Spring 中采用的默认实例化策略是 Cglib。</p>
 <h3 id="23-循环依赖问题">2.3 循环依赖问题<a class="anchor" href="#23-循环依赖问题">#</a></h3>
-<p>Bean 经过<strong>实例化</strong> 、<strong>属性填充</strong>和<strong>初始化</strong>这三个过程后，在框架内部被抽象封装成 BeanDefinition 这种类型，最终所有的 BeanDefinition 交由 BeanFactory 当中的 <strong>definitionMap</strong> 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 Bean 将永远无法初始化。</p>
+<p><em>Bean</em> 经过<strong>实例化</strong> 、<strong>属性填充</strong>和<strong>初始化</strong>这三个过程后，在框架内部被抽象封装成 <em>BeanDefinition</em> 这种类型，最终所有的 <em>BeanDefinition</em> 交由 <em>BeanFactory</em> 当中的 <em><strong>definitionMap</strong></em> 统一管理起来。但这只是理想情况，如果出现循环依赖，如不采取合理的措施 <em>Bean</em> 将永远无法初始化。</p>
 <blockquote>
-<p>设 A 和 B 是两个 Bean，其中 A 依赖了 B，获取 A 时就需要把 B 注入进来，要注入 B 得先获取 B，如果 B 中又有对 A 的依赖，这就会形成循环往复的相互注入，也称循环依赖问题。</p>
+<p>设 A 和 B 是两个 <em>Bean</em>，其中 A 依赖了 B，获取 A 时就需要把 B 注入进来，要注入 B 得先获取 B，如果 B 中又有对 A 的依赖，这就会形成循环往复的相互注入，也称循环依赖问题。</p>
 </blockquote>
-<p>Spring 中使用了三个 Map 作为缓存以解决这个问题：</p>
+<p>Spring 中使用了三个 <em>Map</em> 作为缓存以解决这个问题：</p>
 <br>
 <table>
 <thead>
@@ -223,16 +223,16 @@
 </thead>
 <tbody>
 <tr>
-<td><strong>singletonObjects</strong></td>
-<td>存放完全初始化好的 Bean，从该缓存中取出的 Bean 可以直接使用</td>
+<td><em><strong>singletonObjects</strong></em></td>
+<td>存放完全初始化的 <em>Bean</em>，该缓存中的 <em>Bean</em> 可以直接使用</td>
 </tr>
 <tr>
-<td><strong>earlySingletonObjects</strong></td>
-<td>存放原始的 Bean 对象（尚未填充属性），用于解决循环依赖</td>
+<td><em><strong>earlySingletonObjects</strong></em></td>
+<td>存放原始的 <em>Bean</em> 对象（尚未填充属性），用于解决循环依赖</td>
 </tr>
 <tr>
-<td><strong>singletonFactories</strong></td>
-<td>存放 Bean 工厂对象，用于解决循环依赖</td>
+<td><em><strong>singletonFactories</strong></em></td>
+<td>存放 <em>Bean</em> 工厂对象，用于解决循环依赖</td>
 </tr>
 </tbody>
 </table>
@@ -267,7 +267,7 @@
 }
 </code></pre>
 <p>为什么同时需要 <em>earlySingletonObjects</em> 和 <em>singletonFactories</em> 两个缓存来解决循环依赖问题呢？</p>
-<p>其实这是为了兼顾到 AOP，对于普通对象，确实只要返回刚创建完的早期引用就好了，但对于内部有被 AOP 增强的方法的对象，需要返回的是代理对象。可以看到 ObjectFactory 匿名内部类里面调用的 getEarlyBeanReference 方法如下：</p>
+<p>其实这是为了兼顾到 AOP，对于普通对象，确实只要返回刚创建完的早期引用就好了，但对于内部有被 AOP 增强的方法的对象，需要返回的是代理对象。可以看到 <em>ObjectFactory</em> 匿名内部类里面调用的 <code>getEarlyBeanReference()</code> 方法如下：</p>
 <pre><code class="language-java">protected Object getEarlyBeanReference(String beanName, RootBeanDefinition mbd, Object bean) {
     Object exposedObject = bean;
     if (!mbd.isSynthetic() &amp;&amp; hasInstantiationAwareBeanPostProcessors()) {
@@ -282,24 +282,24 @@
     return exposedObject;
 }
 </code></pre>
-<p>对于一般的对象，返回的就是传入的早期对象，但是对于内部有被 AOP 增强的方法的对象，会使用后置处理器返回一个代理对象。如果在解决循环依赖时生成了代理对象，那么 AbstractAutoProxyCreator 会把原对象放入一个 Map 中，这个 Map 的作用是<strong>防止同类对象被重复动态代理</strong>。</p>
+<p>对于一般的对象，返回的就是传入的早期对象，但是对于内部有被 AOP 增强的方法的对象，会使用后置处理器返回一个代理对象。如果在解决循环依赖时生成了代理对象，那么 <em>AbstractAutoProxyCreator</em> 会把原对象放入一个 <em>Map</em> 中，这个 <em>Map</em> 的作用是<strong>防止同类对象被重复动态代理</strong>。</p>
 <h3 id="24-beanfactory">2.4 BeanFactory<a class="anchor" href="#24-beanfactory">#</a></h3>
-<p>BeanFactory 和 ApplicationContext 的区别在于，BeanFactory 的实现是按需创建，即第一次获取 Bean 时才创建这个 Bean，而 ApplicationContext 会一次性创建所有的 Bean。实际上，ApplicationContext 接口是从 BeanFactory 接口继承而来的，并且，ApplicationContext 提供了一些额外的功能，包括国际化支持、事件和通知机制等。通常情况下，我们总是使用 ApplicationContext，很少会考虑使用 BeanFactory。</p>
+<p><em>BeanFactory</em> 和 <em>ApplicationContext</em> 的区别在于，<em>BeanFactory</em> 的实现是按需创建，即第一次获取 <em>Bean</em> 时才创建这个 <em>Bean</em>，而 <em>ApplicationContext</em> 会一次性创建所有的 <em>Bean</em>。实际上，<em>ApplicationContext</em> 接口是从 <em>BeanFactory</em> 接口继承而来的，并且，<em>ApplicationContext</em> 提供了一些额外的功能，包括国际化支持、事件和通知机制等。通常情况下，我们总是使用 <em>ApplicationContext</em>，很少会考虑使用 <em>BeanFactory</em>。</p>
 <h3 id="25-autowired">2.5 Autowired<a class="anchor" href="#25-autowired">#</a></h3>
-<p><code>@Autowired</code> 是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 AutowiredAnnotationBeanPostProcessor 后置处理器，当容器扫描到 <code>@Autowied</code>、<code>@Resource</code> 或 <code>@Inject</code> 时，就会在 IoC 容器自动查找需要的 Bean，并装配给该对象的属性。在使用 <code>@Autowired</code> 时，首先在容器中查询对应类型的 Bean：</p>
+<p><code>@Autowired</code> 是属于 Spring 的注解，默认按类型装配（byType）。在启动 spring IoC 时，容器自动装载了一个 <em>AutowiredAnnotationBeanPostProcessor</em> 后置处理器，当容器扫描到 <code>@Autowied</code>、<code>@Resource</code> 或 <code>@Inject</code> 时，就会在 IoC 容器自动查找需要的 <em>Bean</em>，并装配给该对象的属性。在使用 <code>@Autowired</code> 时，首先在容器中查询对应类型的 <em>Bean</em>：</p>
 <ul>
-<li>如果查询结果刚好为一个，就将该 Bean 装配给<code>@Autowired</code>指定的数据；</li>
+<li>如果查询结果刚好为一个，就将该 <em>Bean</em> 装配给<code>@Autowired</code>指定的数据；</li>
 <li>如果查询的结果不止一个，那么<code>@Autowired</code>会根据名称来查找；</li>
 <li>如果上述查找的结果为空，那么会抛出异常。解决方法时，使用<code>required=false</code>。</li>
 </ul>
-<p><code>@Resource</code> 注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过 <code>@Resource</code> 的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 Bean 名称寻找依赖对象，当注解标注在属性的 setter 方法上，即默认取属性名作为 Bean 名称寻找依赖对象。</p>
+<p><code>@Resource</code> 注解是属于 JDK 的注解，默认按名称装配（byName）。名称可以通过 <code>@Resource</code> 的 name 属性指定，如果没有指定 name 属性，当注解标注在字段上，即默认取字段的名称作为 <em>Bean</em> 名称寻找依赖对象，当注解标注在属性的 <em>setter</em> 方法上，即默认取属性名作为 <em>Bean</em> 名称寻找依赖对象。</p>
 <h2 id="三aop">三、AOP<a class="anchor" href="#三aop">#</a></h2>
 <p><strong>面向切面编程</strong>（<strong>A</strong>spect-<strong>O</strong>riented <strong>P</strong>rogramming，<strong>AOP</strong>）能够将那些与业务无关，却为业务模块所共同调用的逻辑或责任（例如事务处理、日志管理、权限控制等）封装起来，便于减少系统的重复代码，降低模块间的耦合度，并有利于未来的可拓展性和可维护性。</p>
 <p>Spring AOP 就是基于动态代理的，如果要代理的对象，实现了某个接口，那么 Spring AOP 会使用 <strong>JDK Proxy</strong> 去创建代理对象，而对于没有实现接口的对象，就无法使用 JDK Proxy 去进行代理了，这时候 Spring AOP 会使用 <strong>Cglib</strong> 生成一个被代理对象的子类来作为代理。</p>
-<p>比如对于 Blog 系统，登录前需要验证身份，这就需要 Spring Boot 中的 <strong>Interceptor</strong>，其原理就是 AOP。</p>
+<p>比如对于 Blog 系统，登录前需要验证身份，这就需要 Spring Boot 中的 <em><strong>Interceptor</strong></em>，其原理就是 AOP。</p>
 <h3 id="31-aspectj">3.1 AspectJ<a class="anchor" href="#31-aspectj">#</a></h3>
 <h4 id="1-capabilities-and-goals">1. Capabilities and Goals</h4>
-<p>Spring AOP 旨在通过 Spring IoC 提供一个简单的 AOP 实现，它只能用于 Spring 容器管理的 Beans。</p>
+<p>Spring AOP 旨在通过 Spring IoC 提供一个简单的 AOP 实现，它只能用于 Spring 容器管理的 <em>Bean</em>。</p>
 <p>AspectJ 是最原始的 AOP 实现技术，更为健壮，能够被应用于所有的领域对象。</p>
 <h4 id="2-weaving">2. Weaving</h4>
 <p>AspectJ and Spring AOP使用了不同的织入方式，这影响了他们在性能和易用性方面的行为。AspectJ 使用了三种不同类型的织入：</p>

@@ -61,7 +61,7 @@
       "datePublished": "2020-03-20 19:33:14 \u002b0000 UTC",
       "dateModified" : "2020-03-20 19:33:14 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80\/",
-      "wordCount" : "1996",
+      "wordCount" : "2004",
       "keywords" : ["java", "stream", "Blog"]
     }
   
@@ -116,8 +116,8 @@
           </header>
           <article class="post__content">
               
-<p>Java 介于编译型语言和解释型语言之间。编译型语言如C、C++，代码是直接编译成机器码执行，但是不同的平台（x86、ARM等）CPU的指令集不同，因此，需要编译出每一种平台的对应机器码。解释型语言如 Python、Ruby 没有这个问题，可以由解释器直接加载源码然后运行，代价是运行效率太低。而 Java 是将代码编译成一种 “字节码”，它类似于抽象的 CPU 指令，然后，针对不同平台编写虚拟机，不同平台的虚拟机负责加载字节码并执行，这样就实现了 “一次编写，到处运行” 的效果。</p>
-<p>字节码便于虚拟机读取，不用再解析字符串，所以运行速度比直接解析源代码快。在语言发送改变或引入新的功能时，只需要改变编译规则即可，字节码仍可以遵照原来的规则运行。此外，字节码也可以由其他语言生成，如 Groovy，Scala 等。</p>
+<p>Java 介于编译型语言和解释型语言之间。编译型语言如 C、C++，代码是直接编译成机器码执行，但是不同的平台（x86、ARM 等）CPU 的指令集不同，因此，需要编译出每一种平台的对应机器码。解释型语言如 Python、Ruby 没有这个问题，可以由解释器直接加载源码然后运行，代价是运行效率太低。而 Java 是将代码编译成一种 “字节码”，它类似于抽象的 CPU 指令，然后，针对不同平台编写虚拟机，不同平台的虚拟机负责加载字节码并执行，这样就实现了 “一次编写，到处运行” 的效果。</p>
+<p>字节码便于虚拟机读取，不用再解析字符串，所以运行速度比直接解析源代码快。在语言发生改变或引入新的功能时，只需要改变编译规则即可，字节码仍可以遵照原来的规则运行。此外，字节码也可以由其他语言生成，如 Groovy，Scala 等。</p>
 <ul>
 <li>
 <p><strong>J</strong>ava <strong>V</strong>irtual <strong>M</strong>achine，<strong>JVM</strong>：</p>
@@ -147,7 +147,7 @@
 </ul>
 <p>Java 语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要 1 bit，但是通常 JVM 内部会把 boolean 表示为 4 字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。</p>
 <h3 id="12-包装类型">1.2 包装类型<a class="anchor" href="#12-包装类型">#</a></h3>
-<p>基本类型都有对应的包装类型，基本类型与其对应的包装类型之间的赋值使用自动装箱与拆箱完成。</p>
+<p>基本类型都有对应的包装类型，基本类型与其包装类型之间的赋值使用自动装箱与拆箱完成。</p>
 <pre><code class="language-java">Integer x = 2;     // 装箱 调用了 Integer.valueOf(2)
 int y = x;         // 拆箱 调用了 X.intValue()
 </code></pre>
@@ -173,7 +173,7 @@ System.out.println(m == n); // true
 <p>在使用这些基本类型对应的包装类型时，如果该数值范围在缓冲池范围内，就可以直接使用缓冲池中的对象。</p>
 <h3 id="14-数组">1.4 数组<a class="anchor" href="#14-数组">#</a></h3>
 <h4 id="1-初始化">1. 初始化</h4>
-<p>Java语言中数组必须先初始化，然后才可以使用。</p>
+<p>Java 语言中数组必须先初始化，然后才可以使用。</p>
 <ul>
 <li>
 <p><strong>静态初始化</strong>：<code>arrayName = new type[]{element1,element2,element3...};</code></p>
@@ -386,9 +386,9 @@ public class Main {
 <h3 id="35-常量池">3.5 常量池<a class="anchor" href="#35-常量池">#</a></h3>
 <p>需要区分 Class 文件中指定的<strong>常量池</strong>和<strong>运行时常量池</strong>的区别：</p>
 <p>class 文件中紧接着主、次版本号之后的是常量池（Constant Pool）入口，常量池可以比喻为 Class 文件里的资源仓库，它是 Class 文件结构中与其他项目关联最多的数据，通常也是占用 Class 文件空间最大的数据项目之一。Class 文件中的常量池中主要存放两大类常量：字面量（ Literal）和符号引用（ Symbolic References）。在虚拟机加载 class 文件的解析阶段 Java 虚拟机会将常量池内的符号引用替换为直接引用。字面量在<strong>编译时期</strong>就确定。</p>
-<p>运行时常量池（Runtime Constant Pool）是方法区的一部分。 Class 文件中的常量池表所包含的生成的各种字面量与符号引用将在类加载后存放到方法区的运行时常量池中。不仅如此，还可以使用 String 的<code>intern()</code>方法在运行过程将字符串添加到运行时常量池。</p>
-<p>当一个字符串调用 intern() 方法时，如果运行时常量池中已经存在一个字符串和该字符串值相等（使用 equals() 方法进行确定），那么就会返回运行时常量池中字符串的引用；否则，就会创建一个新的字符串（对象本身存放在堆中），把其引用添加到运行时常量池中，并返回这个新字符串的引用。</p>
-<p>下面示例中，s1 和 s2 采用 new String() 的方式新建了两个不同字符串，而 s3 和 s4 是通过 s1.intern() 方法取得同一个字符串引用。intern() 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。</p>
+<p>运行时常量池（Runtime Constant Pool）是方法区的一部分。 Class 文件中的常量池表所包含的生成的各种字面量与符号引用将在类加载后存放到方法区的运行时常量池中。不仅如此，还可以使用 String 的 <code>intern()</code> 方法在运行过程将字符串添加到运行时常量池。</p>
+<p>当一个字符串调用 <code>intern()</code> 方法时，如果运行时常量池中已经存在一个字符串和该字符串值相等（使用 <code>equals()</code> 方法进行确定），那么就会返回运行时常量池中字符串的引用；否则，就会创建一个新的字符串（对象本身存放在堆中），把其引用添加到运行时常量池中，并返回这个新字符串的引用。</p>
+<p>下面示例中，s1 和 s2 采用 <code>new String()</code> 的方式新建了两个不同字符串，而 s3 和 s4 是通过 <code>s1.intern()</code> 方法取得同一个字符串引用。<code>intern()</code> 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。</p>
 <pre><code class="language-java">String s1 = new String(&quot;aaa&quot;);
 String s2 = new String(&quot;aaa&quot;);
 System.out.println(s1 == s2); // false
@@ -519,7 +519,7 @@ int x = n; // 编译器自动使用 Integer.intValue()
 <p>这种直接把 int 变为 Integer 的赋值写法，称为自动装箱（Auto Boxing），反过来，把 Integer 变为 int 的赋值写法，称为自动拆箱（Auto Unboxing）。</p>
 <p>自动装箱和自动拆箱只发生在编译阶段，目的是为了少写代码。装箱和拆箱会影响代码的执行效率，因为编译后的 class 代码是严格区分基本类型和引用类型的。并且，自动拆箱执行时可能会报 NullPointerException（比如对null自动拆箱）。</p>
 <h4 id="2-静态工厂方法">2. 静态工厂方法</h4>
-<p>因为 <code>Integer.valueOf()</code> 可能始终返回同一个 Integer 实例（为了节省内存，<code>Integer.valueOf()</code> 对于较小的数，始终返回相同的实例），因此，在我们自己创建 Integer 的时候，以下两种方法：</p>
+<p><code>Integer.valueOf()</code> 可能始终返回同一个 Integer 实例（为了节省内存，<code>Integer.valueOf()</code> 对于较小的数，始终返回相同的实例），因此，在我们自己创建 Integer 的时候，以下两种方法：</p>
 <ul>
 <li>方法 1：<code>Integer n = new Integer(100)</code>；</li>
 <li>方法 2：<code>Integer n = Integer.valueOf(100)</code>；</li>
@@ -554,11 +554,11 @@ int x = n; // 编译器自动使用 Integer.intValue()
 <pre><code class="language-java">int n = Weekday.MON.ordinal(); // 1
 </code></pre>
 <h2 id="五方法">五、方法<a class="anchor" href="#五方法">#</a></h2>
-<p>方法的名字的第一个单词应以小写字母作为开头，后面的单词则用大写字母开头写，不使用连接符。</p>
+<p>方法名字的第一个单词应以小写字母开头，后面的单词则用大写字母开头，不使用连接符。</p>
 <p>下划线可能出现在 JUnit 测试方法名称中用以分隔名称的逻辑组件。例如 testPop_emptyStack。</p>
 <h3 id="51-参数">5.1 参数<a class="anchor" href="#51-参数">#</a></h3>
 <h4 id="1-参数传递">1. 参数传递</h4>
-<p>Java 的参数传递完全等同于赋值运算符的操作<a href="https://www.zhihu.com/question/31203609">[3]</a>。</p>
+<p>Java 的参数传递完全等同于赋值运算符的操作 <a href="https://www.zhihu.com/question/31203609">[3]</a>。</p>
 <ul>
 <li>对于基本类型，赋值运算符会直接改变变量的值，原来的值被覆盖掉。</li>
 <li>对于引用类型，赋值运算符会改变引用中所保存的地址，原来的地址被覆盖掉。<strong>但是原来的对象不会被改变（重要）。</strong></li>
@@ -568,7 +568,7 @@ int x = n; // 编译器自动使用 Integer.intValue()
 <h3 id="52-构造方法">5.2 构造方法<a class="anchor" href="#52-构造方法">#</a></h3>
 <p>一个构造方法可以调用其他构造方法，这样做的目的是便于代码复用。调用其他构造方法的语法是 <code>this(…)</code>。</p>
 <h3 id="53-初始化顺序">5.3 初始化顺序<a class="anchor" href="#53-初始化顺序">#</a></h3>
-<p>对象在 Class 文件加载完毕，以及为各成员在方法区开辟好内存空间之后，就开始所谓“初始化&quot;的步骤</p>
+<p>对象在 Class 文件加载完毕，以及为各成员在方法区开辟好内存空间之后，就开始所谓 “初始化&rdquo; 的步骤</p>
 <ol>
 <li><strong>基类静态代码块，基类静态成员字段</strong></li>
 <li><strong>派生类静态代码块，派生类静态成员字段</strong></li>
@@ -577,25 +577,25 @@ int x = n; // 编译器自动使用 Integer.intValue()
 <li><strong>派生类普通代码块，派生类普通成员字段</strong></li>
 <li><strong>派生类构造函数</strong></li>
 </ol>
-<p>其中：1，2，3 和 5 并列优先级，按代码中出现先后顺序执行，1 和 2 只有第一次加载类时执行。</p>
+<p>其中：1，2，3 和 5 中的两项按代码中出现先后顺序执行，1 和 2 只有第一次加载类时执行。</p>
 <p><strong>静态代码块：</strong></p>
-<ol>
+<ul>
 <li>它是<strong>随着类的加载而执行，只执行一次，并优先于主函数</strong>。具体说，<strong>静态代码块是由类调用</strong>的。类调用时，先执行静态代码块，然后才执行主函数的。</li>
 <li><strong>静态代码块其实就是给类初始化的，而构造代码块是给对象初始化的</strong>。</li>
 <li>静态代码块中的变量是局部变量，与普通函数中的局部变量性质没有区别。</li>
-</ol>
+</ul>
 <p><strong>构造代码块：</strong></p>
-<ol>
+<ul>
 <li>构造代码块的作用是给对象进行初始化。</li>
 <li><strong>对象一建立就运行构造代码块了，而且优先于构造函数执行</strong>。这里要强调一下，有对象建立，才会运行构造代码块，类不能调用构造代码块的，而且<strong>构造代码块与构造函数的执行顺序是前者先于后者执行</strong>。</li>
 <li>构造代码块与构造函数的区别是：<strong>构造代码块是给所有对象进行统一初始化，而构造函数是给对应的对象初始化</strong>，因为构造函数是可以多个的，运行哪个构造函数就会建立什么样的对象，但无论建立哪个对象，都会先执行相同的构造代码块。也就是说，构造代码块中定义的是不同对象共性的初始化内容。</li>
-</ol>
+</ul>
 <p><strong>构造函数：</strong></p>
-<ol>
+<ul>
 <li><strong>对象一建立，就会调用与之相应的构造函数</strong>，也就是说，不建立对象，构造函数时不会运行的。</li>
 <li>构造函数的作用是用于给对象进行初始化。</li>
 <li>一个对象建立，构造函数只运行一次，而一般方法可以被该对象调用多次。</li>
-</ol>
+</ul>
 <h3 id="54-流程控制">5.4 流程控制<a class="anchor" href="#54-流程控制">#</a></h3>
 <h4 id="1-输入">1. 输入</h4>
 <pre><code class="language-java">import java.util.Scanner; // 导入类
@@ -667,7 +667,7 @@ public class Main {
 <li>switch 的计算结果必须是<strong>整型、字符串或枚举类型</strong>；</li>
 <li>case 语句具有<strong>穿透性</strong>，注意千万不要漏写 break；</li>
 <li>总是写上 default，建议打开 missing default 警告；</li>
-<li>从 Java 14 开始，switch 语句正式升级为表达式，不再需要 break，并且允许使用 yield 返回值。</li>
+<li>从 Java 14 开始，switch 语句升级为表达式，不再需要 break，并且允许使用 yield 返回值。</li>
 </ul>
 <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
@@ -690,7 +690,7 @@ public class Main {
 <p>声明数据为常量，可以是编译时常量，也可以是在运行时被初始化后不能被改变的常量。</p>
 <ul>
 <li>对于基本类型，final 使数值不变；</li>
-<li>对于引用类型，final 使引用不变，也就不能引用其它对象，但是被引用的对象本身是可以修改的。</li>
+<li>对于引用类型，final 使引用不变，不能引用其它对象，但是被引用的对象本身可以修改。</li>
 </ul>
 <pre><code class="language-java">final int x = 1;
 // x = 2;  // cannot assign value to final variable 'x'

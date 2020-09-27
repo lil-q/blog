@@ -19,7 +19,7 @@
       
       <guid>https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/</guid>
       <description>一、Map Map 是一种键-值映射表，当我们调用 put(K key, V value) 方法时，就把 key 和 value 做了映射并放入 Map。当我们调用 V get(K key) 时，就可以通过 key 获取到对应的 value。如果 key 不存在，则返回 null。和 List 类似，Map 也是一个接口，最常用的实现类是 HashMap。
- TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map 遍历 要遍历 key 可以使用 for each 循环遍历 Map 实例的 keySet() 方法返回的 Set 集合，它包含不重复的 key 的集合：
+ TreeMap：基于红黑树实现。 HashMap：基于哈希表实现。 HashTable：和 HashMap 类似，但它是线程安全的，这意味着同一时刻多个线程同时写入 HashTable 不会导致数据不一致。它是遗留类，不应该去使用它，而是使用 ConcurrentHashMap 来支持线程安全，ConcurrentHashMap 的效率会更高，因为 ConcurrentHashMap 引入了分段锁。 LinkedHashMap：使用双向链表来维护元素的顺序，顺序为插入顺序或者最近最少使用（LRU）顺序。  1.1 Map 遍历 Map 本身没有实现 Iterable 接口，要遍历 key 可以使用 for each 循环遍历 Map 实例的 keySet() 方法返回的 Set 集合，它包含不重复的 key 的集合：
 for (String key : map.keySet()) {...}  同时遍历 key 和 value 可以使用 for each 循环遍历 Map 对象的 entrySet() 集合，它包含每一个 key-value 映射：</description>
     </item>
     
