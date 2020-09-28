@@ -294,7 +294,7 @@ List&lt;Integer&gt; list = List.of(array);
     private static final int DEFAULT_CAPACITY = 10;
     ...
 </code></pre>
-<p><em>RandomAccess</em> 接口标识着该类支持快速随机访问，java.io.Serializable 是支持序列化接口。数组的默认大小为 10。</p>
+<p><em>RandomAccess</em> 接口标识着该类支持快速随机访问，<em>java.io.Serializable</em> 是支持序列化接口。数组的默认大小为 10。</p>
 <p><strong>（1）扩容</strong></p>
 <p>添加元素时如果容量不够时，需要使用 <code>grow()</code> 方法进行扩容，新容量的大小默认为 <em>oldCapacity + (oldCapacity &raquo; 1)</em>，也就是旧容量的 1.5 倍。当需求的容量大于它时，则会选用两个 <em>List</em> 长度之和作为新容量，扩容操作需要调用 <code>Arrays.copyOf()</code> 把<strong>原数组整个复制到新数组中</strong>，这个操作代价很高，因此最好在创建 <em>ArrayList</em> 对象时就指定大概的容量大小，减少扩容操作的次数。</p>
 <pre><code class="language-java">public boolean addAll(Collection&lt;? extends E&gt; c) {

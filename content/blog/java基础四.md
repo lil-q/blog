@@ -216,7 +216,7 @@ public class ArrayList<E> extends AbstractList<E>
     ...
 ```
 
-*RandomAccess* 接口标识着该类支持快速随机访问，java.io.Serializable 是支持序列化接口。数组的默认大小为 10。
+*RandomAccess* 接口标识着该类支持快速随机访问，*java.io.Serializable* 是支持序列化接口。数组的默认大小为 10。
 
 **（1）扩容**
 
