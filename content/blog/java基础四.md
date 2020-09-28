@@ -186,8 +186,8 @@ public boolean equals(Object o) {
 
 ### 2.4 List 实现类
 
-- ***ArrayList***：基于动态数组实现，支持随机访问。
-- ***Vector***：和 *ArrayList* 类似，但它是线程安全的。
+- ***ArrayList***：基于动态数组，支持随机访问。
+- ***Vector***：和 *ArrayList* 类似，线程安全。
 - ***LinkedList***：基于双向链表实现，只能顺序访问，但是可以快速地在链表中间插入和删除元素。不仅如此，*LinkedList* 还可以用作栈、队列和双向队列。
 
 比较 *ArrayList* 和 *LinkedList*：

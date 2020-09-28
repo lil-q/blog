@@ -54,7 +54,7 @@ IoC 的思想最核心的地方在于，资源不是由使用资源的双方来�
 * 提供 *getter* 和 *setter*；
 * 实现 *serializable* 接口。
 
-当在 Spring 中定义一个 Bean 时，必须声明该 Bean 的作用域的选项。Spring 框架支持以下五个作用域，后三个只在 web-aware Spring ApplicationContext 的上下文中有效。
+当在 Spring 中定义一个 *Bean* 时，必须声明该 *Bean* 的作用域的选项。Spring 框架支持以下五个作用域，后三个只在 web-aware Spring ApplicationContext 的上下文中有效。
 
 <br>
 

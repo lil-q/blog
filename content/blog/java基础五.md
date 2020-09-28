@@ -45,7 +45,7 @@ for (Map.Entry<String, Integer> entry : map.entrySet()) {...}
   * 如果两个对象相等，则两个对象的 `hashCode()` 必须相等；
   * 如果两个对象不相等，则两个对象的 `hashCode()` 尽量不要相等。
 
-自己写 `hashCode()` 时R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法：*31 * x  == (x << 5) - x*，编译器会自动进行这个优化。
+自己写 `hashCode()` 时 R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位，最左边的位丢失。并且一个数与 31 相乘可以转换成移位和减法：*31 * x  == (x << 5) - x*，编译器会自动进行这个优化。
 
 ```java
 @Override
@@ -101,7 +101,7 @@ public static int hashCode(Object a[]) {
 
 ### 1.3 hashCode()
 
-`hashCode()` 内部使用了数组，在初始化时默认的数组大小只有 16，所以`hashCode()` 需要取余后使用：
+`hashCode()` 内部使用了数组，在初始化时默认的数组大小只有 16，所以 `hashCode()` 需要取余后使用：
 
 ```java
 int index = key.hashCode() & 0xf;
@@ -365,9 +365,15 @@ i = (n - 1) & hash;
 
 JDK 1.8 开始，*HashMap* 由链表的头插法改变成了**尾插法**，因此不再会造成死循环，改成尾插法也是为了能够更好的维护 JDK 1.8 中 *HashMap* 的红黑树结构。
 
-**（7）黑红树**
+**（7）红黑树**
 
-当链表变长时，查找和添加的速度会变慢，JDK 1.8 后加入了链表转换为黑红树的机制，默认情况下，当链表长度超过 8 时，会转化成黑红树；树节点少于 6 时，重写转换回链表。
+当链表变长时，查找和添加的速度会变慢，JDK 1.8 后加入了链表转换为红黑树的机制，但是红黑树的转换并不是一个廉价的操作，所以当 *table* 的 size 小于 *MIN_TREEIFY_CAPACITY* 时优先扩容而不是转换为红黑树。
+
+```java
+ static final int MIN_TREEIFY_CAPACITY = 64;
+```
+
+默认情况下，当 *table* 的 size 大于 64，链表长度超过 8 时，会转化成红黑树；树节点少于 6 时，重写转换回链表。
 
 ```java
 static final int TREEIFY_THRESHOLD = 8;
@@ -380,8 +386,8 @@ static final int UNTREEIFY_THRESHOLD = 6;
 
 如果键类没有实现 *comparable* 接口，*HashMap* 会做以下三步处理：
 
-1. 比较键与键之间 *hash* 值的大小，如果 *hash* 值相同，则
-2. 检测键类是否实现了 *Comparable* 接口，是则调用 `compareTo()` 方法进行比较，否则
+1. 比较键与键之间 *hash* 值的大小，如果 *hash* 值相同，则：
+2. 检测键类是否实现了 *Comparable* 接口，是则调用 `compareTo()` 方法进行比较，否则：
 3. 如果仍未比较出大小，就需要进行仲裁了，仲裁方法为 *tieBreakOrder*。
 
 **（8）加载因子**
@@ -407,7 +413,7 @@ int threshold;
 static final float DEFAULT_LOAD_FACTOR = 0.75f;
 ```
 
-扩容使用 `resize()` 实现，需要注意的是，扩容操作同样需要**把 *oldTable* 的所有键值对重新插入 *newTable* 中**，包括链表和黑红树的拆分，因此这一步是很费时的。
+扩容使用 `resize()` 实现，需要注意的是，扩容操作同样需要**把 *oldTable* 的所有键值对重新插入 *newTable* 中**，包括链表和红黑树的拆分，因此这一步是很费时的。
 
 在进行扩容时，需要把键值对重新计算桶下标，从而放到对应的桶上。在前面提到，*HashMap* 使用 *hash* % *capacity* 来确定桶下标。*capacity* 为 2 的 n 次方这一特点能够极大降低重新计算桶下标操作的复杂度。
 
@@ -559,7 +565,7 @@ static final int DEFAULT_CONCURRENCY_LEVEL = 16;
 
 JDK 1.7 使用分段锁机制来实现并发更新操作，核心类为 *Segment*，它继承自重入锁 *ReentrantLock*，并发度与 *Segment* 数量相等。
 
-JDK 1.8 使用了 **CAS** 操作来支持更高的并发度，在 CAS 操作失败时使用内置锁 *synchronized*，并且 JDK 1.8 的实现也在链表过长时会转换为**红黑树**。
+JDK 1.8 使用了 **CAS** 操作来支持更高的并发度，在 CAS 操作失败时使用内置锁 *synchronized*，并且 JDK 1.8 的实现也在链表过长时会转换为**红黑树**。具体实现是当数组长度还未达到 64 个时，优先数组的扩容，否则选择链表转为红黑树 [[]](https://my.oschina.net/pingpangkuangmo/blog/817973#h2_17)。
 
 #### 1. 读不加锁
 
@@ -584,7 +590,13 @@ static final class HashEntry<K,V> {
 
 同时一个 *Node* 节点中的 ***val*** 和 ***next*** 属性也必须要加 *volatile*。
 
-#### 2. 迁移中的并发处理
+#### 2. 扩容
+
+第一个执行扩容的线程会首先设置 sizeCtl 属性为一个负值，然后执行 transfer(tab, null)，其他晚进来的线程会检查当前扩容是否已经完成，没完成则帮助进行扩容，完成了则直接退出。
+
+ConcurrentHashMap 的扩容操作可以允许多个线程并发执行，那么就要处理好任务的分配工作。每个线程获取一部分桶的迁移任务，如果当前线程的任务完成，查看是否还有未迁移的桶，若有则继续领取任务执行，若没有则退出。在退出时需要检查是否还有其他线程在参与迁移工作，如果有则自己什么也不做直接退出，如果没有了则执行最终的收尾工作。
+
+#### 3. 迁移中的并发处理
 
 （1）在某个桶的**迁移过程**中，别的线程要对该桶进行 `put()` 操作
 
@@ -628,7 +640,7 @@ transient LinkedHashMap.Entry<K,V> tail;
 final boolean accessOrder;
 ```
 
-*LinkedHashMap* 最重要的是以下用于维护顺序的函数，它们会在 `put()`、`get()` 等方法中调用。*LinkedHashMap* 并没有覆写`put()`，而是覆写了`afterNodeAccess(Node<K,V> p)`。
+*LinkedHashMap* 最重要的是以下用于维护顺序的函数，它们会在 `put()`、`get()` 等方法中调用。*LinkedHashMap* 并没有覆写 `put()`，而是覆写了 `afterNodeAccess(Node<K,V> p)`。
 
 ```java
 void afterNodeAccess(Node<K,V> p) { }
