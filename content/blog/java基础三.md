@@ -68,7 +68,7 @@ Class<?> cls = String.class;
 String s = (String) cls.newInstance();
 ```
 
-上述代码相当于 `new String()`。通过 `Class.newInstance()` 可以创建类实例，它的局限是：只能调用 *public* 的无参数构造方法。带参数的构造方法，或者非 public 的构造方法都无法通过 `Class.newInstance()` 被调用。
+上述代码相当于 `new String()`。通过 `Class.newInstance()` 可以创建类实例，它的局限是：只能调用 *public* 的无参数构造方法。带参数的构造方法，或者非 *public* 的构造方法都无法通过 `Class.newInstance()` 被调用。
 
 ### 1.2 Field
 

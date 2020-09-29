@@ -155,7 +155,7 @@ Class&lt;?&gt; cls = String.class;
 // 创建一个String实例:
 String s = (String) cls.newInstance();
 </code></pre>
-<p>上述代码相当于 <code>new String()</code>。通过 <code>Class.newInstance()</code> 可以创建类实例，它的局限是：只能调用 <em>public</em> 的无参数构造方法。带参数的构造方法，或者非 public 的构造方法都无法通过 <code>Class.newInstance()</code> 被调用。</p>
+<p>上述代码相当于 <code>new String()</code>。通过 <code>Class.newInstance()</code> 可以创建类实例，它的局限是：只能调用 <em>public</em> 的无参数构造方法。带参数的构造方法，或者非 <em>public</em> 的构造方法都无法通过 <code>Class.newInstance()</code> 被调用。</p>
 <h3 id="12-field">1.2 Field<a class="anchor" href="#12-field">#</a></h3>
 <p>对任意的一个 <em>Object</em> 实例，只要获取了它的 <em>Class</em> 实例，就可以获取它的一切信息。<em>Class</em> 类提供了以下几个方法来获取字段：</p>
 <ul>

@@ -116,7 +116,7 @@
           </header>
           <article class="post__content">
               
-<p>morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。对于二叉树的遍历，通常采用递归或者利用栈的迭代方法，两者的空间复杂度都为 $O\left ( N \right )$。morris 遍历可以将非递归遍历中的空间复杂度降为 $O\left ( 1 \right )$。</p>
+<p>morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。对于二叉树的遍历，通常采用递归或利用栈的迭代方法，两者的空间复杂度都为 $O\left ( N \right )$。morris 遍历可以将非递归遍历中的空间复杂度降为 $O\left ( 1 \right )$。</p>
 <h2 id="前序遍历">前序遍历<a class="anchor" href="#前序遍历">#</a></h2>
 <p>以前序遍历为例子，比如leecode上的<a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">144. 二叉树的前序遍历</a>，先给出代码：</p>
 <pre><code class="language-java">class Solution {
