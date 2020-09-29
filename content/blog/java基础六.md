@@ -3,6 +3,7 @@ title: Java：I/O
 date: 2020-04-04 14:13:57
 tags: [java]
 toc: true
+draft: true
 description: "java I/O 和正则表达式"
 keywords: [Regular Expression, java, I/O]
 ---
@@ -11,11 +12,11 @@ keywords: [Regular Expression, java, I/O]
 
 ### 1.1 File
 
-- 创建`File f = new File("C:\\Windiws\\...")`对象本身不涉及IO操作，并不会导致任何磁盘操作；
-- 可以获取路径／绝对路径／规范路径：`getPath()`/`getAbsolutePath()`/`getCanonicalPath()`；
-- 可以获取目录的文件和子目录：`list()`/`listFiles()`；
+- 创建 `File f = new File("C:\\Windiws\\...")` 对象本身不涉及 IO 操作，并不会导致任何磁盘操作；
+- 可以获取路径／绝对路径／规范路径：`getPath()` / `getAbsolutePath()` / `getCanonicalPath()`；
+- 可以获取目录的文件和子目录：`list()` / `listFiles()`；
 - `boolean mkdir()`：创建当前File对象表示的目录；
-- `boolean mkdirs()`：创建当前File对象表示的目录，并在必要时将不存在的父目录也创建出来；
+- `boolean mkdirs()`：创建当前File对象表示的目录，并在必要时创建不存在的父目录；
 - `boolean delete()`：删除当前File对象表示的目录，当前目录必须为空才能删除成功。
 
 Java I/O 使用了**装饰者模式**来实现。以 InputStream 为例，
@@ -28,9 +29,9 @@ Java I/O 使用了**装饰者模式**来实现。以 InputStream 为例，
 
 ### 1.2 输入
 
-`InputStream`就是Java标准库提供的最基本的输入流。它位于`java.io`这个包里。`java.io`包提供了所有同步IO的功能。
+`InputStream` 就是 Java 标准库提供的最基本的输入流。它位于 `java.io` 这个包里。`java.io` 包提供了所有同步 IO 的功能。
 
-`InputStream`并不是一个接口，而是一个抽象类，它是所有输入流的超类。这个抽象类定义的一个最重要的方法就是`int read()`：
+`InputStream` 并不是一个接口，而是一个抽象类，它是所有输入流的超类。这个抽象类定义的一个最重要的方法就是 `int read()`：
 
 ```java
 public abstract int read() throws IOException;
@@ -218,13 +219,13 @@ ArrayList 中存储数据的数组 elementData 是用 transient 修饰的，因�
 
 #### 4. 安全性
 
-Java本身提供的基于对象的序列化和反序列化机制既存在安全性问题，也存在兼容性问题。更好的序列化方法是通过JSON这样的通用数据结构来实现，只输出基本类型（包括String）的内容，而不存储任何与代码相关的信息。
+Java 本身提供的基于对象的序列化和反序列化机制既存在安全性问题，也存在兼容性问题。更好的序列化方法是通过 JSON 这样的通用数据结构来实现，只输出基本类型（包括 String）的内容，而不存储任何与代码相关的信息。
 
 ### 1.6 字节流
 
 #### 1. reader
 
-以上讲到的都是字符流，`Reader`是Java的IO库提供的另一个输入流接口，是一个字符流，即以`char`为单位读取，`java.io.Reader`是所有字符输入流的超类，它最主要的方法是：
+以上讲到的都是字符流，`Reader`是 Java 的 IO 库提供的另一个输入流接口，是一个字符流，即以`char`为单位读取，`java.io.Reader`是所有字符输入流的超类，它最主要的方法是：
 
 ```java
 public int read() throws IOException;

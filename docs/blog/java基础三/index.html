@@ -61,7 +61,7 @@
       "datePublished": "2020-03-27 22:45:02 \u002b0000 UTC",
       "dateModified" : "2020-03-27 22:45:02 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%B8%89\/",
-      "wordCount" : "947",
+      "wordCount" : "946",
       "keywords" : ["java", "反射", "泛型", "动态代理", "Blog"]
     }
   
@@ -247,10 +247,10 @@ String first = (String) p.getFirst();
 String last = (String) p.getLast();
 </code></pre>
 <p>Java 泛型的<strong>局限</strong>：</p>
-<p><strong>局限一：<em>T</em> 不能是基本类型</strong>，例如 <em>int</em>，因为实际类型是 <em>Object</em>，<em>Object</em> 类型无法持有基本类型。</p>
+<p><strong>局限一：<em>T</em> 不能是基本类型</strong>，因为实际类型是 <em>Object</em>，<em>Object</em> 类型无法持有基本类型。</p>
 <pre><code class="language-java">Pair&lt;int&gt; p = new Pair&lt;&gt;(1, 2); // compile error!
 </code></pre>
-<p><strong>局限二：无法取得带泛型的 <em>Class</em></strong>，如下代码最后获取到的是同一个 <em>Class</em>，也就是 <em>Pair</em> 类的 <em>Class</em>。</p>
+<p><strong>局限二：无法取得带泛型的 <em>Class</em></strong>，如下代码最后获取的是同一个 <em>Class</em>，即 <em>Pair</em> 类的 <em>Class</em>。</p>
 <pre><code class="language-java">public class Main {
     public static void main(String[] args) {
         Pair&lt;String&gt; p1 = new Pair&lt;&gt;(&quot;Hello&quot;, &quot;world&quot;);

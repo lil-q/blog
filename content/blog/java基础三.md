@@ -199,13 +199,13 @@ String last = (String) p.getLast();
 
 Java 泛型的**局限**：
 
-**局限一：*T* 不能是基本类型**，例如 *int*，因为实际类型是 *Object*，*Object* 类型无法持有基本类型。
+**局限一：*T* 不能是基本类型**，因为实际类型是 *Object*，*Object* 类型无法持有基本类型。
 
 ```java
 Pair<int> p = new Pair<>(1, 2); // compile error!
 ```
 
-**局限二：无法取得带泛型的 *Class***，如下代码最后获取到的是同一个 *Class*，也就是 *Pair* 类的 *Class*。
+**局限二：无法取得带泛型的 *Class***，如下代码最后获取的是同一个 *Class*，即 *Pair* 类的 *Class*。
 
 ```java
 public class Main {

@@ -14,7 +14,7 @@ Java 介于编译型语言和解释型语言之间。编译型语言如 C、C++�
 
 * **J**ava **V**irtual **M**achine，**JVM**：
 
-  整个 Java 实现跨平台的最核心的部分，所有的 Java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
+  整个 Java 实现跨平台的最核心的部分，所有的 Java 程序会首先被编译为 .class 的类文件，这种类文件可以在虚拟机上执行，也就是说 .class 并不直接与机器的操作系统相对应，而是经过虚拟机间接与操作系统交互，由虚拟机将程序解释给本地系统执行。
 
 * **J**ava **R**untime **E**nvironment，**JRE**：
 
@@ -32,14 +32,14 @@ Java 介于编译型语言和解释型语言之间。编译型语言如 C、C++�
 
 ### 1.1 基本类型
 
-- byte/8  [-128 ~ 127]
-- char/16 
-- short/16  [-32768 ~ 32767]
-- int/32  [-2147483648 ~ 2147483647]
-- float/32
-- long/64  [-9223372036854775808 ~ 9223372036854775807]
-- double/64
-- boolean/~
+- *byte*：8  [-128 ~ 127]
+- *char*：16 
+- *short*：16  [-32768 ~ 32767]
+- *int*：32  [-2147483648 ~ 2147483647]
+- *float*：32
+- *long*：64  [-9223372036854775808 ~ 9223372036854775807]
+- *double*：64
+- *boolean*：~
 
 Java 语言对布尔类型的存储并没有做规定，因为理论上存储布尔类型只需要 1 bit，但是通常 JVM 内部会把 boolean 表示为 4 字节整数，为了节省内存而表示为更小的类型可能会在之后处理时带来不必要的麻烦。
 
@@ -59,7 +59,7 @@ int y = x;         // 拆箱 调用了 X.intValue()
 - `new Integer(123)` 每次都会新建一个对象；
 - `Integer.valueOf(123)` 会使用缓存池中的对象，多次调用会取得同一个对象的引用。
 
-编译器会在自动装箱过程调用 `valueOf()` 方法，因此多个值相同且值在缓存池范围内的 Integer 实例使用自动装箱来创建，那么就会引用相同的对象。
+编译器会在自动装箱过程调用 `valueOf()` 方法，因此多个值相同且值在缓存池范围内的 *Integer* 实例使用自动装箱来创建，那么就会引用相同的对象。
 
 ```java
 Integer m = 123;
@@ -69,11 +69,11 @@ System.out.println(m == n); // true
 
 基本类型对应的缓冲池如下：
 
-- boolean values true and false
-- all byte values
-- short values between -128 and 127
-- int values between -128 and 127
-- char in the range \u0000 to \u007F
+- *boolean* values true and false
+- all *byte* values
+- *short* values between -128 and 127
+- *int* values between -128 and 127
+- *char* in the range \u0000 to \u007F
 
 在使用这些基本类型对应的包装类型时，如果该数值范围在缓冲池范围内，就可以直接使用缓冲池中的对象。
 
@@ -91,11 +91,11 @@ Java 语言中数组必须先初始化，然后才可以使用。
 
 数组完成初始化后，内存空间中针对该数组的各个元素就有个一个默认值：
 
-* 基本数据类型的整数类型（byte、short、int、long）默认值是 0；
-* 基本数据类型的浮点类型（float、double）默认值是 0.0；
-* 基本数据类型的字符类型（char）默认值是 '\u0000'；
-* 基本数据类型的布尔类型（boolean）默认值是 false；
-* 类型的引用类型（类、数组、接口、String）默认值是 null。
+* 基本数据类型的整数类型（*byte*、*short*、*int*、*long*）默认值是 0；
+* 基本数据类型的浮点类型（*float*、*double*）默认值是 0.0；
+* 基本数据类型的字符类型（*char*）默认值是 '\u0000'；
+* 基本数据类型的布尔类型（*boolean*）默认值是 false；
+* 类型的引用类型（*Class*、*Array*、*List*、*String*）默认值是 null。
 
 **注意**：不要同时使用静态初始化和动态初始化，也就是说，不要在进行数组初始化时，既指定数组的长度，也为每个数组元素分配初始值。一旦数组完成初始化，数组在内存中所占的空间将被固定下来，所以数组的长度将不可改变。
 
@@ -176,7 +176,7 @@ class Solution {
 
 **（1）隐式类型转换**
 
-short 和 int 计算，结果总是 int，原因是 short 首先自动被转型为 int：
+*short* 和 *int* 计算，结果总是 *int*，原因是 *short* 首先自动被转型为 *int*：
 
 ```java
 short s = 1234;
@@ -184,7 +184,7 @@ int i = 123456;
 int x = s + i; // s自动转型为int
 ```
 
-因为字面量 1 是 int 类型，它比 short 类型精度要高，因此不能隐式地将 int 类型向下转型为 short 类型。
+因为字面量 1 是 *int* 类型，它比 *short* 类型精度要高，因此不能隐式地将 *int* 类型向下转型为 *short* 类型。
 
 ```java
 short s1 = 1;
@@ -198,7 +198,7 @@ s1 += 1;
 s1++;
 ```
 
-上面的语句相当于将 s1 + 1 的计算结果进行了向下转型：
+上面的语句相当于将 *s1 + 1* 的计算结果进行了向下转型：
 
 ```java
 s1 = (short) (s1 + 1);
@@ -206,18 +206,18 @@ s1 = (short) (s1 + 1);
 
 **（2）强制类型转换**
 
-可以将结果强制转型，即将大范围的整数转型为小范围的整数。强制转型使用 `(类型)`，例如，将 int 强制转型为 short：
+可以将结果强制转型，即将大范围的整数转型为小范围的整数。强制转型使用 `(类型)`，例如，将 *int* 强制转型为 *short*：
 
 ```java
 int i = 12345;
 short s = (short) i; // 12345
 ```
 
-要注意，超出范围的强制转型会得到错误的结果，原因是转型时，int 的两个高位字节直接被扔掉，仅保留了低位的两个字节。
+要注意，超出范围的强制转型会得到错误的结果，原因是转型时，*int* 的两个高位字节直接被扔掉，仅保留了低位的两个字节。
 
 **（3）溢出**
 
-为了防止溢出，有些题目会设置答案求余数的要求，如[面试题10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)要求答案需要取模 1e9+7（1000000007），这个数小于 int 最大值的一半，利用循环取余: $$ (x + y) \odot p = (x \odot p + y \odot p) \odot p $$
+为了防止溢出，有些题目会设置答案求余数的要求，如[面试题10- I. 斐波那契数列](https://leetcode-cn.com/problems/fei-bo-na-qi-shu-lie-lcof/)要求答案需要取模 1e9 + 7（1000000007），这个数小于 *int* 最大值的一半，利用循环取余: $$ (x + y) \odot p = (x \odot p + y \odot p) \odot p $$
 
 ```java
 class Solution {
@@ -245,9 +245,9 @@ double d2 = -1.79e308;
 double d3 = 4.9e-324; // 科学计数法表示的4.9x10^-324
 ```
 
-**对于 float 类型，需要加上 f 后缀**。浮点数可表示的范围非常大，float 类型可最大表示$ 3.4\times10^{38}$，而 double 类型可最大表示 $1.79\times10^{308}$。
+**对于 float 类型，需要加上 f 后缀**。浮点数可表示的范围非常大，*float* 类型可最大表示$ 3.4\times10^{38}$，而 *double* 类型可最大表示 $1.79\times10^{308}$。
 
-Java 不能隐式执行向下转型，因为这会使得精度降低。1.1 字面量属于 double 类型，不能直接将 1.1 直接赋值给 float 变量，因为这是向下转型。
+Java 不能隐式执行向下转型，因为这会使得精度降低。1.1 字面量属于 *double* 类型，不能直接将 1.1 直接赋值给 *float* 变量，因为这是向下转型。
 
 **（1）浮点数的不准确性**
 
@@ -259,7 +259,7 @@ float n2 = 3.14159266f;
 System.out.println(n1 == n2); // true
 ```
 
-其实较大的浮点数比如 0.1 在计算机中也是无法精确表示的，因为十进制的 0.1 换算成二进制是一个无限循环小数，很显然，无论使用 float 还是 double，都只能存储一个 0.1 的近似值。但是， 0.5 这个浮点数又可以精确地表示（乘以若干个 2 后能成为整数的才能准确表示），浮点数本质上就是底数为 2 的科学计数法计数。
+其实较大的浮点数比如 0.1 在计算机中也是无法精确表示的，因为十进制的 0.1 换算成二进制是一个无限循环小数，很显然，无论使用 *float* 还是 *double*，都只能存储一个 0.1 的近似值。但是， 0.5 这个浮点数又可以精确地表示（乘以若干个 2 后能成为整数的才能准确表示），浮点数本质上就是底数为 2 的科学计数法计数。
 
 #### 5. 布尔运算
 
@@ -267,17 +267,17 @@ System.out.println(n1 == n2); // true
 
 布尔运算的一个重要特点是短路运算。如果一个布尔运算的表达式能提前确定结果，则后续的计算不再执行，直接返回结果。
 
-因为 `false && x` 的结果总是 false，无论 x 是 true 还是 false，因此，与运算在确定第一个值为 false 后，不再继续计算，而是直接返回 false。
+因为 *false && x* 的结果总是 false，无论 *x* 是 true 还是 false，因此，与运算在确定第一个值为 false 后，不再继续计算，而是直接返回 false。
 
 **（2）三元运算符**
 
-Java 还提供一个三元运算符 `b ? x : y`，它根据第一个布尔表达式的结果，分别返回后续两个表达式之一的计算结果。
+Java 还提供一个三元运算符 *b ? x : y*，它根据第一个布尔表达式的结果，分别返回后续两个表达式之一的计算结果。
 
 ## 三、String
 
-String 被声明为 final，因此它不可被继承。(Integer 等包装类也不能被继承）
+*String* 被声明为 *final*，因此它不可被继承。(*Integer* 等包装类也不能被继承）
 
-在 Java 9 之后，String 类的实现改用 byte 数组存储字符串，同时使用 `coder` 来标识使用了哪种编码。
+在 Java 9 之后，*String* 类的实现改用 *byte* 数组存储字符串，同时使用 *coder* 标识使用了哪种编码。
 
 ```java
 public final class String
@@ -290,11 +290,11 @@ public final class String
 }
 ```
 
-value 数组被声明为 final，这意味着 value 数组初始化之后就不能再引用其它数组。并且 String 内部没有改变 value 数组的方法，因此可以保证 String 不可变。
+*value* 数组被声明为 *final*，这意味着 *value* 数组初始化之后就不能再引用其它数组。并且 *String* 内部没有改变 *value* 数组的方法，因此可以保证 *String* 不可变。
 
 ### 3.1 编码
 
-在 Java 中，char 类型实际上就是两个字节的 Unicode 编码。如果我们要手动把字符串转换成其他编码，可以这样做：
+在 Java 中，*char* 类型实际上就是两个字节的 *Unicode* 编码。如果我们要手动把字符串转换成其他编码，可以这样做：
 
 ```java
 byte[] b1 = "Hello".getBytes(); // 按系统默认编码转换，不推荐
@@ -303,9 +303,9 @@ byte[] b2 = "Hello".getBytes("GBK"); // 按 GBK 编码转换
 byte[] b3 = "Hello".getBytes(StandardCharsets.UTF_8); // 按 UTF-8 编码转换
 ```
 
-注意：转换编码后，就不再是 char 类型，而是 byte 类型表示的数组。
+注意：转换编码后，就不再是 *char* 类型，而是 *byte* 类型表示的数组。
 
-如果要把已知编码的 byte 数组转换为 String，可以这样做：
+如果要把已知编码的 *byte* 数组转换为 *String*，可以这样做：
 
 ```java
 byte[] b = ...
@@ -313,25 +313,25 @@ String s1 = new String(b, "GBK"); // 按 GBK 转换
 String s2 = new String(b, StandardCharsets.UTF_8); // 按 UTF-8 转换
 ```
 
-始终牢记：Java 的 String 和 char 在内存中总是以 **Unicode** 编码表示。
+始终牢记：Java 的 *String* 和 *char* 在内存中总是以 **Unicode** 编码表示。
 
 ### 3.2 不可变的好处
 
 **1. 可以缓存 hash 值**
 
-因为 String 的 hash 值经常被使用，例如 String 用做 HashMap 的 key。不可变的特性可以使得 hash 值也不可变，因此只需要进行一次计算。
+因为 *String* 的 *hash* 值经常被使用，例如 *String* 用做 *HashMap* 的 *key*。不可变的特性可以使得 *hash* 值也不可变，因此只需要进行一次计算。
 
 **2. String Pool 的需要**
 
-如果一个 String 对象已经被创建过了，那么就会从 String Pool 中取得引用。只有 String 是不可变的，才可能使用 String Pool。
+如果一个 *String* 对象已经被创建过了，那么就会从 String Pool 中取得引用。只有 *String* 是不可变的，才可能使用 String Pool。
 
 **3. 安全性**
 
-String 经常作为参数，String 不可变性可以保证参数不可变。例如在作为网络连接参数的情况下如果 String 是可变的，那么在网络连接过程中，String 被改变，改变 String 的那一方以为现在连接的是其它主机，而实际情况却不一定是。
+*String* 经常作为参数，*String* 不可变性可以保证参数不可变。例如在作为网络连接参数的情况下如果 *String* 是可变的，那么在网络连接过程中，*String* 被改变，改变 *String* 的那一方以为现在连接的是其它主机，而实际情况却不一定是。
 
 **4. 线程安全**
 
-String 不可变性天生具备线程安全，可以在多个线程中安全地使用。
+*String* 不可变性天生具备线程安全，可以在多个线程中安全地使用。
 
 ### 3.3 字符串运算
 
@@ -352,16 +352,16 @@ public class Main {
 
 **（1）可变性**
 
-- String 不可变
-- StringBuffer 和 StringBuilder 可变
+- *String* 不可变
+- *StringBuffer* 和 *StringBuilder* 可变
 
 **（2）线程安全**
 
-- String 不可变，因此是线程安全的
-- StringBuilder 不是线程安全的
-- StringBuffer 是线程安全的，内部使用 synchronized 进行同步
+- *String* 不可变，因此是线程安全的
+- *StringBuilder* 不是线程安全的
+- *StringBuffer* 是线程安全的，内部使用 *synchronized* 进行同步
 
-StringBuffer，这是 Java 早期的一个 StringBuilder 的线程安全版本，它通过同步来保证多个线程操作 StringBuffer 也是安全的，但是同步会带来执行速度的下降。现在完全没有必要使用 StringBuffer。
+*StringBuffer*，这是 Java 早期的一个 *StringBuilder* 的线程安全版本，它通过同步来保证多个线程操作 *StringBuffer* 也是安全的，但是同步会带来执行速度的下降。现在完全没有必要使用 *StringBuffer*。
 
 **2. StringJoiner**
 
@@ -382,15 +382,15 @@ public class Main {
 
 ### 3.5 常量池
 
-需要区分 Class 文件中指定的**常量池**和**运行时常量池**的区别：
+需要区分 *Class* 文件中指定的**常量池**和**运行时常量池**的区别：
 
-class 文件中紧接着主、次版本号之后的是常量池（Constant Pool）入口，常量池可以比喻为 Class 文件里的资源仓库，它是 Class 文件结构中与其他项目关联最多的数据，通常也是占用 Class 文件空间最大的数据项目之一。Class 文件中的常量池中主要存放两大类常量：字面量（ Literal）和符号引用（ Symbolic References）。在虚拟机加载 class 文件的解析阶段 Java 虚拟机会将常量池内的符号引用替换为直接引用。字面量在**编译时期**就确定。
+*Class* 文件中紧接着主、次版本号之后的是常量池（Constant Pool）入口，常量池可以比喻为 *Class* 文件里的资源仓库，它是 *Class* 文件结构中与其他项目关联最多的数据，通常也是占用 *Class* 文件空间最大的数据项目之一。*Class* 文件中的常量池中主要存放两大类常量：字面量（ Literal）和符号引用（ Symbolic References）。在虚拟机加载 *Class* 文件的解析阶段 Java 虚拟机会将常量池内的符号引用替换为直接引用。字面量在**编译时期**就确定。
 
-运行时常量池（Runtime Constant Pool）是方法区的一部分。 Class 文件中的常量池表所包含的生成的各种字面量与符号引用将在类加载后存放到方法区的运行时常量池中。不仅如此，还可以使用 String 的 `intern()` 方法在运行过程将字符串添加到运行时常量池。
+运行时常量池（Runtime Constant Pool）是方法区的一部分。*Class* 文件中的常量池表所包含的生成的各种字面量与符号引用将在类加载后存放到方法区的运行时常量池中。不仅如此，还可以使用 *String* 的 `intern()` 方法在运行过程将字符串添加到运行时常量池。
 
 当一个字符串调用 `intern()` 方法时，如果运行时常量池中已经存在一个字符串和该字符串值相等（使用 `equals()` 方法进行确定），那么就会返回运行时常量池中字符串的引用；否则，就会创建一个新的字符串（对象本身存放在堆中），把其引用添加到运行时常量池中，并返回这个新字符串的引用。
 
-下面示例中，s1 和 s2 采用 `new String()` 的方式新建了两个不同字符串，而 s3 和 s4 是通过 `s1.intern()` 方法取得同一个字符串引用。`intern()` 首先把 s1 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 s3 和 s4 引用的是同一个字符串。
+下面示例中，*s1* 和 *s2* 采用 `new String()` 的方式新建了两个不同字符串，而 *s3* 和 *s4* 是通过 `s1.intern()` 方法取得同一个字符串引用。`intern()` 首先把 *s1* 引用的字符串放到 String Pool 中，然后返回这个字符串引用。因此 *s3* 和 *s4* 引用的是同一个字符串。
 
 ```java
 String s1 = new String("aaa");
@@ -405,9 +405,9 @@ System.out.println(s3 == s1); // false
 `new String("aaa")` 这种方式一共会创建两个字符串对象（前提是 String Pool 中还没有 “abc” 字符串对象）。
 
 - “abc” 属于字符串字面量，因此编译时期会在 String Pool 中创建一个字符串对象，指向这个 “abc” 字符串字面量；
-- 而使用 new 的方式会在堆中创建一个字符串对象。
+- 而使用 *new* 的方式会在堆中创建一个字符串对象。
 
-所以 `s3 == s1` 返回 false，因为 s3 实际指向引号创建字面量时产生的对象。
+所以 *s3 == s1* 返回 false，因为 *s3* 实际指向引号创建字面量时产生的对象。
 
 ### 3.6 常用方法
 
@@ -477,20 +477,20 @@ Java 核心库为每种基本类型都提供了对应的包装类型：
 
 <br>
 
-| 基本类型 | 对应的引用类型      |
-| :------- | :------------------ |
-| boolean  | java.lang.Boolean   |
-| byte     | java.lang.Byte      |
-| short    | java.lang.Short     |
-| int      | java.lang.Integer   |
-| long     | java.lang.Long      |
-| float    | java.lang.Float     |
-| double   | java.lang.Double    |
-| char     | java.lang.Character |
+| 基本类型  | 对应的引用类型        |
+| :-------- | :-------------------- |
+| *boolean* | *java.lang.Boolean*   |
+| *byte*    | *java.lang.Byte*      |
+| *short*   | *java.lang.Short*     |
+| *int*     | *java.lang.Integer*   |
+| *long*    | *java.lang.Long*      |
+| *float*   | *java.lang.Float*     |
+| *double*  | *java.lang.Double*    |
+| *char*    | *java.lang.Character* |
 
 #### 1. Auto Boxing
 
-因为 int 和 Integer 可以互相转换：
+因为 *int* 和 *Integer* 可以互相转换：
 
 ```java
 int i = 100;
@@ -498,27 +498,27 @@ Integer n = Integer.valueOf(i);
 int x = n.intValue();
 ```
 
-所以，Java 编译器可以帮助我们自动在 int 和 Integer 之间转型：
+所以，Java 编译器可以帮助我们自动在 *int* 和 *Integer* 之间转型：
 
 ```java
 Integer n = 100; // 编译器自动使用 Integer.valueOf(int)
 int x = n; // 编译器自动使用 Integer.intValue()
 ```
 
-这种直接把 int 变为 Integer 的赋值写法，称为自动装箱（Auto Boxing），反过来，把 Integer 变为 int 的赋值写法，称为自动拆箱（Auto Unboxing）。
+这种直接把 *int* 变为 *Integer* 的赋值写法，称为自动装箱（Auto Boxing），反过来，把 *Integer* 变为 *int* 的赋值写法，称为自动拆箱（Auto Unboxing）。
 
-自动装箱和自动拆箱只发生在编译阶段，目的是为了少写代码。装箱和拆箱会影响代码的执行效率，因为编译后的 class 代码是严格区分基本类型和引用类型的。并且，自动拆箱执行时可能会报 NullPointerException（比如对null自动拆箱）。
+自动装箱和自动拆箱只发生在编译阶段，目的是为了少写代码。装箱和拆箱会影响代码的执行效率，因为编译后的 *Class* 代码是严格区分基本类型和引用类型的。并且，自动拆箱执行时可能会报 *NullPointerException*（比如对 null 自动拆箱）。
 
 #### 2. 静态工厂方法
 
-`Integer.valueOf()` 可能始终返回同一个 Integer 实例（为了节省内存，`Integer.valueOf()` 对于较小的数，始终返回相同的实例），因此，在我们自己创建 Integer 的时候，以下两种方法：
+`Integer.valueOf()` 可能始终返回同一个 *Integer* 实例（为了节省内存，`Integer.valueOf()` 对于较小的数，始终返回相同的实例），因此，在我们自己创建 *Integer* 的时候，以下两种方法：
 
 - 方法 1：`Integer n = new Integer(100)`；
 - 方法 2：`Integer n = Integer.valueOf(100)`；
 
-方法 2 更好，因为方法1总是创建新的 Integer 实例，方法 2 把内部优化留给 Integer 的实现者去做，即使在当前版本没有优化，也有可能在下一个版本进行优化。
+方法 2 更好，因为方法1总是创建新的 *Integer* 实例，方法 2 把内部优化留给 *Integer* 的实现者去做，即使在当前版本没有优化，也有可能在下一个版本进行优化。
 
-我们把能创建“新”对象的静态方法称为**静态工厂方法**。`Integer.valueOf()` 就是静态工厂方法，它尽可能地返回缓存的实例以节省内存。
+我们把能创建 “新” 对象的静态方法称为**静态工厂方法**。`Integer.valueOf()` 就是静态工厂方法，它尽可能地返回缓存的实例以节省内存。
 
 ### 4.2 枚举类型
 
@@ -530,17 +530,17 @@ enum Weekday {
 
 #### 1. enum 定义枚举的好处
 
-* enum 常量本身带有类型信息，即 Weekday.SUN 类型是 Weekday，编译器会自动检查出类型错误。
+* *enum* 常量本身带有类型信息，即 *Weekday.SUN* 类型是 *Weekday*，编译器会自动检查出类型错误。
 * 不可能引用到非枚举的值，因为无法通过编译。
 * 不同类型的枚举不能互相比较或者赋值，因为类型不符。
 
 #### 2. enum 和 class 的区别
 
-- enum 类型的每个常量在 JVM 中只有一个唯一实例，所以可以直接用 == 比较；
-- 定义的 enum 类型总是继承自 java.lang.Enum，且无法被继承；
-- 只能定义出 enum 的实例，而无法通过 new 操作符创建 enum 的实例；
+- *enum* 类型的每个常量在 JVM 中只有一个唯一实例，所以可以直接用 == 比较；
+- 定义的 *enum* 类型总是继承自 *java.lang.Enum*，且无法被继承；
+- 只能定义出 *enum* 的实例，而无法通过 *new* 操作符创建 *enum* 的实例；
 - 定义的每个实例都是引用类型的唯一实例；
-- 可以将 enum 类型用于 switch 语句。
+- 可以将 *enum* 类型用于 switch 语句。
 
 #### 3. name()
 
@@ -575,7 +575,7 @@ Java 的参数传递完全等同于赋值运算符的操作 [[3]](https://www.zh
 
 #### 2. 可变参数
 
-可变参数用 `类型...` 定义，可变参数相当于数组类型，可以把可变参数改写为 String[] 类型，但是，调用方需要自己先构造 String[]，比较麻烦。另外可变参数可以保证无法传入 null，因为传入 0 个参数时，接收到的实际值是一个空数组而不是 null。
+可变参数用 `类型...` 定义，可变参数相当于数组类型，可以把可变参数改写为 *String[]* 类型，但是，调用方需要自己先构造 *String[]*，比较麻烦。另外可变参数可以保证无法传入 null，因为传入 0 个参数时，接收到的实际值是一个空数组而不是 null。
 
 ### 5.2 构造方法
 
@@ -583,7 +583,7 @@ Java 的参数传递完全等同于赋值运算符的操作 [[3]](https://www.zh
 
 ### 5.3 初始化顺序
 
-对象在 Class 文件加载完毕，以及为各成员在方法区开辟好内存空间之后，就开始所谓 “初始化" 的步骤
+对象在 *Class* 文件加载完毕，以及为各成员在方法区开辟好内存空间之后，就开始所谓 “初始化" 的步骤
 
 1. **基类静态代码块，基类静态成员字段**
 2. **派生类静态代码块，派生类静态成员字段**
@@ -633,7 +633,7 @@ public class Main {
 
 #### 2. 输出
 
-println 是 print line 的缩写，表示输出并换行。因此，如果输出后不想换行，可以用 `print()`。格式化输出使用 `System.out.printf()`，通过使用占位符 `%?`，`printf()` 可以把后面的参数格式化成指定格式
+*println* 是 print line 的缩写，表示输出并换行。因此，如果输出后不想换行，可以用 `print()`。格式化输出使用 `System.out.printf()`，通过使用占位符 `%?`，`printf()` 可以把后面的参数格式化成指定格式
 
 Java 的格式化功能提供了多种占位符，可以把各种数据类型“格式化”成指定的字符串：
 
@@ -649,24 +649,24 @@ Java 的格式化功能提供了多种占位符，可以把各种数据类型“
 
 #### 3. if 语句
 
-* 多个 if ... else 串联要特别注意判断顺序；
+* 多个 *if ... else* 串联要特别注意判断顺序；
 
-* 要注意 if 的边界条件；
+* 要注意 *if* 的边界条件；
 
 * 要注意浮点数判断相等不能直接用 == 运算符；
 
   应该用 `if (Math.abs(x - 0.1) < 0.00001) {...}`
 
-* 引用类型判断内容相等要使用 `equals()`，注意避免 NullPointerException。
+* 引用类型判断内容相等要使用 `equals()`，注意避免 *NullPointerException*。
 
   应该用 `if (s1 != null && s1.equals("hello")) {...}`
 
 #### 4. switch 语句
 
-* switch 的计算结果必须是**整型、字符串或枚举类型**；
-* case 语句具有**穿透性**，注意千万不要漏写 break；
-* 总是写上 default，建议打开 missing default 警告；
-* 从 Java 14 开始，switch 语句升级为表达式，不再需要 break，并且允许使用 yield 返回值。
+* *switch* 的计算结果必须是**整型、字符串或枚举类型**；
+* *case* 语句具有**穿透性**，注意千万不要漏写 *break*；
+* 总是写上 *default*，建议打开 *missing default* 警告；
+* 从 Java 14 开始，*switch* 语句升级为表达式，不再需要 *break*，并且允许使用 *yield* 返回值。
 
 ```java
 public class Main {
@@ -693,8 +693,8 @@ public class Main {
 
 声明数据为常量，可以是编译时常量，也可以是在运行时被初始化后不能被改变的常量。
 
-- 对于基本类型，final 使数值不变；
-- 对于引用类型，final 使引用不变，不能引用其它对象，但是被引用的对象本身可以修改。
+- 对于基本类型，*final* 使数值不变；
+- 对于引用类型，*final* 使引用不变，不能引用其它对象，但是被引用的对象本身可以修改。
 
 ```java
 final int x = 1;
@@ -707,7 +707,7 @@ y.a = 1;
 
 声明方法不能被子类重写。
 
-private 方法隐式地被指定为 final，如果在子类中定义的方法和基类中的一个 private 方法签名相同，此时子类的方法不是重写基类方法，而是在子类中定义了一个新的方法。
+*private* 方法隐式地被指定为 *final*，如果在子类中定义的方法和基类中的一个 *private* 方法签名相同，此时子类的方法不是重写基类方法，而是在子类中定义了一个新的方法。
 
 **（3）类**
 
@@ -747,7 +747,7 @@ public abstract class A {
 }
 ```
 
-只能访问所属类的静态字段和静态方法，方法中不能有 this 和 super 关键字，因此这两个关键字与具体对象关联。
+只能访问所属类的静态字段和静态方法，方法中不能有 *this* 和 *super* 关键字，因此这两个关键字与具体对象关联。
 
 ```java
 public class A {
@@ -807,7 +807,7 @@ public class OuterClass {
 
 **（5）静态导包**
 
-在使用静态变量和方法时不用再指明 ClassName，从而简化代码，但可读性大大降低。
+在使用静态变量和方法时不用再指明 *ClassName*，从而简化代码，但可读性大大降低。
 
 ```java
 import static com.xxx.ClassName.*
