@@ -61,7 +61,7 @@
       "datePublished": "2020-09-29 20:03:36 \u002b0800 CST",
       "dateModified" : "2020-09-29 20:03:36 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9E%8B\/",
-      "wordCount" : "284",
+      "wordCount" : "590",
       "keywords" : ["Blog"]
     }
   
@@ -118,7 +118,7 @@
               
 <p>三名无业青年，本着 &ldquo;替人排忧、替人解难、替人受过&rdquo; 的宗旨，成立了一个 3T 公司。</p>
 <h2 id="一装饰器---decorator">一、装饰器 - Decorator<a class="anchor" href="#一装饰器---decorator">#</a></h2>
-<p>3T 公司提供了两种服务，聊天类与催债类：</p>
+<p>3T 公司提供了多种服务，比如聊天类与催债类：</p>
 <pre><code class="language-java">interface Service {
     // 每一种服务都要收取一定费用
     int cost();
@@ -202,24 +202,25 @@ class T3 extends TDecorator {
 <p>一位男青年来到 3T 公司，他已经单身太久了，渴望找个女伴。可是 3T 公司全是男员工，秉持着 “解决一切问题” 的服务理念，于观打算女扮男装&hellip;</p>
 <pre><code class="language-java">interface Boy {
 
-    void boyFriend();
+    String boyHookUp();
 }
 
 interface Girl {
 
-    void girlFriend();
+    String girlHookUp();
 }
 
 class BoyInLove implements Boy {
 
     @Override
-    public void boyFriend() {
-        System.out.println(&quot;I'm in love with you!&quot;);
+    public String boyHookUp() {
+        return &quot;I'm in love with you! beauty!&quot;;
     }
 }
 </code></pre>
-<p>客户需要一个女伴，可公司只有男人，为了满足客户的需求，公司需要完成服务的适配，女扮男装的过程就是适配，适配器如下：</p>
+<p>客户需要一个女伴，可公司只有男人，为了满足客户的需求，公司需要完成服务的适配，女扮男装的过程就是<strong>适配</strong>，它是为了适应客户的需求而做出的改动，同时又不影响到原本的其他功能，适配器如下：</p>
 <pre><code class="language-java">class BoyAdapter implements Girl {
+    // 适配器持有原对象
     Boy boy;
 
     public BoyAdapter(Boy boy) {
@@ -227,10 +228,10 @@ class BoyInLove implements Boy {
     }
 
     @Override
-    public void girlFriend() {
-        boy.boyFriend();
-        // 假扮的女伴喊出了帅哥...
-        System.out.println(&quot;handsome!&quot;);
+    public String girlHookUp() {
+        String hi = boy.boyHookUp();
+        // 改变原对象行为以适应需求
+        return hi.replace(&quot;beauty&quot;, &quot;handsome&quot;);
     }
 }
 </code></pre>
@@ -240,12 +241,106 @@ class BoyInLove implements Boy {
     public static void main(String[] args) {
         Boy boy = new BoyInLove();
         Girl girl = new BoyAdapter(boy); // 女扮男装
-        girl.girlFriend();
+        System.out.println(girl.girlHookUp());
     }
 }
 </code></pre>
-<pre><code class="language-txt">I'm in love with you!
-handsome!
+<pre><code class="language-txt">I'm in love with you! handsome!
+</code></pre>
+<h2 id="三代理---proxy">三、代理 - Proxy<a class="anchor" href="#三代理---proxy">#</a></h2>
+<p>3T 公司已经营业三个月了，杨重发现客户的大多数需求都是重复的，最多的就是跑腿。为了显得高级，这个业务被称作代理。一日，某客户想要买两张电影票，可他又不想特地跑去电影院，于是他找到 3T 公司，定了代理业务。电影当然是客户自己去看，不过买票和送客户女伴回家这些事就交由 3T 公司负责了。</p>
+<pre><code class="language-java">interface TicketsRequired {
+
+    void enjoy(String name1, String name2);
+}
+
+class MovieFan implements TicketsRequired {
+
+    @Override
+    public void enjoy(String theaterName, String homeName) {
+        System.out.println(&quot;Client watching a movie...&quot;);
+    }
+}
+
+class MovieFanProxy implements TicketsRequired {
+    MovieFan mf;
+
+    MovieFanProxy(MovieFan mf) {
+        this.mf = mf;
+    }
+
+    @Override
+    public void enjoy(String theaterName, String homeName) {
+        System.out.println(&quot;Booking tickets for client from &quot; + theaterName);
+        mf.enjoy(theaterName, homeName);
+        System.out.println(&quot;Sending the client's girlfriend to &quot; + homeName);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Movie {
+
+    public static void main(String[] args) {
+        MovieFan mf = new MovieFan();
+        TicketsRequired tr = new MovieFanProxy(mf);
+        tr.enjoy(&quot;--the first theater--&quot;, &quot;--Boulevard of Broken Dreams--&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-txt">Booking tickets for client from --the first theater--
+Client watching a movie...
+Sending the client's girlfriend to --Boulevard of Broken Dreams--
+</code></pre>
+<p>电影结束后，杨重在门口等客户的女伴。昏暗的灯光下，那女孩走路有些失稳，杨重忙上前搀扶：“您这喝了不少吧？” 女孩没说话，只轻声一笑坐进了车里。</p>
+<p>回去路上，杨重透过后视镜看着那女孩望着车窗外，秀发遮着侧脸，眼里闪着迷人的光。杨重搭话：“你男朋友可真是个阔少爷”。后座传来一阵诡异的笑声，杨重回头定睛一看，这女伴竟是于观&hellip;</p>
+<h3 id="31-动态代理">3.1 动态代理<a class="anchor" href="#31-动态代理">#</a></h3>
+<p>“真有你的，于观，” 杨重拍了拍方向盘，笑道，“这小子真就落你手里了。”</p>
+<p>“人傻钱多，” 于观摘下假发，伸手拍了拍杨重的肩，“刚才你看我的眼神不太对劲啊？”</p>
+<p>“真有你的！&rdquo;</p>
+<p>两人聊起公司的业务，杨重告诉于观，客户都是有钱的主，他们的活动都得买票，3T 公司快成了买票公司了。3T 公司成立之初，为了服务的贴心周到，针对每一类客户都需要定制专属的代理方案（代理类）。可是杨重渐渐发现不管客户是看电影还是看球赛，公司的服务不外乎就是买票送客户进去和结束了送客户回家。对每一类客户都定制方案实在是费时费力。</p>
+<p>回到公司，杨重和于观把他们的想法告诉了马青。马青学过计算机，一听这立马来了劲，“我们该升级我们的代理服务了，新的服务叫做<strong>动态代理</strong>！有了动态代理，就不需要为每一个客户都定制方案了，换句话说，所有客户都只有一套方案：到时候看着办！”</p>
+<p>原本的代理类持有原对象，这就存在耦合，这种静态代理只能代理具体的类，有多少类就需要多少代理类。如果代理方式需要改变，每一种代理类也都需要改变，这是十分繁杂的。解耦的关键是独立出代理的步骤，Java 中使用 <em>InvocationHandler</em> 实现，3T 公司的 <em>TTTHandler</em> 设计如下：</p>
+<pre><code class="language-java">class TTTHandler implements InvocationHandler {
+    Object original;
+
+    TTTHandler(Object original) {
+        this.original = original;
+    }
+
+    @Override
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        // 找到具体方法的执行语句
+        if (method.getName().equals(&quot;enjoy&quot;)) {
+            System.out.println(&quot;Booking tickets for client from &quot; + args[0]); // 前处理
+            method.invoke(original, args); // 通过反射来执行
+            System.out.println(&quot;Sending the client's girlfriend to &quot; + args[1]); // 后处理
+        }
+        return null;
+    }
+}
+</code></pre>
+<p>虽然 <em>TTTHandler</em> 同样持有原对象，但是它并不知道这个对象到底是什么。可是如果不知道原对象具体是什么，该如何代理呢？答案就是<strong>反射</strong>。在通过 <code>Proxy.newProxyInstance()</code> 获取代理对象时，需要传入三个变量：接口的类加载器、接口的 <em>Class</em> 类、<em>handler</em>。 这里的接口指的就是具体要代理的功能的接口，那么可以这样理解：动态代理不再代理具体的类，而是代理接口，即只代理需要代理的功能。</p>
+<p>3T 公司很快就实行了动态代理的模式，杨重再次接到订单，同样是买票，这次他不需要再定计划了，因为他根本不关心买的是电影票还是球赛票，他只知道他要买票（只传入了接口）。这样带来的好处就是杨重一个人就可以处理所有的买票任务了。</p>
+<p>可是事情没有这么简单，杨重还要负责提醒客户准时参加活动，由于事先并不知道客户的具体活动是什么，杨重只好 “到时候看着办” 了。所谓的 “到时候看着办” 就是在<strong>运行期</strong>通过反射中的 <code>invoke()</code> 来执行具体操作。</p>
+<pre><code class="language-java">public class Movie {
+
+    public static void main(String[] args) {
+        TicketsRequired tr = new MovieFan();
+        tr = getProxy(tr);
+        tr.enjoy(&quot;--the first theater--&quot;, &quot;--Boulevard of Broken Dreams--&quot;);
+    }
+
+    public static TicketsRequired getProxy(Object proxy) {
+        InvocationHandler handler = new TTTHandler(proxy);
+        return (TicketsRequired) Proxy.newProxyInstance(
+                TicketsRequired.class.getClassLoader(),
+                new Class[] { TicketsRequired.class },
+                handler);
+    }
+}
+</code></pre>
+<pre><code class="language-txt">Booking tickets for client from --the first theater--
+Client watching a movie...
+Sending the client's girlfriend to --Boulevard of Broken Dreams--
 </code></pre>
 <h1 id="未完待续">未完待续&hellip;</h1>
 
@@ -306,6 +401,11 @@ handsome!
   <ul>
     <li><a href="#一装饰器---decorator">一、装饰器 - Decorator</a></li>
     <li><a href="#二适配器---adapter">二、适配器 - Adapter</a></li>
+    <li><a href="#三代理---proxy">三、代理 - Proxy</a>
+      <ul>
+        <li><a href="#31-动态代理">3.1 动态代理</a></li>
+      </ul>
+    </li>
   </ul>
 </nav>
       </div>

@@ -19,7 +19,7 @@
       
       <guid>https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9E%8B/</guid>
       <description>三名无业青年，本着 &amp;ldquo;替人排忧、替人解难、替人受过&amp;rdquo; 的宗旨，成立了一个 3T 公司。
-一、装饰器 - Decorator 3T 公司提供了两种服务，聊天类与催债类：
+一、装饰器 - Decorator 3T 公司提供了多种服务，比如聊天类与催债类：
 interface Service { // 每一种服务都要收取一定费用 int cost(); } class CommunicationService implements Service { @Override public int cost() { return 5; } } class FinancialService implements Service { @Override public int cost() { return 10; } }  不论聊天还是催债都可以提供额外的服务 T1（排忧），T2（解难） 和 T3（受过）。附加额外的服务就需要提高费用，而提高费用并不影响原先的费用计算。
 abstract class TDecorator implements Service { // 抽象类装饰器持有 Service 对象 protected Service service; } // 排忧 class T1 extends TDecorator { public T1(Service service) { this.</description>
     </item>
