@@ -199,7 +199,7 @@ class T3 extends TDecorator {
 }
 </code></pre>
 <h2 id="二适配器---adapter">二、适配器 - Adapter<a class="anchor" href="#二适配器---adapter">#</a></h2>
-<p>一位男青年来到 3T 公司，他已经单身太久了，渴望找个女伴。可是 3T 公司全是男员工，秉持着 “解决一切问题” 的服务理念，于观打算女扮男装&hellip;</p>
+<p>一位男青年来到 3T 公司，他已经单身太久了，渴望找个女伴。可是 3T 公司全是男员工，秉持着 “解决一切问题” 的服务理念，于观打算男扮女装&hellip;</p>
 <pre><code class="language-java">interface Boy {
 
     String boyHookUp();
@@ -218,7 +218,7 @@ class BoyInLove implements Boy {
     }
 }
 </code></pre>
-<p>客户需要一个女伴，可公司只有男人，为了满足客户的需求，公司需要完成服务的适配，女扮男装的过程就是<strong>适配</strong>，它是为了适应客户的需求而做出的改动，同时又不影响到原本的其他功能，适配器如下：</p>
+<p>客户需要一个女伴，可公司只有男人，为了满足客户的需求，公司需要完成服务的适配，男扮女装的过程就是<strong>适配</strong>，它是为了适应客户的需求而做出的改动，同时又不影响到原本的其他功能，适配器如下：</p>
 <pre><code class="language-java">class BoyAdapter implements Girl {
     // 适配器持有原对象
     Boy boy;
@@ -240,7 +240,7 @@ class BoyInLove implements Boy {
 
     public static void main(String[] args) {
         Boy boy = new BoyInLove();
-        Girl girl = new BoyAdapter(boy); // 女扮男装
+        Girl girl = new BoyAdapter(boy); // 男扮女装
         System.out.println(girl.girlHookUp());
     }
 }
