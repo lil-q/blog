@@ -61,7 +61,7 @@
       "datePublished": "2020-09-29 20:03:36 \u002b0800 CST",
       "dateModified" : "2020-09-29 20:03:36 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9E%8B\/",
-      "wordCount" : "590",
+      "wordCount" : "594",
       "keywords" : ["Blog"]
     }
   
@@ -271,9 +271,9 @@ class MovieFanProxy implements TicketsRequired {
 
     @Override
     public void enjoy(String theaterName, String homeName) {
-        System.out.println(&quot;Booking tickets for client from &quot; + theaterName);
-        mf.enjoy(theaterName, homeName);
-        System.out.println(&quot;Sending the client's girlfriend to &quot; + homeName);
+        System.out.println(&quot;Booking tickets for client from &quot; + theaterName); // 前处理
+        mf.enjoy(theaterName, homeName); // 客户看电影
+        System.out.println(&quot;Sending the client's girlfriend to &quot; + homeName); // 后处理
     }
 }
 </code></pre>
@@ -291,14 +291,14 @@ Client watching a movie...
 Sending the client's girlfriend to --Boulevard of Broken Dreams--
 </code></pre>
 <p>电影结束后，杨重在门口等客户的女伴。昏暗的灯光下，那女孩走路有些失稳，杨重忙上前搀扶：“您这喝了不少吧？” 女孩没说话，只轻声一笑坐进了车里。</p>
-<p>回去路上，杨重透过后视镜看着那女孩望着车窗外，秀发遮着侧脸，眼里闪着迷人的光。杨重搭话：“你男朋友可真是个阔少爷”。后座传来一阵诡异的笑声，杨重回头定睛一看，这女伴竟是于观&hellip;</p>
+<p>回去路上，杨重透过后视镜看着那女孩望着车窗外，秀发遮着侧脸，眼里闪着迷人的光。杨重搭话：“您男朋友可真是个阔少爷”。后座传来一阵诡异的笑声，杨重回头定睛一看，这女伴竟是于观&hellip;</p>
 <h3 id="31-动态代理">3.1 动态代理<a class="anchor" href="#31-动态代理">#</a></h3>
 <p>“真有你的，于观，” 杨重拍了拍方向盘，笑道，“这小子真就落你手里了。”</p>
 <p>“人傻钱多，” 于观摘下假发，伸手拍了拍杨重的肩，“刚才你看我的眼神不太对劲啊？”</p>
 <p>“真有你的！&rdquo;</p>
 <p>两人聊起公司的业务，杨重告诉于观，客户都是有钱的主，他们的活动都得买票，3T 公司快成了买票公司了。3T 公司成立之初，为了服务的贴心周到，针对每一类客户都需要定制专属的代理方案（代理类）。可是杨重渐渐发现不管客户是看电影还是看球赛，公司的服务不外乎就是买票送客户进去和结束了送客户回家。对每一类客户都定制方案实在是费时费力。</p>
 <p>回到公司，杨重和于观把他们的想法告诉了马青。马青学过计算机，一听这立马来了劲，“我们该升级我们的代理服务了，新的服务叫做<strong>动态代理</strong>！有了动态代理，就不需要为每一个客户都定制方案了，换句话说，所有客户都只有一套方案：到时候看着办！”</p>
-<p>原本的代理类持有原对象，这就存在耦合，这种静态代理只能代理具体的类，有多少类就需要多少代理类。如果代理方式需要改变，每一种代理类也都需要改变，这是十分繁杂的。解耦的关键是独立出代理的步骤，Java 中使用 <em>InvocationHandler</em> 实现，3T 公司的 <em>TTTHandler</em> 设计如下：</p>
+<p>原本的代理类持有原对象，这就存在耦合，这种静态代理只能代理具体的类，有多少类就需要多少代理类。如果代理方式需要改变，每一种代理类也都需要改变，这是十分繁杂的。解耦的关键是独立出代理的步骤，<em>InvocationHandler</em> 实现了这个功能，3T 公司的 <em>TTTHandler</em> 设计如下：</p>
 <pre><code class="language-java">class TTTHandler implements InvocationHandler {
     Object original;
 
