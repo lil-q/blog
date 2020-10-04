@@ -61,7 +61,7 @@
       "datePublished": "2020-09-29 20:03:36 \u002b0800 CST",
       "dateModified" : "2020-09-29 20:03:36 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9E%8B\/",
-      "wordCount" : "594",
+      "wordCount" : "665",
       "keywords" : ["Blog"]
     }
   
@@ -342,6 +342,44 @@ Sending the client's girlfriend to --Boulevard of Broken Dreams--
 Client watching a movie...
 Sending the client's girlfriend to --Boulevard of Broken Dreams--
 </code></pre>
+<h2 id="四外观---facade">四、外观 - Facade<a class="anchor" href="#四外观---facade">#</a></h2>
+<p>于观带着他的 “男朋友” 走进了 3T 公司，“请给我们来一个 ‘欢乐一日’ 套餐好吗？”</p>
+<p>杨重忍着笑：“好嘞！这就给您安排。”</p>
+<pre><code class="language-java">class SubSystem {
+
+    public void dinner() {
+        System.out.println(&quot;Dinner!&quot;);
+    }
+
+    public void film() {
+        System.out.println(&quot;Film!&quot;);
+    }
+
+    public void shopping() {
+        System.out.println(&quot;Shopping!&quot;);
+    }
+}
+</code></pre>
+<pre><code class="language-java">public class Facade {
+    private SubSystem subSystem = new SubSystem();
+
+    public void dayOfFun() {
+        subSystem.dinner();
+        subSystem.film();
+        subSystem.shopping();
+    }
+
+    public static void main(String[] args) {
+        new Facade().dayOfFun();
+    }
+}
+</code></pre>
+<pre><code class="language-java">Dinner!
+Film!
+Shopping!
+</code></pre>
+<p>3T 公司在不管改革，近期推出的 “套餐” 就是几种不同的服务的组合。当客户需要多种不同服务时，就不需要逐一安排，只需要使用 “套餐” 就可以了。</p>
+<p>五、</p>
 <h1 id="未完待续">未完待续&hellip;</h1>
 
 
@@ -406,6 +444,7 @@ Sending the client's girlfriend to --Boulevard of Broken Dreams--
         <li><a href="#31-动态代理">3.1 动态代理</a></li>
       </ul>
     </li>
+    <li><a href="#四外观---facade">四、外观 - Facade</a></li>
   </ul>
 </nav>
       </div>
