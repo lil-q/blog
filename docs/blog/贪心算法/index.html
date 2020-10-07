@@ -61,7 +61,7 @@
       "datePublished": "2020-04-22 20:42:19 \u002b0000 UTC",
       "dateModified" : "2020-04-22 20:42:19 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95\/",
-      "wordCount" : "845",
+      "wordCount" : "867",
       "keywords" : ["Blog"]
     }
   
@@ -118,21 +118,21 @@
               
 <p>一旦一个问题可以通过贪心法来解决，那么贪心法一般是解决这个问题的最好办法。</p>
 <h2 id="一概述">一、概述<a class="anchor" href="#一概述">#</a></h2>
-<p><strong>贪心算法</strong>（greedy algorithm），又称<strong>贪婪算法</strong>，是一种在每一步选择中都采取在当前状态下最好或最优（即最有利）的选择，从而希望导致结果是最好或最优的算法。比如在<a href="https://zh.wikipedia.org/wiki/%E6%97%85%E8%A1%8C%E6%8E%A8%E9%94%80%E5%91%98%E9%97%AE%E9%A2%98">旅行推销员问题</a>中，如果旅行员每次都选择最近的城市，那这就是一种贪心算法。</p>
+<p><strong>贪心算法</strong>（greedy algorithm），是一种在每一步选择中都采取在当前状态下最好或最优（即最有利）的选择，从而希望导致结果是最好或最优的算法。比如在<a href="https://zh.wikipedia.org/wiki/%E6%97%85%E8%A1%8C%E6%8E%A8%E9%94%80%E5%91%98%E9%97%AE%E9%A2%98">旅行推销员问题</a>中，如果旅行员每次都选择最近的城市，那这就是一种贪心算法。</p>
 <p>贪心算法在有<strong>最优子结构</strong>的问题中尤为有效。最优子结构的意思是局部最优解能决定全局最优解。简单地说，问题能够分解成子问题来解决，子问题的最优解能递推到最终问题的最优解。</p>
 <p>贪心算法与<strong>动态规划</strong>的不同在于它对每个子问题的解决方案都做出选择，不能回退。动态规划则会保存以前的运算结果，并根据以前的结果对当前进行选择，有回退功能。</p>
 <p>贪心法可以解决一些最优化问题，如：求图中的<a href="https://lil-q.github.io/2019/12/27/%E5%9B%BE-graph/#%E7%94%9F%E6%88%90%E6%A0%91">最小生成树</a>、求<a href="https://zh.wikipedia.org/wiki/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81">哈夫曼编码</a>……对于其他问题，贪心法一般不能得到我们所要求的答案。一旦一个问题可以通过贪心法来解决，那么贪心法一般是解决这个问题的最好办法。由于贪心法的高效性以及其所求得的答案比较接近最优结果，贪心法也可以用作辅助算法或者直接解决一些要求结果不特别精确的问题。</p>
 <h2 id="二流程">二、流程<a class="anchor" href="#二流程">#</a></h2>
 <ol>
-<li>创建数学模型来描述问题。</li>
-<li>把求解的问题分成若干个<strong>子问题</strong>。</li>
-<li>对每一子问题求解，得到子问题的局部最优解。</li>
+<li>创建数学模型来描述问题；</li>
+<li>把求解的问题分成若干个<strong>子问题</strong>；</li>
+<li>对每一子问题求解，得到子问题的局部最优解；</li>
 <li>把子问题的解局部最优解合成原来解问题的一个解。</li>
 </ol>
 <h2 id="三题解">三、题解<a class="anchor" href="#三题解">#</a></h2>
-<p>回溯算法，动态规划和贪心算法其实是循序渐进的。回溯算法即是暴力的<strong>枚举</strong>，每一步对所有可能都进行计算，计算到达终点即返回，每一步返回后都要把状态回归到之前的状态。回溯算法的痛点是他有很多重复的计算，解决的办法是引入备忘录，备忘录记录了每一步的结果，这其实就是子问题的最优解，动态规划由此产生。所以使用动态规划时必须要满足<strong>无后效性</strong>，子问题的解一旦确定，就不再改变，不受在这之后、包含它的更大的问题的求解决策影响。如果一个问题没有<strong>重叠子问题</strong>，那就只能使用回溯算法，比如<a href="https://lil-q.github.io/2020/03/08/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/#%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98">N皇后问题</a>。</p>
+<p>回溯算法，动态规划和贪心算法其实是循序渐进的。回溯算法即是暴力的<strong>枚举</strong>，每一步对所有可能都进行计算，计算到达终点即返回，每一步返回后都要把状态回归到之前的状态。回溯算法的痛点是他有很多重复的计算，解决的办法是引入备忘录，备忘录记录了每一步的结果，这其实就是子问题的最优解，动态规划由此产生。所以使用动态规划时必须要满足<strong>无后效性</strong>，子问题的解一旦确定，就不再改变，不受在这之后、包含它的更大的问题的求解决策影响。如果一个问题没有<strong>重叠子问题</strong>，那就只能使用回溯算法，比如 <a href="https://lil-q.github.io/2020/03/08/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/#%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98">N 皇后问题</a>。</p>
 <p>对于有些问题，我们通过建立数学模型之后明确知道了子问题的最优解，那么就不需要枚举各种情况了。比如有 5 元，2 元和 1 元三种硬币无限个，求用这些硬币兑换 x 元的最少硬币个数。解决这个问题总是先考虑最大面额的硬币，并不需要枚举。但是对于 5 元，4 元和 1 元这三个面额，贪心算法并不能得出最优解。</p>
-<h3 id="加油站">加油站<a class="anchor" href="#加油站">#</a></h3>
+<h3 id="31-加油站">3.1 加油站<a class="anchor" href="#31-加油站">#</a></h3>
 <p><a href="https://leetcode-cn.com/problems/gas-station/">leetcode 134. 加油站</a>：在一条环路上有 N 个加油站，其中第 i 个加油站有汽油 gas[i] 升。你有一辆油箱容量无限的的汽车，从第 i 个加油站开往第 i+1 个加油站需要消耗汽油 cost[i] 升。你从其中的一个加油站出发，开始时油箱为空。如果你可以绕环路行驶一周，则返回出发时加油站的编号，否则返回 -1。</p>
 <p><strong>说明:</strong></p>
 <ul>
@@ -164,7 +164,7 @@ cost = [3,4,5,1,2]
     }
 }
 </code></pre>
-<h3 id="跳跃游戏-ii">跳跃游戏 II<a class="anchor" href="#跳跃游戏-ii">#</a></h3>
+<h3 id="32-跳跃游戏-ii">3.2 跳跃游戏 II<a class="anchor" href="#32-跳跃游戏-ii">#</a></h3>
 <p><a href="https://leetcode-cn.com/problems/jump-game-ii/">leetcode 45. 跳跃游戏 II</a>：给定一个非负整数数组，你最初位于数组的第一个位置。数组中的每个元素代表你在该位置可以跳跃的最大长度。你的目标是使用最少的跳跃次数到达数组的最后一个位置。</p>
 <p><strong>示例:</strong></p>
 <pre><code class="language-txt">输入: [2,3,1,1,4]
@@ -187,7 +187,7 @@ cost = [3,4,5,1,2]
     }
 }
 </code></pre>
-<h3 id="分发糖果">分发糖果<a class="anchor" href="#分发糖果">#</a></h3>
+<h3 id="33-分发糖果">3.3 分发糖果<a class="anchor" href="#33-分发糖果">#</a></h3>
 <p><a href="https://leetcode-cn.com/problems/candy/">leetcode 135. 分发糖果</a>：老师想给孩子们分发糖果，有 N 个孩子站成了一条直线，老师会根据每个孩子的表现，预先给他们评分。你需要按照以下要求，帮助老师给这些孩子分发糖果：</p>
 <ul>
 <li>每个孩子至少分配到 1 个糖果。</li>
@@ -217,15 +217,15 @@ cost = [3,4,5,1,2]
     }
 }
 </code></pre>
-<h3 id="判断子序列">判断子序列<a class="anchor" href="#判断子序列">#</a></h3>
+<h3 id="34-判断子序列">3.4 判断子序列<a class="anchor" href="#34-判断子序列">#</a></h3>
 <p><a href="https://leetcode-cn.com/problems/is-subsequence/">leetcode 392. 判断子序列</a>：给定字符串 <strong>s</strong> 和 <strong>t</strong> ，判断 <strong>s</strong> 是否为 <strong>t</strong> 的子序列。</p>
 <p>你可以认为 <strong>s</strong> 和 <strong>t</strong> 中仅包含英文小写字母。字符串 <strong>t</strong> 可能会很长（长度 ~= 500,000），而 <strong>s</strong> 是个短字符串（长度 &lt;=100）。</p>
-<p>字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，<code>&quot;ace&quot;</code>是<code>&quot;abcde&quot;</code>的一个子序列，而<code>&quot;aec&quot;</code>不是）。</p>
+<p>字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，&ldquo;ace&rdquo; 是 &ldquo;abcde&rdquo; 的一个子序列，而 &ldquo;aec&rdquo; 不是）。</p>
 <p><strong>示例:</strong></p>
 <pre><code class="language-txt">s = &quot;abc&quot;, t = &quot;ahbgdc&quot;
 返回 true.
 </code></pre>
-<p>如果是匹配一个较短字符串 <strong>s</strong> ，对于 <strong>s</strong> 中每一个<code>char</code> 都优先匹配最开始遇到的，直接扫描一遍 <strong>t</strong> 即可：</p>
+<p>如果是匹配一个较短字符串 <strong>s</strong> ，对于 <strong>s</strong> 中每一个字符都优先匹配最开始遇到的，直接扫描一遍 <strong>t</strong> 即可：</p>
 <pre><code class="language-java">class Solution {
     public boolean isSubsequence(String s, String t) {
         int i = 0;
@@ -238,7 +238,7 @@ cost = [3,4,5,1,2]
 }
 </code></pre>
 <p>匹配一串字符需要 $O(n)$ ，n 为 <strong>t</strong> 的长度。如果有大量输入的 <strong>S</strong>，称作 <strong>S1</strong> , <strong>S2</strong> , &hellip; , <strong>Sk</strong> 其中 k &gt;= 10 亿，你需要依次检查它们是否为 <strong>T</strong> 的子序列，这时候处理每一个子串都需要扫描一遍 <strong>T</strong> 是很费时的。</p>
-<p>在这种情况下，我们需要在匹配前对 <strong>T</strong> 做预处理，利用一个二维数组记录每个位置的下一个要匹配的字符的位置，这里的字符是<code>'a' ~ 'z'</code>，所以这个数组的大小是 <code>dp[n][26]</code>，n 为 <strong>T</strong> 的长度。那么每处理一个子串只需要扫描一遍 <strong>Si</strong> 即可，因为在数组的帮助下我们对 <strong>T</strong> 是“跳跃”扫描的。比如下面匹配 &ldquo;ada&rdquo; 的例子，只需要“跳跃”三次。</p>
+<p>在这种情况下，我们需要在匹配前对 <strong>T</strong> 做预处理，利用一个二维数组记录每个位置的下一个要匹配的字符的位置，这里的字符是 <em>&lsquo;a&rsquo; ~ &lsquo;z&rsquo;</em>，所以这个数组的大小是 <em>dp[n][26]</em>，n 为 <strong>T</strong> 的长度。那么每处理一个子串只需要扫描一遍 <strong>Si</strong> 即可，因为在数组的帮助下我们对 <strong>T</strong> 是“跳跃”扫描的。比如下面匹配 &ldquo;ada&rdquo; 的例子，只需要“跳跃”三次。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/20200426180603%20.jpg" alt=""></p>
 <pre><code class="language-java">class Solution {
     public boolean isSubsequence(String s, String t) {
@@ -261,8 +261,8 @@ cost = [3,4,5,1,2]
     }
 }
 </code></pre>
-<h3 id="根据身高重建队列">根据身高重建队列<a class="anchor" href="#根据身高重建队列">#</a></h3>
-<p><a href="https://leetcode-cn.com/problems/queue-reconstruction-by-height/">leetcode 406. 根据身高重建队列</a>：假设有打乱顺序的一群人站成一个队列。 每个人由一个整数对(h, k)表示，其中h是这个人的身高，k是排在这个人前面且身高大于或等于h的人数。 编写一个算法来重建这个队列。</p>
+<h3 id="35-根据身高重建队列">3.5 根据身高重建队列<a class="anchor" href="#35-根据身高重建队列">#</a></h3>
+<p><a href="https://leetcode-cn.com/problems/queue-reconstruction-by-height/">leetcode 406. 根据身高重建队列</a>：假设有打乱顺序的一群人站成一个队列。 每个人由一个整数对 (h, k) 表示，其中 h 是这个人的身高，k 是排在这个人前面且身高大于或等于 h 的人数。 编写一个算法来重建这个队列。</p>
 <p><strong>示例:</strong></p>
 <pre><code class="language-txt">输入:
 [[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
@@ -284,8 +284,8 @@ cost = [3,4,5,1,2]
     }
 }
 </code></pre>
-<h3 id="按要求补齐数组">按要求补齐数组<a class="anchor" href="#按要求补齐数组">#</a></h3>
-<p><a href="https://leetcode-cn.com/problems/patching-array/">leetcode 330. 按要求补齐数组</a>：给定一个已排序的正整数数组 nums，和一个正整数 n 。从 [1, n] 区间内选取任意个数字补充到 nums 中，使得 [1, n] 区间内的任何数字都可以用 nums 中某几个数字的和来表示。请输出满足上述要求的最少需要补充的数字个数。</p>
+<h3 id="36-按要求补齐数组">3.6 按要求补齐数组<a class="anchor" href="#36-按要求补齐数组">#</a></h3>
+<p><a href="https://leetcode-cn.com/problems/patching-array/">leetcode 330. 按要求补齐数组</a>：给定一个已排序的正整数数组 <em>nums</em>，和一个正整数 <em>n</em> 。从 [1, n] 区间内选取任意个数字补充到 <em>nums</em> 中，使得 [1, n] 区间内的任何数字都可以用 <em>nums</em> 中某几个数字的和来表示。请输出满足上述要求的最少需要补充的数字个数。</p>
 <p><strong>示例:</strong></p>
 <pre><code class="language-txt">输入: nums = [1,3], n = 6
 输出: 1 
@@ -313,8 +313,8 @@ cost = [3,4,5,1,2]
     }
 }
 </code></pre>
-<h3 id="任务调度器">任务调度器<a class="anchor" href="#任务调度器">#</a></h3>
-<p><a href="https://leetcode-cn.com/problems/task-scheduler/">leetcode 621. 任务调度器</a>：给定一个用字符数组表示的 CPU 需要执行的任务列表。其中包含使用大写的 A - Z 字母表示的26 种不同种类的任务。任务可以以任意顺序执行，并且每个任务都可以在 1 个单位时间内执行完。CPU 在任何一个单位时间内都可以执行一个任务，或者在待命状态。然而，两个相同种类的任务之间必须有长度为 n 的冷却时间，因此至少有连续 n 个单位时间内 CPU 在执行不同的任务，或者在待命状态。</p>
+<h3 id="37-任务调度器">3.7 任务调度器<a class="anchor" href="#37-任务调度器">#</a></h3>
+<p><a href="https://leetcode-cn.com/problems/task-scheduler/">leetcode 621. 任务调度器</a>：给定一个用字符数组表示的 CPU 需要执行的任务列表。其中包含使用大写的 A - Z 字母表示的 26 种不同种类的任务。任务可以以任意顺序执行，并且每个任务都可以在 1 个单位时间内执行完。CPU 在任何一个单位时间内都可以执行一个任务，或者在待命状态。然而，两个相同种类的任务之间必须有长度为 n 的冷却时间，因此至少有连续 n 个单位时间内 CPU 在执行不同的任务，或者在待命状态。</p>
 <p>示例 ：</p>
 <pre><code class="language-txt">输入：tasks = [&quot;A&quot;,&quot;A&quot;,&quot;A&quot;,&quot;B&quot;,&quot;B&quot;,&quot;B&quot;], n = 2
 输出：8
@@ -419,13 +419,13 @@ cost = [3,4,5,1,2]
     <li><a href="#二流程">二、流程</a></li>
     <li><a href="#三题解">三、题解</a>
       <ul>
-        <li><a href="#加油站">加油站</a></li>
-        <li><a href="#跳跃游戏-ii">跳跃游戏 II</a></li>
-        <li><a href="#分发糖果">分发糖果</a></li>
-        <li><a href="#判断子序列">判断子序列</a></li>
-        <li><a href="#根据身高重建队列">根据身高重建队列</a></li>
-        <li><a href="#按要求补齐数组">按要求补齐数组</a></li>
-        <li><a href="#任务调度器">任务调度器</a></li>
+        <li><a href="#31-加油站">3.1 加油站</a></li>
+        <li><a href="#32-跳跃游戏-ii">3.2 跳跃游戏 II</a></li>
+        <li><a href="#33-分发糖果">3.3 分发糖果</a></li>
+        <li><a href="#34-判断子序列">3.4 判断子序列</a></li>
+        <li><a href="#35-根据身高重建队列">3.5 根据身高重建队列</a></li>
+        <li><a href="#36-按要求补齐数组">3.6 按要求补齐数组</a></li>
+        <li><a href="#37-任务调度器">3.7 任务调度器</a></li>
       </ul>
     </li>
   </ul>

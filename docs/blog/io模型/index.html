@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>I/O 模型 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="介绍了阻塞 I/O、非阻塞 I/O、I/O 多路复用、异步 I/O，SELECT，POLL 和 EPOLL">
+  <meta name="keywords" content="I/O , BIO , NIO , I/O多路复用">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.56326de82df2d4841928d404adcb91e5331820b2201ba73b8a71fed24212515d.css" integrity="sha256-VjJt6C3y1IQZKNQErcuR5TMYILIgG6c7inH&#43;0kISUV0="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "I\/O 模型",
+      "headline" : "I\/O 模型",
+      "description" : "介绍了阻塞 I\/O、非阻塞 I\/O、I\/O 多路复用、异步 I\/O，SELECT，POLL 和 EPOLL",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-10-07 20:30:35 \u002b0800 CST",
+      "dateModified" : "2020-10-07 20:30:35 \u002b0800 CST",
+      "url" : "https:\/\/lil-q.github.io\/blog\/io%E6%A8%A1%E5%9E%8B\/",
+      "wordCount" : "269",
+      "keywords" : ["I\/O", "BIO", "NIO", "I\/O多路复用", "Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">I/O 模型</h1>
+            <time datetime="2020-10-07 20:30:35 &#43;0800 CST" class="post__date">Oct 7 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<p><strong>I/O</strong>（<strong>I</strong>nput / <strong>O</strong>utput），即<strong>输入／输出</strong>，通常指数据在存储器（内部和外部）或其他周边设备之间的输入和输出，是信息处理系统与外部世界之间的通信。输入是系统接收的信号或数据，输出则是从其发送的信号或数据。</p>
+<p>大多数文件系统的默认 I/O 操作都是缓存 I/O，缓存 I/O 又被称作标准 I/O，。在 Linux 的缓存 I/O 机制中，操作系统会将 I/O 的数据缓存在文件系统的页缓存（ page cache ）中，也就是说，数据会先被拷贝到操作系统内核的缓冲区中，然后才会从操作系统内核的缓冲区拷贝到应用程序的地址空间。</p>
+<p>数据在传输过程中需要在应用程序地址空间和内核进行多次数据拷贝操作，这些数据拷贝操作所带来的 CPU 以及内存开销是非常大的。当一个 read 操作发生时，会经历两个阶段：</p>
+<ol>
+<li>等待数据准备（Waiting for the data to be ready）；</li>
+<li>将数据从内核拷贝到进程中（Copying the data from the kernel to the process）。</li>
+</ol>
+<p>对于一个套接字上的输入操作，第一步通常涉及等待数据从网络中到达。当所等待分组到达时，它被复制到内核中的某个缓冲区。第二步就是把数据从内核缓冲区复制到应用进程缓冲区。</p>
+<h2 id="一io-模型">一、I/O 模型<a class="anchor" href="#一io-模型">#</a></h2>
+<p>linux 系统下有五种网络模式的方案，其中信号驱动 I/O 使用较少，本文将介绍其余四种模型。</p>
+<ul>
+<li>阻塞 I/O（blocking IO）</li>
+<li>非阻塞 I/O（nonblocking IO）</li>
+<li>I/O 多路复用（ IO multiplexing）</li>
+<li>信号驱动 I/O（ signal driven IO）</li>
+<li>异步 I/O（asynchronous IO）</li>
+</ul>
+<p>在开始介绍之前，需要对文件描述符（File Descriptor）有一定认识：</p>
+<blockquote>
+<p>文件描述符是计算机科学中的一个术语，是一个用于表述指向文件的引用的抽象化概念。文件描述符在形式上是一个非负整数。实际上，它是一个索引值，指向内核为每一个进程所维护的该进程打开文件的记录表。当程序打开一个现有文件或者创建一个新文件时，内核向进程返回一个文件描述符。在程序设计中，一些涉及底层的程序编写往往会围绕着文件描述符展开。但是文件描述符这一概念往往只适用于 UNIX、Linux 这样的操作系统。</p>
+</blockquote>
+<h3 id="11-阻塞-io">1.1 阻塞 I/O<a class="anchor" href="#11-阻塞-io">#</a></h3>
+<p>在 linux 中，默认情况下所有的 socket 都是阻塞 I/O（blocking IO），一个典型的读操作流程大概是这样：</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/nio1.png" alt="blockingio" style="zoom:150%;" /></p>
+<p>阻塞 I/O 的特点是等待数据和拷贝数据两个过程都是阻塞的。</p>
+<h3 id="12-非阻塞-io">1.2 非阻塞 I/O<a class="anchor" href="#12-非阻塞-io">#</a></h3>
+<p>linux 下，可以通过设置 socket 使其变为非阻塞 I/O（non-blocking I/O）。当对一个 non-blocking socket 执行读操作时，流程是这个样子：</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/nio2.png" alt="nonblockingio" style="zoom:150%;" /></p>
+<p>当用户进程发出 read 操作时，如果 kernel 中的数据还没有准备好，会立刻返回一个 error。从用户进程角度讲 ，它发起一个 read 操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个 error 时，它就知道数据还没有准备好，于是它可以再次发送 read 操作。一旦 kernel 中的数据准备好了，并且又再次收到了用户进程的 system call，那么它马上就将数据拷贝到了用户内存，然后返回。</p>
+<p>nonblocking IO 的特点是用户进程需要<strong>不断的主动询问</strong> kernel 中的数据是否就绪，每次轮询所有 FD（包括没有发生读写事件的 FD）会很浪费 CPU 资源。</p>
+<h3 id="13-io-多路复用">1.3 I/O 多路复用<a class="anchor" href="#13-io-多路复用">#</a></h3>
+<p>2003年，<a href="https://link.zhihu.com/?target=http%3A//www.kegel.com/c10k.html">C10K 问题</a>迅速成为了技术领域迫切需要尝试解决的问题：10K 个 Client 同时连接到一个 Server，如何提供服务？：在互联网用户较少的早期，一个网络服务通常不会有太多用户，加之大多数的服务不过是提供一个 HTML，交互较少，所以往往使用的是一个进程服务一个连接的形式；而进程不仅仅存在进程数限制，还存在进程切换和通讯带来的巨大代价。改用一个线程服务一个连接模型，能够一定程度减少部分开销，但也只是勉强够用而已。更好的解决办法在哪里？</p>
+<p>为了解决同步阻塞 I/O 面临的一个链路需要一个线程处理的问题，后来有人对它的线程模型进行了优化——后端通过一个线程池来处理多个客户端的请求接入，形成客户端个数 M：线程池最大线程数 N 的比例关系，其中 M 可以远远大于 N。这是一种伪异步 I/O 通信框架，采用线程池实现，因此避免了为每个请求都创建一个独立线程造成的线程资源耗尽问题。不过因为它的底层仍然是同步阻塞的 BIO 模型，因此无法从根本上解决问题。</p>
+<p>但是如果改成 NIO，那么每个线程都需要不断的主动轮询，这是对 CPU 资源的极大浪费。再重新回想 I/O 的过程，第一部分等待数据就绪的过程和 CPU 关系不大，更加取决于机器缓存大小和网络带宽等，而第二部分拷贝数据需求 CPU 性能。如果让一个额外的线程统一管理其他线程等待数据就绪的过程，也就是说让一个线程完成所有其他线程的主动轮询工作，一次轮询就可以处理多个连接请求，这就是I/O 多路复用（ IO multiplexing）。所以，<strong>多路</strong>指的是多个网络连接，<strong>复用</strong>指的是复用同一个线程。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/nio3.png" alt="nonblockingio" style="zoom:150%;" /></p>
+<p>I/O 多路复用的特点是通过一种机制让一个进程能同时等待多个文件描述符，而这些文件描述符（套接字描述符）其中的任意一个进入读就绪状态，<code>select()</code> 函数就可以返回。</p>
+<p>需要注意的是，使用 I/O 多路复用技术时，线程在调用 <code>select()</code> 时虽然没有被阻塞，但是  <code>select()</code> 在所需求的任意一个 FD 状态发生改变后才返回，相当于被阻塞了，与 blocking IO 相比甚至还多了一个 system call (recvfrom)。如果处理的连接数不是很高的话，使用 I/O 多路复用的 web server 不一定比使用 multi-threading + blocking IO 的 web server 性能更好，可能延迟还更大。I/O 多路复用的优势并不是对于单个连接能处理得更快，而是在于能处理更多的连接。</p>
+<h3 id="14-异步-io">1.4 异步 I/O<a class="anchor" href="#14-异步-io">#</a></h3>
+<p>上述三种 I/O 模型都属于同步 I/O，因为不管是哪一种，拷贝数据的过程都是阻塞的。</p>
+<blockquote>
+<p>- A synchronous I/O operation causes the requesting process to be blocked until that I/O operation completes;<br>- An asynchronous I/O operation does not cause the requesting process to be blocked.</p>
+</blockquote>
+<p>用户进程发起 read 操作之后，立刻就可以开始去做其它的事。而另一方面，从 kernel 的角度，当它受到一个 asynchronous read 之后，首先它会立刻返回，所以不会对用户进程产生任何 block。然后，kernel 会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel 会给用户进程发送一个 signal，告诉它 read 操作完成了。</p>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/nio4.png" alt="nonblockingio" style="zoom:150%;" /></p>
+<p>异步 I/O（asynchronous IO）的特点是线程无需自己负责读写，异步 I/O 的实现负责把数据从内核拷贝到用户空间。</p>
+<h2 id="二select-poll--epoll">二、SELECT, POLL &amp; EPOLL<a class="anchor" href="#二select-poll--epoll">#</a></h2>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol>
+<li><a href="https://segmentfault.com/a/1190000003063859">Linux IO模式及 select、poll、epoll详解</a></li>
+<li>UNIX® Network Programming Volume 1, Third Edition: The Sockets Networking</li>
+<li><a href="https://zhuanlan.zhihu.com/p/204965836">也来说说协程（1）——由来和概念</a></li>
+<li><a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/BIO-NIO-AIO.md">BIO,NIO,AIO 总结</a></li>
+<li><a href="https://juejin.im/post/6844904200141438984">彻底理解 IO多路复用</a></li>
+</ol>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/web/">web</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E7%BB%93%E6%9E%84%E5%9E%8B/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">设计模式：结构型</span>
+    </a>
+  
+
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>2020 © lil-q</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一io-模型">一、I/O 模型</a>
+      <ul>
+        <li><a href="#11-阻塞-io">1.1 阻塞 I/O</a></li>
+        <li><a href="#12-非阻塞-io">1.2 非阻塞 I/O</a></li>
+        <li><a href="#13-io-多路复用">1.3 I/O 多路复用</a></li>
+        <li><a href="#14-异步-io">1.4 异步 I/O</a></li>
+      </ul>
+    </li>
+    <li><a href="#二select-poll--epoll">二、SELECT, POLL &amp; EPOLL</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>
