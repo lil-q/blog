@@ -380,7 +380,7 @@ static final int TREEIFY_THRESHOLD = 8;
 static final int UNTREEIFY_THRESHOLD = 6;
 ```
 
-源码中对 *TREEIFY_THRESHOLD* 默认是 8 的原因解释如下。在完全随机且加载因子默认为 0.75 的情况下，根据泊松分布，一个桶内出现 8 个 *Node* 的概率只有 0.00000006。 
+源码中对 *TREEIFY_THRESHOLD* 默认是 8 的原因解释如下。在完全随机且加载因子默认为 0.75 的情况下，根据泊松分布，一个桶内出现 8 个 *Node* 的概率只有 [0.00000006](https://zhuanlan.zhihu.com/p/263523069)。 
 
 > Because TreeNodes are about twice the size of regular nodes, we use them only when bins contain enough nodes to warrant use (see TREEIFY_THRESHOLD). And when they become too small (due to removal or resizing) they are converted back to plain bins.  In usages with well-distributed user hashCodes, tree bins are rarely used. Ideally, under random hashCodes, the frequency of nodes in bins follows a Poisson distribution with a parameter of about 0.5 on average for the default resizing threshold of 0.75, although with a large variance because of resizing granularity. Ignoring variance, the expected occurrences of list size k are (exp(-0.5) * pow(0.5, k) / factorial(k)). 
 
