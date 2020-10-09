@@ -1,5 +1,5 @@
 ---
-title: OpenCV-python：图像梯度与边缘检测
+title: OpenCV-python：边缘检测
 date: 2020-02-22 17:51:07
 tags: [OpenCV]
 math: true
