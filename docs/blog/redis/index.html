@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Redis 数据结构 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="介绍Redis几种数据结构, 字符串, 列表, 字典, 集合, 有序集合, 跳表">
+  <meta name="keywords" content="Redis , 字符串 , 列表 , 字典 , 集合 , 有序集合 , 跳表">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.56326de82df2d4841928d404adcb91e5331820b2201ba73b8a71fed24212515d.css" integrity="sha256-VjJt6C3y1IQZKNQErcuR5TMYILIgG6c7inH&#43;0kISUV0="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "Redis 数据结构",
+      "headline" : "Redis 数据结构",
+      "description" : "介绍Redis几种数据结构, 字符串, 列表, 字典, 集合, 有序集合, 跳表",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2020",
+      "datePublished": "2020-10-09 18:17:27 \u002b0800 CST",
+      "dateModified" : "2020-10-09 18:17:27 \u002b0800 CST",
+      "url" : "https:\/\/lil-q.github.io\/blog\/redis\/",
+      "wordCount" : "642",
+      "keywords" : ["Redis", "字符串", "列表", "字典", "集合", "有序集合", "跳表", "Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">About</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+      <li>
+        <a  href="/essay">随笔</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Redis 数据结构</h1>
+            <time datetime="2020-10-09 18:17:27 &#43;0800 CST" class="post__date">Oct 9 2020</time> 
+          </header>
+          <article class="post__content">
+              
+<p>Redis 是一个使用 ANSI C 编写的开源、支持网络、基于内存、可选持久性的键值对存储数据库。从 2015 年 6 月开始，Redis 的开发由 Redis Labs 赞助，而 2013 年 5 月至 2015 年 6 月期间，其开发由 Pivotal 赞助。在 2013 年 5 月之前，其开发由 VMware 赞助。根据月度排行网站 DB-Engines.com 的数据，Redis 是最流行的键值对存储数据库。本文将介绍 Redis 的数据结构及其底层实现。</p>
+<p>Redis 中键的类型只能为字符串，值支持多种数据类型：</p>
+<ul>
+<li>字符串 - string；</li>
+<li>列表 - list；</li>
+<li>字典 - hash；</li>
+<li>集合 - set；</li>
+<li>有序集合 - sorted set；</li>
+<li>其他还有范围查询，bitmap，hyperloglog 和地理空间（geospatial）索引半径查询。</li>
+</ul>
+<h2 id="一简单动态字符串">一、简单动态字符串<a class="anchor" href="#一简单动态字符串">#</a></h2>
+<p>Redis 没有直接使用 C 语言传统的字符串表示（以空字符结尾的字符数组，以下简称 C 字符串），而是自己构建了一种名为<strong>简单动态字符串</strong>（<strong>S</strong>imple <strong>D</strong>ynamic <strong>S</strong>tring，<strong>SDS</strong>）的抽象类型，并将 SDS 用作 Redis 的默认字符串表示。每一个 <em>sds.h/sdshdr</em> 结构体表示一个 SDS：</p>
+<pre><code class="language-c">struct sdshdr {
+    
+    // 保存字符串的长度
+    int len;					// 5
+    
+    // buf 中未使用的数量				
+    int free;					// 5
+    
+    // 保存字符串的字符数组
+    char buf[];					// 'r', 'e', 'd', 'i', 's', _, _, _, _, _, '\0'
+    
+}
+</code></pre>
+<p>虽然 SDS 记录了每个字符串的长度，并不需要结尾加 &lsquo;\0&rsquo; 来表示结束，但是为了兼容 C 语言的字符串 API，还是保留了 &lsquo;\0&rsquo; 这个结尾。</p>
+<h3 id="11-sds-与-c-字符串的区别">1.1 SDS 与 C 字符串的区别<a class="anchor" href="#11-sds-与-c-字符串的区别">#</a></h3>
+<p>在 C 语言中，字符串实际上是使用 null 字符 &lsquo;\0&rsquo; 终止的一维字符数组。SDS 相较之下有以下优势：</p>
+<h4 id="1-常数复杂度获取字符串长度">1. 常数复杂度获取字符串长度</h4>
+<p>因为 C 字符串并不记录自身的长度信息，所以为了获取一个 C 字符串的长度，程序必须遍历整个字符串，对遇到的每个字符进行计数，直到遇到代表字符串结尾的空字符为止，这个操作是线性复杂度的。而 SDS 只需要读取 <em>len</em> 字段，属于常数级复杂度。</p>
+<h4 id="2-杜绝缓存区溢出">2. 杜绝缓存区溢出</h4>
+<p>C 字符串在使用 <code>strcat(s1, s2)</code> 拼接时，如果没有为 <em>s1</em> 分配足够的内存，就会出现其他数据被意外修改为 <em>s2</em> 中字符的情况。而 SDS 在进行字符串拼接时会先确定内存是否足够，如果不够就会先扩展 SDS 的空间。</p>
+<h4 id="3--减少修改字符串带来的内存重分配次数">3.  减少修改字符串带来的内存重分配次数</h4>
+<p>修改 SDS 时，通过<strong>空间预分配</strong>和<strong>惰性空间释放</strong>，可以减少内存重分配的次数。</p>
+<p>空间预分配用于优化 SDS 的字符串<strong>增长</strong>操作：当 SDS 的 API 对一个 SDS 进行修改，并且需要对 SDS 进行空间扩展的时候，程序不仅会为 SDS 分配修改所必须要的空间，还会为 SDS 分配额外的未使用空间，额外空间大小（即 <em>free</em> 的大小）等于增长后的 <em>len</em>，但不超过 1MB。</p>
+<p>惰性空间释放用于优化 SDS 的字符串<strong>缩短</strong>操作：当 SDS 的 API 需要缩短 SDS 保存的字符串时，程序并不立即使用内存重分配来回收缩短后多出来的字节，而是使用 <em>free</em> 属性将这些字节的数量记录起来，并等待将来使用。当然 SDS 也提供了相应的 API 用来真正地释放 SDS 的未使用空间，所以不用担心惰性空间释放策略会造成内存浪费。</p>
+<h3 id="12-二进制安全">1.2 二进制安全<a class="anchor" href="#12-二进制安全">#</a></h3>
+<p>C 字符串并不是二进制安全的，所谓二进制安全就是任意二进制序列都不存在特殊含义，而 C 字符串中 &lsquo;\0&rsquo; 表示字符串终止。如果二进制数据中包括 &lsquo;\0&rsquo;，将其当作 C 字符串来处理的话就会提前截断，导致信息的丢失。因此，C 字符串不能用来储存图片、音频、视频和压缩文件这样的二进制数据。</p>
+<p>SDS 可以解决这个问题，原因就在于 SDS 通过记录 <em>len</em> 来标识哪里终止。<em>buf</em> 中的任意二进制序列都不表示特殊的含义。</p>
+<h2 id="二链表">二、链表<a class="anchor" href="#二链表">#</a></h2>
+<p>链表（List）提供了高效的节点重排能力，以及顺序性的节点访问方式，并且可以通过增删节点来灵活地调整链表的长度。</p>
+<p>每个链表节点使用一个 <em>adlist.h/listNode</em> 结构表示：</p>
+<pre><code class="language-c">typedef struct listNode {
+    
+    // 前置节点
+    struct listNode *prev;
+    
+    // 后置节点
+    struct listNode *next;
+    
+    // 节点的值
+    void *value;
+    
+} listNode;
+</code></pre>
+<p>就像 Java 中的 <em>Deque</em>，创建一个链表通常会定义头节点和尾节点，这样在增删操作时就不需要判断是否是头尾节点，更加方便。</p>
+<pre><code class="language-c">typedef struct list {
+    
+    // 头节点
+    listNode *head;
+    
+    // 尾节点
+    listNode *tail;
+    
+    // 链表所包含的节点数
+    unsigned long len;
+    
+    // 节点值复制函数
+    void *(*dup) (void *ptr);
+    
+    // 节点值释放函数
+    void (*free) (void *ptr);
+    
+    // 节点值对比函数
+    int (*match) (void *ptr, void *key);
+    
+} list;
+</code></pre>
+<p>Redis 的链表实现的特性可以总结如下：</p>
+<ul>
+<li>双端：链表节点有 <em>prev</em> 和 <em>next</em> 指针，获取前置节点和后置节点的复杂度都是 O(1）；</li>
+<li>无环：头节点的 <em>prev</em> 指针和尾节点的 <em>next</em> 指针都指向 null，对链表访问以 null 为终点；</li>
+<li>带表头指针和表尾指针：通过链表结构的 <em>head</em> 指针和 <em>tail</em> 指针，程序获取链表的表头节点和表尾节点的复杂度为 O(1）；</li>
+<li>带链表长度计数器：程序获取链表中节点数量（<em>len</em>）的复杂度为 O(1）；</li>
+<li>多态：链表节点使用 <code>void*</code> 指针来保存节点值，并且可以通过 <em>list</em> 结构的 <em>dup</em>、<em>free</em>、<em>match</em> 三个属性为节点值设置类型特定函数，所以链表可以用于保存各种不同类型的值。</li>
+</ul>
+<h2 id="三字典">三、字典<a class="anchor" href="#三字典">#</a></h2>
+<p>Redis 的字典使用哈希表作为底层实现，一个哈希表里面可以有多个哈希表节点，而每个哈希表节点就保存了字典中的一个键值对。这与 Java 中的 <em>HashMap</em> 逻辑基本是一致的。</p>
+<p>哈希表节点使用 <em>dictEntry</em> 结构表示：</p>
+<pre><code class="language-c">typedef struct dictEntry {
+    
+    // 键
+    void *key;
+    
+    // 值
+    union {
+        void *val;
+        unit64_tu64;
+        int64_ts64;
+    } v;
+    
+    // 链表结构以解决哈希冲突
+    struct dictEntry *next;
+    
+} dictEntry;
+</code></pre>
+<p><em>key</em> 属性保存着键值对中的键，而 <em>v</em> 属性则保存着键值对中的值，其中键值对的值可是一个指针，或者是一个 uint64_t 整数，又或者是一个 int64_t 整数。</p>
+<p><em>next</em> 属性是指向另一个哈希表节点的指针，这个指针可以将多个哈希值相同的键值对接在一次，以此来解决键冲突（collision）的问题。</p>
+<p>哈希表使用 <em>dict.h/dictht</em> 结构表示：</p>
+<pre><code class="language-c">typedef struct dictht {
+    
+    // 哈希表节点数组
+    dictEntry **table;
+    
+    // 哈希表大小
+    unsigned long size;
+    
+    // 哈希表大小掩码（size - 1），用于计算索引值（&amp; 位运算）
+    unsigned long sizemask;
+    
+    // 哈希表已有节点数
+    unsigned long used;
+    
+} dictht;
+</code></pre>
+<p>字典使用 <em>dict.h/dict</em> 结构表示：</p>
+<pre><code class="language-c">typedef struct dict {
+    
+    // 类型特定函数
+    dictType *type;
+    
+    // 私有数据
+    void *privdata;
+    
+    // 哈希表
+    dictht ht[2];
+    
+    // rehash 索引，不在进行时为 -1
+    int rehashidx;
+    
+} dict;
+</code></pre>
+<p><em>type</em> 属性和 <em>privdata</em> 属性是针对不同类型的键值对，为创建多态字典而设置的。</p>
+<p><em>ht</em> 属性是一个包含两个 <em>dictht</em> 的数组，一般情况下，字典只使用 <em>ht[0]</em> 哈希表，<em>ht[1]</em> 哈希表只会在对 <em>ht[1]</em> 哈希表进行 <code>rehash()</code> 时使用。</p>
+<p><em>rehashidx</em> 记录了 <code>rehash()</code> 的进度，如果目前没有在进行 <code>rehash()</code>，那么它的值为 -1。</p>
+<h3 id="31-哈希算法">3.1 哈希算法<a class="anchor" href="#31-哈希算法">#</a></h3>
+<p>和 Java 中的 <em>HashMap</em> 相似，字典先通过某种哈希算法获得键的哈希值，然后通过哈希值与掩码 <em>sizemask</em> 做与位运算来获得桶下标：</p>
+<pre><code class="language-c">index = hash &amp; sizemask;
+</code></pre>
+<p>Redis 中使用的哈希算法是 MurmurHash，MUR 表示 MUltiply and Rotate，MurmurHash 在哈希的过程要经过多次 MUltiply and Rotate，因此得名。</p>
+<blockquote>
+<p>MurmurHash 是一种非加密型哈希函数，适用于一般的哈希检索操作。由Austin Appleby在2008年发明，与其它流行的哈希函数相比，对于规律性较强的 key，MurmurHash 的随机分布特征表现更良好。</p>
+</blockquote>
+<h3 id="32-渐进式-rehash">3.2 渐进式 rehash<a class="anchor" href="#32-渐进式-rehash">#</a></h3>
+<p>和 Java 中的 <em>HashMap</em> 相似，Redis 的字典也使用链地址法来解决哈希冲突。不同的是，Redis 采用头插法，而 JDK 1.8 由于需要转换红黑树等原因采用尾插法。</p>
+<p>Java 中扩容时会新建一个两倍于原容量的 <em>newTab</em>。Redis 中使用一个包含两个 <em>dictht</em> 的数组，原理是相同的。除此之外 Redis 中的字典还可以收缩，当键值对数量过少时，通过收缩可以减少内存占用。具体过程如下：</p>
+<ol>
+<li>为字典的 <em>ht[1]</em> 哈希表分配空间，这个哈希表的空间大小取决于要执行的操作，以及 <em>ht[0]</em> 当前包含的键值对数量（<em>ht[0].used</em>）：
+<ul>
+<li>扩展操作：第一个大于等于 <em>ht[0].used</em> * 2 的 2&rdquo;（2的n次方幂）；</li>
+<li>收缩操作：第一个大于等于 <em>ht[0].used</em> 的 2&rdquo;；</li>
+</ul>
+</li>
+<li>将保存在 <em>ht[0]</em> 中的所有键值对 rehash 到 <em>ht[1]</em> 上面：rehash 指的是重新计算键的哈希值和索引值，然后将键值对放置到 <em>ht[1]</em> 哈希表的指定位置上；</li>
+<li>当 <em>ht[0]</em> 包含的所有键值对都迁移到了 <em>ht[1]</em> 之后（<em>ht[0]</em> 变为空表），释放 <em>ht[0]</em>，将 <em>ht[1]</em> 设置为 <em>ht[0]</em>，并在 <em>ht[1]</em> 新创建一个空白哈希表，为下一次 rehash 做准备。</li>
+</ol>
+<p>通常 Redis 中储存的数据量是很大的，为了避免 rehash 对服务器性能造成影响，服务器不是一次性将 <em>ht[0]</em> 里面的所有键值对全部 rehash 到 <em>ht[1]</em>，而是分多次、渐进式地将 <em>ht[0]</em> 里面的键值对慢慢地 rehash到 <em>ht[1]</em>，具体步骤如下：</p>
+<ol>
+<li>为 <em>ht[1]</em> 分配空间，让字典同时持有 <em>ht[0]</em> 和 <em>ht[1]</em> 两个哈希表；</li>
+<li>字典中维持一个索引计数器 <em>rehashidx</em>，并将它的值设置为 0，表示 rehash 工作正式开始；</li>
+<li>在 rehash 进行期间，每次对字典执行添加、删除、查找或者更新操作时，程序除了执行指定的操作以外，还会顺带将 <em>ht[0]</em> 哈希表在 <em>rehashidx</em> 索引上的所有键值对 rehash 到 <em>ht[1]</em>，当 rehash 工作完成之后，程序将 <em>rehashidx</em> 属性的值增一；</li>
+<li>随着字典操作的不断执行，最终在某个时间点上，<em>ht[0]</em> 的所有键值对都会被 rehash 至 <em>ht[1]</em>，这时程序将 <em>rehashidx</em>属性的值设为 -1，表示 rehash 操作已完成。</li>
+</ol>
+<h2 id="四集合">四、集合<a class="anchor" href="#四集合">#</a></h2>
+<p>Redis 的集合相当于 Java 语言中的 <em>HashSet</em>，它内部的键值对是无序、唯一的。它的内部实现相当于一个特殊的字典，字典中所有的 value 都是一个值 null。</p>
+<p>整数集合（intset）是集合键的底层实现之一，当一个集合只包含整数值元素，并且这个集合的元素数量不多时， Redis 就会使用整数集合作为集合键的底层实现。</p>
+<p><em>intset.h/intset</em> 结构表示一个整数集合，其中的 <em>contents</em> 数组是整数集合的底层实现：整数集合的每个元素都是 <em>contents</em> 数组的一个数组项（item），各个项在数组中按值的大小从小到大有序地排列，并且数组中不包含任何重复项。</p>
+<h2 id="五有序集合">五、有序集合<a class="anchor" href="#五有序集合">#</a></h2>
+<p>Redis 使用跳跃表作为有序集合键的底层实现之一，如果一个有序集合包含的元素数量比较多，又或者有序集合中元素的成员（member）是比较长的字符串时， Redis 就会使用跳跃表来作为有序集合键的底层实现。</p>
+<p>跳跃表（skiplist）是一种有序数据结构，它通过在每个节点中维持多个指向其他节点的指针，从而达到快速访问节点的目的。</p>
+<p>跳跃表支持平均 O(logM）、最坏 O(M) 复杂度的节点査找，原理可见 <a href="https://zhuanlan.zhihu.com/p/53975333">[2]</a>，还可以通过顺序性操作来批量处理节点。在大部分情况下，跳跃表的效率可以和平衡树相媲美，并且因为跳跃表的实现比平衡树要来得更为简单，所以有不少程序都使用跳跃表来代替平衡树。</p>
+<p>当使用 REDIS_ENCODING_SKIPLIST 编码时， 有序集元素由 <em>redis.h/zset</em> 结构来保存：</p>
+<pre><code class="language-c">typedef struct zset {
+
+    // 字典
+    dict *dict;
+
+    // 跳跃表
+    zskiplist *zsl;
+
+} zset;
+</code></pre>
+<p><em>zset</em> 同时使用字典和跳跃表两个数据结构来保存有序集元素。</p>
+<p>其中， 元素的成员由一个 <em>redisObject</em> 结构表示， 而元素的 <em>score</em> 则是一个 <em>double</em> 类型的浮点数， 字典和跳跃表两个结构通过将指针共同指向这两个值来节约空间 （不用每个元素都复制两份）。</p>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol>
+<li>黄健宏. Redis设计与实现[M]. 机械工业出版社, 2014.</li>
+<li><a href="https://zhuanlan.zhihu.com/p/53975333">图解跳表</a></li>
+</ol>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/redis/">redis</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/io%E6%A8%A1%E5%9E%8B/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">I/O 模型</span>
+    </a>
+  
+
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>2020 © lil-q</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一简单动态字符串">一、简单动态字符串</a>
+      <ul>
+        <li><a href="#11-sds-与-c-字符串的区别">1.1 SDS 与 C 字符串的区别</a></li>
+        <li><a href="#12-二进制安全">1.2 二进制安全</a></li>
+      </ul>
+    </li>
+    <li><a href="#二链表">二、链表</a></li>
+    <li><a href="#三字典">三、字典</a>
+      <ul>
+        <li><a href="#31-哈希算法">3.1 哈希算法</a></li>
+        <li><a href="#32-渐进式-rehash">3.2 渐进式 rehash</a></li>
+      </ul>
+    </li>
+    <li><a href="#四集合">四、集合</a></li>
+    <li><a href="#五有序集合">五、有序集合</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

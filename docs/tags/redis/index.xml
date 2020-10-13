@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Redis on Homeward</title>
+    <link>https://lil-q.github.io/tags/redis/</link>
+    <description>Recent content in Redis on Homeward</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>{year} © lil-q</copyright>
+    <lastBuildDate>Fri, 09 Oct 2020 18:17:27 +0800</lastBuildDate>
+    
+	<atom:link href="https://lil-q.github.io/tags/redis/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Redis 数据结构</title>
+      <link>https://lil-q.github.io/blog/redis/</link>
+      <pubDate>Fri, 09 Oct 2020 18:17:27 +0800</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/redis/</guid>
+      <description>Redis 是一个使用 ANSI C 编写的开源、支持网络、基于内存、可选持久性的键值对存储数据库。从 2015 年 6 月开始，Redis 的开发由 Redis Labs 赞助，而 2013 年 5 月至 2015 年 6 月期间，其开发由 Pivotal 赞助。在 2013 年 5 月之前，其开发由 VMware 赞助。根据月度排行网站 DB-Engines.com 的数据，Redis 是最流行的键值对存储数据库。本文将介绍 Redis 的数据结构及其底层实现。
+Redis 中键的类型只能为字符串，值支持多种数据类型：
+ 字符串 - string； 列表 - list； 字典 - hash； 集合 - set； 有序集合 - sorted set； 其他还有范围查询，bitmap，hyperloglog 和地理空间（geospatial）索引半径查询。  一、简单动态字符串 Redis 没有直接使用 C 语言传统的字符串表示（以空字符结尾的字符数组，以下简称 C 字符串），而是自己构建了一种名为简单动态字符串（Simple Dynamic String，SDS）的抽象类型，并将 SDS 用作 Redis 的默认字符串表示。每一个 sds.h/sdshdr 结构体表示一个 SDS：</description>
+    </item>
+    
+  </channel>
+</rss>
