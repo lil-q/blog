@@ -146,9 +146,13 @@ int poll (struct pollfd *fds, unsigned int nfds, int timeout);
 
 ```c
 struct pollfd {
+    
     int fd; /* file descriptor */
+    
     short events; /* requested events to watch */
+    
     short revents; /* returned events witnessed */
+    
 };
 ```
 
@@ -161,8 +165,13 @@ struct pollfd {
 `epoll()` 在 2.6 内核中提出，是之前 `select()` 和 `poll()` 的增强版本。`epoll()` 操作过程需要三个接口，如下：
 
 ```c
+// 创建一个 epoll 的句柄，参数 size 并不是限制 epoll 所能监听的描述符最大数量，只是对内核初始分配内部数据结构的一个建议。
 int epoll_create(int size);
+
+// 注册 FD
 int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
+
+// 获取已经就绪的 FD
 int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);
 ```
 
@@ -171,13 +180,17 @@ int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout
 ```java
 // 假设现目前获得了很多 serverSocket.accept()
 sockets = getSockets(); 
+
 // 创建 eventpoll
 int epfd = epoll_create();
+
 // 将所有需要监视的 socket 都加入到 eventpoll 中
 epoll_ctl(epfd, sockets);
+
 while (true) {
     // 阻塞返回准备好了的 sockets
     int n = epoll_wait();
+    
     // 直接对收到数据的 socket 进行遍历，不需要再遍历所有的 sockets
     // 是怎么做到的呢，下面继续分析
     for (遍历接收到数据的 socket) {

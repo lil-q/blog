@@ -28,7 +28,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.ab05d5e01a9242c9472ee834dca8b5e136420f575e85e4d6d45b56022054489f.css" integrity="sha256-qwXV4BqSQslHLug03Ki14TZCD1deheTW1FtWAiBUSJ8="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.56326de82df2d4841928d404adcb91e5331820b2201ba73b8a71fed24212515d.css" integrity="sha256-VjJt6C3y1IQZKNQErcuR5TMYILIgG6c7inH&#43;0kISUV0="/>
@@ -61,7 +61,7 @@
       "datePublished": "2020-10-07 20:30:35 \u002b0800 CST",
       "dateModified" : "2020-10-07 20:30:35 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/io%E6%A8%A1%E5%9E%8B\/",
-      "wordCount" : "628",
+      "wordCount" : "642",
       "keywords" : ["I\/O", "BIO", "NIO", "I\/O多路复用", "Blog"]
     }
   
@@ -207,29 +207,42 @@
 </code></pre>
 <p>不同与 <code>select()</code> 使用三个位图来表示三个 <em>fdset</em> 的方式，<code>poll()</code> 使用 <em>pollfd</em> 结构数组来实现。</p>
 <pre><code class="language-c">struct pollfd {
+    
     int fd; /* file descriptor */
+    
     short events; /* requested events to watch */
+    
     short revents; /* returned events witnessed */
+    
 };
 </code></pre>
 <p><em>pollfd</em> 结构包含了要监视的 <em>event</em> 和发生的 <em>event</em>，不再使用 <code>select()</code> 中 “参数-值” 传递的方式。同时，<em>pollfd</em> 并<strong>没有最大数量限制</strong>（但是数量过大后性能也是会下降）。 和 <code>select()</code> 函数一样，<code>poll()</code> 返回后，需要轮询 <em>pollfd</em> 数组来获取就绪的描述符。</p>
 <p><code>poll()</code> 和 <code>select()</code> 相同都需要在返回后，通过<strong>遍历文件描述符</strong>来获取已经就绪的 <em>socket</em>。事实上，同时连接的大量客户端在一时刻可能只有很少的处于就绪状态，因此随着监视的描述符数量的增长，其效率也会线性下降。</p>
 <h3 id="23-epoll">2.3 EPOLL<a class="anchor" href="#23-epoll">#</a></h3>
 <p><code>epoll()</code> 在 2.6 内核中提出，是之前 <code>select()</code> 和 <code>poll()</code> 的增强版本。<code>epoll()</code> 操作过程需要三个接口，如下：</p>
-<pre><code class="language-c">int epoll_create(int size);
+<pre><code class="language-c">// 创建一个 epoll 的句柄，参数 size 并不是限制 epoll 所能监听的描述符最大数量，只是对内核初始分配内部数据结构的一个建议。
+int epoll_create(int size);
+
+// 注册 FD
 int epoll_ctl(int epfd, int op, int fd, struct epoll_event *event);
+
+// 获取已经就绪的 FD
 int epoll_wait(int epfd, struct epoll_event * events, int maxevents, int timeout);
 </code></pre>
 <p><code>epoll()</code>  相较于 <code>select()</code> 多了一个 <em>eventpoll</em>，其中持有一个包含已就绪 FD 的等待队列 <em>rdlist</em> 以及包含当前阻塞线程的等待队列，之前需要监视的 <em>socket</em> 都绑定一个进程用来唤醒，现在都改为指向 <em>eventpoll</em> ，具体使用时的伪代码如下：</p>
 <pre><code class="language-java">// 假设现目前获得了很多 serverSocket.accept()
 sockets = getSockets(); 
+
 // 创建 eventpoll
 int epfd = epoll_create();
+
 // 将所有需要监视的 socket 都加入到 eventpoll 中
 epoll_ctl(epfd, sockets);
+
 while (true) {
     // 阻塞返回准备好了的 sockets
     int n = epoll_wait();
+    
     // 直接对收到数据的 socket 进行遍历，不需要再遍历所有的 sockets
     // 是怎么做到的呢，下面继续分析
     for (遍历接收到数据的 socket) {
