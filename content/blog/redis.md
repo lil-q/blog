@@ -1,5 +1,5 @@
 ---
-title: "Redis 数据结构"
+title: "Redis：数据结构"
 date: 2020-10-09T18:17:27+08:00
 slug: ""
 description: "介绍Redis几种数据结构, 字符串, 列表, 字典, 集合, 有序集合, 跳表"

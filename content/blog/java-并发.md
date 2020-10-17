@@ -65,10 +65,10 @@ Java 内存模型定义了 8 个操作来完成主内存和工作内存的交互
 
 在实际使用中，又分为以下四种：
 
-* **LoadLoad 屏障**：`Load1; LoadLoad; Load2`，在 Load2 及后续读取操作要读取的数据被访问前，保证 Load1 要读取的数据被读取完毕。
-* **StoreStore 屏障**：`Store1; StoreStore; Store2`，在 Store2 及后续写入操作执行前，保证 Store1 的写入操作对其它处理器可见。
-* **LoadStore 屏障**：`Load1; LoadStore; Store2`，在 Store2 及后续写入操作被刷出前，保证 Load1 要读取的数据被读取完毕。
-* **StoreLoad 屏障**：`Store1; StoreLoad; Load2`，在 Load2 及后续所有读取操作执行前，保证 Store1 的写入对所有处理器可见。它的开销是四种屏障中最大的。在大多数处理器的实现中，这个屏障是个万能屏障，兼具其它三种内存屏障的功能。
+* **LoadLoad 屏障**：`Load1; LoadLoad; Load2;` 在 Load2 及后续读取操作要读取的数据被访问前，保证 Load1 要读取的数据被读取完毕。
+* **StoreStore 屏障**：`Store1; StoreStore; Store2;` 在 Store2 及后续写入操作执行前，保证 Store1 的写入操作对其它处理器可见。
+* **LoadStore 屏障**：`Load1; LoadStore; Store2;` 在 Store2 及后续写入操作被刷出前，保证 Load1 要读取的数据被读取完毕。
+* **StoreLoad 屏障**：`Store1; StoreLoad; Load2;` 在 Load2 及后续所有读取操作执行前，保证 Store1 的写入对所有处理器可见。它的开销是四种屏障中最大的。在大多数处理器的实现中，这个屏障是个万能屏障，兼具其它三种内存屏障的功能。
 
 ### 2.3 三个特性
 

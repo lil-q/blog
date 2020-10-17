@@ -61,7 +61,7 @@
       "datePublished": "2020-04-28 19:37:01 \u002b0000 UTC",
       "dateModified" : "2020-04-28 19:37:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E5%B9%B6%E5%8F%91\/",
-      "wordCount" : "1839",
+      "wordCount" : "1843",
       "keywords" : ["jmm", "java", "concurrency", "Blog"]
     }
   
@@ -164,10 +164,10 @@
 </ul>
 <p>在实际使用中，又分为以下四种：</p>
 <ul>
-<li><strong>LoadLoad 屏障</strong>：<code>Load1; LoadLoad; Load2</code>，在 Load2 及后续读取操作要读取的数据被访问前，保证 Load1 要读取的数据被读取完毕。</li>
-<li><strong>StoreStore 屏障</strong>：<code>Store1; StoreStore; Store2</code>，在 Store2 及后续写入操作执行前，保证 Store1 的写入操作对其它处理器可见。</li>
-<li><strong>LoadStore 屏障</strong>：<code>Load1; LoadStore; Store2</code>，在 Store2 及后续写入操作被刷出前，保证 Load1 要读取的数据被读取完毕。</li>
-<li><strong>StoreLoad 屏障</strong>：<code>Store1; StoreLoad; Load2</code>，在 Load2 及后续所有读取操作执行前，保证 Store1 的写入对所有处理器可见。它的开销是四种屏障中最大的。在大多数处理器的实现中，这个屏障是个万能屏障，兼具其它三种内存屏障的功能。</li>
+<li><strong>LoadLoad 屏障</strong>：<code>Load1; LoadLoad; Load2;</code> 在 Load2 及后续读取操作要读取的数据被访问前，保证 Load1 要读取的数据被读取完毕。</li>
+<li><strong>StoreStore 屏障</strong>：<code>Store1; StoreStore; Store2;</code> 在 Store2 及后续写入操作执行前，保证 Store1 的写入操作对其它处理器可见。</li>
+<li><strong>LoadStore 屏障</strong>：<code>Load1; LoadStore; Store2;</code> 在 Store2 及后续写入操作被刷出前，保证 Load1 要读取的数据被读取完毕。</li>
+<li><strong>StoreLoad 屏障</strong>：<code>Store1; StoreLoad; Load2;</code> 在 Load2 及后续所有读取操作执行前，保证 Store1 的写入对所有处理器可见。它的开销是四种屏障中最大的。在大多数处理器的实现中，这个屏障是个万能屏障，兼具其它三种内存屏障的功能。</li>
 </ul>
 <h3 id="23-三个特性">2.3 三个特性<a class="anchor" href="#23-三个特性">#</a></h3>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurency1.png" style="zoom:150%;" /></p>
