@@ -260,6 +260,8 @@ Thread.currentThread().hashCode(); // 获取当前线程 hashCode
 - **Timed Waiting**：运行中的线程，因为执行 `sleep()` 方法正在计时等待；
 - **Terminated**：线程已终止，因为 `run()` 方法执行完毕。
 
+<img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/state-machine-example-java-6-thread-states.png" alt="states" style="zoom:150%;" />
+
 ### 3.4 中断
 
 一个线程执行完毕之后会自动结束，如果在运行过程中发生异常也会提前结束。
@@ -831,4 +833,5 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 9. [Why Memory Barriers？中文翻译（上）](http://www.wowotech.net/kernel_synchronization/Why-Memory-Barriers.html)
 10. [Why Memory Barriers？中文翻译（下）](http://www.wowotech.net/kernel_synchronization/why-memory-barrier-2.html)
 11. [自旋锁的几种形式](https://zhuanlan.zhihu.com/p/40729293)
+12. [线程状态的转换](https://www.uml-diagrams.org/java-thread-uml-state-machine-diagram-example.html)
 

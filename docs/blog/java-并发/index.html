@@ -61,7 +61,7 @@
       "datePublished": "2020-04-28 19:37:01 \u002b0000 UTC",
       "dateModified" : "2020-04-28 19:37:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E5%B9%B6%E5%8F%91\/",
-      "wordCount" : "1843",
+      "wordCount" : "1844",
       "keywords" : ["jmm", "java", "concurrency", "Blog"]
     }
   
@@ -300,6 +300,7 @@ Thread thread = new Thread(ft);
 <li><strong>Timed Waiting</strong>：运行中的线程，因为执行 <code>sleep()</code> 方法正在计时等待；</li>
 <li><strong>Terminated</strong>：线程已终止，因为 <code>run()</code> 方法执行完毕。</li>
 </ul>
+<p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/state-machine-example-java-6-thread-states.png" alt="states" style="zoom:150%;" /></p>
 <h3 id="34-中断">3.4 中断<a class="anchor" href="#34-中断">#</a></h3>
 <p>一个线程执行完毕之后会自动结束，如果在运行过程中发生异常也会提前结束。</p>
 <h4 id="1-interruptedexception">1. InterruptedException</h4>
@@ -730,6 +731,7 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 <li><a href="http://www.wowotech.net/kernel_synchronization/Why-Memory-Barriers.html">Why Memory Barriers？中文翻译（上）</a></li>
 <li><a href="http://www.wowotech.net/kernel_synchronization/why-memory-barrier-2.html">Why Memory Barriers？中文翻译（下）</a></li>
 <li><a href="https://zhuanlan.zhihu.com/p/40729293">自旋锁的几种形式</a></li>
+<li><a href="https://www.uml-diagrams.org/java-thread-uml-state-machine-diagram-example.html">线程状态的转换</a></li>
 </ol>
 
 
