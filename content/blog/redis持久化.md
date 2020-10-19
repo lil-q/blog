@@ -6,6 +6,7 @@ description: ""
 description: "介绍Redis雪崩击穿穿透和两种持久化机制"
 keywords: [Redis, 雪崩, 击穿, 穿透, 两种持久化机制]
 tags: [Redis]
+draw: true
 math: false
 toc: true
 ---
