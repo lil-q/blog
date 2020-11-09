@@ -31,7 +31,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.56326de82df2d4841928d404adcb91e5331820b2201ba73b8a71fed24212515d.css" integrity="sha256-VjJt6C3y1IQZKNQErcuR5TMYILIgG6c7inH&#43;0kISUV0="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.4cf59bf668faa4d9af182f52b7ddab4341917b74835c5cd281d980e60d434c47.css" integrity="sha256-TPWb9mj6pNmvGC9St92rQ0GRe3SDXFzSgdmA5g1DTEc="/>
   
   
    
@@ -61,7 +61,7 @@
       "datePublished": "2020-05-01 14:51:08 \u002b0000 UTC",
       "dateModified" : "2020-05-01 14:51:08 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/morris%E7%AE%97%E6%B3%95\/",
-      "wordCount" : "381",
+      "wordCount" : "409",
       "keywords" : ["Morris", "二叉树", "遍历", "BST", "Blog"]
     }
   
@@ -116,9 +116,9 @@
           </header>
           <article class="post__content">
               
-<p>morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。对于二叉树的遍历，通常采用递归或利用栈的迭代方法，两者的空间复杂度都为 $O\left ( N \right )$。morris 遍历可以将非递归遍历中的空间复杂度降为 $O\left ( 1 \right )$。</p>
+<p>Morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。对于二叉树的遍历，通常采用递归或利用栈的迭代方法，两者的空间复杂度都为 $O\left ( N \right )$。Morris 遍历可以将非递归遍历中的空间复杂度降为 $O\left ( 1 \right )$。</p>
 <h2 id="前序遍历">前序遍历<a class="anchor" href="#前序遍历">#</a></h2>
-<p>以前序遍历为例子，比如leecode上的<a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">144. 二叉树的前序遍历</a>，先给出代码：</p>
+<p>以前序遍历为例子，比如 leecode 上的<a href="https://leetcode-cn.com/problems/binary-tree-preorder-traversal/">144. 二叉树的前序遍历</a>，先给出代码：</p>
 <pre><code class="language-java">class Solution {
     public List&lt;Integer&gt; preorderTraversal(TreeNode root) {
         List&lt;Integer&gt; res = new LinkedList&lt;&gt;();
@@ -150,11 +150,11 @@
     }
 }
 </code></pre>
-<p>我们用<code>cur</code>记录正在处理的节点，用<code>tail</code>记录<code>cur</code>节点左子树的最右节点，处理<code>cur</code>时有三个分支：</p>
+<p>我们用 <em>cur</em> 记录正在处理的节点，用 <em>tail</em> 记录 <em>cur</em> 节点左子树的最右节点，处理 <em>cur</em> 时有三个分支：</p>
 <ol start="2">
-<li><code>cur.left != null</code>，<code>tail.right == null</code>：说明<code>cur</code>节点及其左子树还没处理，把<code>cur</code>连接到<code>tail</code>（相当于利用栈的迭代方法中的<code>.push()</code>方法），输出这个节点，开始处理左子树<code>cur = cur.left</code>；</li>
-<li><code>cur.left == null</code>：没有左子树，直接输出<code>cur.val</code>，并开始处理右子树<code>cur = cur.rihgt</code>；</li>
-<li><code>cur.left != null</code>，<code>tail.right == cur</code>：说明已经遍历完<code>cur</code>的左子树并返回<code>cur</code>，断开<code>tail</code>的连接（利用栈的迭代方法中<code>.pop()</code>方法），开始处理右子树<code>cur = cur.rihgt</code>。</li>
+<li><code>cur.left != null</code>，<code>tail.right == null</code>：说明 <em>cur</em> 节点及其左子树还没处理，把 <em>cur</em> 连接到 <em>tail</em>（相当于利用栈的迭代方法中的 <code>push()</code> 方法），输出这个节点，开始处理左子树 <code>cur = cur.left</code>；</li>
+<li><code>cur.left == null</code>：没有左子树，直接输出 <em>cur.val</em>，并开始处理右子树 <code>cur = cur.rihgt</code>；</li>
+<li><code>cur.left != null</code>，<code>tail.right == cur</code>：说明已经遍历完 <em>cur</em> 的左子树并返回 <em>cur</em>，断开 <em>tail</em> 的连接（利用栈的迭代方法中 <code>pop()</code> 方法），开始处理右子树 <code>cur = cur.rihgt</code>。</li>
 </ol>
 <p>下图表示了前四轮循环：</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after3.26/20200501152328.jpg" alt=""></p>
@@ -248,7 +248,7 @@
 }
 </code></pre>
 <h2 id="总结">总结<a class="anchor" href="#总结">#</a></h2>
-<p>利用栈的迭代方法和 morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，morris 算法只是把节点信息存在了某个空节点（<code>tail.right</code>）从而避免了使用栈带来的空间开销。但实际上对于每一个节点，都与要遍历去找到用于存放自己的那个空节点，Morris 算法在时间复杂度上没有优势，这是用时间换取空间。</p>
+<p>利用栈的迭代方法和 Morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，Morris 算法只是把节点信息存在了某个空节点（<em>tail.right</em>）从而避免了使用栈带来的空间开销。但实际上对于每一个节点，都与要遍历去找到用于存放自己的那个空节点，Morris 算法在时间复杂度上没有优势，这是用时间换取空间。</p>
 
 
               

@@ -8,11 +8,11 @@ description: "Morris算法前序中序后序遍历二叉搜索树"
 keywords: [Morris, 二叉树, 遍历, BST]
 ---
 
-morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。对于二叉树的遍历，通常采用递归或利用栈的迭代方法，两者的空间复杂度都为 $O\left ( N \right )$。morris 遍历可以将非递归遍历中的空间复杂度降为 $O\left ( 1 \right )$。
+Morris 遍历利用的是树的叶节点左右孩子为空（树的大量空闲指针），实现空间开销的极限缩减。对于二叉树的遍历，通常采用递归或利用栈的迭代方法，两者的空间复杂度都为 $O\left ( N \right )$。Morris 遍历可以将非递归遍历中的空间复杂度降为 $O\left ( 1 \right )$。
 
 ## 前序遍历
 
-以前序遍历为例子，比如leecode上的[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)，先给出代码：
+以前序遍历为例子，比如 leecode 上的[144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)，先给出代码：
 
 ```java
 class Solution {
@@ -47,11 +47,11 @@ class Solution {
 }
 ```
 
-我们用`cur`记录正在处理的节点，用`tail`记录`cur`节点左子树的最右节点，处理`cur`时有三个分支：
+我们用 *cur* 记录正在处理的节点，用 *tail* 记录 *cur* 节点左子树的最右节点，处理 *cur* 时有三个分支：
 
-2. `cur.left != null`，`tail.right == null`：说明`cur`节点及其左子树还没处理，把`cur`连接到`tail`（相当于利用栈的迭代方法中的`.push()`方法），输出这个节点，开始处理左子树`cur = cur.left`；
-2. `cur.left == null`：没有左子树，直接输出`cur.val`，并开始处理右子树`cur = cur.rihgt`；
-3. `cur.left != null`，`tail.right == cur`：说明已经遍历完`cur`的左子树并返回`cur`，断开`tail`的连接（利用栈的迭代方法中`.pop()`方法），开始处理右子树`cur = cur.rihgt`。
+2. `cur.left != null`，`tail.right == null`：说明 *cur* 节点及其左子树还没处理，把 *cur* 连接到 *tail*（相当于利用栈的迭代方法中的 `push()` 方法），输出这个节点，开始处理左子树 `cur = cur.left`；
+2. `cur.left == null`：没有左子树，直接输出 *cur.val*，并开始处理右子树 `cur = cur.rihgt`；
+3. `cur.left != null`，`tail.right == cur`：说明已经遍历完 *cur* 的左子树并返回 *cur*，断开 *tail* 的连接（利用栈的迭代方法中 `pop()` 方法），开始处理右子树 `cur = cur.rihgt`。
 
 下图表示了前四轮循环：
 
@@ -159,4 +159,4 @@ class Solution {
 
 ## 总结
 
-利用栈的迭代方法和 morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，morris 算法只是把节点信息存在了某个空节点（`tail.right`）从而避免了使用栈带来的空间开销。但实际上对于每一个节点，都与要遍历去找到用于存放自己的那个空节点，Morris 算法在时间复杂度上没有优势，这是用时间换取空间。
+利用栈的迭代方法和 Morris 遍历其实有很多相同之处，如果能结合思考就可以很快理解，Morris 算法只是把节点信息存在了某个空节点（*tail.right*）从而避免了使用栈带来的空间开销。但实际上对于每一个节点，都与要遍历去找到用于存放自己的那个空节点，Morris 算法在时间复杂度上没有优势，这是用时间换取空间。

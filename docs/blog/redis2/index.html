@@ -31,7 +31,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.56326de82df2d4841928d404adcb91e5331820b2201ba73b8a71fed24212515d.css" integrity="sha256-VjJt6C3y1IQZKNQErcuR5TMYILIgG6c7inH&#43;0kISUV0="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.4cf59bf668faa4d9af182f52b7ddab4341917b74835c5cd281d980e60d434c47.css" integrity="sha256-TPWb9mj6pNmvGC9St92rQ0GRe3SDXFzSgdmA5g1DTEc="/>
   
   
    
@@ -137,7 +137,7 @@
 <h3 id="21-定时删除">2.1 定时删除<a class="anchor" href="#21-定时删除">#</a></h3>
 <ul>
 <li>
-<p><strong>优点：对内存最友好</strong>，使用定时器可以保证过期键尽快被删除，并释放过期键所占内存。</p>
+<p><strong>优点：对内存最友好</strong>，定时器可以保证过期键尽快被删除，并释放过期键所占内存。</p>
 </li>
 <li>
 <p><strong>缺点：对 CPU 时间最不友好</strong>，在过期键比较多的情况下，删除过期键这一行为可能会占用相当一部分 CPU 时间，会对服务器的响应时间和吞吐量造成影响。</p>
@@ -167,7 +167,7 @@
 <li><em>volatile-lru</em>：从设置过期时间的数据集中删除最久没有使用的键；</li>
 <li><em>allkeys-random</em>：从所有 key 键中随机删除；</li>
 <li><em>volatile-random</em>：从设置过期时间的数据集中随机删除；</li>
-<li><em>volatile-ttl</em>：从设置过期时间的数据集中删除马上就要过期的键，<em>ttl</em> 值越大越优先被淘汰；</li>
+<li><em>volatile-ttl</em>：从设置过期时间的数据集中删除即将过期的键，<em>ttl</em> 值越大越优先被淘汰；</li>
 <li><em>volatile-lfu</em>：从设置过期时间的数据集中删除使用频率最少的键；</li>
 <li><em>allkeys-lfu</em>：从所有键中驱逐使用频率最少的键。</li>
 </ul>

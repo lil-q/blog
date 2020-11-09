@@ -58,13 +58,13 @@ IoC 的思想最核心的地方在于，资源不是由使用资源的双方来�
 
 <br>
 
-| 作用域         | 描述                                                         |
-| :------------- | :----------------------------------------------------------- |
-| singleton      | 单例（默认）                                                 |
-| prototype      | 每次请求都会创建一个新的 Bean 实例                           |
-| request        | 每一次 HTTP 请求产生一个新的 Bean，仅在当前 HTTP request 内有效 |
-| session        | 每一次 HTTP 请求产生一个新的 Bean，仅在当前 HTTP session 内有效 |
-| global-session | 全局session作用域                                            |
+| 作用域         | 描述                                                        |
+| :------------- | :---------------------------------------------------------- |
+| singleton      | 单例（默认）                                                |
+| prototype      | 每次请求都会创建一个新的 Bean 实例                          |
+| request        | 每一次 HTTP 请求产生一个新的 Bean，仅当前 HTTP request 有效 |
+| session        | 每一次 HTTP 请求产生一个新的 Bean，仅当前 HTTP session 有效 |
+| global-session | 全局session作用域                                           |
 
 **单例 *Bean* 存在线程问题**，主要是因为当多个线程操作同一个对象的时候，对这个对象的非静态成员变量的写操作会存在线程安全问题。
 
