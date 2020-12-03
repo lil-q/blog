@@ -61,7 +61,7 @@
       "datePublished": "2020-07-16 20:30:14 \u002b0000 UTC",
       "dateModified" : "2020-07-16 20:30:14 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%95%B0%E6%8D%AE%E5%BA%93\/",
-      "wordCount" : "457",
+      "wordCount" : "467",
       "keywords" : ["Blog"]
     }
   
@@ -83,7 +83,7 @@
     
     
       <li>
-        <a  href="/">About</a>
+        <a  href="/">主页</a>
       </li>
     
       <li>
@@ -327,11 +327,10 @@ SELECT ... FOR UPDATE;
 <p>MVCC在大多数情况下代替了行锁，实现了<strong>对读的非阻塞，读不加锁，读写不冲突</strong>。缺点是每行记录都需要额外的存储空间，需要做更多的行维护和检查工作。</p>
 <h3 id="51-基本思想">5.1 基本思想<a class="anchor" href="#51-基本思想">#</a></h3>
 <p>在封锁一节中提到，加锁能解决多个事务同时执行时出现的并发一致性问题。在实际场景中读操作往往多于写操作，因此又引入了读写锁来避免不必要的加锁操作，例如读和读没有互斥关系。读写锁中读和写操作仍然是互斥的，而 MVCC 利用了<strong>多版本的思想，写操作更新最新的版本快照，而读操作去读旧版本快照，没有互斥关系</strong>，这一点和 CopyOnWrite 类似。</p>
-<p>在 MVCC 中事务的修改操作（DELETE、INSERT、UPDATE）会为数据行新增一个<strong>版本快照</strong>。</p>
-<p>脏读和不可重复读最根本的原因是事务读取到其它事务未提交的修改。在事务进行读取操作时，为了解决脏读和不可重复读问题，MVCC 规定只能读取已经提交的快照。当然一个事务可以读取自身未提交的快照，这不算是脏读。</p>
+<p>在 MVCC 中进行事务的修改操作（DELETE、INSERT、UPDATE）会为数据行新增一个<strong>版本快照</strong>。脏读和不可重复读最根本的原因是事务读取到其它事务未提交的修改。在事务进行读取操作时，为了解决脏读和不可重复读问题，MVCC 规定只能读取已经提交的快照。当然一个事务可以读取自身未提交的快照，这不算是脏读。</p>
 <h3 id="52-版本号">5.2 版本号<a class="anchor" href="#52-版本号">#</a></h3>
 <ul>
-<li>系统版本号 <strong>SYS_ID</strong>：是一个递增的数字，每开始一个新的事务，系统版本号就会自动递增。</li>
+<li>系统版本号 <strong>SYS_ID</strong>：一个递增的数字，每开始一个新事务，系统版本号就会自动递增。</li>
 <li>事务版本号 <strong>TRX_ID</strong> ：事务开始时的系统版本号。</li>
 </ul>
 <h3 id="53-undo-日志">5.3 Undo 日志<a class="anchor" href="#53-undo-日志">#</a></h3>
@@ -379,11 +378,11 @@ SELECT * FROM table WHERE ? for update;
 <h3 id="62-不能更新的情况">6.2 不能更新的情况<a class="anchor" href="#62-不能更新的情况">#</a></h3>
 <ul>
 <li>若视图是由两个以上基本表导出的；</li>
-<li>若视图的字段来自字段表达式或常数，则不允许对视图执行INSTER和UPDATE操作，但允许delete；</li>
+<li>若视图的字段来自字段表达式或常数，则不允许对视图执行 INSTER 和 UPDATE 操作，但允许 DELETE；</li>
 <li>若视图的字段来自聚集函数；</li>
-<li>若视图中含有GROUP by子句；</li>
-<li>若视图中含有DISTINCT短语；</li>
-<li>若视图定义中有嵌套查询，并且内层查询的FROM子句中涉及的表也是导出该视图的基本表；</li>
+<li>若视图中含有 GROUP BY 子句；</li>
+<li>若视图中含有 DISTINCT 短语；</li>
+<li>若视图定义中有嵌套查询，并且内层查询的 FROM 子句中涉及的表也是导出该视图的基本表；</li>
 <li>一个不允许更新的视图上定义的视图不允许更新。</li>
 </ul>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>

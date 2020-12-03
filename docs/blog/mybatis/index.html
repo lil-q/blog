@@ -83,7 +83,7 @@
     
     
       <li>
-        <a  href="/">About</a>
+        <a  href="/">主页</a>
       </li>
     
       <li>
@@ -247,7 +247,7 @@
 <h3 id="22-jdbc-存在的问题">2.2 JDBC 存在的问题<a class="anchor" href="#22-jdbc-存在的问题">#</a></h3>
 <ul>
 <li>频繁地开启和关闭数据库连接，严重地影响了数据库的性能；</li>
-<li>代码中存在硬编码。每当需求变更时，都需要修改源代码然后重新编译，系统不易维护；</li>
+<li>代码中存在硬编码。每当需求变更时都需要修改源代码然后重新编译，系统不易维护；</li>
 <li>设置查询参数的过程繁琐；</li>
 <li>获取查询结果的过程繁琐。</li>
 </ul>
@@ -315,7 +315,7 @@ InputStream inputStream = Resources.getResourceAsStream(resource);
 <h4 id="1-连接获取和释放">1. 连接获取和释放</h4>
 <p>MyBatis 不用像 JDBC 一样注册相关 <em>Driver</em>，而是通过 <em>DataSource</em> 进行隔离解耦，统一从 <em>DataSource</em> 里面获取数据库连接，<em>DataSource</em> 具体由 DBCP 实现还是由容器的 JNDI 实现都可以，<em>DataSource</em> 的具体设置通过用户配置来实现。</p>
 <h4 id="2-sql-统一管理">2. SQL 统一管理</h4>
-<p>SQL 语句统一在 XML 文件中编辑保存，并通过键值对的形式储存在 <em>mappedStatements</em> 中。</p>
+<p>SQL 语句统一在 XML 文件中编辑保存，通过键值对的形式储存在 <em>mappedStatements</em> 中。</p>
 <h4 id="3-传入参数映射和动态-sql">3. 传入参数映射和动态 SQL</h4>
 <p>Mybatis 在处理 #{} 时，会将 SQL 语句中的 #{} 替换为 ? 号，调用 <em>PreparedStatement</em> 的 <code>set()</code> 方法来赋值；Mybatis 在处理 ${} 时，就是把 ${} 替换成变量的值。</p>
 <p>MyBatis 实现了动态 SQL，这样在 Java 代码中就不需要考虑 SQL 语句相关的业务逻辑了，包含以下标签：<code>if</code> / <code>choose</code> / <code>when</code> / <code>otherwise</code> / <code>trim</code> / <code>where</code> / <code>set</code> / <code>foreach</code>。</p>

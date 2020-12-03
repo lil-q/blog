@@ -83,7 +83,7 @@
     
     
       <li>
-        <a  href="/">About</a>
+        <a  href="/">主页</a>
       </li>
     
       <li>
@@ -151,7 +151,7 @@
 }
 </code></pre>
 <p>我们用 <em>cur</em> 记录正在处理的节点，用 <em>tail</em> 记录 <em>cur</em> 节点左子树的最右节点，处理 <em>cur</em> 时有三个分支：</p>
-<ol start="2">
+<ol>
 <li><code>cur.left != null</code>，<code>tail.right == null</code>：说明 <em>cur</em> 节点及其左子树还没处理，把 <em>cur</em> 连接到 <em>tail</em>（相当于利用栈的迭代方法中的 <code>push()</code> 方法），输出这个节点，开始处理左子树 <code>cur = cur.left</code>；</li>
 <li><code>cur.left == null</code>：没有左子树，直接输出 <em>cur.val</em>，并开始处理右子树 <code>cur = cur.rihgt</code>；</li>
 <li><code>cur.left != null</code>，<code>tail.right == cur</code>：说明已经遍历完 <em>cur</em> 的左子树并返回 <em>cur</em>，断开 <em>tail</em> 的连接（利用栈的迭代方法中 <code>pop()</code> 方法），开始处理右子树 <code>cur = cur.rihgt</code>。</li>

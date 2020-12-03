@@ -61,7 +61,7 @@
       "datePublished": "2020-05-05 19:30:17 \u002b0000 UTC",
       "dateModified" : "2020-05-05 19:30:17 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C\/",
-      "wordCount" : "887",
+      "wordCount" : "884",
       "keywords" : ["web", "计算机网络", "Blog"]
     }
   
@@ -83,7 +83,7 @@
     
     
       <li>
-        <a  href="/">About</a>
+        <a  href="/">主页</a>
       </li>
     
       <li>
@@ -149,7 +149,7 @@
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after5.5/web3.png"  /></p>
 <ul>
 <li>
-<p><strong>应用层</strong> ：为特定<strong>应用程序</strong>提供数据传输服务，例如 HTTP、DNS 等协议。数据单位为报文。</p>
+<p><strong>应用层</strong> ：以<strong>报文</strong>为单位为特定<strong>应用程序</strong>提供数据传输服务，例如 HTTP、DNS 等协议。</p>
 </li>
 <li>
 <p><strong>传输层</strong> ：为<strong>进程</strong>提供<strong>通用的</strong>数据传输服务。由于应用层协议很多，定义通用的传输层协议就可以支持不断增多的应用层协议。运输层包括两种协议：<strong>传输控制协议 TCP</strong>，提供面向连接、可靠的数据传输服务，数据单位为报文段；<strong>用户数据报协议 UDP</strong>，提供无连接、尽最大努力的数据传输服务，数据单位为用户数据报。TCP 主要提供完整性服务，UDP 主要提供及时性服务。</p>
@@ -312,13 +312,13 @@
 <li>接受窗口连续三次为 0，TCP 实现可能会发 <code>RST</code> 报文来中断连接。</li>
 </ul>
 <h4 id="2-拥塞控制">2. 拥塞控制</h4>
-<p>作用于网络，它是防止过多的数据注入到网络中，避免出现网络负载过大的情况。拥塞控制是一个<strong>全局性</strong>的过程，涉及到所有的主机、路由器，以及与降低网络传输性能有关的所有因素。</p>
+<p>作用于网络，防止过多的数据注入到网络中，避免出现网络负载过大的情况。拥塞控制是一个<strong>全局性</strong>的过程，涉及到所有的主机、路由器，以及与降低网络传输性能有关的所有因素。</p>
 <p>如果网络出现拥塞，分组将会丢失，此时发送方会继续重传，从而导致网络拥塞程度更高。因此当出现拥塞时，应当控制发送方的速率。这一点和流量控制很像，但是出发点不同。流量控制是为了让<strong>接收方能来得及接收</strong>，而拥塞控制是为了<strong>降低整个网络的拥塞程度</strong>。</p>
 <p>发送方需要维护一个叫做<strong>拥塞窗口</strong>（cwnd）的状态变量，TCP 主要通过四个算法来进行拥塞控制：慢开始、拥塞避免、快重传、快恢复。</p>
 <p><strong>（1）慢开始</strong></p>
 <p>发送的最初执行慢开始，令 cwnd = 1，发送方只能发送 1 个报文段；当收到确认后，将 cwnd 加倍，因此之后发送方能够发送的报文段数量为：2、4、8 &hellip;</p>
 <p><strong>（2）拥塞避免</strong></p>
-<p>注意到慢开始每个轮次都将 cwnd 加倍，这样会让 cwnd 增长速度非常快，从而使得发送方发送的速度增长速度过快，网络拥塞的可能性也就更高。设置一个慢开始门限（<strong>s</strong>low <strong>s</strong>tart <strong>thresh</strong>old，<strong>ssthresh</strong>），当 cwnd &gt;= ssthresh 时，进入拥塞避免，每个轮次只将 cwnd 加 1。</p>
+<p>注意到慢开始每个轮次都将 cwnd 加倍，这样会让 cwnd 增长速度非常快，从而使得发送方发送的速度增长速度过快，网络拥塞的可能性也就更高。拥塞控制设置一个慢开始门限（<strong>s</strong>low <strong>s</strong>tart <strong>thresh</strong>old，<strong>ssthresh</strong>），当 cwnd &gt;= ssthresh 时，进入拥塞避免，每个轮次只将 cwnd 加 1。</p>
 <p><strong>（3）快重传</strong></p>
 <p>当网络出现拥塞，就会发生数据包重传，重传机制有：<strong>超时重传</strong>和<strong>快速重传</strong>。</p>
 <p><strong>超时重传</strong>：重新慢开始（会造成网络卡顿）：</p>
@@ -382,17 +382,17 @@
 </ol>
 <h3 id="52-http--https">5.2 HTTP &amp; HTTPS<a class="anchor" href="#52-http--https">#</a></h3>
 <ul>
-<li>HTTPS 其实就是建构在 <strong>SSL</strong> / <strong>TLS</strong> 之上的 HTTP 协议，HTTPS 比 HTTP <strong>更耗费服务器资源</strong>。</li>
-<li>HTTP 明文传输，数据未加密，安全性较差，HTTPS 传输过程中数据加密，<strong>安全性较好</strong>。</li>
+<li>HTTPS 其实就是建构在 <strong>SSL</strong> / <strong>TLS</strong> 之上的 HTTP 协议，HTTPS更耗费服务器资源**。</li>
+<li>HTTP 明文传输，数据未加密，安全性较差，HTTPS 传输中数据加密，<strong>安全性较好</strong>。</li>
 <li>HTTPS 协议需要到 <strong>CA</strong> 申请证书。</li>
 <li>HTTP 页面响应速度比 HTTPS 快（HTTP 使用 TCP 三次握手建立连接，客户端和服务器需要交换 3 个包； HTTPS 除了 TCP 的三个包，还要加上 SSL 握手需要的 9 个包，共 12 个包）。</li>
 <li>HTTP 默认端口为 80，HTTPS为 443。</li>
 </ul>
 <blockquote>
-<p><strong>传输层安全性协议</strong>（<strong>T</strong>ransport <strong>L</strong>ayer <strong>S</strong>ecurity，<strong>TLS</strong>）及其前身<strong>安全套接层</strong>（<strong>S</strong>ecure <strong>S</strong>ockets <strong>L</strong>ayer，<strong>SSL</strong>）是一种安全协议，目的是为互联网通信提供安全及数据完整性保障。</p>
+<p><strong>传输层安全性协议</strong>（<strong>T</strong>ransport <strong>L</strong>ayer <strong>S</strong>ecurity，<strong>TLS</strong>）及其前身<strong>安全套接层</strong>（<strong>S</strong>ecure <strong>S</strong>ockets <strong>L</strong>ayer，<strong>SSL</strong>）是一种为互联网通信提供安全及数据完整性保障安全协议。</p>
 </blockquote>
 <blockquote>
-<p><strong>数字证书认证机构</strong>（<strong>C</strong>ertificate <strong>A</strong>uthority，<strong>CA</strong>）是负责发放和管理<strong>数字证书</strong>的权威机构</p>
+<p><strong>数字证书认证机构</strong>（<strong>C</strong>ertificate <strong>A</strong>uthority，<strong>CA</strong>）负责发放和管理<strong>数字证书</strong>。</p>
 </blockquote>
 <h3 id="53-socket">5.3 socket<a class="anchor" href="#53-socket">#</a></h3>
 <p><strong>Socket</strong> 是在应用层和传输层之间的一个<strong>抽象层</strong>，它把 TCP/IP 层复杂的操作抽象为几个简单的接口，供应用层调用实现进程在网络中的通信。Socket 起源于 UNIX，在 UNIX 一切皆文件的思想下，进程间通信就被冠名为文件描述符（file descriptor），Socket 是一种<strong>打开—读/写—关闭</strong>模式的实现，服务器和客户端各自维护一个文件，在建立连接打开后，可以向文件写入内容供对方读取或者读取对方内容，通讯结束时关闭文件。</p>

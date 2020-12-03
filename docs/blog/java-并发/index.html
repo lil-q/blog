@@ -61,7 +61,7 @@
       "datePublished": "2020-04-28 19:37:01 \u002b0000 UTC",
       "dateModified" : "2020-04-28 19:37:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E5%B9%B6%E5%8F%91\/",
-      "wordCount" : "1844",
+      "wordCount" : "1841",
       "keywords" : ["jmm", "java", "concurrency", "Blog"]
     }
   
@@ -83,7 +83,7 @@
     
     
       <li>
-        <a  href="/">About</a>
+        <a  href="/">主页</a>
       </li>
     
       <li>
@@ -148,18 +148,18 @@
 <p>关键字 <em>volatile</em> 可以说是 Java 虚拟机提供的最轻量级的同步机制，它将具备两项特性：<strong>对所有线程的可见性</strong>和<strong>禁止指令重排序优化</strong>。具体规则如下：</p>
 <ol>
 <li>
-<p>在工作内存中，每次使用 Ⅴ 前都必须先<strong>从主内存刷新最新的值</strong>，用于保证能看见其他线程对变量所做的修改。即 use 动作 与 load、read 动作相关联的，必须连续且一起出现。</p>
+<p>在工作内存中，每次使用 Ⅴ 前都必须先<strong>从主内存刷新最新的值</strong>，用于保证能看见其他线程对变量所做的修改。即 use 动作 与 load、read 动作相关联，必须连续同时出现。</p>
 </li>
 <li>
-<p>在工作内存中，每次修改Ⅴ后都必须<strong>立刻同步回主内存中</strong>，用于保证其他线程可以看到自己对变量 V 所做的修改。即 assign 动作与 store、write 动作相关联的，必须连续且一起出现。</p>
+<p>在工作内存中，每次修改Ⅴ后都必须<strong>立刻同步回主内存中</strong>，用于保证其他线程可以看到自己对变量 V 所做的修改。即 assign 动作与 store、write 动作相关联的，必须连续同时出现。</p>
 </li>
 <li>
-<p><em>volatile</em> 修饰的变量<strong>不会被指令重排序优化</strong>，从而保证代码的执行顺序与程序的顺序相同。</p>
+<p><em>volatile</em> 修饰的变量<strong>不会被指令重排序优化</strong>，保证代码的执行顺序与程序的顺序相同。</p>
 </li>
 </ol>
 <p>只有一个处理器访问内存时，并不需要内存屏障；但如果有两个或更多处理器访问同一块内存，且其中有一个在观测另一个，就需要内存屏障来保证一致性了。在程序运行过程中，所有的变更会先在寄存器或本地 cache 中完成，然后才会被拷贝到主存以跨越内存栅栏，此种跨越序列或顺序称为 happens-before。Java 内存屏障主要有 Load 和 Store 两类：</p>
 <ul>
-<li><strong>Load Barrier</strong>：读指令前插入读屏障，让高速缓存中的数据失效，重新从主内存加载数据 ；</li>
+<li><strong>Load Barrier</strong>：读指令前插入读屏障，让高速缓存中数据失效，对数据的读取需要重新从主内存加载；</li>
 <li><strong>Store Barrier</strong>：写指令之后插入写屏障，能让写入缓存的最新数据写回到主内存。</li>
 </ul>
 <p>在实际使用中，又分为以下四种：</p>
@@ -235,7 +235,7 @@ Thread thread = new Thread(ft);
 </ul>
 <p>实现接口会更好一些，因为：</p>
 <ul>
-<li>Java 不支持多重继承，因此继承了 <em>Thread</em> 类就无法继承其它类，但是可以实现多个接口；</li>
+<li>Java 不支持多重继承，继承 <em>Thread</em> 类就无法继承其它类，但是可以实现多个接口；</li>
 <li>类可能只要求可执行就行，继承整个 <em>Thread</em> 类开销过大。</li>
 </ul>
 <p>通过调用 <code>start()</code> 启动一个新线程；一个线程对象只能调用一次 <code>start()</code> 方法；必须调用 <em>Thread</em> 实例的 <code>start()</code> 方法才能启动新线程，<code>start()</code> 方法内部调用了一个 <code>private native void start0()</code> 方法，<em>native</em> 修饰符表示这个方法是由 JVM 虚拟机内部的 C 代码实现的。</p>
@@ -312,12 +312,12 @@ Thread thread = new Thread(ft);
 <p>调用 <em>Executor</em> 的 <code>shutdown()</code> 方法会等待线程都执行完毕之后再关闭，但是如果调用的是 <code>shutdownNow()</code> 方法，则相当于调用每个线程的 <code>interrupt()</code> 方法。</p>
 <h3 id="34-线程池">3.4 线程池<a class="anchor" href="#34-线程池">#</a></h3>
 <ul>
-<li><em><strong>corePoolSize</strong></em>：核心线程数量，核心线程不会被回收，没有任务执行时会保持空闲状态；</li>
+<li><em><strong>corePoolSize</strong></em>：核心线程数量，核心线程不会被回收，没有任务时会保持空闲状态；</li>
 <li><em><strong>maximumPoolSize</strong></em>：池允许最大的线程数；</li>
 <li><em><strong>keepAliveTime</strong></em>：非核心线程的存活时间；</li>
 <li><em><strong>unit</strong></em>：keepAliveTime 的单位；</li>
-<li><em><strong>workQueue</strong></em>：线程数超过 <em>corePoolSize</em> 时，新的任务存在 <em>workQueue</em> 中，处在等待状态；</li>
-<li><em><strong>threadFactory</strong></em>：创建线程的工厂类，可自定义 <em>threadFactory</em> 设置线程的名称以快速定位；</li>
+<li><em><strong>workQueue</strong></em>：线程数超过 <em>corePoolSize</em> 时，新的任务存在 <em>workQueue</em> 中等待；</li>
+<li><em><strong>threadFactory</strong></em>：创建线程的工厂类；</li>
 <li><em><strong>handler</strong></em>：线程池执行拒绝策略。</li>
 </ul>
 <h4 id="1-线程池的优势">1. 线程池的优势</h4>
@@ -329,7 +329,7 @@ Thread thread = new Thread(ft);
 <h4 id="2-线程池饱和策略">2. 线程池饱和策略</h4>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/concurconcurency2.png" style="zoom:150%;" /></p>
 <ol>
-<li>如果当前运行的线程少于 <em>corePoolSize</em>，则创建新线程来执行任务（需要获取全局锁）；</li>
+<li>如果当前运行的线程少于 <em>corePoolSize</em>，则创建新线程来执行任务（需获取全局锁）；</li>
 <li>如果运行的线程等于或多于 <em>corePoolSize</em>，则将任务加入 BlockingQueue ；</li>
 <li>如果无法将任务加入 BlockingQueue （队列已满），则在非 corePool 中创建新的线程来处理任务（需要获取全局锁）；</li>
 <li>如果创建新线程将使当前运行的线程超出 <em>maximumPoolSize</em>，任务将被拒绝，并调用 <code>RejectedExecutionHandler.rejectedExecution()</code> 方法。</li>
@@ -522,7 +522,7 @@ private Condition condition = lock.newCondition();
 <p><em>ReentrantLock</em> 应该确保在 <em>finally</em> 块中释放锁，否则一旦受同步保护的代码块中抛出异常，则有可能永远不会释放持有的锁。而使用 <em>synchronized</em> 的话则可以由 Java 虛拟机来确保即使出现异常，锁也能被自动释放。</p>
 <p>从长远来看，Java 虚拟机更容易针对 <em>synchronized</em> 来进行优化，因为 Java 虚拟机可以在线程和对象的元数据中记录 <em>synchronized</em> 中锁的相关信息，而使用 J.U.C 中的 <em>Lock</em> 的话，Java 虚拟机是很难得知具体哪些锁对象是由特定线程锁持有的。</p>
 <h3 id="53-非阻塞同步">5.3 非阻塞同步<a class="anchor" href="#53-非阻塞同步">#</a></h3>
-<p>互斥同步最主要的问题就是<strong>线程阻塞</strong>和<strong>唤醒</strong>所带来的性能问题，因此这种同步也称为<strong>阻塞同步</strong>。</p>
+<p>互斥同步最主要的问题就是<strong>线程阻塞</strong>和<strong>唤醒</strong>所带来的性能问题，这种同步也称为<strong>阻塞同步</strong>。</p>
 <p>互斥同步属于一种<strong>悲观</strong>的并发策略，总是认为只要不去做正确的同步措施，那就肯定会出现问题。无论共享数据是否真的会出现竞争，它都要进行加锁（这里讨论的是概念模型，实际上虚拟机会优化掉很大一部分不必要的加锁）、用户态核心态转换、维护锁计数器和检查是否有被阻塞的线程需要唤醒等操作。</p>
 <p>随着硬件指令集的发展，我们可以使用基于<strong>冲突检测</strong>的<strong>乐观</strong>并发策略：先进行操作，如果没有其它线程争用共享数据，那操作就成功了，否则采取补偿措施（不断地重试，直到成功为止）。这种乐观的并发策略的许多实现都不需要将线程阻塞，因此这种同步操作称为<strong>非阻塞同步</strong>。</p>
 <h4 id="1-cas">1. CAS</h4>
@@ -627,7 +627,7 @@ ThreadLocal.ThreadLocalMap threadLocals = null;
 </code></pre>
 <p>每个 <code>append()</code> 方法中都有一个同步块。虚拟机观察变量 <em>sb</em>，很快就会发现它的动态作用域被限制在 <code>concatString()</code> 方法内部。也就是说，<em>sb</em> 的所有引用永远不会逃逸到 <code>concatString()</code> 方法之外，其他线程无法访问到它，因此可以进行消除。</p>
 <h3 id="63-锁粗化">6.3 锁粗化<a class="anchor" href="#63-锁粗化">#</a></h3>
-<p>如果一系列的连续操作都对同一个对象<strong>反复加锁和解锁</strong>，频繁的加锁操作就会导致性能损耗。</p>
+<p>如果一系列连续操作都对同一个对象<strong>反复加锁和解锁</strong>，频繁的加锁操作就会导致性能损耗。</p>
 <p>上面的 <code>append()</code> 方法就属于这类情况。如果虚拟机探测到由这样的一串零碎的操作都对同一个对象加锁，将会把加锁的范围扩展（粗化）到整个操作序列的外部。对于上一节的示例代码就是扩展到第一个 <code>append()</code> 操作之前直至最后一个 <code>append()</code> 操作之后，这样只需要加锁一次就可以了。</p>
 <h3 id="64-偏向锁">6.4 偏向锁<a class="anchor" href="#64-偏向锁">#</a></h3>
 <p>JDK 1.6 引入了偏向锁和轻量级锁，从而让锁拥有了四个状态：无锁状态（unlocked）、偏向锁状态（biasble）、轻量级锁状态（lightweight locked）和重量级锁状态（inflated）。</p>
@@ -703,8 +703,8 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 </code></pre>
 <h3 id="75-总结">7.5 总结<a class="anchor" href="#75-总结">#</a></h3>
 <ul>
-<li><em>CountDownLatch</em> 常用于某个线程等待若干个其他线程执行完任务之后才执行，不能重用；</li>
-<li><em>CyclicBarrier</em> 常用于一组线程互相等待至某个状态，然后这组线程再同时执行，可以重用；</li>
+<li><em>CountDownLatch</em> 用于某个线程等待若干个其他线程执行完任务之后执行，不能重用；</li>
+<li><em>CyclicBarrier</em> 用于一组线程互相等待至某个状态，然后再同时执行，可以重用；</li>
 <li><em>Semaphore</em> 其实和锁有点类似，一般用于控制对某组资源的访问权限。</li>
 </ul>
 <p><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E5%B9%B6%E5%8F%91?id=%E5%85%AB%E3%80%81juc-%E5%85%B6%E5%AE%83%E7%BB%84%E4%BB%B6">其他一些组件</a></p>

@@ -58,8 +58,8 @@ copyright = "{year} © lil-q"
 # Controls the navigation
 [[menu.main]]
   identifier = "about"
-  name = "About"
-  title = "About"
+  name = "主页"
+  title = "主页"
   url = "/"
 
 [[menu.main]]

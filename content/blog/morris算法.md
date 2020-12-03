@@ -49,7 +49,7 @@ class Solution {
 
 我们用 *cur* 记录正在处理的节点，用 *tail* 记录 *cur* 节点左子树的最右节点，处理 *cur* 时有三个分支：
 
-2. `cur.left != null`，`tail.right == null`：说明 *cur* 节点及其左子树还没处理，把 *cur* 连接到 *tail*（相当于利用栈的迭代方法中的 `push()` 方法），输出这个节点，开始处理左子树 `cur = cur.left`；
+1. `cur.left != null`，`tail.right == null`：说明 *cur* 节点及其左子树还没处理，把 *cur* 连接到 *tail*（相当于利用栈的迭代方法中的 `push()` 方法），输出这个节点，开始处理左子树 `cur = cur.left`；
 2. `cur.left == null`：没有左子树，直接输出 *cur.val*，并开始处理右子树 `cur = cur.rihgt`；
 3. `cur.left != null`，`tail.right == cur`：说明已经遍历完 *cur* 的左子树并返回 *cur*，断开 *tail* 的连接（利用栈的迭代方法中 `pop()` 方法），开始处理右子树 `cur = cur.rihgt`。
 

@@ -171,8 +171,8 @@ Override 和 Overload 不同的是，如果方法签名如果不同，就是 Ove
 
 - 自反性（Reflexive）：`x.equals(x)` 必须返回 true；
 - 对称性（Symmetric）： `x.equals(y)` 为 true，则 `y.equals(x)` 也必须为 true；
-- 传递性（Transitive）： `x.equals(y)` 和 `y.equals(z)` 为 true，则 `x.equals(z)` 也为 true；
-- 一致性（Consistent）： x 和 y 状态不变，则 `x.equals(y)` 总是一致返回 true 或者 false；
+- 传递性（Transitive）： `x.equals(y)` 和 `y.equals(z)` 结果可得出 `x.equals(z)`；
+- 一致性（Consistent）： x 和 y 状态不变，则 `x.equals(y)` 结论总是一致；
 - 对 null 的比较：即 `x.equals(null)` 永远返回 false。
 
 ```java
@@ -206,7 +206,7 @@ public class EqualExample {
 
 `hashCode()` 返回哈希值，而 `equals()` 是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价，这是因为计算哈希值具有随机性，两个值不同的对象可能计算出相同的哈希值。
 
-在覆盖 `equals()` 方法时应当总是覆盖 `hashCode()` 方法，保证等价的两个对象哈希值也相等。
+在覆盖 `equals()` 方法时必须覆盖 `hashCode()` 方法，保证等价的两个对象哈希值也相等。
 
 *HashSet* 和 *HashMap* 等集合类使用了 `hashCode()` 方法来计算对象应该存储的位置，因此要将对象添加到这些集合类中，需要让对应的类实现 `hashCode()` 方法。
 
@@ -400,7 +400,7 @@ System.out.println(e2.get(2)); // 2
 
 * 都是上层的抽象层。
 * 都不能被实例化。
-* 都能包含抽象的方法，这些抽象的方法用于描述类具备的功能，但是不提供具体的实现。
+* 都能包含抽象的方法，这些抽象的方法用于描述类具备的功能，但不提供具体的实现。
 
 #### 1. 抽象类
 

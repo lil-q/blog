@@ -61,7 +61,7 @@
       "datePublished": "2020-03-23 14:08:20 \u002b0000 UTC",
       "dateModified" : "2020-03-23 14:08:20 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%8C\/",
-      "wordCount" : "1222",
+      "wordCount" : "1216",
       "keywords" : ["error", "java", "OOP", "Blog"]
     }
   
@@ -83,7 +83,7 @@
     
     
       <li>
-        <a  href="/">About</a>
+        <a  href="/">主页</a>
       </li>
     
       <li>
@@ -287,8 +287,8 @@ class D extends C {
 <ul>
 <li>自反性（Reflexive）：<code>x.equals(x)</code> 必须返回 true；</li>
 <li>对称性（Symmetric）： <code>x.equals(y)</code> 为 true，则 <code>y.equals(x)</code> 也必须为 true；</li>
-<li>传递性（Transitive）： <code>x.equals(y)</code> 和 <code>y.equals(z)</code> 为 true，则 <code>x.equals(z)</code> 也为 true；</li>
-<li>一致性（Consistent）： x 和 y 状态不变，则 <code>x.equals(y)</code> 总是一致返回 true 或者 false；</li>
+<li>传递性（Transitive）： <code>x.equals(y)</code> 和 <code>y.equals(z)</code> 结果可得出 <code>x.equals(z)</code>；</li>
+<li>一致性（Consistent）： x 和 y 状态不变，则 <code>x.equals(y)</code> 结论总是一致；</li>
 <li>对 null 的比较：即 <code>x.equals(null)</code> 永远返回 false。</li>
 </ul>
 <pre><code class="language-java">public class EqualExample {
@@ -318,7 +318,7 @@ class D extends C {
 </code></pre>
 <h4 id="2-hashcode">2. hashCode()</h4>
 <p><code>hashCode()</code> 返回哈希值，而 <code>equals()</code> 是用来判断两个对象是否等价。等价的两个对象散列值一定相同，但是散列值相同的两个对象不一定等价，这是因为计算哈希值具有随机性，两个值不同的对象可能计算出相同的哈希值。</p>
-<p>在覆盖 <code>equals()</code> 方法时应当总是覆盖 <code>hashCode()</code> 方法，保证等价的两个对象哈希值也相等。</p>
+<p>在覆盖 <code>equals()</code> 方法时必须覆盖 <code>hashCode()</code> 方法，保证等价的两个对象哈希值也相等。</p>
 <p><em>HashSet</em> 和 <em>HashMap</em> 等集合类使用了 <code>hashCode()</code> 方法来计算对象应该存储的位置，因此要将对象添加到这些集合类中，需要让对应的类实现 <code>hashCode()</code> 方法。</p>
 <p>下面的代码中，新建了两个等价的对象，并将它们添加到 <em>HashSet</em> 中。我们希望将这两个对象当成一样的，只在集合中添加一个对象。但是 <em>EqualExample</em> 没有实现 <code>hashCode()</code> 方法，因此这两个对象的哈希值是不同的，最终导致集合添加了两个等价的对象。</p>
 <pre><code class="language-java">EqualExample e1 = new EqualExample(1, 1, 1);
@@ -475,7 +475,7 @@ System.out.println(e2.get(2)); // 2
 <ul>
 <li>都是上层的抽象层。</li>
 <li>都不能被实例化。</li>
-<li>都能包含抽象的方法，这些抽象的方法用于描述类具备的功能，但是不提供具体的实现。</li>
+<li>都能包含抽象的方法，这些抽象的方法用于描述类具备的功能，但不提供具体的实现。</li>
 </ul>
 <h4 id="1-抽象类">1. 抽象类</h4>
 <p>抽象类和抽象方法都使用 <em>abstract</em> 关键字进行声明，抽象方法默认 <em>public</em> 修饰，不能使用 <em>private</em>。如果一个类中包含抽象方法，那么这个类必须声明为<strong>抽象类</strong>。抽象类可以没有抽象方法，可以拥有 <em>private</em> 修饰的成员（非抽象方法）。</p>
