@@ -74,8 +74,8 @@ copyright = "{year} © lil-q"
   title = "相册"
   url = "/picture"
 
-[[menu.main]]
-  identifier = "essay"
-  name = "随笔"
-  title = "随笔"
-  url = "/essay"
+#[[menu.main]]
+#  identifier = "essay"
+#  name = "随笔"
+#  title = "随笔"
+#  url = "/essay"
