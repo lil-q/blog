@@ -7,10 +7,25 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>{year} © lil-q</copyright>
-    <lastBuildDate>Wed, 14 Oct 2020 20:36:54 +0800</lastBuildDate>
+    <lastBuildDate>Fri, 23 Apr 2021 16:17:53 +0800</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>无理数 π</title>
+      <link>https://lil-q.github.io/blog/pi/</link>
+      <pubDate>Fri, 23 Apr 2021 16:17:53 +0800</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/pi/</guid>
+      <description>每年的 3 月 14 日是 Pi Day[1]，由 π 的常用近似值 3.14 得来，活动当天，数学家们会一边吃 pie 一边讨论有关 π 的问题。
+一、割圆术 早在公元前三世纪，古希腊数学家阿基米德分别计算了单位圆的外切正 6 边形和内切正 6 边形的周长，以此来确定 π 的上界和下界。对于其中 $\sqrt{3}$ 的处理，阿基米德采用了不等式：$\frac{265}{153}&amp;lt;\sqrt{3}&amp;lt;\frac{1351}{780}$，却未加解释[2]。为缩小 π 的范围，阿基米德不断倍增正多边形的边数，当逐步迭代至正 96 边形时，得到 π 介于 $\frac{223}{71} $ 和 $\frac{22}{7} $ 之间。
+同时期，秦始皇统一中国，制定了度量衡标准。又过了五个世纪，魏晋时期的数学家刘徽首创割圆术，为计算圆周率建立了严密的理论和完善的算法。与阿基米德不同，刘徽只考虑圆的内切正多边形，并从面积的角度确定 π 上界[3]。当计算至正 3072 边形时可得，π 近似于 3.1416。
+五世纪，祖冲之在刘徽割圆术的基础上，计算得到 π 介于 3.1415926 和 3.1415927 之间。在之后的八百年里，这个结果在世界范围内都是最准确的。
+在 1630 年，奥地利天文学家克里斯托夫·格林伯格用 $10^{40}$ 边形将 π 计算到第 38 位小数，至今这仍是利用多边形算法可以达到的最准确的结果。
+借助计算机实现割圆法（单位圆半径取 1），利用不同正多边形所能计算出的 π 值如下：
+public static void piAlgorithm(int n) { double a = 1; // 初始边长 int k = 6; // 初始边数 for (int i = 0; i &amp;lt; n; i++) { double h = Math.</description>
+    </item>
     
     <item>
       <title>Redis：过期键淘汰策略</title>

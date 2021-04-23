@@ -61,7 +61,7 @@
       "datePublished": "2019-12-04 21:53:50 \u002b0000 UTC",
       "dateModified" : "2019-12-04 21:53:50 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%A0%91-tree\/",
-      "wordCount" : "779",
+      "wordCount" : "780",
       "keywords" : ["tree", "BST", "二叉搜索树", "Blog"]
     }
   
@@ -426,7 +426,7 @@ def postorderTraversalIter(root):
 <p><strong>B+ 树</strong>是一种树数据结构，通常用于数据库和操作系统的文件系统中。B+ 树的特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反。</p>
 <p>B+ 树与 B 树最大的不同是内部结点不保存数据，只用于索引，所有数据（或者说记录）都保存在叶子结点中。</p>
 <p>请参考<a href="https://www.cnblogs.com/nullzx/p/8729425.html">这篇文章</a></p>
-<h2 id="六avl树">六、AVL树<a class="anchor" href="#六avl树">#</a></h2>
+<h2 id="六avl-树">六、AVL 树<a class="anchor" href="#六avl-树">#</a></h2>
 <p><strong>AVL 树</strong>是最早被发明的自平衡二叉查找树。在 AVL 树中，任一节点对应的两棵子树的最大高度差为 1，因此它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下的时间复杂度都是 O(log n)。增加和删除元素的操作则可能需要借由一次或多次树旋转，以实现树的重新平衡。</p>
 <p>节点的<strong>平衡因子</strong>是它的左子树的高度减去它的右子树的高度（有时相反）。带有平衡因子 1、0 或  -1 的节点被认为是平衡的。带有平衡因子 -2 或 2 的节点被认为是不平衡的，并需要重新平衡这个树。平衡因子可以直接存储在每个节点中，或从可能存储在节点中的子树高度计算出来。</p>
 <p>AVL 树的基本操作一般涉及运作同在不平衡的二叉查找树所运作的同样的算法。但是要进行预先或随后做一次或多次所谓的 &ldquo;AVL 旋转&rdquo;。</p>
@@ -548,7 +548,7 @@ def postorderTraversalIter(root):
     </li>
     <li><a href="#四字典树">四、字典树</a></li>
     <li><a href="#五b-树--b-树">五、B 树 &amp; B+ 树</a></li>
-    <li><a href="#六avl树">六、AVL树</a></li>
+    <li><a href="#六avl-树">六、AVL 树</a></li>
     <li><a href="#七红黑树">七、红黑树</a>
       <ul>
         <li><a href="#红黑树--平衡二叉树">红黑树 &amp; 平衡二叉树</a></li>
