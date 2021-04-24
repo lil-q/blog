@@ -13,15 +13,21 @@ toc: true
 
 ## 一、割圆术
 
-早在公元前三世纪，古希腊数学家阿基米德分别计算了单位圆的外切正 6 边形和内切正 6 边形的周长，以此来确定 π 的上界和下界。对于其中 $\sqrt{3}$ 的处理，阿基米德采用了不等式：$\frac{265}{153}<\sqrt{3}<\frac{1351}{780}$，却未加解释[[2]](https://math.ntnu.edu.tw/~horng/letter/vol4no2f.htm)。为缩小 π 的范围，阿基米德不断倍增正多边形的边数，当逐步迭代至正 96 边形时，得到 π 介于 $\frac{223}{71} $ 和 $\frac{22}{7} $ 之间。
+早在公元前三世纪，古希腊数学家阿基米德分别计算了单位圆的外切正 6 边形和内切正 6 边形的周长，以此来确定 π 的上界和下界。对于其中 $\sqrt{3}$ 的处理，阿基米德采用了如下不等式，却未加解释[[2]](https://math.ntnu.edu.tw/~horng/letter/vol4no2f.htm)。
 
-同时期，秦始皇统一中国，制定了度量衡标准。又过了五个世纪，魏晋时期的数学家刘徽首创割圆术，为计算圆周率建立了严密的理论和完善的算法。与阿基米德不同，刘徽只考虑圆的内切正多边形，并从面积的角度确定 π 上界[[3]](https://zh.wikipedia.org/wiki/%E5%89%B2%E5%9C%86%E6%9C%AF_(%E5%88%98%E5%BE%BD)#%E5%9C%86%E5%91%A8%E7%8E%87%E6%8D%B7%E6%B3%95)。当计算至正 3072 边形时可得，π 近似于 3.1416。
+$$\frac{265}{153}<\sqrt{3}<\frac{1351}{780}$$
 
-五世纪，祖冲之在刘徽割圆术的基础上，计算得到 π 介于 3.1415926 和 3.1415927 之间。在之后的八百年里，这个结果在世界范围内都是最准确的。
+通过这个不等式，避免了开根号的问题。为缩小 π 的范围，阿基米德不断倍增正多边形的边数，当逐步迭代至正 96 边形时，得到 π 介于 $\frac{223}{71} $ 和 $\frac{22}{7} $ 之间。
+
+同时期，秦始皇统一中国，制定了度量衡标准。又过了五个世纪，魏晋时期的数学家刘徽首创割圆术，为计算圆周率建立了严密的理论和完善的算法。与阿基米德不同，刘徽只考虑圆的内切正多边形，并从面积的角度确定 π 上界[[3]](https://zh.wikipedia.org/wiki/%E5%89%B2%E5%9C%86%E6%9C%AF_(%E5%88%98%E5%BE%BD)#%E5%9C%86%E5%91%A8%E7%8E%87%E6%8D%B7%E6%B3%95)。当时采用筹算进行开平方，过程非常繁难，刘徽发明了一种快速算法，该算法对多边形的面积差做了等比近似，从而避免了最后四次最为复杂的开方。当计算至正 3072 边形时可得，π 近似于 3.1416。
+
+五世纪，祖冲之在刘徽割圆术的基础上，计算得到 π 介于 3.1415926 和 3.1415927 之间。在之后的八百年里，这个结果在世界范围内都是最准确的。此外，祖冲之还通过调日法得出 π 的约率 $\frac{22}{7} $ 和密率 $\frac{355}{113} $，后者在五位数表示的分数中是最接近 π 的。
 
 在 1630 年，奥地利天文学家克里斯托夫·格林伯格用 $10^{40}$ 边形将 π 计算到第 38 位小数，至今这仍是利用多边形算法可以达到的最准确的结果。
 
-借助计算机实现割圆法（单位圆半径取 1），利用不同正多边形所能计算出的 π 值如下：
+### 1.1 割圆术的计算机实现
+
+借助计算机实现割圆法，由于开根号的精度有一定保障，可以计算出较为精准的 π 。为了简化计算，使用单位圆，半径取 1。
 
 ```java
 public static void piAlgorithm(int n) {
@@ -35,6 +41,8 @@ public static void piAlgorithm(int n) {
     System.out.printf("pi = %.10f —— 正 %d 边形\n", (k * a / 2), k);
 }
 ```
+
+不同正多边形所能计算出的 π 值如下：
 
  ```txt
 pi = 3.1058285412 —— 正 12 边形
@@ -53,7 +61,7 @@ pi = 3.1415926450 —— 正 24576 边形
 
 ## 二、π 与无穷级数
 
-当割圆术难以取得进展时，与 π 相关的无穷级数被发现了。
+当割圆术难以取得进展时，与 π 相关的无穷级数被发现了。用无穷级数计算 π 有一个很明显的好处，不用再频繁开根号了。以下列举了一些可用于计算 π 无穷级数，他们的迭代速度也不尽相同。
 
 1. [A Leibniz formula:](https://en.wikipedia.org/wiki/Leibniz_formula_for_pi)
 
@@ -89,23 +97,18 @@ pi = 3.1415926450 —— 正 24576 边形
 
 $$P  =  1- \left ( 1-0.1^{d}  \right )^{n}  $$
 
-从 [MIT](https://stuff.mit.edu/afs/sipb/contrib/pi/) 可以下载精确到小数点后十亿位的 π，这是一个九百多兆的 pi-billion.txt 文件，里面记录了 “3.” 以及后面的十亿个数字。为了后续计算的方便，这里删去 “3.” 只留下 π 的小数部分。Java 中，*String* 类用一个字符数组 value 保存数据，所以字符串的最大长度受 value.length 限制。实际测试中，这个值比 Integer.MAX_VALUE 略小一些。十亿这个量级正好小于 Integer.MAX_VALUE，可以用一个字符串来表示 π。写一个简单的双指针就可以完成复杂度 $O(n)$ 的字符串匹配算法了。
+从 [MIT](https://stuff.mit.edu/afs/sipb/contrib/pi/) 可以下载精确到小数点后十亿位的 π，这是一个九百多兆的 pi-billion.txt 文件，里面记录了 “3.” 以及后面的十亿个数字。为了后续计算的方便，这里删去 “3.” 只留下 π 的小数部分。Java 中，*String* 类用一个字符数组 value 保存数据，所以字符串的最大长度受 value.length 限制。实际测试中，这个值比 Integer.MAX_VALUE 略小一些，十亿这个量级正好小于 Integer.MAX_VALUE。
+
+用朴素的匹配方法可以实现 $O(nm)$ 的复杂度：
 
 ```java
 String PI = ... // 省略了 io 读取 PI 的过程
     
 public static int findBirthday(String str) {
-    char[] chs = str.toCharArray();
-    int p = 0; // 指向正在匹配的位
-    for (int i = 0; i < PI.length(); i++) {
-        if (chs[p] == PI.charAt(i)) {
-            p++; // 匹配成功就进一位
-        } else {
-            p = 0; // 匹配失败从零开始
-        }
-        if (p == chs.length) {
-            // 全部匹配则直接返回，注意：从 1 开始计数
-            return i - chs.length + 2;
+    for (int i = 0; i <= PI.length() - str.length(); i++) {
+        int j = 0;
+        while (str.charAt(j) == PI.charAt(i + j)) {
+            if (++j == str.length()) return i + 1; // 从 1 开始计数
         }
     }
     return -1;
@@ -116,13 +119,11 @@ public static int findBirthday(String str) {
 18830020
 ```
 
-最后，在 π 小数点后的第 18830020 位找到了爱因斯坦的生日 18790314。在 [Pi-Search](https://www.angio.net/pi/piquery.html) 上可以验证这个答案，或者查找自己的生日。
-
-Pi-Search 搜索的速度非常快，显然，上述方法还需要优化。
+最后，匹配用时 34ms，在 π 小数点后的第 18830020 位找到了爱因斯坦的生日 18790314。在 [Pi-Search](https://www.angio.net/pi/piquery.html) 上可以验证这个答案，或者查找自己的生日。此外，Pi-Search 还提出了一些优化。
 
 ### 3.1 数据压缩
 
- 回头看看那个九百多兆的 pi-billion.txt 文件，它的大小是 976563KB，是否还能压缩呢？通过记事本打开这个文件，可以看到编码格式是 UTF-8，也就是说每一个字符（也就是 π 中的数字）都需要一个字节（8 bit）来记录。 976563KB 就是十亿个字节除以 1024 得到的。
+回头再看那个九百多兆的 pi-billion.txt 文件，它的具体大小是 976563KB，是否还能压缩呢？通过记事本打开这个文件，可以看到编码格式是 UTF-8，也就是说每一个字符（即 π 中的数字）都需要一个字节（8 bit）来记录。 976563KB 就是十亿个字节除以 1024 得到的。
 
 对于一个数字来说，用一个字节来存放其实浪费了空间，因为 4bit 就足够表示 0~9 这十个数字了。也就是说，一个字节可以存放两个数字——高四位和低四位分别存放一个数字。
 
@@ -153,6 +154,78 @@ private static byte[] recode(byte[] pi) {
     return newPi;
 }
 ```
+
+### 3.2 减少比较次数
+
+如果只是压缩数据，仍然采用一位一位地匹配，比较次数并没有减少，相应的运算量和运行时间也都相差无几。Pi-Search 给出了这样的优化：当 π 和匹配串字节对齐时，完全可以一次匹配两个数字，即一个字节；字节不对齐时，则提出单个的数字匹配，后续对齐部分同样按字节匹配。
+
+```txt
+Pi:      14 15 92 65 35 89 79 32 38 46 26 43...
+Query:   65 35
+         ^^ both checked in one step, because they're just one byte
+
+Pi:      14 15 92 65 35 89 79 32 38 46 26 43...
+Query:    6 53 5
+          ^^^ still has to do multiple comparisons because they bytes don't line up
+```
+
+如果不限制输入字符串的位数，实现起来就比较复杂了，需要充分考虑奇偶情况。
+
+```java
+public static int findYourBirthday(byte[] pi, String str) {
+    // 记录匹配串的开头和结尾
+    int start = str.charAt(0) - 48;
+    int end = (str.charAt(str.length() - 1) - 48) << 4;
+
+    // 分别用于对齐匹配和不对齐匹配的字节数组
+    byte[] birthday1 = new byte[str.length() / 2];
+    byte[] birthday2 = new byte[(str.length() + 1) / 2 - 1];
+
+    // 初始化匹配字节数组
+    for (int i = 0; i < birthday1.length; i++) {
+        birthday1[i] = (byte) (((str.charAt(2 * i) - 48) << 4)
+                               + str.charAt(2 * i + 1) - 48);
+    }
+    for (int i = 0; i < birthday2.length; i++) {
+        birthday2[i] = (byte) (((str.charAt(2 * i + 1) - 48) << 4)
+                               + str.charAt(2 * i + 2) - 48);
+    }
+
+    // 奇偶需要分开讨论
+    if ((str.length() & 1) == 0) {
+        for (int i = 0; i < pi.length - str.length() / 2; i++) {
+            if (match(pi, birthday1, i))
+                return 2 * i + 1;
+            if (start == (pi[i] & 15)
+                && end == (pi[i + birthday1.length] & 240)
+                && match(pi, birthday2, i + 1))
+                return 2 * i + 2;
+        }
+        // 处理特例
+        if (match(pi, birthday1, pi.length - birthday1.length))
+            return 2 * (pi.length - birthday1.length) + 1;
+    } else {
+        for (int i = 0; i < pi.length - str.length() / 2; i++) {
+            if (end == (pi[i + birthday1.length] & 240)
+                && match(pi, birthday1, i)) 
+                return 2 * i + 1;
+            if (start == (pi[i] & 15)
+                && match(pi, birthday2, i + 1)) 
+                return 2 * i + 2;
+        }
+    }
+    return -1;
+}
+
+private static boolean match(byte[] pi, byte[] birthday, int i) {
+    for (int j = 0; j < birthday.length; j++) {
+        if (pi[i + j] != birthday[j]) return false;
+    }
+    return true;
+}
+```
+
+通过对 π 随机位上的测试，优化后的算法大概能提升 10% 左右的性能，并不是很理想。Pi-Searcher 还提到，他们针对现代 CPU 的流水线作业方式对算法进行了改进。比如，连续对四个数进行比较，而不是等待前一个比较出结果后才比较下一个。目前我还无法确定 Java 程序是否会自动优化这些步骤。
 
 
 
