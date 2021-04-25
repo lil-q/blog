@@ -1,5 +1,5 @@
 ---
-title: "无理数 π"
+title: "关于圆周率 π"
 date: 2021-04-23T16:17:53+08:00
 slug: ""
 description: "pi的历史，在pi中找你的生日"
