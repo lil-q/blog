@@ -229,13 +229,15 @@ private static boolean match(byte[] pi, byte[] birthday, int i) {
 
 ### 3.3 降低算法复杂度
 
-虽然以上改进提升了一些速度，但是匹配模式始终是最朴素的——对 π 上的每一位进行匹配，每次匹配从左到右核对字符串。字符串匹配是一个很常见的问题，目前以及有了很多改进算法，比如 [Boyer-Moore](https://en.wikipedia.org/wiki/Boyer–Moore_string_search_algorithm) or [Knuth-Morris-Pratt](https://en.wikipedia.org/wiki/Knuth–Morris–Pratt_algorithm)，后者就是 KMP 算法。
+虽然以上改进提升了一些速度，但是匹配模式始终是最朴素的——对 π 上的每一位进行匹配，每次匹配从左到右核对字符串。字符串匹配是一个很常见的问题，目前已经有了很多改进算法，比如 [Boyer-Moore](https://en.wikipedia.org/wiki/Boyer–Moore_string_search_algorithm) or [Knuth-Morris-Pratt](https://en.wikipedia.org/wiki/Knuth–Morris–Pratt_algorithm)，后者就是 KMP 算法。
 
 KMP 算法首先要对匹配串进行预处理，找到每个位置上与自己的最长公共前缀。在匹配时，借助公共前缀可以省略一些重复的匹配（比较）。
 
 ```java
 public static int kmpSearch(String str) {
+    // 预处理
     int[] prefix = kmp(str);
+    // 匹配
     int state = 0;
     for (int i = 0; i < PI.length(); i++) {
         while (state != 0 && PI.charAt(i) != str.charAt(state)) {
@@ -249,7 +251,6 @@ public static int kmpSearch(String str) {
     return -1;
 }
 
-// 预处理
 private static int[] kmp(String str) {
     int[] prefix = new int[str.length()];
     int state = 0;
@@ -265,7 +266,7 @@ private static int[] kmp(String str) {
 }
 ```
 
-测试发现，KMP 算法比基于字符串的朴素算法还要慢 20%。其实这个结果也不意外，这类算法本质上是通过字符串上的一些规律来较少比较次数，而 π 本身没什么规律，算法本身的复杂度反而使其更慢了。
+测试发现，KMP 算法比基于字符串的朴素算法还要慢 20%。其实这个结果也不意外，这类算法本质上是通过字符串上的一些规律来减少比较次数，而 π 本身没什么规律，算法本身的复杂度反而使其更慢了。
 
 但是，如果把线性复杂度直接降到对数级，那结果就完全不一样了！这部分内容 Pi-Search 已经完成，借助[后缀数组](https://en.wikipedia.org/wiki/Suffix_array)和二分法能把复杂度降低到 $O(log_2n)$，当然也需要付出一些空间代价（保存后缀数组）。具体的做法如下：
 
