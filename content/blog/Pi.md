@@ -102,7 +102,7 @@ $$P  =  1- \left ( 1-0.1^{d}  \right )^{n}  $$
 用朴素的匹配方法可以实现 $O(nm)$ 的复杂度：
 
 ```java
-String PI = ... // 省略了 io 读取 PI 的过程
+static String PI = ... // 省略了 io 读取 PI 的过程，这是一个全局变量，后面还会用到
     
 public static int findBirthday(String str) {
     for (int i = 0; i <= PI.length() - str.length(); i++) {
@@ -227,7 +227,50 @@ private static boolean match(byte[] pi, byte[] birthday, int i) {
 
 通过对 π 随机位上的测试，优化后的算法大概能提升 10% 左右的性能，并不是很理想。Pi-Searcher 还提到，他们针对现代 CPU 的流水线作业方式对算法进行了改进。比如，连续对四个数进行比较，而不是等待前一个比较出结果后才比较下一个。目前我还无法确定 Java 程序是否会自动优化这些步骤。
 
+### 3.3 降低算法复杂度
 
+虽然以上改进提升了一些速度，但是匹配模式始终是最朴素的——对 π 上的每一位进行匹配，每次匹配从左到右核对字符串。字符串匹配是一个很常见的问题，目前以及有了很多改进算法，比如 [Boyer-Moore](https://en.wikipedia.org/wiki/Boyer–Moore_string_search_algorithm) or [Knuth-Morris-Pratt](https://en.wikipedia.org/wiki/Knuth–Morris–Pratt_algorithm)，后者就是 KMP 算法。
+
+KMP 算法首先要对匹配串进行预处理，找到每个位置上与自己的最长公共前缀。在匹配时，借助公共前缀可以省略一些重复的匹配（比较）。
+
+```java
+public static int kmpSearch(String str) {
+    int[] prefix = kmp(str);
+    int state = 0;
+    for (int i = 0; i < PI.length(); i++) {
+        while (state != 0 && PI.charAt(i) != str.charAt(state)) {
+            state = prefix[state - 1];
+        }
+        if (PI.charAt(i) == str.charAt(state)) {
+            if (++state == str.length())
+                return i - str.length() + 2;
+        }
+    }
+    return -1;
+}
+
+// 预处理
+private static int[] kmp(String str) {
+    int[] prefix = new int[str.length()];
+    int state = 0;
+    for (int i = 1; i < str.length(); i++) {
+        while (state != 0 && str.charAt(i) != str.charAt(state)) {
+            state = prefix[state - 1];
+        }
+        if (str.charAt(i) == str.charAt(state)) {
+            prefix[i] = ++state;
+        }
+    }
+    return prefix;
+}
+```
+
+测试发现，KMP 算法比基于字符串的朴素算法还要慢 20%。其实这个结果也不意外，这类算法本质上是通过字符串上的一些规律来较少比较次数，而 π 本身没什么规律，算法本身的复杂度反而使其更慢了。
+
+但是，如果把线性复杂度直接降到对数级，那结果就完全不一样了！这部分内容 Pi-Search 已经完成，借助[后缀数组](https://en.wikipedia.org/wiki/Suffix_array)和二分法能把复杂度降低到 $O(log_2n)$，当然也需要付出一些空间代价（保存后缀数组）。具体的做法如下：
+
+* 当匹配串长度小于等于 5 时，用改进后的朴素算法。对于五位数，平均匹配到第 100,000 位就能匹配到。
+* 当匹配串长度大于等于 6 时，采用后缀数组和二分法。匹配串可能会重复出现，要找到最先出现的仍然需要小范围的线性搜索。
 
 ## 参考
 
@@ -236,4 +279,5 @@ private static boolean match(byte[] pi, byte[] birthday, int i) {
 3. [刘徽-wiki](https://zh.wikipedia.org/wiki/%E5%89%B2%E5%9C%86%E6%9C%AF_(%E5%88%98%E5%BE%BD)#%E5%9C%86%E5%91%A8%E7%8E%87%E6%8D%B7%E6%B3%95)
 4. [pi-wiki](https://www.wikiwand.com/en/Approximations_of_%CF%80#/overview)
 5. [Probability of Finding Strings In Pi](https://www.angio.net/pi/whynotpi.html)
+6. [leetcode 上的 KMP 算法](https://leetcode-cn.com/problems/implement-strstr/solution/shi-xian-strstr-by-leetcode-solution-ds6y/)
 
