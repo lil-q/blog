@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>关于圆周率 π | Homeward</title>
+  <title>圆周率 π | Homeward</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -48,8 +48,8 @@
             "@id": "https:\/\/lil-q.github.io\/"
       },
       "articleSection" : "blog",
-      "name" : "关于圆周率 π",
-      "headline" : "关于圆周率 π",
+      "name" : "圆周率 π",
+      "headline" : "圆周率 π",
       "description" : "pi的历史，在pi中找你的生日",
       "inLanguage" : "en-US",
       "author" : "",
@@ -107,7 +107,7 @@
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">关于圆周率 π</h1>
+            <h1 id="post__title">圆周率 π</h1>
             <time datetime="2021-04-23 16:17:53 &#43;0800 CST" class="post__date">Apr 23 2021</time> 
           </header>
           <article class="post__content">
@@ -175,8 +175,8 @@ pi = 3.1415926450 —— 正 24576 边形
 <p>除了满足人类对打破纪录的欲望外，高精度 π 可以用来验证计算机的完备性和算法的正确性。在纯粹数学领域，计算的位数则可用来评定 π 的随机性。目前看来，在 π 的 $10^{12}$ 位中，每个数字分别出现了 $10^{11}$ 次，这佐证了 π 的正规性。</p>
 <p>数学总是这样，现象如此诡谲，原理却总是质朴。当我们暂时还找不到 π 的原理时，只好继续研究其现象了。</p>
 <h2 id="三在-π-中找到你的生日">三、在 π 中找到你的生日<a class="anchor" href="#三在-π-中找到你的生日">#</a></h2>
-<p>1879 的 Pi day，爱因斯坦出生了，是否能在 π 的小数部分找到他的生日呢？</p>
-<p>如果将生日按年月日排列组成 8 位数字，如 18790314，然后在 π 中寻找，能找到的概率大概是 0.99995，这是在 π 中各数字完全随机出现的前提下得到的<a href="https://www.angio.net/pi/whynotpi.html">[5]</a>。推广后可以得到在 n 位精度的 π 中找到 d 位数字的概率：</p>
+<p>1879 年的 Pi day，爱因斯坦出生了，是否能在 π 的小数部分找到他的生日呢？</p>
+<p>如果将生日按年月日排列组成 8 位数字，如 18790314，然后在 π 中寻找，能找到的概率大概是 0.99995，这是在 π 中各数字完全随机出现的前提下得到的<a href="https://www.angio.net/pi/whynotpi.html">[5]</a>。推广后得到在 n 位精度的 π 中找到 d 位数字的概率：</p>
 <p>$$P  =  1- \left ( 1-0.1^{d}  \right )^{n}  $$</p>
 <p>从 <a href="https://stuff.mit.edu/afs/sipb/contrib/pi/">MIT</a> 可以下载精确到小数点后十亿位的 π，这是一个九百多兆的 pi-billion.txt 文件，里面记录了 “3.” 以及后面的十亿个数字。为了后续计算的方便，这里删去 “3.” 只留下 π 的小数部分。Java 中，<em>String</em> 类用一个字符数组 value 保存数据，所以字符串的最大长度受 value.length 限制。实际测试中，这个值比 Integer.MAX_VALUE 略小一些，十亿这个量级正好小于 Integer.MAX_VALUE。</p>
 <p>用朴素的匹配方法可以实现 $O(nm)$ 的复杂度：</p>
