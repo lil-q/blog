@@ -27,15 +27,6 @@ class UnsafeStates { private String[] states = new String[] { &amp;quot;AK&amp;q
     </item>
     
     <item>
-      <title>Java：Nio</title>
-      <link>https://lil-q.github.io/blog/nio/</link>
-      <pubDate>Thu, 13 May 2021 10:50:59 +0800</pubDate>
-      
-      <guid>https://lil-q.github.io/blog/nio/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>圆周率 π</title>
       <link>https://lil-q.github.io/blog/pi/</link>
       <pubDate>Fri, 23 Apr 2021 16:17:53 +0800</pubDate>
