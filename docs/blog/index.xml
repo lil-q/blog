@@ -7,10 +7,33 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>{year} © lil-q</copyright>
-    <lastBuildDate>Fri, 23 Apr 2021 16:17:53 +0800</lastBuildDate>
+    <lastBuildDate>Mon, 07 Jun 2021 16:27:42 +0800</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java 并发：共享对象</title>
+      <link>https://lil-q.github.io/blog/threadsafety/</link>
+      <pubDate>Mon, 07 Jun 2021 16:27:42 +0800</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/threadsafety/</guid>
+      <description>一、发布和逸出 发布（publishing）对象就是使一个对象能够被外界代码使用。以下方式可以实现发布：
+ 将对象保存到共享区域（public static）； 使用一个 public 方法返回该对象； 通过其他类的方法传入该对象。  1.1 共享区域 想要发布对象到共享区域，先要初始化一个容器用于存放这些对象：
+public static Set&amp;lt;Secret&amp;gt; knownSecrets; // 注意：存在风险 public void initialize() { knownSecrets = new HashSet&amp;lt;Secret&amp;gt;(); }  然后把对象加入到这个共享的容器中，但是通过这个容器，别的线程就可以很轻易地获得 Secret 并对其进行修改，这是不合理的。如果这些 Secret 是不可变对象，就很好的解决了这个问题。
+1.2 public 方法 用 public 方法发布一个对象时，同样不应将 private 对象直接暴露出来：
+class UnsafeStates { private String[] states = new String[] { &amp;quot;AK&amp;quot;, &amp;quot;AL&amp;quot; ...}; public String[] getStates() { return states; // 注意：存在风险 } }  更合理的方式应该是进行拷贝：
+class UnsafeStates { private String[] states = new String[] { &amp;quot;AK&amp;quot;, &amp;quot;AL&amp;quot; .</description>
+    </item>
+    
+    <item>
+      <title>Java：Nio</title>
+      <link>https://lil-q.github.io/blog/nio/</link>
+      <pubDate>Thu, 13 May 2021 10:50:59 +0800</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/nio/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>圆周率 π</title>

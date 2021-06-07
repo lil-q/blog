@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Java 并发：共享对象 | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.50813d73475717c0fce5d3e2cbec1d24548cb7c529e244632bebb87aae1a2286.css" integrity="sha256-UIE9c0dXF8D85dPiy&#43;wdJFSMt8Up4kRjK&#43;u4eq4aIoY="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "Java 并发：共享对象",
+      "headline" : "Java 并发：共享对象",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2021",
+      "datePublished": "2021-06-07 16:27:42 \u002b0800 CST",
+      "dateModified" : "2021-06-07 16:27:42 \u002b0800 CST",
+      "url" : "https:\/\/lil-q.github.io\/blog\/threadsafety\/",
+      "wordCount" : "277",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">主页</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Java 并发：共享对象</h1>
+            <time datetime="2021-06-07 16:27:42 &#43;0800 CST" class="post__date">Jun 7 2021</time> 
+          </header>
+          <article class="post__content">
+              
+<h2 id="一发布和逸出">一、发布和逸出<a class="anchor" href="#一发布和逸出">#</a></h2>
+<p><strong>发布</strong>（publishing）对象就是使一个对象能够被外界代码使用。以下方式可以实现发布：</p>
+<ul>
+<li>将对象保存到共享区域（<em>public static</em>）；</li>
+<li>使用一个 <em>public</em> 方法返回该对象；</li>
+<li>通过其他类的方法传入该对象。</li>
+</ul>
+<h3 id="11-共享区域">1.1 共享区域<a class="anchor" href="#11-共享区域">#</a></h3>
+<p>想要发布对象到共享区域，先要初始化一个容器用于存放这些对象：</p>
+<pre><code class="language-java">public static Set&lt;Secret&gt; knownSecrets; // 注意：存在风险
+
+public void initialize() { 
+    knownSecrets = new HashSet&lt;Secret&gt;();
+}
+</code></pre>
+<p>然后把对象加入到这个共享的容器中，但是通过这个容器，别的线程就可以很轻易地获得 <em>Secret</em> 并对其进行修改，这是不合理的。如果这些 <em>Secret</em> 是不可变对象，就很好的解决了这个问题。</p>
+<h3 id="12--public-方法">1.2  <em>public</em> 方法<a class="anchor" href="#12--public-方法">#</a></h3>
+<p>用 <em>public</em> 方法发布一个对象时，同样不应将 <em>private</em> 对象直接暴露出来：</p>
+<pre><code class="language-java">class UnsafeStates { 
+    
+    private String[] states = new String[] { &quot;AK&quot;, &quot;AL&quot; ...}; 
+    
+    public String[] getStates() { 
+        return states; // 注意：存在风险
+    } 
+}
+</code></pre>
+<p>更合理的方式应该是进行拷贝：</p>
+<pre><code class="language-java">class UnsafeStates { 
+    
+    private String[] states = new String[] { &quot;AK&quot;, &quot;AL&quot; ...}; 
+    
+    public String[] getStates() { 
+        return Arrays.copyOf(states, states.length); 
+    } 
+}
+</code></pre>
+<h3 id="13-传入对象">1.3 传入对象<a class="anchor" href="#13-传入对象">#</a></h3>
+<p>监听器模式就是通过事件源的函数传入 <em>Listener</em>，将其发布出去。</p>
+<pre><code class="language-java">public class ThisEscape { 
+    
+    // 注意：存在风险
+    public ThisEscape(EventSource source) { 
+        source.registerListener( 
+            new EventListener() { // 匿名内部类
+            	public void onEvent(Event e) { 
+                	doSomething(e);
+				} 
+        	}); 
+    } 
+}
+</code></pre>
+<p>上述代码存在一个很大问题，即在构造函数中使用了匿名类。当 <em>ThisEscape</em> 下的匿名类发布的同时，会隐式发布 thisEscape 对象。由于此时 thisEscape 对象还没有构造完毕，<code>doSomething(e)</code> 可能会引出很多奇怪的问题。<strong>不要再构造函数中使用匿名类</strong>。</p>
+<p>取而代之的，使用一个私有的构造函数和一个公共的工厂方法，可以避免不正确的创建。</p>
+<pre><code class="language-java">public class SafeListener { 
+    
+    private final EventListener listener;
+
+    private SafeListener() { 
+        listener = new EventListener() { 
+            public void onEvent(Event e) { 
+                doSomething(e);
+            } 
+        }; 
+    }
+
+    public static SafeListener newInstance(EventSource source) { 
+        SafeListener safe = new SafeListener(); // 从构造函数返回，初始化完毕
+        source.registerListener(safe.listener); 
+        return safe;
+    } 
+}
+</code></pre>
+<p>通常情况下，由于封装性，我们并不希望对象被发布；而另一些情况下，又需要将一些对象发布出去供另一方使用，比如 <em>Listener</em>。所以发布也是<strong>理想下的封装</strong>对<strong>实际情况</strong>的一种妥协，这就会造成一些问题。如果一个对象还没有完全构造完就发布出去，这种情况称为<strong>逸出</strong>（escape）。</p>
+<p>一个对象只有通过<strong>构造函数返回后才处于可预测、稳定的状态</strong>。所以要避免在构造函数中 this 引用的逸出，即使 this 引用是在构造函数最后一行发布的。</p>
+<p>导致 this 引用逸出的一个常见错误就是在构造函数中启动一个线程。当对象在构造函数中创建一个线程，由于 <code>Thread</code> 或 <code>Runnable</code> 是对象类的内部类，this 引用几乎总是被新线程共享，导致逸出。正确的做法是在构造函数中创建线程，并不要启动它，而是把启动的过程放在类似 <code>start()</code> 或 <code>initialize()</code> 方法中。</p>
+<h2 id="二线程封闭">二、线程封闭<a class="anchor" href="#二线程封闭">#</a></h2>
+<p>对一些简单的常见，实际上并不需要共享数据，这时候可以采用<strong>线程封闭</strong>的方式。如果数据只在单线程中被访问，就不需要任何同步了。这在 Swing 和 JDBC 中都有应用。</p>
+<p>利用 volatile 可以实现一种 Ad-hoc（不那么严格的）线程封闭，比如下面用于实现顺序打印的程序：</p>
+<pre><code class="language-java">class Foo {
+    
+    private volatile int state = 1;
+
+    public Foo() {}
+
+    public void first(Runnable printFirst) throws InterruptedException {
+        printFirst.run();
+        state = 2;
+    }
+
+    public void second(Runnable printSecond) throws InterruptedException {
+        while (state != 2) { }; // 自旋
+        printSecond.run();
+        state = 3;
+    }
+
+    public void third(Runnable printThird) throws InterruptedException {
+        while (state != 3) { }; // 自旋
+        printThird.run();
+        state = 1;
+    }
+}
+</code></pre>
+<p>虽然有多个线程共享 state，但是可以保证同一时间只有一个线程在写入。当然，state 必须要用 volatile 修饰以保证其可见性。</p>
+<h2 id="三安全发布">三、安全发布<a class="anchor" href="#三安全发布">#</a></h2>
+<p>为了安全地发布对象，对象的引用以及对象的状态必须同时对其他线程可见。一个正确创建的对象可以通过下列条件安全地发布：</p>
+<ul>
+<li>通过静态初始化器初始化对象的引用；</li>
+<li>将其引用存储到 volatile 域或 AtomicReference；</li>
+<li>将其引用存储到正确创建的对象的 final 域中；</li>
+<li>将其引用存储到由锁正确保护的域（如线程安全的容器）中。</li>
+</ul>
+
+
+              
+          </article>
+          
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/nio/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Java：Nio</span>
+    </a>
+  
+
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>2021 © lil-q</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一发布和逸出">一、发布和逸出</a>
+      <ul>
+        <li><a href="#11-共享区域">1.1 共享区域</a></li>
+        <li><a href="#12--public-方法">1.2  <em>public</em> 方法</a></li>
+        <li><a href="#13-传入对象">1.3 传入对象</a></li>
+      </ul>
+    </li>
+    <li><a href="#二线程封闭">二、线程封闭</a></li>
+    <li><a href="#三安全发布">三、安全发布</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>
