@@ -1,5 +1,5 @@
 ---
-title: "Java并发：组合对象"
+title: "Java 并发：组合对象"
 date: 2021-06-08T17:48:11+08:00
 slug: ""
 description: ""
