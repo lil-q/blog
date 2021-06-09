@@ -9,6 +9,8 @@ math: false
 toc: true
 ---
 
+【Java 并发】系列是对《Java Concurrency in Practice》的学习整理。
+
 ## 一、发布和逸出
 
 **发布**（publishing）对象就是使一个对象能够被外界代码使用。以下方式可以实现发布：
