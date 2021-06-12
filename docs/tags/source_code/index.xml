@@ -7,10 +7,22 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>{year} © lil-q</copyright>
-    <lastBuildDate>Thu, 02 Apr 2020 15:37:30 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 12 Jun 2021 16:00:25 +0800</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/tags/source_code/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java 并发：CopyOnWriteArrayList</title>
+      <link>https://lil-q.github.io/blog/copyonwritearraylist/</link>
+      <pubDate>Sat, 12 Jun 2021 16:00:25 +0800</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/copyonwritearraylist/</guid>
+      <description>写时复制（Copy On Write，COW）是一种程序设计领域的优化策略。其核心思想是，当多个调用者同时请求相同资源（如内存或磁盘上的数据）时，他们会共同获取相同指针指向相同的资源，知道某个调用者试图修改该资源，系统才会真正复制一个专用副本（private copy）给该调用者。对专用副本的修改是无法作用到原始资源上的，事实上，原始资源根本没有被发布。
+COW 已有很多应用，比如在虚拟内存管理中，一般把共享访问的页面标记为只读，当一个 task 试图向内存中写入数据时，内存管理单元（MMU）抛出一个异常，内核处理该异常时为该 task 分配一份物理内存并复制数据到此内存，重新向 MMU 发出执行该 task 的写操作。Linux 等的文件管理系统也使用了写时复制策略。
+Java 中的 CopyOnWriteArrayList 采用 COW 策略实现了线程安全版的 ArrayList。
+public class CopyOnWriteArrayList&amp;lt;E&amp;gt; implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.io.Serializable { // 同步锁 final transient ReentrantLock lock = new ReentrantLock(); // 私有数组，只能通过 getArray/setArray 发布 // 需要 volatile 修饰满足新数组赋值后的可见性 private transient volatile Object[] array; // final 禁止重写，避免逸出 final Object[] getArray() { return array; } // 同上 final void setArray(Object[] a) { array = a; } // 既然写入总是复制，初始化就没有确定数组大小的必要了 public CopyOnWriteArrayList() { setArray(new Object[0]); } .</description>
+    </item>
     
     <item>
       <title>Java：Map</title>

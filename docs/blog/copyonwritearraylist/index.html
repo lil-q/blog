@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Java 并发：CopyOnWriteArrayList | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.50813d73475717c0fce5d3e2cbec1d24548cb7c529e244632bebb87aae1a2286.css" integrity="sha256-UIE9c0dXF8D85dPiy&#43;wdJFSMt8Up4kRjK&#43;u4eq4aIoY="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "Java 并发：CopyOnWriteArrayList",
+      "headline" : "Java 并发：CopyOnWriteArrayList",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2021",
+      "datePublished": "2021-06-12 16:00:25 \u002b0800 CST",
+      "dateModified" : "2021-06-12 16:00:25 \u002b0800 CST",
+      "url" : "https:\/\/lil-q.github.io\/blog\/copyonwritearraylist\/",
+      "wordCount" : "720",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">主页</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Java 并发：CopyOnWriteArrayList</h1>
+            <time datetime="2021-06-12 16:00:25 &#43;0800 CST" class="post__date">Jun 12 2021</time> 
+          </header>
+          <article class="post__content">
+              
+<p><strong>写时复制</strong>（<strong>C</strong>opy On <strong>W</strong>rite，<strong>COW</strong>）是一种程序设计领域的优化策略。其核心思想是，当多个调用者同时请求<strong>相同资源</strong>（如内存或磁盘上的数据）时，他们会共同获取<strong>相同指针</strong>指向相同的资源，知道某个调用者试图修改该资源，系统才会真正复制一个<strong>专用副本</strong>（private copy）给该调用者。对专用副本的修改是无法作用到原始资源上的，事实上，原始资源根本没有被<strong>发布</strong>。</p>
+<p>COW 已有很多应用，比如在虚拟内存管理中，一般把共享访问的页面标记为只读，当一个 task 试图向内存中写入数据时，内存管理单元（MMU）抛出一个异常，内核处理该异常时为该 task 分配一份物理内存并复制数据到此内存，重新向 MMU 发出执行该 task 的写操作。Linux 等的文件管理系统也使用了写时复制策略。</p>
+<p>Java 中的 <em>CopyOnWriteArrayList</em> 采用 COW 策略实现了线程安全版的 <em>ArrayList</em>。</p>
+<pre><code class="language-java">public class CopyOnWriteArrayList&lt;E&gt;
+    	implements List&lt;E&gt;, RandomAccess, Cloneable, java.io.Serializable {
+
+    // 同步锁
+    final transient ReentrantLock lock = new ReentrantLock();
+
+    // 私有数组，只能通过 getArray/setArray 发布
+    // 需要 volatile 修饰满足新数组赋值后的可见性
+    private transient volatile Object[] array;
+
+    // final 禁止重写，避免逸出
+    final Object[] getArray() {
+        return array;
+    }
+
+    // 同上
+    final void setArray(Object[] a) {
+        array = a;
+    }
+
+    // 既然写入总是复制，初始化就没有确定数组大小的必要了
+    public CopyOnWriteArrayList() {
+        setArray(new Object[0]);
+    }
+    
+    ...
+}
+</code></pre>
+<h2 id="一读取时不加锁">一、读取时不加锁<a class="anchor" href="#一读取时不加锁">#</a></h2>
+<p><em>CopyOnWriteArrayList</em> 的读取是不需要加锁的，由于多个线程读取的都是同一个不可变对象，读取是线程安全的。</p>
+<pre><code class="language-java">    public E get(int index) {
+        return get(getArray(), index);
+    }
+
+	private E get(Object[] a, int index) {
+        return (E) a[index];
+    }
+</code></pre>
+<p>注意到 <code>get(int index)</code> 并不是直接从 array 中取得数据，而是利用 <code>getArray()</code> 来得到它。为什么要多此一举呢？其实在 <em>CopyOnWriteArraySet</em> 中，会有一个  <em>CopyOnWriteArrayList</em> 类的成员变量 al，而为了获取 al 中 array，就需要一定权限（至少为 package）。而 <em>CopyOnWriteArrayList</em> 类中的 array 是 private 权限，所以就用 package 权限的 setter 和 getter 来修改和访问 array。至于为什么不把 array 直接设定为 package 权限，可能是一定程度上破坏了封装性。</p>
+<pre><code class="language-java">public class CopyOnWriteArraySet&lt;E&gt; extends AbstractSet&lt;E&gt;
+        implements java.io.Serializable {
+
+    private final CopyOnWriteArrayList&lt;E&gt; al;
+    
+    public boolean containsAll(Collection&lt;?&gt; c) {
+        return (c instanceof Set)
+            ? compareSets(al.getArray(), (Set&lt;?&gt;) c) &gt;= 0
+            : al.containsAll(c);
+    }
+}
+</code></pre>
+<h2 id="二写时复制">二、写时复制<a class="anchor" href="#二写时复制">#</a></h2>
+<p>当需要修改特定位置上的值时，首先应 <code>lock.lock()</code> 加锁。使用一个 final 修饰的局部变量来指向这个锁，这一操作看似多余，却是作者 Doug Lea 独特的编程风格， JIT 也许会对这一操作做出相应优化。接着，获取 array 相应位置上的元素，进行比较。如果不同，就创建一个相同长度的 newElements，将原先数据拷贝到 newElements 中并求改相应位置上的元素，<code>setArray(newElements)</code> 更新 array；如果相同，<code>setArray(elements)</code> 简单更新 array。最后 <code>lock.unlock()</code> 解锁。</p>
+<pre><code class="language-java">    public E set(int index, E element) {
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            Object[] elements = getArray();
+            E oldValue = get(elements, index);
+
+            if (oldValue != element) {
+                int len = elements.length;
+                Object[] newElements = Arrays.copyOf(elements, len);
+                newElements[index] = element;
+                setArray(newElements);
+            } else {
+                // Not quite a no-op; ensures volatile write semantics
+                setArray(elements);
+            }
+            return oldValue;
+        } finally {
+            lock.unlock();
+        }
+    }
+</code></pre>
+<p>为什么 else 语句中明明没有修改任何东西，还是需要进行 <code>setArray(elements)</code> 呢？这是为了让调用方也能享受到 happens-before  原则中的 volatile 原则的好处：volatile 变量写入前的其他变量（不论 volatile 与否）的读写不会重排序到 volatile 变量写入之后。</p>
+<pre><code class="language-java">// initial conditions
+int nonVolatileField = 0;
+CopyOnWriteArrayList&lt;String&gt; list = /* a single String */
+
+// Thread 1
+nonVolatileField = 1;                 // (1)
+list.set(0, &quot;x&quot;);                     // (2)
+
+// Thread 2
+String s = list.get(0);               // (3)
+if (s == &quot;x&quot;) {
+    int localVar = nonVolatileField;  // (4)
+}
+</code></pre>
+<p>上面这个例子中，由于我们能够保证（2）一定对 volatile 变量进行了写入，所以当（2）先于（3）发生时，（1）一定先于（4）发生。</p>
+<p>添加元素与修改类似，不过创建新的 newElements 数组时，长度需要加一。移除元素，则 newElements 数组长度减一。</p>
+<pre><code class="language-java">    public boolean add(E e) {
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            Object[] elements = getArray();
+            int len = elements.length;
+            Object[] newElements = Arrays.copyOf(elements, len + 1);
+            newElements[len] = e;
+            setArray(newElements);
+            return true;
+        } finally {
+            lock.unlock();
+        }
+    }
+</code></pre>
+<pre><code class="language-java">    public E remove(int index) {
+        final ReentrantLock lock = this.lock;
+        lock.lock();
+        try {
+            Object[] elements = getArray();
+            int len = elements.length;
+            E oldValue = get(elements, index);
+            int numMoved = len - index - 1;
+            if (numMoved == 0)
+                setArray(Arrays.copyOf(elements, len - 1));
+            else {
+                Object[] newElements = new Object[len - 1];
+                System.arraycopy(elements, 0, newElements, 0, index);
+                System.arraycopy(elements, index + 1, newElements, index,
+                                 numMoved);
+                setArray(newElements);
+            }
+            return oldValue;
+        } finally {
+            lock.unlock();
+        }
+    }
+</code></pre>
+<h2 id="三遍历">三、遍历<a class="anchor" href="#三遍历">#</a></h2>
+<p><em>CopyOnWriteArrayList</em> 下有一个子类 <em>COWIterator</em> 来实现迭代器。<em>COWIterator</em> 中持有一个 <em>CopyOnWriteArrayList</em> 的快照——即 <em>COWIterator</em> 创建时刻 <em>CopyOnWriteArrayList</em> 中的 array。</p>
+<p>由于快照并不具有实时性，<code>remove()</code> \ <code>set()</code> \ <code>add()</code> 这些涉及到实时操作的都不能得到支持。也正是因为这个原因，即使迭代同时进行修改也不会报出 <code> ConcurrentModificationException</code>。</p>
+<pre><code class="language-java">    static final class COWIterator&lt;E&gt; implements ListIterator&lt;E&gt; {
+        /** Snapshot of the array */
+        private final Object[] snapshot;
+        /** Index of element to be returned by subsequent call to next.  */
+        private int cursor;
+
+        private COWIterator(Object[] elements, int initialCursor) {
+            cursor = initialCursor;
+            snapshot = elements;
+        }
+
+        public boolean hasNext() {
+            return cursor &lt; snapshot.length;
+        }
+
+        public boolean hasPrevious() {
+            return cursor &gt; 0;
+        }
+
+        @SuppressWarnings(&quot;unchecked&quot;)
+        public E next() {
+            if (! hasNext())
+                throw new NoSuchElementException();
+            return (E) snapshot[cursor++];
+        }
+
+        @SuppressWarnings(&quot;unchecked&quot;)
+        public E previous() {
+            if (! hasPrevious())
+                throw new NoSuchElementException();
+            return (E) snapshot[--cursor];
+        }
+
+        public int nextIndex() {
+            return cursor;
+        }
+
+        public int previousIndex() {
+            return cursor-1;
+        }
+
+        /**
+         * Not supported. Always throws UnsupportedOperationException.
+         * @throws UnsupportedOperationException always; {@code remove}
+         *         is not supported by this iterator.
+         */
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Not supported. Always throws UnsupportedOperationException.
+         * @throws UnsupportedOperationException always; {@code set}
+         *         is not supported by this iterator.
+         */
+        public void set(E e) {
+            throw new UnsupportedOperationException();
+        }
+
+        /**
+         * Not supported. Always throws UnsupportedOperationException.
+         * @throws UnsupportedOperationException always; {@code add}
+         *         is not supported by this iterator.
+         */
+        public void add(E e) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void forEachRemaining(Consumer&lt;? super E&gt; action) {
+            Objects.requireNonNull(action);
+            Object[] elements = snapshot;
+            final int size = elements.length;
+            for (int i = cursor; i &lt; size; i++) {
+                @SuppressWarnings(&quot;unchecked&quot;) E e = (E) elements[i];
+                action.accept(e);
+            }
+            cursor = size;
+        }
+    }
+</code></pre>
+<h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
+<ol>
+<li><a href="https://stackoverflow.com/questions/47030394/why-copyonwritearraylist-use-getarray-to-access-an-array-reference">Why CopyOnWriteArrayList use getArray() to access an array reference?</a></li>
+<li><a href="http://tutorials.jenkov.com/java-concurrency/volatile.html">The Java volatile Happens-Before Guarantee</a></li>
+<li><a href="http://mail.openjdk.java.net/pipermail/core-libs-dev/2010-May/004165.html">Performance of locally copied members ?</a></li>
+</ol>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/java/">java</a>
+    </li>
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/concurrency/">concurrency</a>
+    </li>
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/source_code/">source_code</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/java%E5%B9%B6%E5%8F%91%E7%BB%84%E5%90%88%E5%AF%B9%E8%B1%A1/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Java 并发：组合对象</span>
+    </a>
+  
+
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>2021 © lil-q</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一读取时不加锁">一、读取时不加锁</a></li>
+    <li><a href="#二写时复制">二、写时复制</a></li>
+    <li><a href="#三遍历">三、遍历</a></li>
+    <li><a href="#参考">参考</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>
