@@ -229,5 +229,36 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
     }
 ```
 
+### 2.1 初始化 table
 
+不管是初始化 table 还是对 table 进行扩容，sizeCtl 都是至关重要的一环。在初始化 table 时，并不能保证只有当前线程在初始化，当有多个线程同时初始化 table 时，竞争就出现了。通过 sizeCtl 处理竞争很容易，若当前线程赢得了竞争，开始初始化，则把 sezeCtl 设置为 -1（这个操作必须原子性的）。其他线程在读到 sizeCtl = -1 时就放弃初始化，进而 `yield()` 让出资源等待初始化的完成，这就是为什么需要 while 循环的原因。但是这里还有两个问题：
+
+1. 为什么在检查 table 是否初始化时需要 `(tab = table) == null || tab.length == 0`，似乎 `tab.length == 0` 总是不能单独成立的？
+2. 为什么最后的 `sizeCtl = sc` 需要 finally 句式来保证其一定执行。
+
+第一个问题我还没有答案，不过第二问题有以下解释。在创建新的 table 时，可能会因为空间不足而报出 `OutOfMemoryError`，该线程就无法执行下去，如果没有 finally 保证 `sizeCtl = sc` 一定执行，sizeCtl 将永远为 -1，而 table 也将永远无法创建。
+
+```java
+    private final Node<K,V>[] initTable() {
+        Node<K,V>[] tab; int sc;
+        while ((tab = table) == null || tab.length == 0) {
+            if ((sc = sizeCtl) < 0)
+                Thread.yield(); // lost initialization race; just spin
+            else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
+                try {
+                    if ((tab = table) == null || tab.length == 0) {
+                        int n = (sc > 0) ? sc : DEFAULT_CAPACITY;
+                        Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n];
+                        table = tab = nt;
+                        sc = n - (n >>> 2);
+                    }
+                } finally {
+                    sizeCtl = sc;
+                }
+                break;
+            }
+        }
+        return tab;
+    }
+```
 
