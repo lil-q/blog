@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+  <title>Java 并发：ConcurrentHashMap | Homeward</title>
+
+  <meta charset="UTF-8">
+  <meta name="language" content="en">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+  
+  
+
+  <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
+
+  
+  
+    
+ 
+  
+  
+  
+  
+  
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+  
+    
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.50813d73475717c0fce5d3e2cbec1d24548cb7c529e244632bebb87aae1a2286.css" integrity="sha256-UIE9c0dXF8D85dPiy&#43;wdJFSMt8Up4kRjK&#43;u4eq4aIoY="/>
+  
+  
+   
+   
+    
+
+<script type="application/ld+json">
+  
+    {
+      "@context" : "http://schema.org",
+      "@type" : "BlogPosting",
+      "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/lil-q.github.io\/"
+      },
+      "articleSection" : "blog",
+      "name" : "Java 并发：ConcurrentHashMap",
+      "headline" : "Java 并发：ConcurrentHashMap",
+      "description" : "",
+      "inLanguage" : "en-US",
+      "author" : "",
+      "creator" : "",
+      "publisher": "",
+      "accountablePerson" : "",
+      "copyrightHolder" : "",
+      "copyrightYear" : "2021",
+      "datePublished": "2021-06-13 16:30:25 \u002b0800 CST",
+      "dateModified" : "2021-06-13 16:30:25 \u002b0800 CST",
+      "url" : "https:\/\/lil-q.github.io\/blog\/concurrenthashmap\/",
+      "wordCount" : "796",
+      "keywords" : ["Blog"]
+    }
+  
+  </script>
+</head>
+
+<body>
+  <div class="burger__container">
+  <div class="burger" aria-controls="navigation" aria-label="Menu">
+    <div class="burger__meat burger__meat--1"></div>
+    <div class="burger__meat burger__meat--2"></div>
+    <div class="burger__meat burger__meat--3"></div>
+  </div>
+</div>
+ 
+
+  <nav class="nav" id="navigation">
+  <ul class="nav__list">
+    
+    
+      <li>
+        <a  href="/">主页</a>
+      </li>
+    
+      <li>
+        <a  class="active"
+         href="/blog">技术</a>
+      </li>
+    
+      <li>
+        <a  href="/picture">相册</a>
+      </li>
+    
+  </ul>
+</nav>
+
+
+  <main>
+    
+    
+
+    <div class="flex-wrapper">
+      <div class="post__container">
+        <div class="post">
+          <header class="post__header">
+            <h1 id="post__title">Java 并发：ConcurrentHashMap</h1>
+            <time datetime="2021-06-13 16:30:25 &#43;0800 CST" class="post__date">Jun 13 2021</time> 
+          </header>
+          <article class="post__content">
+              
+<p><em>ConcurrentHashMap</em> 对读取提供了<strong>完全</strong>的并发支持，对写入提供了<strong>高性能</strong>的并发支持。在读取数据时，<em>ConcurrentHashMap</em> 无需上锁；而在写入数据时，也不用对整个 Map 上锁。</p>
+<p>由于读取数据不上锁，读取时可能与写入发生重叠，<em>ConcurrentHashMap</em> 只能反映最近完成的写入所产生的结果。与 volatile 类似，这也是符合 happens-before 原则的：如果通过 <em>ConcurrentHashMap</em> 读取到某次写入后的值，那么写入前的程序的执行一定先于读取后的程序。</p>
+<p>与 <em>CopyOnWriteArrayList</em> 相同，<em>ConcurrentHashMap</em> 的迭代器在进行迭代时，不会因为写入或删除操作而报出 <em>ConcurrentModificationException</em>。但是，每次获得的迭代器只能被一个线程所使用，不应当传送给其他线程。一旦一个迭代器被创建，其状态就是确定的（一个快照），类似 <code>size()</code> \ <code>isEmpty()</code> \ <code>containsValue()</code> 等访问实时数据的函数就不能够用来控制程序了。</p>
+<h2 id="一初始化">一、初始化<a class="anchor" href="#一初始化">#</a></h2>
+<p><em>CopyOnWriteArrayList</em> 中比较重要的成员变量如下：</p>
+<pre><code class="language-java">public class ConcurrentHashMap&lt;K,V&gt; extends AbstractMap&lt;K,V&gt;
+    implements ConcurrentMap&lt;K,V&gt;, Serializable {
+
+	// 最大容量，hashcode前两位用作控制，所以最大为1&lt;&lt;30
+    private static final int MAXIMUM_CAPACITY = 1 &lt;&lt; 30;
+
+    // 默认容量
+    private static final int DEFAULT_CAPACITY = 16;
+
+    // 负载因子，需要扩容的键值对临界值和容量的比值，默认情况下用 n - (n &gt;&gt;&gt; 2) 实现
+    private static final float LOAD_FACTOR = 0.75f;
+
+    // 链表转化为红黑树的临界值
+    static final int TREEIFY_THRESHOLD = 8;
+
+    // 红黑树转化为链表的临界值
+    static final int UNTREEIFY_THRESHOLD = 6;
+
+    // 启用红黑树转化的最小容量，小于这个值时，优先扩容
+    static final int MIN_TREEIFY_CAPACITY = 64;
+
+    // 标记状态
+    static final int MOVED     = -1; // hash for forwarding nodes
+    static final int TREEBIN   = -2; // hash for roots of trees
+    static final int RESERVED  = -3; // hash for transient reservations
+    static final int HASH_BITS = 0x7fffffff; // usable bits of normal node hash
+ 
+    // 现有表
+    transient volatile Node&lt;K,V&gt;[] table;
+
+    // 更新后的表
+    private transient volatile Node&lt;K,V&gt;[] nextTable;
+    
+    /* 用来控制表的初始化和扩容,具有以下几种状态
+     * -1  : 正在初始化
+     * &lt; -1: 正在被-sizeCtl-1个线程扩容
+     * &gt;= 0: 未初始化时，初始化的容量；初始化后，下一次扩容的容量。*/
+    private transient volatile int sizeCtl;
+}
+</code></pre>
+<p>初始化时，若未指定初始容量，根据默认值创建；若指定了初始容量，将 sizeCtl 设置为下一次扩容的容量，即乘以 1.5 倍后向上取整（2 的幂）。</p>
+<pre><code class="language-java">    public ConcurrentHashMap() {
+    }
+
+	// 指定大小
+    public ConcurrentHashMap(int initialCapacity) {
+        if (initialCapacity &lt; 0)
+            throw new IllegalArgumentException();
+        // 下一次扩容的容量
+        int cap = ((initialCapacity &gt;= (MAXIMUM_CAPACITY &gt;&gt;&gt; 1)) ?
+                   MAXIMUM_CAPACITY :
+                   tableSizeFor(initialCapacity + (initialCapacity &gt;&gt;&gt; 1) + 1));
+        this.sizeCtl = cap;
+    }
+
+	// 向上取整（2的幂）的快速算法
+    private static final int tableSizeFor(int c) {
+        int n = c - 1;
+        n |= n &gt;&gt;&gt; 1;
+        n |= n &gt;&gt;&gt; 2;
+        n |= n &gt;&gt;&gt; 4;
+        n |= n &gt;&gt;&gt; 8;
+        n |= n &gt;&gt;&gt; 16;
+        return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+    }
+</code></pre>
+<p>不管是哪种初始化方式，都没有创建 table。这是一种懒加载策略，只有在第一次插入数据时，table 才会被创建。table 中存放着 <em>Node</em> 类保存的键值对，在设计时应保证其安全的发布。</p>
+<pre><code class="language-java">    static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; {
+        final int hash;
+        final K key;
+        volatile V val;
+        volatile Node&lt;K,V&gt; next;
+
+        Node(int hash, K key, V val, Node&lt;K,V&gt; next) {
+            this.hash = hash;
+            this.key = key;
+            this.val = val;
+            this.next = next;
+        }
+
+        public final K getKey()       { return key; }
+        public final V getValue()     { return val; }
+        public final int hashCode()   { return key.hashCode() ^ val.hashCode(); }
+
+        // 在其子类中将被重写，转化为红黑树后查找逻辑是不同的
+        Node&lt;K,V&gt; find(int h, Object k) {
+            Node&lt;K,V&gt; e = this;
+            if (k != null) {
+                do {
+                    K ek;
+                    if (e.hash == h &amp;&amp;
+                        ((ek = e.key) == k || (ek != null &amp;&amp; k.equals(ek))))
+                        return e;
+                } while ((e = e.next) != null);
+            }
+            return null;
+        }
+    }
+</code></pre>
+<h2 id="二写入">二、写入<a class="anchor" href="#二写入">#</a></h2>
+<p>为了尽可能减小锁的粒度，<em>CopyOnWriteArrayList</em> 中引入了 <em>Unsafe</em> 提供的硬件支持的原子操作：</p>
+<pre><code class="language-java">    static final &lt;K,V&gt; Node&lt;K,V&gt; tabAt(Node&lt;K,V&gt;[] tab, int i) {
+        return (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE);
+    }
+
+    static final &lt;K,V&gt; boolean casTabAt(Node&lt;K,V&gt;[] tab, int i,
+                                        Node&lt;K,V&gt; c, Node&lt;K,V&gt; v) {
+        return U.compareAndSwapObject(tab, ((long)i &lt;&lt; ASHIFT) + ABASE, c, v);
+    }
+
+    static final &lt;K,V&gt; void setTabAt(Node&lt;K,V&gt;[] tab, int i, Node&lt;K,V&gt; v) {
+        U.putObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE, v);
+    }
+</code></pre>
+<p><code>put()</code> 调用了 <code>putVal()</code>，传入 <code>putVal()</code> 的 onlyIfAbsent 表示是否只有在不存在相应 key 时才加入。可见 <code>put()</code> 始终传入 false，而另一个 public 方法 <code>putIfAbsent()</code> 则始终传入 true。<code>putValue()</code> 首先通过 <code>(hashcode ^ (hashcode &gt;&gt;&gt; 16)) &amp; HASH_BITS</code> 获取 hash 值。然后在一个循环中处理一下四种情况，直到跳出：</p>
+<ol>
+<li>如果 table 未初始化，初始化 table；</li>
+<li>如果 table 已经初始化，但是相应桶为空，直接创建 <em>Node</em> 加入其中，跳出；</li>
+<li>如果 table 已经初始化，且相应桶不为空，但该桶正在迁移（扩容中），当前线程将帮助迁移；</li>
+<li>如果 table 已经初始化，且相应桶不为空，且该桶未在迁移，将键值对加入到桶中，有两种情况：
+<ol>
+<li>桶中是链表，则遍历这个链表：
+<ol>
+<li>若找到相同 key，直接修改 value，跳出；</li>
+<li>若未找到，创建新的 <em>Node</em> 加到尾部，跳出。</li>
+</ol>
+</li>
+<li>桶中是红黑树，通过 <em>TreeNode</em> 中的 <code>putTreeValue()</code> 写入，逻辑与上面类似，跳出。</li>
+</ol>
+</li>
+</ol>
+<p>在完成上面步骤之后，还会检查 binCount，如果满足转化红黑树的条件则进行转化。</p>
+<pre><code class="language-java">	public V put(K key, V value) {
+        return putVal(key, value, false);
+    }
+
+    // onlyIfAbsent为true时，只能添加不能修改
+    final V putVal(K key, V value, boolean onlyIfAbsent) {
+        if (key == null || value == null) throw new NullPointerException();
+        int hash = spread(key.hashCode()); // 取有效hash
+        int binCount = 0; // 计算桶内个数，用以控制扩容或树的转化
+        for (Node&lt;K,V&gt;[] tab = table;;) { // 循环，直到写入完成跳出
+            Node&lt;K,V&gt; f; int n, i, fh;
+            if (tab == null || (n = tab.length) == 0)
+                tab = initTable(); // 未初始化则先初始化
+            else if ((f = tabAt(tab, i = (n - 1) &amp; hash)) == null) {
+                if (casTabAt(tab, i, null,
+                             new Node&lt;K,V&gt;(hash, key, value, null)))
+                    break; // 桶为空，通过原子操作写入，不需要加锁
+            }
+            else if ((fh = f.hash) == MOVED)
+                tab = helpTransfer(tab, f); // 该节点正在迁移，该线程也帮助迁移
+            else {
+                V oldVal = null;
+                synchronized (f) {
+                    if (tabAt(tab, i) == f) { // 上锁和检查头节点是否有变
+                        if (fh &gt;= 0) { // 大于等于0，则为链表
+                            binCount = 1;
+                            for (Node&lt;K,V&gt; e = f;; ++binCount) { // 遍历同时记录binCount
+                                K ek;
+                                if (e.hash == hash &amp;&amp;
+                                    ((ek = e.key) == key ||
+                                     (ek != null &amp;&amp; key.equals(ek)))) {
+                                    oldVal = e.val;
+                                    if (!onlyIfAbsent)
+                                        e.val = value;
+                                    break; // 找到了，则修改
+                                }
+                                Node&lt;K,V&gt; pred = e;
+                                if ((e = e.next) == null) {
+                                    pred.next = new Node&lt;K,V&gt;(hash, key,
+                                                              value, null);
+                                    break; // 没找到，则添加在尾部
+                                }
+                            }
+                        }
+                        else if (f instanceof TreeBin) { // 处理红黑树
+                            Node&lt;K,V&gt; p;
+                            binCount = 2;
+                            if ((p = ((TreeBin&lt;K,V&gt;)f).putTreeVal(hash, key,
+                                                           value)) != null) {
+                                oldVal = p.val;
+                                if (!onlyIfAbsent)
+                                    p.val = value;
+                            }
+                        }
+                    }
+                }
+                if (binCount != 0) {
+                    if (binCount &gt;= TREEIFY_THRESHOLD)
+                        treeifyBin(tab, i); // 链表长度超过临界，转化为红黑树
+                    if (oldVal != null)
+                        return oldVal;
+                    break;
+                }
+            }
+        }
+        addCount(1L, binCount); // 计数
+        return null;
+    }
+</code></pre>
+
+
+              
+          </article>
+          
+
+<ul class="tags__list">
+    
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/java/">java</a>
+    </li>
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/concurrency/">concurrency</a>
+    </li>
+    <li class="tag__item">
+        <a class="tag__link" href="https://lil-q.github.io/tags/source_code/">source_code</a>
+    </li></ul>
+
+ <div class="pagination">
+  
+    <a class="pagination__item" href="https://lil-q.github.io/blog/copyonwritearraylist/">
+        <span class="pagination__label">Previous Post</span>
+        <span class="pagination__title">Java 并发：CopyOnWriteArrayList</span>
+    </a>
+  
+
+  
+</div>
+
+          
+          <footer class="post__footer">
+            
+
+
+<div class="social-icons">
+  
+     
+    
+  
+     
+    
+      <a class="social-icons__link" title="GitHub"
+         href="https://github.com/lil-q"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
+      </a>
+    
+  
+     
+    
+      <a class="social-icons__link" title="Email"
+         href="mailto:qitiantianc137@outlook.com"
+         target="_blank" rel="noopener">
+        <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
+      </a>
+    
+     
+</div>
+
+            <p>2021 © lil-q</p>
+          </footer>
+          </div>
+      </div>
+      
+      <div class="toc-container">
+          
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#一初始化">一、初始化</a></li>
+    <li><a href="#二写入">二、写入</a></li>
+  </ul>
+</nav>
+      </div>
+      
+    </div>
+    
+
+  </main>
+
+   
+
+  
+  <script src="/js/index.min.49e4d8a384357d9b445b87371863419937ede9fa77737522ffb633073aebfa44.js" integrity="sha256-SeTYo4Q1fZtEW4c3GGNBmTft6fp3c3Ui/7YzBzrr&#43;kQ=" crossorigin="anonymous"></script>
+  
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/components/prism-core.min.js"></script>
+
+  
+  <script src="https://unpkg.com/prismjs@1.20.0/plugins/autoloader/prism-autoloader.min.js"
+    data-autoloader-path="https://unpkg.com/prismjs@1.20.0/components/"></script>
+
+  
+    <script src="/js/table-of-contents.js"></script>
+  
+
+
+</body>
+
+</html>

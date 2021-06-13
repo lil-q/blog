@@ -7,10 +7,23 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>{year} © lil-q</copyright>
-    <lastBuildDate>Sat, 12 Jun 2021 16:00:25 +0800</lastBuildDate>
+    <lastBuildDate>Sun, 13 Jun 2021 16:30:25 +0800</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/blog/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Java 并发：ConcurrentHashMap</title>
+      <link>https://lil-q.github.io/blog/concurrenthashmap/</link>
+      <pubDate>Sun, 13 Jun 2021 16:30:25 +0800</pubDate>
+      
+      <guid>https://lil-q.github.io/blog/concurrenthashmap/</guid>
+      <description>ConcurrentHashMap 对读取提供了完全的并发支持，对写入提供了高性能的并发支持。在读取数据时，ConcurrentHashMap 无需上锁；而在写入数据时，也不用对整个 Map 上锁。
+由于读取数据不上锁，读取时可能与写入发生重叠，ConcurrentHashMap 只能反映最近完成的写入所产生的结果。与 volatile 类似，这也是符合 happens-before 原则的：如果通过 ConcurrentHashMap 读取到某次写入后的值，那么写入前的程序的执行一定先于读取后的程序。
+与 CopyOnWriteArrayList 相同，ConcurrentHashMap 的迭代器在进行迭代时，不会因为写入或删除操作而报出 ConcurrentModificationException。但是，每次获得的迭代器只能被一个线程所使用，不应当传送给其他线程。一旦一个迭代器被创建，其状态就是确定的（一个快照），类似 size() \ isEmpty() \ containsValue() 等访问实时数据的函数就不能够用来控制程序了。
+一、初始化 CopyOnWriteArrayList 中比较重要的成员变量如下：
+public class ConcurrentHashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt; implements ConcurrentMap&amp;lt;K,V&amp;gt;, Serializable { // 最大容量，hashcode前两位用作控制，所以最大为1&amp;lt;&amp;lt;30 private static final int MAXIMUM_CAPACITY = 1 &amp;lt;&amp;lt; 30; // 默认容量 private static final int DEFAULT_CAPACITY = 16; // 负载因子，需要扩容的键值对临界值和容量的比值，默认情况下用 n - (n &amp;gt;&amp;gt;&amp;gt; 2) 实现 private static final float LOAD_FACTOR = 0.</description>
+    </item>
     
     <item>
       <title>Java 并发：CopyOnWriteArrayList</title>
