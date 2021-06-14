@@ -61,7 +61,7 @@
       "datePublished": "2021-06-13 16:30:25 \u002b0800 CST",
       "dateModified" : "2021-06-13 16:30:25 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/concurrenthashmap\/",
-      "wordCount" : "953",
+      "wordCount" : "1572",
       "keywords" : ["Blog"]
     }
   
@@ -116,7 +116,7 @@
 <p>由于读取数据不上锁，读取时可能与写入发生重叠，<em>ConcurrentHashMap</em> 只能反映最近完成的写入所产生的结果。与 volatile 类似，这也是符合 happens-before 原则的：如果通过 <em>ConcurrentHashMap</em> 读取到某次写入后的值，那么写入前的程序的执行一定先于读取后的程序。</p>
 <p>与 <em>CopyOnWriteArrayList</em> 相同，<em>ConcurrentHashMap</em> 的迭代器在进行迭代时，不会因为写入或删除操作而报出 <em>ConcurrentModificationException</em>。但是，每次获得的迭代器只能被一个线程所使用，不应当传送给其他线程。一旦一个迭代器被创建，其状态就是确定的（一个快照），类似 <code>size()</code> \ <code>isEmpty()</code> \ <code>containsValue()</code> 等访问实时数据的函数就不能够用来控制程序了。</p>
 <h2 id="一初始化">一、初始化<a class="anchor" href="#一初始化">#</a></h2>
-<p><em>CopyOnWriteArrayList</em> 中比较重要的成员变量如下：</p>
+<p><em>ConcurrentHashMap</em> 中比较重要的成员变量如下：</p>
 <pre><code class="language-java">public class ConcurrentHashMap&lt;K,V&gt; extends AbstractMap&lt;K,V&gt;
     implements ConcurrentMap&lt;K,V&gt;, Serializable {
 
@@ -158,78 +158,78 @@
 }
 </code></pre>
 <p>初始化时，若未指定初始容量，根据默认值创建；若指定了初始容量，将 sizeCtl 设置为下一次扩容的容量，即乘以 1.5 倍后向上取整（2 的幂）。</p>
-<pre><code class="language-java">    public ConcurrentHashMap() {
-    }
+<pre><code class="language-java">public ConcurrentHashMap() {
+}
 
-	// 指定大小
-    public ConcurrentHashMap(int initialCapacity) {
-        if (initialCapacity &lt; 0)
-            throw new IllegalArgumentException();
-        // 下一次扩容的容量
-        int cap = ((initialCapacity &gt;= (MAXIMUM_CAPACITY &gt;&gt;&gt; 1)) ?
-                   MAXIMUM_CAPACITY :
-                   tableSizeFor(initialCapacity + (initialCapacity &gt;&gt;&gt; 1) + 1));
-        this.sizeCtl = cap;
-    }
+// 指定大小
+public ConcurrentHashMap(int initialCapacity) {
+    if (initialCapacity &lt; 0)
+        throw new IllegalArgumentException();
+    // 下一次扩容的容量
+    int cap = ((initialCapacity &gt;= (MAXIMUM_CAPACITY &gt;&gt;&gt; 1)) ?
+               MAXIMUM_CAPACITY :
+               tableSizeFor(initialCapacity + (initialCapacity &gt;&gt;&gt; 1) + 1));
+    this.sizeCtl = cap;
+}
 
-	// 向上取整（2的幂）的快速算法
-    private static final int tableSizeFor(int c) {
-        int n = c - 1;
-        n |= n &gt;&gt;&gt; 1;
-        n |= n &gt;&gt;&gt; 2;
-        n |= n &gt;&gt;&gt; 4;
-        n |= n &gt;&gt;&gt; 8;
-        n |= n &gt;&gt;&gt; 16;
-        return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
-    }
+// 向上取整（2的幂）的快速算法
+private static final int tableSizeFor(int c) {
+    int n = c - 1;
+    n |= n &gt;&gt;&gt; 1;
+    n |= n &gt;&gt;&gt; 2;
+    n |= n &gt;&gt;&gt; 4;
+    n |= n &gt;&gt;&gt; 8;
+    n |= n &gt;&gt;&gt; 16;
+    return (n &lt; 0) ? 1 : (n &gt;= MAXIMUM_CAPACITY) ? MAXIMUM_CAPACITY : n + 1;
+}
 </code></pre>
 <p>不管是哪种初始化方式，都没有创建 table。这是一种懒加载策略，只有在第一次插入数据时，table 才会被创建。table 中存放着 <em>Node</em> 类保存的键值对，在设计时应保证其安全的发布。</p>
-<pre><code class="language-java">    static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; {
-        final int hash;
-        final K key;
-        volatile V val;
-        volatile Node&lt;K,V&gt; next;
+<pre><code class="language-java">static class Node&lt;K,V&gt; implements Map.Entry&lt;K,V&gt; {
+    final int hash;
+    final K key;
+    volatile V val;
+    volatile Node&lt;K,V&gt; next;
 
-        Node(int hash, K key, V val, Node&lt;K,V&gt; next) {
-            this.hash = hash;
-            this.key = key;
-            this.val = val;
-            this.next = next;
-        }
-
-        public final K getKey()       { return key; }
-        public final V getValue()     { return val; }
-        public final int hashCode()   { return key.hashCode() ^ val.hashCode(); }
-
-        // 在其子类中将被重写，转化为红黑树后查找逻辑是不同的
-        Node&lt;K,V&gt; find(int h, Object k) {
-            Node&lt;K,V&gt; e = this;
-            if (k != null) {
-                do {
-                    K ek;
-                    if (e.hash == h &amp;&amp;
-                        ((ek = e.key) == k || (ek != null &amp;&amp; k.equals(ek))))
-                        return e;
-                } while ((e = e.next) != null);
-            }
-            return null;
-        }
+    Node(int hash, K key, V val, Node&lt;K,V&gt; next) {
+        this.hash = hash;
+        this.key = key;
+        this.val = val;
+        this.next = next;
     }
+
+    public final K getKey()       { return key; }
+    public final V getValue()     { return val; }
+    public final int hashCode()   { return key.hashCode() ^ val.hashCode(); }
+
+    // 在其子类中将被重写，转化为红黑树后查找逻辑是不同的
+    Node&lt;K,V&gt; find(int h, Object k) {
+        Node&lt;K,V&gt; e = this;
+        if (k != null) {
+            do {
+                K ek;
+                if (e.hash == h &amp;&amp;
+                    ((ek = e.key) == k || (ek != null &amp;&amp; k.equals(ek))))
+                    return e;
+            } while ((e = e.next) != null);
+        }
+        return null;
+    }
+}
 </code></pre>
 <h2 id="二写入">二、写入<a class="anchor" href="#二写入">#</a></h2>
-<p>为了尽可能减小锁的粒度，<em>CopyOnWriteArrayList</em> 中引入了 <em>Unsafe</em> 提供的硬件支持的原子操作：</p>
-<pre><code class="language-java">    static final &lt;K,V&gt; Node&lt;K,V&gt; tabAt(Node&lt;K,V&gt;[] tab, int i) {
-        return (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE);
-    }
+<p>为了尽可能减小锁的粒度，<em>ConcurrentHashMap</em> 中引入了 <em>Unsafe</em> 提供的硬件支持的原子操作：</p>
+<pre><code class="language-java">static final &lt;K,V&gt; Node&lt;K,V&gt; tabAt(Node&lt;K,V&gt;[] tab, int i) {
+    return (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE);
+}
 
-    static final &lt;K,V&gt; boolean casTabAt(Node&lt;K,V&gt;[] tab, int i,
-                                        Node&lt;K,V&gt; c, Node&lt;K,V&gt; v) {
-        return U.compareAndSwapObject(tab, ((long)i &lt;&lt; ASHIFT) + ABASE, c, v);
-    }
+static final &lt;K,V&gt; boolean casTabAt(Node&lt;K,V&gt;[] tab, int i,
+                                    Node&lt;K,V&gt; c, Node&lt;K,V&gt; v) {
+    return U.compareAndSwapObject(tab, ((long)i &lt;&lt; ASHIFT) + ABASE, c, v);
+}
 
-    static final &lt;K,V&gt; void setTabAt(Node&lt;K,V&gt;[] tab, int i, Node&lt;K,V&gt; v) {
-        U.putObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE, v);
-    }
+static final &lt;K,V&gt; void setTabAt(Node&lt;K,V&gt;[] tab, int i, Node&lt;K,V&gt; v) {
+    U.putObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE, v);
+}
 </code></pre>
 <p><code>put()</code> 调用了 <code>putVal()</code>，传入 <code>putVal()</code> 的 onlyIfAbsent 表示是否只有在不存在相应 key 时才加入。可见 <code>put()</code> 始终传入 false，而另一个 public 方法 <code>putIfAbsent()</code> 则始终传入 true。<code>putValue()</code> 首先通过 <code>(hashcode ^ (hashcode &gt;&gt;&gt; 16)) &amp; HASH_BITS</code> 获取 hash 值。然后在一个循环中处理一下四种情况，直到跳出：</p>
 <ol>
@@ -249,104 +249,260 @@
 </li>
 </ol>
 <p>在完成上面步骤之后，还会检查 binCount，如果满足转化红黑树的条件则进行转化。</p>
-<pre><code class="language-java">	public V put(K key, V value) {
-        return putVal(key, value, false);
-    }
+<pre><code class="language-java">public V put(K key, V value) {
+    return putVal(key, value, false);
+}
 
-    // onlyIfAbsent为true时，只能添加不能修改
-    final V putVal(K key, V value, boolean onlyIfAbsent) {
-        if (key == null || value == null) throw new NullPointerException();
-        int hash = spread(key.hashCode()); // 取有效hash
-        int binCount = 0; // 计算桶内个数，用以控制扩容或树的转化
-        for (Node&lt;K,V&gt;[] tab = table;;) { // 循环，直到写入完成跳出
-            Node&lt;K,V&gt; f; int n, i, fh;
-            if (tab == null || (n = tab.length) == 0)
-                tab = initTable(); // 未初始化则先初始化
-            else if ((f = tabAt(tab, i = (n - 1) &amp; hash)) == null) {
-                if (casTabAt(tab, i, null,
-                             new Node&lt;K,V&gt;(hash, key, value, null)))
-                    break; // 桶为空，通过原子操作写入，不需要加锁
-            }
-            else if ((fh = f.hash) == MOVED)
-                tab = helpTransfer(tab, f); // 该节点正在迁移，该线程也帮助迁移
-            else {
-                V oldVal = null;
-                synchronized (f) {
-                    if (tabAt(tab, i) == f) { // 上锁和检查头节点是否有变
-                        if (fh &gt;= 0) { // 大于等于0，则为链表
-                            binCount = 1;
-                            for (Node&lt;K,V&gt; e = f;; ++binCount) { // 遍历同时记录binCount
-                                K ek;
-                                if (e.hash == hash &amp;&amp;
-                                    ((ek = e.key) == key ||
-                                     (ek != null &amp;&amp; key.equals(ek)))) {
-                                    oldVal = e.val;
-                                    if (!onlyIfAbsent)
-                                        e.val = value;
-                                    break; // 找到了，则修改
-                                }
-                                Node&lt;K,V&gt; pred = e;
-                                if ((e = e.next) == null) {
-                                    pred.next = new Node&lt;K,V&gt;(hash, key,
-                                                              value, null);
-                                    break; // 没找到，则添加在尾部
-                                }
-                            }
-                        }
-                        else if (f instanceof TreeBin) { // 处理红黑树
-                            Node&lt;K,V&gt; p;
-                            binCount = 2;
-                            if ((p = ((TreeBin&lt;K,V&gt;)f).putTreeVal(hash, key,
-                                                           value)) != null) {
-                                oldVal = p.val;
+// onlyIfAbsent为true时，只能添加不能修改
+final V putVal(K key, V value, boolean onlyIfAbsent) {
+    if (key == null || value == null) throw new NullPointerException();
+    int hash = spread(key.hashCode()); // 取有效hash
+    int binCount = 0; // 计算桶内个数，用以控制扩容或树的转化
+    for (Node&lt;K,V&gt;[] tab = table;;) { // 循环，直到写入完成跳出
+        Node&lt;K,V&gt; f; int n, i, fh;
+        if (tab == null || (n = tab.length) == 0)
+            tab = initTable(); // 【未初始化则先初始化】
+        else if ((f = tabAt(tab, i = (n - 1) &amp; hash)) == null) {
+            if (casTabAt(tab, i, null,
+                         new Node&lt;K,V&gt;(hash, key, value, null)))
+                break; // 桶为空，通过原子操作写入，不需要加锁
+        }
+        else if ((fh = f.hash) == MOVED)
+            tab = helpTransfer(tab, f); // 该节点正在迁移，该线程也帮助迁移
+        else {
+            V oldVal = null;
+            synchronized (f) {
+                if (tabAt(tab, i) == f) { // 上锁和检查头节点是否有变
+                    if (fh &gt;= 0) { // 大于等于0，则为链表
+                        binCount = 1;
+                        for (Node&lt;K,V&gt; e = f;; ++binCount) { // 遍历同时记录binCount
+                            K ek;
+                            if (e.hash == hash &amp;&amp;
+                                ((ek = e.key) == key ||
+                                 (ek != null &amp;&amp; key.equals(ek)))) {
+                                oldVal = e.val;
                                 if (!onlyIfAbsent)
-                                    p.val = value;
+                                    e.val = value;
+                                break; // 找到了，则修改
+                            }
+                            Node&lt;K,V&gt; pred = e;
+                            if ((e = e.next) == null) {
+                                pred.next = new Node&lt;K,V&gt;(hash, key,
+                                                          value, null);
+                                break; // 没找到，则添加在尾部
                             }
                         }
                     }
-                }
-                if (binCount != 0) {
-                    if (binCount &gt;= TREEIFY_THRESHOLD)
-                        treeifyBin(tab, i); // 链表长度超过临界，转化为红黑树
-                    if (oldVal != null)
-                        return oldVal;
-                    break;
+                    else if (f instanceof TreeBin) { // 处理红黑树
+                        Node&lt;K,V&gt; p;
+                        binCount = 2;
+                        if ((p = ((TreeBin&lt;K,V&gt;)f).putTreeVal(hash, key,
+                                                              value)) != null) {
+                            oldVal = p.val;
+                            if (!onlyIfAbsent)
+                                p.val = value;
+                        }
+                    }
                 }
             }
+            if (binCount != 0) {
+                if (binCount &gt;= TREEIFY_THRESHOLD)
+                    treeifyBin(tab, i); // 【链表长度超过临界，转化为红黑树或者扩容】
+                if (oldVal != null)
+                    return oldVal;
+                break;
+            }
         }
-        addCount(1L, binCount); // 计数
-        return null;
     }
+    addCount(1L, binCount); // 【计数，超过sizeCtl会进行扩容】
+    return null;
+}
 </code></pre>
-<h3 id="21-初始化-table">2.1 初始化 table<a class="anchor" href="#21-初始化-table">#</a></h3>
+<p><code>putVal()</code> 中有三个函数是重点：<code>initTable()</code> \ <code>treeifyBin()</code> \ <code>addCount</code>。 <code>initTable()</code>必须要保证只有一个线程对 table 进行初始化。<code>treeifyBin()</code> 和 <code>addCount</code> 中都包含了扩容操作，但是扩容的结果却是不同的。为了便于区分，我们将 <code>treeifyBin()</code> 中使用 <code>tryPresize()</code> 进行的扩容称为 P 扩容，而将由 <code>addCount()</code> 进行的扩容称为 C 扩容。</p>
+<h3 id="21-inittable保证只有一个线程进行初始化">2.1 initTable：保证只有一个线程进行初始化<a class="anchor" href="#21-inittable保证只有一个线程进行初始化">#</a></h3>
 <p>不管是初始化 table 还是对 table 进行扩容，sizeCtl 都是至关重要的一环。在初始化 table 时，并不能保证只有当前线程在初始化，当有多个线程同时初始化 table 时，竞争就出现了。通过 sizeCtl 处理竞争很容易，若当前线程赢得了竞争，开始初始化，则把 sezeCtl 设置为 -1（这个操作必须原子性的）。其他线程在读到 sizeCtl = -1 时就放弃初始化，进而 <code>yield()</code> 让出资源等待初始化的完成，这就是为什么需要 while 循环的原因。但是这里还有两个问题：</p>
 <ol>
 <li>为什么在检查 table 是否初始化时需要 <code>(tab = table) == null || tab.length == 0</code>，似乎 <code>tab.length == 0</code> 总是不能单独成立的？</li>
 <li>为什么最后的 <code>sizeCtl = sc</code> 需要 finally 句式来保证其一定执行。</li>
 </ol>
 <p>第一个问题我还没有答案，不过第二问题有以下解释。在创建新的 table 时，可能会因为空间不足而报出 <code>OutOfMemoryError</code>，该线程就无法执行下去，如果没有 finally 保证 <code>sizeCtl = sc</code> 一定执行，sizeCtl 将永远为 -1，而 table 也将永远无法创建。</p>
-<pre><code class="language-java">    private final Node&lt;K,V&gt;[] initTable() {
-        Node&lt;K,V&gt;[] tab; int sc;
-        while ((tab = table) == null || tab.length == 0) {
-            if ((sc = sizeCtl) &lt; 0)
-                Thread.yield(); // lost initialization race; just spin
-            else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
+<pre><code class="language-java">private final Node&lt;K,V&gt;[] initTable() {
+    Node&lt;K,V&gt;[] tab; int sc;
+    while ((tab = table) == null || tab.length == 0) {
+        if ((sc = sizeCtl) &lt; 0)
+            Thread.yield(); // lost initialization race; just spin
+        else if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
+            try {
+                if ((tab = table) == null || tab.length == 0) {
+                    int n = (sc &gt; 0) ? sc : DEFAULT_CAPACITY;
+                    Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])new Node&lt;?,?&gt;[n];
+                    table = tab = nt;
+                    sc = n - (n &gt;&gt;&gt; 2);
+                }
+            } finally {
+                sizeCtl = sc;
+            }
+            break;
+        }
+    }
+    return tab;
+}
+</code></pre>
+<h3 id="22-treeifybinp-扩容还是转化红黑树">2.2 treeifyBin：P 扩容还是转化红黑树？<a class="anchor" href="#22-treeifybinp-扩容还是转化红黑树">#</a></h3>
+<p>如果插入一个键值对后，链表长度大于等于 TREEIFY_THRESHOLD，就需要进行扩容或转化红黑树。<code>treeifyBin()</code> 是这一操作的入口，首先判断 table 容量是否小于 MIN_TREEIFY_CAPACITY，如果是则进行 P 扩容（由 <code>tryPresize()</code> 进行的，有别于下文中由 <code>addCount()</code> 进行的），否则进行红黑树转化。</p>
+<pre><code class="language-java">private final void treeifyBin(Node&lt;K,V&gt;[] tab, int index) {
+    Node&lt;K,V&gt; b; int n, sc;
+    if (tab != null) {
+        if ((n = tab.length) &lt; MIN_TREEIFY_CAPACITY) // 扩容
+            tryPresize(n &lt;&lt; 1); 
+        else if ((b = tabAt(tab, index)) != null &amp;&amp; b.hash &gt;= 0) { // 转化红黑树
+            synchronized (b) {
+                if (tabAt(tab, index) == b) {
+                    TreeNode&lt;K,V&gt; hd = null, tl = null;
+                    for (Node&lt;K,V&gt; e = b; e != null; e = e.next) {
+                        TreeNode&lt;K,V&gt; p =
+                            new TreeNode&lt;K,V&gt;(e.hash, e.key, e.val,
+                                              null, null);
+                        if ((p.prev = tl) == null)
+                            hd = p;
+                        else
+                            tl.next = p;
+                        tl = p;
+                    }
+                    setTabAt(tab, index, new TreeBin&lt;K,V&gt;(hd));
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<h3 id="23-addcount计数并决定是否-c-扩容">2.3 addCount：计数并决定是否 C 扩容<a class="anchor" href="#23-addcount计数并决定是否-c-扩容">#</a></h3>
+<p><code>addCount()</code> 通过一个 <em>CounterCell</em> 数组计算键值对个数，虽然只是简单的计数，但为了尽可能减少线程冲突，其中蕴含了非常巧妙的设计。这部分内容将在第四章中介绍。</p>
+<p><code>addCount()</code> 中的 check 用来标识是否需要考虑扩容，<code>putVal()</code>调用时， check 值实际上就是 <code>putVal()</code> 中的 binCount，有以下可能：</p>
+<ul>
+<li>写入前桶内为空：0；</li>
+<li>写入前桶内为链表：写入的节点位置；</li>
+<li>写入前桶内为红黑树：2。</li>
+</ul>
+<p>当 check 大于等于 0 且满足以下三个条件时，就需要进行 C 扩容：</p>
+<ol>
+<li>键值对数达到sizeCtl；</li>
+<li>table非空；</li>
+<li>table长度非最大值。</li>
+</ol>
+<p>实际上，C 扩容的步骤和 <code>tryPresize()</code> 中的一个分支完全一致，可以理解为 C 扩容是 P 扩容的一个子集，这部分将在下一章中介绍。</p>
+<pre><code class="language-java">    private final void addCount(long x, int check) {
+        // 计数部分,暂不考虑
+        CounterCell[] as; long b, s;
+        ...
+        s = sumCount(); // 键值对数
+        
+        // 判断是否C扩容
+        if (check &gt;= 0) { 
+            Node&lt;K,V&gt;[] tab, nt; int n, sc;
+            // 满足三个条件则C扩容：1.键值对数达到sizeCtl；2.table非空；3.table长度非最大值
+            while (s &gt;= (long)(sc = sizeCtl) &amp;&amp; (tab = table) != null &amp;&amp;
+                   (n = tab.length) &lt; MAXIMUM_CAPACITY) {
+                // 以下为C扩容，和tryPresize()中的一个分支完全一致
+                int rs = resizeStamp(n);
+                if (sc &lt; 0) {
+                    if ((sc &gt;&gt;&gt; RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
+                        sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
+                        transferIndex &lt;= 0)
+                        break;
+                    if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
+                        transfer(tab, nt);
+                }
+                else if (U.compareAndSwapInt(this, SIZECTL, sc,
+                                             (rs &lt;&lt; RESIZE_STAMP_SHIFT) + 2))
+                    transfer(tab, null);
+                s = sumCount();
+            }
+        }
+    }
+</code></pre>
+<h2 id="三扩容">三、扩容<a class="anchor" href="#三扩容">#</a></h2>
+<p><em>ConcurrentHashMap</em> 的扩容非常有趣，正如上文所说，当前线程如果发现自己要处理的桶正在迁移，并不会干等着，而是利用自己的计算资源帮助完成整个 table 的迁移。</p>
+<p>另一个有趣的点是，对于同样长度的 table，可能扩容出不同长度的新 table。来看下面一个例子：</p>
+<pre><code class="language-java">public class ConcurrentMapTest {
+    public static void main(String[] args) 
+            throws NoSuchFieldException, IllegalAccessException {
+        final int DEFAULT_CAPACITY = 16;
+        ConcurrentHashMap&lt;Integer, Integer&gt; map1 = new ConcurrentHashMap&lt;&gt;();
+        ConcurrentHashMap&lt;Integer, Integer&gt; map2 = new ConcurrentHashMap&lt;&gt;();
+        for (int i = 0; i &lt; 12; i++) {
+            map1.put(i, i); // key不同
+            int length;
+            if ((length = getLength(map1)) != DEFAULT_CAPACITY) {
+                System.out.println(&quot;map1扩容后：&quot; + length);
+                break;
+            }
+        }
+        for (int i = 0; i &lt; 12; i++) {
+            map2.put(i * 16, i); // key不同
+            int length;
+            if ((length = getLength(map2)) != DEFAULT_CAPACITY) {
+                System.out.println(&quot;map2扩容后：&quot; + length);
+                break;
+            }
+        }
+    }
+
+    private static int getLength(ConcurrentHashMap map)
+            throws NoSuchFieldException, IllegalAccessException {
+        Field tableField = ConcurrentHashMap.class.getDeclaredField(&quot;table&quot;);
+        tableField.setAccessible(true);
+        Object[] table = (Object[]) tableField.get(map);
+        return (table == null ? 0 : table.length);
+    }
+}
+</code></pre>
+<pre><code class="language-txt">map1扩容后：32
+map2扩容后：128
+</code></pre>
+<h3 id="31-p-扩容">3.1 P 扩容<a class="anchor" href="#31-p-扩容">#</a></h3>
+<pre><code class="language-java">private final void tryPresize(int size) {
+    int c = (size &gt;= (MAXIMUM_CAPACITY &gt;&gt;&gt; 1)) ? MAXIMUM_CAPACITY :
+    tableSizeFor(size + (size &gt;&gt;&gt; 1) + 1); // 获得下一个
+    int sc;
+    while ((sc = sizeCtl) &gt;= 0) {
+        Node&lt;K,V&gt;[] tab = table; int n;
+        if (tab == null || (n = tab.length) == 0) {
+            n = (sc &gt; c) ? sc : c;
+            if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
                 try {
-                    if ((tab = table) == null || tab.length == 0) {
-                        int n = (sc &gt; 0) ? sc : DEFAULT_CAPACITY;
+                    if (table == tab) {
+                        @SuppressWarnings(&quot;unchecked&quot;)
                         Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])new Node&lt;?,?&gt;[n];
-                        table = tab = nt;
+                        table = nt;
                         sc = n - (n &gt;&gt;&gt; 2);
                     }
                 } finally {
                     sizeCtl = sc;
                 }
-                break;
             }
         }
-        return tab;
+        else if (c &lt;= sc || n &gt;= MAXIMUM_CAPACITY)
+            break;
+        else if (tab == table) {
+            int rs = resizeStamp(n);
+            if (sc &lt; 0) {
+                Node&lt;K,V&gt;[] nt;
+                if ((sc &gt;&gt;&gt; RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
+                    sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
+                    transferIndex &lt;= 0)
+                    break;
+                if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
+                    transfer(tab, nt);
+            }
+            else if (U.compareAndSwapInt(this, SIZECTL, sc,
+                                         (rs &lt;&lt; RESIZE_STAMP_SHIFT) + 2))
+                transfer(tab, null);
+        }
     }
+}
 </code></pre>
+<h2 id="四计数">四、计数<a class="anchor" href="#四计数">#</a></h2>
 
 
               
@@ -418,9 +574,17 @@
     <li><a href="#一初始化">一、初始化</a></li>
     <li><a href="#二写入">二、写入</a>
       <ul>
-        <li><a href="#21-初始化-table">2.1 初始化 table</a></li>
+        <li><a href="#21-inittable保证只有一个线程进行初始化">2.1 initTable：保证只有一个线程进行初始化</a></li>
+        <li><a href="#22-treeifybinp-扩容还是转化红黑树">2.2 treeifyBin：P 扩容还是转化红黑树？</a></li>
+        <li><a href="#23-addcount计数并决定是否-c-扩容">2.3 addCount：计数并决定是否 C 扩容</a></li>
       </ul>
     </li>
+    <li><a href="#三扩容">三、扩容</a>
+      <ul>
+        <li><a href="#31-p-扩容">3.1 P 扩容</a></li>
+      </ul>
+    </li>
+    <li><a href="#四计数">四、计数</a></li>
   </ul>
 </nav>
       </div>

@@ -50,13 +50,13 @@ public class CopyOnWriteArrayList<E>
  *CopyOnWriteArrayList* 的读取是不需要加锁的，由于多个线程读取的都是同一个不可变对象，读取是线程安全的。
 
 ```java
-    public E get(int index) {
-        return get(getArray(), index);
-    }
+public E get(int index) {
+    return get(getArray(), index);
+}
 
-	private E get(Object[] a, int index) {
-        return (E) a[index];
-    }
+private E get(Object[] a, int index) {
+    return (E) a[index];
+}
 ```
 
 注意到 `get(int index)` 并不是直接从 array 中取得数据，而是利用 `getArray()` 来得到它。为什么要多此一举呢？其实在 *CopyOnWriteArraySet* 中，会有一个  *CopyOnWriteArrayList* 类的成员变量 al，而为了获取 al 中 array，就需要一定权限（至少为 package）。而 *CopyOnWriteArrayList* 类中的 array 是 private 权限，所以就用 package 权限的 setter 和 getter 来修改和访问 array。至于为什么不把 array 直接设定为 package 权限，可能是一定程度上破坏了封装性。
@@ -80,27 +80,27 @@ public class CopyOnWriteArraySet<E> extends AbstractSet<E>
 当需要修改特定位置上的值时，首先应 `lock.lock()` 加锁。使用一个 final 修饰的局部变量来指向这个锁，这一操作看似多余，却是作者 Doug Lea 独特的编程风格， JIT 也许会对这一操作做出相应优化。接着，获取 array 相应位置上的元素，进行比较。如果不同，就创建一个相同长度的 newElements，将原先数据拷贝到 newElements 中并求改相应位置上的元素，`setArray(newElements)` 更新 array；如果相同，`setArray(elements)` 简单更新 array。最后 `lock.unlock()` 解锁。
 
 ```java
-    public E set(int index, E element) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        try {
-            Object[] elements = getArray();
-            E oldValue = get(elements, index);
+public E set(int index, E element) {
+    final ReentrantLock lock = this.lock;
+    lock.lock();
+    try {
+        Object[] elements = getArray();
+        E oldValue = get(elements, index);
 
-            if (oldValue != element) {
-                int len = elements.length;
-                Object[] newElements = Arrays.copyOf(elements, len);
-                newElements[index] = element;
-                setArray(newElements);
-            } else {
-                // Not quite a no-op; ensures volatile write semantics
-                setArray(elements);
-            }
-            return oldValue;
-        } finally {
-            lock.unlock();
+        if (oldValue != element) {
+            int len = elements.length;
+            Object[] newElements = Arrays.copyOf(elements, len);
+            newElements[index] = element;
+            setArray(newElements);
+        } else {
+            // Not quite a no-op; ensures volatile write semantics
+            setArray(elements);
         }
+        return oldValue;
+    } finally {
+        lock.unlock();
     }
+}
 ```
 
 为什么 else 语句中明明没有修改任何东西，还是需要进行 `setArray(elements)` 呢？这是为了让调用方也能享受到 happens-before  原则中的 volatile 原则的好处：volatile 变量写入前的其他变量（不论 volatile 与否）的读写不会重排序到 volatile 变量写入之后。
@@ -126,45 +126,45 @@ if (s == "x") {
 添加元素与修改类似，不过创建新的 newElements 数组时，长度需要加一。移除元素，则 newElements 数组长度减一。
 
 ```java
-    public boolean add(E e) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        try {
-            Object[] elements = getArray();
-            int len = elements.length;
-            Object[] newElements = Arrays.copyOf(elements, len + 1);
-            newElements[len] = e;
-            setArray(newElements);
-            return true;
-        } finally {
-            lock.unlock();
-        }
+public boolean add(E e) {
+    final ReentrantLock lock = this.lock;
+    lock.lock();
+    try {
+        Object[] elements = getArray();
+        int len = elements.length;
+        Object[] newElements = Arrays.copyOf(elements, len + 1);
+        newElements[len] = e;
+        setArray(newElements);
+        return true;
+    } finally {
+        lock.unlock();
     }
+}
 ```
 
 ```java
-    public E remove(int index) {
-        final ReentrantLock lock = this.lock;
-        lock.lock();
-        try {
-            Object[] elements = getArray();
-            int len = elements.length;
-            E oldValue = get(elements, index);
-            int numMoved = len - index - 1;
-            if (numMoved == 0)
-                setArray(Arrays.copyOf(elements, len - 1));
-            else {
-                Object[] newElements = new Object[len - 1];
-                System.arraycopy(elements, 0, newElements, 0, index);
-                System.arraycopy(elements, index + 1, newElements, index,
-                                 numMoved);
-                setArray(newElements);
-            }
-            return oldValue;
-        } finally {
-            lock.unlock();
+public E remove(int index) {
+    final ReentrantLock lock = this.lock;
+    lock.lock();
+    try {
+        Object[] elements = getArray();
+        int len = elements.length;
+        E oldValue = get(elements, index);
+        int numMoved = len - index - 1;
+        if (numMoved == 0)
+            setArray(Arrays.copyOf(elements, len - 1));
+        else {
+            Object[] newElements = new Object[len - 1];
+            System.arraycopy(elements, 0, newElements, 0, index);
+            System.arraycopy(elements, index + 1, newElements, index,
+                             numMoved);
+            setArray(newElements);
         }
+        return oldValue;
+    } finally {
+        lock.unlock();
     }
+}
 ```
 
 ## 三、遍历
@@ -174,86 +174,86 @@ if (s == "x") {
 由于快照并不具有实时性，`remove()` \ `set()` \ `add()` 这些涉及到实时操作的都不能得到支持。也正是因为这个原因，即使迭代同时进行修改也不会报出 ` ConcurrentModificationException`。
 
 ```java
-    static final class COWIterator<E> implements ListIterator<E> {
-        /** Snapshot of the array */
-        private final Object[] snapshot;
-        /** Index of element to be returned by subsequent call to next.  */
-        private int cursor;
+static final class COWIterator<E> implements ListIterator<E> {
+    /** Snapshot of the array */
+    private final Object[] snapshot;
+    /** Index of element to be returned by subsequent call to next.  */
+    private int cursor;
 
-        private COWIterator(Object[] elements, int initialCursor) {
-            cursor = initialCursor;
-            snapshot = elements;
-        }
+    private COWIterator(Object[] elements, int initialCursor) {
+        cursor = initialCursor;
+        snapshot = elements;
+    }
 
-        public boolean hasNext() {
-            return cursor < snapshot.length;
-        }
+    public boolean hasNext() {
+        return cursor < snapshot.length;
+    }
 
-        public boolean hasPrevious() {
-            return cursor > 0;
-        }
+    public boolean hasPrevious() {
+        return cursor > 0;
+    }
 
-        @SuppressWarnings("unchecked")
-        public E next() {
-            if (! hasNext())
-                throw new NoSuchElementException();
-            return (E) snapshot[cursor++];
-        }
+    @SuppressWarnings("unchecked")
+    public E next() {
+        if (! hasNext())
+            throw new NoSuchElementException();
+        return (E) snapshot[cursor++];
+    }
 
-        @SuppressWarnings("unchecked")
-        public E previous() {
-            if (! hasPrevious())
-                throw new NoSuchElementException();
-            return (E) snapshot[--cursor];
-        }
+    @SuppressWarnings("unchecked")
+    public E previous() {
+        if (! hasPrevious())
+            throw new NoSuchElementException();
+        return (E) snapshot[--cursor];
+    }
 
-        public int nextIndex() {
-            return cursor;
-        }
+    public int nextIndex() {
+        return cursor;
+    }
 
-        public int previousIndex() {
-            return cursor-1;
-        }
+    public int previousIndex() {
+        return cursor-1;
+    }
 
-        /**
+    /**
          * Not supported. Always throws UnsupportedOperationException.
          * @throws UnsupportedOperationException always; {@code remove}
          *         is not supported by this iterator.
          */
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
+    public void remove() {
+        throw new UnsupportedOperationException();
+    }
 
-        /**
+    /**
          * Not supported. Always throws UnsupportedOperationException.
          * @throws UnsupportedOperationException always; {@code set}
          *         is not supported by this iterator.
          */
-        public void set(E e) {
-            throw new UnsupportedOperationException();
-        }
+    public void set(E e) {
+        throw new UnsupportedOperationException();
+    }
 
-        /**
+    /**
          * Not supported. Always throws UnsupportedOperationException.
          * @throws UnsupportedOperationException always; {@code add}
          *         is not supported by this iterator.
          */
-        public void add(E e) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public void forEachRemaining(Consumer<? super E> action) {
-            Objects.requireNonNull(action);
-            Object[] elements = snapshot;
-            final int size = elements.length;
-            for (int i = cursor; i < size; i++) {
-                @SuppressWarnings("unchecked") E e = (E) elements[i];
-                action.accept(e);
-            }
-            cursor = size;
-        }
+    public void add(E e) {
+        throw new UnsupportedOperationException();
     }
+
+    @Override
+    public void forEachRemaining(Consumer<? super E> action) {
+        Objects.requireNonNull(action);
+        Object[] elements = snapshot;
+        final int size = elements.length;
+        for (int i = cursor; i < size; i++) {
+            @SuppressWarnings("unchecked") E e = (E) elements[i];
+            action.accept(e);
+        }
+        cursor = size;
+    }
+}
 ```
 
 ## 参考
