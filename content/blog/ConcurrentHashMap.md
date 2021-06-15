@@ -315,35 +315,35 @@ private final void treeifyBin(Node<K,V>[] tab, int index) {
 实际上，C 扩容的步骤和 `tryPresize()` 中的一个分支完全一致，可以理解为 C 扩容是 P 扩容的一个子集，这部分将在下一章中介绍。
 
 ```java
-    private final void addCount(long x, int check) {
-        // 计数部分,暂不考虑
-        CounterCell[] as; long b, s;
-        ...
+private final void addCount(long x, int check) {
+    // 计数部分,暂不考虑
+    CounterCell[] as; long b, s;
+    ...
         s = sumCount(); // 键值对数
-        
-        // 判断是否C扩容
-        if (check >= 0) { 
-            Node<K,V>[] tab, nt; int n, sc;
-            // 满足三个条件则C扩容：1.键值对数达到sizeCtl；2.table非空；3.table长度非最大值
-            while (s >= (long)(sc = sizeCtl) && (tab = table) != null &&
-                   (n = tab.length) < MAXIMUM_CAPACITY) {
-                // 以下为C扩容，和tryPresize()中的一个分支完全一致
-                int rs = resizeStamp(n);
-                if (sc < 0) {
-                    if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
-                        sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
-                        transferIndex <= 0)
-                        break;
-                    if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
-                        transfer(tab, nt);
-                }
-                else if (U.compareAndSwapInt(this, SIZECTL, sc,
-                                             (rs << RESIZE_STAMP_SHIFT) + 2))
-                    transfer(tab, null);
-                s = sumCount();
+
+    // 判断是否C扩容
+    if (check >= 0) { 
+        Node<K,V>[] tab, nt; int n, sc;
+        // 满足三个条件则C扩容：1.键值对数达到sizeCtl；2.table非空；3.table长度非最大值
+        while (s >= (long)(sc = sizeCtl) && (tab = table) != null &&
+               (n = tab.length) < MAXIMUM_CAPACITY) {
+            // 以下为C扩容，和tryPresize()中的一个分支完全一致
+            int rs = resizeStamp(n);
+            if (sc < 0) {
+                if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
+                    sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
+                    transferIndex <= 0)
+                    break;
+                if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
+                    transfer(tab, nt);
             }
+            else if (U.compareAndSwapInt(this, SIZECTL, sc,
+                                         (rs << RESIZE_STAMP_SHIFT) + 2))
+                transfer(tab, null);
+            s = sumCount();
         }
     }
+}
 ```
 
 ## 三、扩容
@@ -401,15 +401,31 @@ public class ConcurrentMapTest {
 
 ### 3.1 P 扩容
 
-从上面的测试例可以看出，P 扩容正好是 C 扩容的四倍，正并不是巧合。
+从上面的测试例可以看出，P 扩容正好是 C 扩容的四倍，这是巧合吗？上一章节中，我们已经对 `addCount()` 有了初步的认识，它会先计数，然后根据计数判断是否进行 C 扩容。在具体分析 C 扩容前，先来看看 `tryPresize()` 是如何实现 P 扩容的，也许能找到他们之间的一些联系。
+
+首先  `tryPresize()` 会获得一个扩容要求 c，他是由传入 size 乘以 1.5 倍后向上舍入得到的。例如，初始 table.length=16，传入 size=32，可以得到 c=64。得到 c 后，通过 while 循环不断检验 sizeCtl 是否大于 c，有以下分支：
+
+1. 如果 table 未初始化：初始化 table；
+2. 如果 sizeCtl >= c：扩容完毕，跳出；
+3. 进行 C 扩容。
+
+现在我们知道，P 扩容实际上提供了 table 的初始化（在对空 map 进行 `putAll()` 时需要）和扩容的终止条件，其余时间都是在循环 C 扩容。上面的例子中，P 扩容后容量是 C 扩容的四倍，说明 P 扩容进行了三次 C 扩容。
+
+1. 第一次扩容：table.length=32，c=64 > sizeCtl=24；
+2. 第二次扩容：table.length=64，c=64 > sizeCtl=48；
+3. 第三次扩容：table.length=128，c=64 < sizeCtl=96，跳出。
+
+总结，C 扩容将 table.length 翻倍，而 P 扩容进行若干次 C 扩容，直到满足条件。之所以 P 扩容比 C 扩容大得多，是因为触发 P 扩容时，map 已经察觉到明显的哈希冲突了。
 
 ```java
+// 注意: 如果是由treeifyBin()调用，传入的size已经是两倍的原table长度
 private final void tryPresize(int size) {
     int c = (size >= (MAXIMUM_CAPACITY >>> 1)) ? MAXIMUM_CAPACITY :
-    tableSizeFor(size + (size >>> 1) + 1); // 获得下一个
+    tableSizeFor(size + (size >>> 1) + 1); // 获得扩容要求c
     int sc;
     while ((sc = sizeCtl) >= 0) {
         Node<K,V>[] tab = table; int n;
+        // 如果table没初始化，先初始化
         if (tab == null || (n = tab.length) == 0) {
             n = (sc > c) ? sc : c;
             if (U.compareAndSwapInt(this, SIZECTL, sc, -1)) {
@@ -425,28 +441,361 @@ private final void tryPresize(int size) {
                 }
             }
         }
+        // 满足扩容要求，扩容完毕，跳出
         else if (c <= sc || n >= MAXIMUM_CAPACITY)
             break;
+        // 与C扩容一致
         else if (tab == table) {
-            int rs = resizeStamp(n);
+            int rs = resizeStamp(n); // 获得扩容标志rs
+            // 有其他线程正在扩容
             if (sc < 0) {
                 Node<K,V>[] nt;
+                // 出现以下情况不应该帮助迁移，见下文
                 if ((sc >>> RESIZE_STAMP_SHIFT) != rs || sc == rs + 1 ||
                     sc == rs + MAX_RESIZERS || (nt = nextTable) == null ||
                     transferIndex <= 0)
                     break;
+                // 原子操作将sizeCtl中的线程数加一
                 if (U.compareAndSwapInt(this, SIZECTL, sc, sc + 1))
+                    // 把table迁移到nextTable
                     transfer(tab, nt);
             }
+            // 没有其他线程在扩容，通过原子操作尝试扩容，把sizeCtl设置为相应负数
+            // 原子操作成功，将(rs << RESIZE_STAMP_SHIFT) + 2)赋值给sizeCtl
             else if (U.compareAndSwapInt(this, SIZECTL, sc,
                                          (rs << RESIZE_STAMP_SHIFT) + 2))
+                // 创建一个两倍长度的新table，并赋值到nextTable上
+                // 开始迁移
                 transfer(tab, null);
         }
     }
 }
 ```
 
+## 3.2 C 扩容
+
+C 扩容的逻辑相对简单，但要理解它却比较困难，罪魁祸首就是我们老朋友 sizeCtl！
+
+源码中的注解表示，当多个线程同时进行扩容时，sizeCtl=-(1+N)，其中 N 表示正在扩容的线程数。如果按照这个逻辑，在扩容时，sizeClt 应当是一个比较接近 0 的负数， 但事实上 sizeCtl 通常都是一个非常小的负数。出现这种情况的原因是 sizeCtl 的高 16 位被用来标识 table 了，其低 16 位才标识 1+N。先来看扩容标识 rs 是怎么获得的。
+
+```java
+static final int resizeStamp(int n) {
+    // 取前导0的个数，并把低16位的第一位置1              RESIZE_STAMP_BITS默认16
+    return Integer.numberOfLeadingZeros(n) | (1 << (RESIZE_STAMP_BITS - 1));
+}
+```
+
+为了方便理解，还是以初始长度为 16 的 table 为例，前导零一共 27 个，可得：
+
+```txt
+rs = 0000 0000 0000 0000 1000 0000 0010 0111
+                        (置1)           (27)
+```
+
+有了扩容标识 rs 后，判断 sizeCtl，如果 sizeCtl 为负，说明有其他线程正在扩容；如果 sizeCtl 非负，则通过原子操作将 sizeCtl 设置为相应负数，原子操作成功就开始扩容。
+
+```java
+U.compareAndSwapInt(this, SIZECTL, sc, (rs << RESIZE_STAMP_SHIFT) + 2);
+// 原子操作成功，则siztCtl = 1000 0000 0010 0111 0000 0000 0000 0010   
+```
+
+原子操作成功后，sizeCtl 就变成了一个很小的负数，事实上，我们不应该关注这个值本身的大小，只需要关心其高 16 位和低 16 位的真正含义就可以了。sizeCtl 修改完毕后，`transfer(tab, null)` 将先创建一个两倍长度的 nextTable，然后开始将 table 上的数据迁移到 nextTable 上。
+
+这时候其他线程就会觉察到正在迁移（sizeCtl<0）并试图帮助迁移。首先判断是否有资格帮助迁移，以下情况将不予参与扩容并直接跳出：
+
+* (sc >>> RESIZE_STAMP_SHIFT) != rs：扩容标识对不上，说明不是同一个 table，帮不上忙；
+* sc == rs + 1：扩容已经结束，收工了；
+*  sc == rs + MAX_RESIZERS：已经达到最大扩容线程数，人手够了；
+* (nt = nextTable) == null：nextTab还没创建，工厂还没建完；
+* transferIndex <= 0：所有桶都已经分配出去，来晚了一步。
+
+如果有资格参与扩容，就进行一次原子操作对 sizeCtl 加一，成功就可以 `transfer(tab, nt)`，将 table 中的数据迁移到 nextTable。
+
+### 3.3 transfer
+
+终于，关于扩容只剩下最后一个问题需要搞清楚——table 和 nextTable 之间的数据是如何迁移的。
+
+`transfer()` 非常长，包含了很多逻辑，仔细拆分后能更好理解。我们首先列出总体框架，然后对细节进行推敲。
+
+```java
+private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
+    int n = tab.length, stride;
+    // 根据CPU数确定划分table的步长
+    if ((stride = (NCPU > 1) ? (n >>> 3) / NCPU : n) < MIN_TRANSFER_STRIDE)
+        stride = MIN_TRANSFER_STRIDE; // subdivide range
+    // 若传入的nextTab为null，则创建nextTable
+    if (nextTab == null) { // initiating
+        try {
+            Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n << 1];
+            nextTab = nt;
+        } catch (Throwable ex) { // try to cope with OOME
+            sizeCtl = Integer.MAX_VALUE;
+            return;
+        }
+        nextTable = nextTab;
+        transferIndex = n; // 用于控制扩容区间的分配
+    }
+    int nextn = nextTab.length;
+    ForwardingNode<K,V> fwd = new ForwardingNode<K,V>(nextTab); // 用于标记已处理的空桶
+    boolean advance = true;
+    boolean finishing = false; // to ensure sweep before committing nextTab
+    // 循环处理，i表示当前处理的桶下标（原table），bound表示分得区间得下界
+    for (int i = 0, bound = 0;;) {
+        Node<K,V> f; int fh;
+        // 领取区间 / 控制桶的序号 i--
+        while (advance) {
+            ...
+        }
+        // 判断是否结束
+        if (i < 0 || i >= n || i + n >= nextn) {
+            ...
+        }
+        // 当前桶为空，插入一个 fwd
+        else if ((f = tabAt(tab, i)) == null)
+            advance = casTabAt(tab, i, null, fwd);
+        // 当前桶已经迁移
+        else if ((fh = f.hash) == MOVED)
+            advance = true; // already processed
+        // 迁移桶内数据
+        else {
+            synchronized (f) {
+                if (tabAt(tab, i) == f) {
+                    Node<K,V> ln, hn;
+                    // 处理节点是链表的情况
+                    if (fh >= 0) {
+                        ...
+                    }
+                    // 处理节点是红黑树的情况
+                    else if (f instanceof TreeBin) {
+                        ...
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+我们先将 `transfer()` 拆分为以下几个部分：
+
+1. 根据 CPU 数确定划分 table 的步长：
+   1. 如果是单核 CPU，步长就是 table.length；
+   2. 如果是多核 CPU，步长为 `max(n >>> 3) / NCPU, MIN_TRANSFER_STRIDE)`，MIN_TRANSFER_STRIDE 默认 16；
+2. 若传入的 nextTab 为null，则创建 nextTable：
+   1. 将创建的 nextTab 赋给全局变量 nextTable；
+   2. 将用于控制扩容区间的分配 transferIndex 初始化为 table.length；
+3. 开始循环处理区间内各个桶得迁移，由 advance 控制程序：
+   1. while 循环对区间 [bound, i] 进行分配或调整，`advance = false`；
+   2. 判断当前区间的迁移是否结束，结束则 return，未结束 `i = n` `advance = true`，下一个循环检查整张表；
+   3. 当前桶为空，则插入一个 fwd，`advance = casTabAt(tab, i, null, fwd)`；
+   4. 当前桶已经迁移，`advance = true`；
+   5. 迁移桶内数据：
+
+```java
+/**
+ * Moves and/or copies the nodes in each bin to new table. See
+ * above for explanation.
+ * 
+ * transferIndex 表示转移时的下标，初始为扩容前的 length。
+ * 
+ * 我们假设长度是 32
+ */
+private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
+    int n = tab.length, stride;
+    // 将 length / 8 然后除以 CPU核心数。如果得到的结果小于 16，那么就使用 16。
+    // 这里的目的是让每个 CPU 处理的桶一样多，避免出现转移任务不均匀的现象，如果桶较少的话，默认一个 CPU（一个线程）处理 16 个桶
+    if ((stride = (NCPU > 1) ? (n >>> 3) / NCPU : n) < MIN_TRANSFER_STRIDE)
+        stride = MIN_TRANSFER_STRIDE; // subdivide range 细分范围 stridea：TODO
+    // 新的 table 尚未初始化
+    if (nextTab == null) {            // initiating
+        try {
+            // 扩容  2 倍
+            Node<K,V>[] nt = (Node<K,V>[])new Node<?,?>[n << 1];
+            // 更新
+            nextTab = nt;
+        } catch (Throwable ex) {      // try to cope with OOME
+            // 扩容失败， sizeCtl 使用 int 最大值。
+            sizeCtl = Integer.MAX_VALUE;
+            return;// 结束
+        }
+        // 更新成员变量
+        nextTable = nextTab;
+        // 更新转移下标，就是 老的 tab 的 length
+        transferIndex = n;
+    }
+    // 新 tab 的 length
+    int nextn = nextTab.length;
+    // 创建一个 fwd 节点，用于占位。当别的线程发现这个槽位中是 fwd 类型的节点，则跳过这个节点。
+    ForwardingNode<K,V> fwd = new ForwardingNode<K,V>(nextTab);
+    // 首次推进为 true，如果等于 true，说明需要再次推进一个下标（i--），反之，如果是 false，那么就不能推进下标，需要将当前的下标处理完毕才能继续推进
+    boolean advance = true;
+    // 完成状态，如果是 true，就结束此方法。
+    boolean finishing = false; // to ensure sweep before committing nextTab
+    // 死循环,i 表示下标，bound 表示当前线程可以处理的当前桶区间最小下标
+    for (int i = 0, bound = 0;;) {
+        Node<K,V> f; int fh;
+        // 如果当前线程可以向后推进；这个循环就是控制 i 递减。同时，每个线程都会进入这里取得自己需要转移的桶的区间
+        while (advance) {
+            int nextIndex, nextBound;
+            // 对 i 减一，判断是否大于等于 bound （正常情况下，如果大于 bound 不成立，
+            // 说明该线程上次领取的任务已经完成了。那么，需要在下面继续领取任务）
+            // 如果对 i 减一大于等于 bound（还需要继续做任务），或者完成了，
+            // 修改推进状态为 false，不能推进了。任务成功后修改推进状态为 true。
+            // 通常，第一次进入循环，i-- 这个判断会无法通过，从而走下面的 nextIndex 
+            // 赋值操作（获取最新的转移下标）。其余情况都是：如果可以推进，将 i 减一，
+            // 然后修改成不可推进。如果 i 对应的桶处理成功了，改成可以推进。
+            if (--i >= bound || finishing)
+                advance = false;// 这里设置 false，是为了防止在没有成功处理一个桶的情况下却进行了推进
+            // 这里的目的是：1. 当一个线程进入时，会选取最新的转移下标。2. 当一个线程处理完自己的区间时，如果还有剩余区间的没有别的线程处理。再次获取区间。
+            else if ((nextIndex = transferIndex) <= 0) {
+                // 如果小于等于0，说明没有区间了 ，i 改成 -1，推进状态变成 false，
+                // 不再推进，表示，扩容结束了，当前线程可以退出了
+                // 这个 -1 会在下面的 if 块里判断，从而进入完成状态判断
+                i = -1;
+                advance = false;// 这里设置 false，是为了防止在没有成功处理一个桶的情况下却进行了推进
+            }// CAS 修改 transferIndex，即 length - 区间值，留下剩余的区间值供后面的线程使用
+            else if (U.compareAndSwapInt
+                     (this, TRANSFERINDEX, nextIndex,
+                      nextBound = (nextIndex > stride ?
+                                   nextIndex - stride : 0))) {
+                bound = nextBound;// 这个值就是当前线程可以处理的最小当前区间最小下标
+                i = nextIndex - 1; // 初次对i 赋值，这个就是当前线程可以处理的当前区间的最大下标
+                advance = false; // 这里设置 false，是为了防止在没有成功处理一个桶的情况下却进行了推进，这样对导致漏掉某个桶。下面的 if (tabAt(tab, i) == f) 判断会出现这样的情况。
+            }
+        }
+        // 如果 i 小于 0 （不在 tab 下标内，按照上面的判断，领取最后一段区间的线程扩容结束）
+        //  如果 i >= tab.length(不知道为什么这么判断)
+        //  如果 i + tab.length >= nextTable.length  （不知道为什么这么判断）
+        if (i < 0 || i >= n || i + n >= nextn) {
+            int sc;
+            if (finishing) { // 如果完成了扩容
+                nextTable = null;// 删除成员变量
+                table = nextTab;// 更新 table
+                sizeCtl = (n << 1) - (n >>> 1); // 更新阈值
+                return;// 结束方法。
+            }
+            // 如果没完成
+            if (U.compareAndSwapInt(this, SIZECTL, sc = sizeCtl, sc - 1)) {// 尝试将 sc -1. 表示这个线程结束帮助扩容了，将 sc 的低 16 位减一。
+                if ((sc - 2) != resizeStamp(n) << RESIZE_STAMP_SHIFT)// 如果 sc - 2 不等于标识符左移 16 位。如果他们相等了，说明没有线程在帮助他们扩容了。也就是说，扩容结束了。
+                    return;// 不相等，说明没结束，当前线程结束方法。
+                finishing = advance = true;// 如果相等，扩容结束了，更新 finising 变量
+                i = n; // 再次循环检查一下整张表
+            }
+        }
+        else if ((f = tabAt(tab, i)) == null) // 获取老 tab i 下标位置的变量，如果是 null，就使用 fwd 占位。
+            advance = casTabAt(tab, i, null, fwd);// 如果成功写入 fwd 占位，再次推进一个下标
+        else if ((fh = f.hash) == MOVED)// 如果不是 null 且 hash 值是 MOVED。
+            advance = true; // already processed // 说明别的线程已经处理过了，再次推进一个下标
+        else {// 到这里，说明这个位置有实际值了，且不是占位符。对这个节点上锁。为什么上锁，防止 putVal 的时候向链表插入数据
+            synchronized (f) {
+                // 判断 i 下标处的桶节点是否和 f 相同
+                if (tabAt(tab, i) == f) {
+                    Node<K,V> ln, hn;// low, height 高位桶，低位桶
+                    // 如果 f 的 hash 值大于 0 。TreeBin 的 hash 是 -2
+                    if (fh >= 0) {
+                        // 对老长度进行与运算（第一个操作数的的第n位于第二个操作数的第n位如果都是1，那么结果的第n为也为1，否则为0）
+                        // 由于 Map 的长度都是 2 的次方（000001000 这类的数字），那么取于 length 只有 2 种结果，一种是 0，一种是1
+                        //  如果是结果是0 ，Doug Lea 将其放在低位，反之放在高位，目的是将链表重新 hash，放到对应的位置上，让新的取于算法能够击中他。
+                        int runBit = fh & n;
+                        Node<K,V> lastRun = f; // 尾节点，且和头节点的 hash 值取于不相等
+                        // 遍历这个桶
+                        for (Node<K,V> p = f.next; p != null; p = p.next) {
+                            // 取于桶中每个节点的 hash 值
+                            int b = p.hash & n;
+                            // 如果节点的 hash 值和首节点的 hash 值取于结果不同
+                            if (b != runBit) {
+                                runBit = b; // 更新 runBit，用于下面判断 lastRun 该赋值给 ln 还是 hn。
+                                lastRun = p; // 这个 lastRun 保证后面的节点与自己的取于值相同，避免后面没有必要的循环
+                            }
+                        }
+                        if (runBit == 0) {// 如果最后更新的 runBit 是 0 ，设置低位节点
+                            ln = lastRun;
+                            hn = null;
+                        }
+                        else {
+                            hn = lastRun; // 如果最后更新的 runBit 是 1， 设置高位节点
+                            ln = null;
+                        }// 再次循环，生成两个链表，lastRun 作为停止条件，这样就是避免无谓的循环（lastRun 后面都是相同的取于结果）
+                        for (Node<K,V> p = f; p != lastRun; p = p.next) {
+                            int ph = p.hash; K pk = p.key; V pv = p.val;
+                            // 如果与运算结果是 0，那么就还在低位
+                            if ((ph & n) == 0) // 如果是0 ，那么创建低位节点
+                                ln = new Node<K,V>(ph, pk, pv, ln);
+                            else // 1 则创建高位
+                                hn = new Node<K,V>(ph, pk, pv, hn);
+                        }
+                        // 其实这里类似 hashMap 
+                        // 设置低位链表放在新链表的 i
+                        setTabAt(nextTab, i, ln);
+                        // 设置高位链表，在原有长度上加 n
+                        setTabAt(nextTab, i + n, hn);
+                        // 将旧的链表设置成占位符
+                        setTabAt(tab, i, fwd);
+                        // 继续向后推进
+                        advance = true;
+                    }// 如果是红黑树
+                    else if (f instanceof TreeBin) {
+                        TreeBin<K,V> t = (TreeBin<K,V>)f;
+                        TreeNode<K,V> lo = null, loTail = null;
+                        TreeNode<K,V> hi = null, hiTail = null;
+                        int lc = 0, hc = 0;
+                        // 遍历
+                        for (Node<K,V> e = t.first; e != null; e = e.next) {
+                            int h = e.hash;
+                            TreeNode<K,V> p = new TreeNode<K,V>
+                                (h, e.key, e.val, null, null);
+                            // 和链表相同的判断，与运算 == 0 的放在低位
+                            if ((h & n) == 0) {
+                                if ((p.prev = loTail) == null)
+                                    lo = p;
+                                else
+                                    loTail.next = p;
+                                loTail = p;
+                                ++lc;
+                            } // 不是 0 的放在高位
+                            else {
+                                if ((p.prev = hiTail) == null)
+                                    hi = p;
+                                else
+                                    hiTail.next = p;
+                                hiTail = p;
+                                ++hc;
+                            }
+                        }
+                        // 如果树的节点数小于等于 6，那么转成链表，反之，创建一个新的树
+                        ln = (lc <= UNTREEIFY_THRESHOLD) ? untreeify(lo) :
+                            (hc != 0) ? new TreeBin<K,V>(lo) : t;
+                        hn = (hc <= UNTREEIFY_THRESHOLD) ? untreeify(hi) :
+                            (lc != 0) ? new TreeBin<K,V>(hi) : t;
+                        // 低位树
+                        setTabAt(nextTab, i, ln);
+                        // 高位数
+                        setTabAt(nextTab, i + n, hn);
+                        // 旧的设置成占位符
+                        setTabAt(tab, i, fwd);
+                        // 继续向后推进
+                        advance = true;
+                    }
+                }
+            }
+        }
+    }
+}
+
+```
+
 
 
 ## 四、计数
+
+
+
+## 参考
+
+1. [ConcurrentHashMap 1.8 源码分析](https://www.cnblogs.com/zerotomax/p/8687425.html#go7)
+2. [sizeCtl 含义的辨析](https://blog.csdn.net/Unknownfuture/article/details/105350537)
+3. [initTable 的问题](https://stackoverflow.com/questions/61722136/java-concurrenthashmap-initialization)
+4. [Java Concurrent Hashmap initTable() Why the try/finally block?](https://stackoverflow.com/questions/63651473/java-concurrent-hashmap-inittable-why-the-try-finally-block)
+5. [How does ConcurrentHashMap resizeStamp method work?](https://stackoverflow.com/questions/47175835/how-does-concurrenthashmap-resizestamp-method-work)
+6. [关于 sc == rs + 1 || sc == rs + MAX_RESIZERS](https://stackoverflow.com/questions/53493706/how-the-conditions-sc-rs-1-sc-rs-max-resizers-can-be-achieved-in)
 
