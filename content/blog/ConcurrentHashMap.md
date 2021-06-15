@@ -231,9 +231,9 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 
 `putVal()` 中有三个函数是重点：`initTable()` \ `treeifyBin()` \ `addCount`。 `initTable()`必须要保证只有一个线程对 table 进行初始化。`treeifyBin()` 和 `addCount` 中都包含了扩容操作，但是扩容的结果却是不同的。为了便于区分，我们将 `treeifyBin()` 中使用 `tryPresize()` 进行的扩容称为 P 扩容，而将由 `addCount()` 进行的扩容称为 C 扩容。
 
-### 2.1 initTable：保证只有一个线程进行初始化
+### 2.1 initTable
 
-不管是初始化 table 还是对 table 进行扩容，sizeCtl 都是至关重要的一环。在初始化 table 时，并不能保证只有当前线程在初始化，当有多个线程同时初始化 table 时，竞争就出现了。通过 sizeCtl 处理竞争很容易，若当前线程赢得了竞争，开始初始化，则把 sezeCtl 设置为 -1（这个操作必须原子性的）。其他线程在读到 sizeCtl = -1 时就放弃初始化，进而 `yield()` 让出资源等待初始化的完成，这就是为什么需要 while 循环的原因。但是这里还有两个问题：
+不管是初始化 table 还是对 table 进行扩容，sizeCtl 都是至关重要的一环。在初始化 table 时，并不能保证只有当前线程需要初始化，当有多个线程同时初始化 table 时，竞争就出现了。通过 sizeCtl 处理竞争很容易，若当前线程赢得了竞争，开始初始化，则把 sezeCtl 设置为 -1（这个操作必须原子性的）。其他线程在读到 sizeCtl = -1 时就放弃初始化，进而 `yield()` 让出资源等待初始化的完成，这就是为什么需要 while 循环的原因。但是这里还有两个问题：
 
 1. 为什么在检查 table 是否初始化时需要 `(tab = table) == null || tab.length == 0`，似乎 `tab.length == 0` 总是不能单独成立的？
 2. 为什么最后的 `sizeCtl = sc` 需要 finally 句式来保证其一定执行。
@@ -264,7 +264,7 @@ private final Node<K,V>[] initTable() {
 }
 ```
 
-### 2.2 treeifyBin：P 扩容还是转化红黑树？
+### 2.2 treeifyBin
 
 如果插入一个键值对后，链表长度大于等于 TREEIFY_THRESHOLD，就需要进行扩容或转化红黑树。`treeifyBin()` 是这一操作的入口，首先判断 table 容量是否小于 MIN_TREEIFY_CAPACITY，如果是则进行 P 扩容（由 `tryPresize()` 进行的，有别于下文中由 `addCount()` 进行的），否则进行红黑树转化。
 
@@ -296,7 +296,7 @@ private final void treeifyBin(Node<K,V>[] tab, int index) {
 }
 ```
 
-### 2.3 addCount：计数并决定是否 C 扩容
+### 2.3 addCount
 
 `addCount()` 通过一个 *CounterCell* 数组计算键值对个数，虽然只是简单的计数，但为了尽可能减少线程冲突，其中蕴含了非常巧妙的设计。这部分内容将在第四章中介绍。
 
@@ -353,30 +353,34 @@ private final void treeifyBin(Node<K,V>[] tab, int index) {
 另一个有趣的点是，对于同样长度的 table，可能扩容出不同长度的新 table。来看下面一个例子：
 
 ```java
+// 测试例
 public class ConcurrentMapTest {
-    public static void main(String[] args) 
+    public static void main(String[] args)
             throws NoSuchFieldException, IllegalAccessException {
-        final int DEFAULT_CAPACITY = 16;
+        final int DEFAULT_CAPACITY = 16; // 默认容量
         ConcurrentHashMap<Integer, Integer> map1 = new ConcurrentHashMap<>();
         ConcurrentHashMap<Integer, Integer> map2 = new ConcurrentHashMap<>();
+        // c扩容
         for (int i = 0; i < 12; i++) {
             map1.put(i, i); // key不同
             int length;
             if ((length = getLength(map1)) != DEFAULT_CAPACITY) {
-                System.out.println("map1扩容后：" + length);
+                System.out.printf("第%d次插入后map1扩容：%d\n", i + 1, length);
                 break;
             }
         }
+        // p扩容
         for (int i = 0; i < 12; i++) {
             map2.put(i * 16, i); // key不同
             int length;
             if ((length = getLength(map2)) != DEFAULT_CAPACITY) {
-                System.out.println("map2扩容后：" + length);
+                System.out.printf("第%d次插入后map1扩容：%d\n", i + 1, length);
                 break;
             }
         }
     }
 
+    // 通过反射获取table.length
     private static int getLength(ConcurrentHashMap map)
             throws NoSuchFieldException, IllegalAccessException {
         Field tableField = ConcurrentHashMap.class.getDeclaredField("table");
@@ -385,20 +389,19 @@ public class ConcurrentMapTest {
         return (table == null ? 0 : table.length);
     }
 }
+
 ```
 
 ```txt
-map1扩容后：32
-map2扩容后：128
+第12次插入后map1扩容：32
+第9次插入后map1扩容：128
 ```
 
-
-
-
+上面两个 map 扩容后出现了不同的容量，这是因为两者触发了不同的扩容机制。map1 中每次插入的 key 为 1、2、3 等，由于 *Integer* 的 hashcode 等于其自身的开箱值，可以确保 map1 中的键值对是均匀分布的。因此，导致 map1 扩容的原因是键值对的数量达到sizeCtl（12）。map2 中每次插入的是 16 的倍数，所以每次插入的键值对都放进了第一个桶内，这导致第一个桶的链表越来越长，当长度大于 TREEIFY_THRESHOLD（8）时，触发了 `treeifyBin()`，根据 `treeifyBin()` 的逻辑，map2 当前容量小于 MIN_TREEIFY_CAPACITY（64），优先通过 `tryPresize()` 进行 P 扩容。
 
 ### 3.1 P 扩容
 
-
+从上面的测试例可以看出，P 扩容正好是 C 扩容的四倍，正并不是巧合。
 
 ```java
 private final void tryPresize(int size) {
