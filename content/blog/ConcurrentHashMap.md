@@ -580,16 +580,16 @@ private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
 
 1. 根据 CPU 数确定划分 table 的步长：
    1. 如果是单核 CPU，步长就是 table.length；
-   2. 如果是多核 CPU，步长为 `max(n >>> 3) / NCPU, MIN_TRANSFER_STRIDE)`，MIN_TRANSFER_STRIDE 默认 16；
+   2. 如果是多核 CPU，步长为 `max(n >>> 3) / NCPU, MIN_TRANSFER_STRIDE)`。
 2. 若传入的 nextTab 为null，则创建 nextTable：
    1. 将创建的 nextTab 赋给全局变量 nextTable；
-   2. 将用于控制扩容区间的分配 transferIndex 初始化为 table.length；
+   2. 将用于控制扩容区间的分配 transferIndex 初始化为 table.length。
 3. 开始循环处理区间内各个桶得迁移，由 advance 控制程序：
-   1. while 循环对区间 [bound, i] 进行分配或调整，`advance = false`；
-   2. 判断当前区间的迁移是否结束，结束则 return，未结束 `i = n` `advance = true`，下一个循环检查整张表；
-   3. 当前桶为空，则插入一个 fwd，`advance = casTabAt(tab, i, null, fwd)`；
-   4. 当前桶已经迁移，`advance = true`；
-   5. 迁移桶内数据：
+   1. while 循环对区间 [bound, i] 进行分配或调整；
+   2. 判断当前区间的迁移是否结束；
+   3. 当前桶为空，则插入一个 fwd；
+   4. 当前桶已经迁移；
+   5. 迁移桶内数据。
 
 ```java
 /**

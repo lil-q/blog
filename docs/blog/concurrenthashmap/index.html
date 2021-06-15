@@ -61,7 +61,7 @@
       "datePublished": "2021-06-13 16:30:25 \u002b0800 CST",
       "dateModified" : "2021-06-13 16:30:25 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/concurrenthashmap\/",
-      "wordCount" : "3132",
+      "wordCount" : "3114",
       "keywords" : ["Blog"]
     }
   
@@ -625,22 +625,22 @@ private final void tryPresize(int size) {
 <li>根据 CPU 数确定划分 table 的步长：
 <ol>
 <li>如果是单核 CPU，步长就是 table.length；</li>
-<li>如果是多核 CPU，步长为 <code>max(n &gt;&gt;&gt; 3) / NCPU, MIN_TRANSFER_STRIDE)</code>，MIN_TRANSFER_STRIDE 默认 16；</li>
+<li>如果是多核 CPU，步长为 <code>max(n &gt;&gt;&gt; 3) / NCPU, MIN_TRANSFER_STRIDE)</code>。</li>
 </ol>
 </li>
 <li>若传入的 nextTab 为null，则创建 nextTable：
 <ol>
 <li>将创建的 nextTab 赋给全局变量 nextTable；</li>
-<li>将用于控制扩容区间的分配 transferIndex 初始化为 table.length；</li>
+<li>将用于控制扩容区间的分配 transferIndex 初始化为 table.length。</li>
 </ol>
 </li>
 <li>开始循环处理区间内各个桶得迁移，由 advance 控制程序：
 <ol>
-<li>while 循环对区间 [bound, i] 进行分配或调整，<code>advance = false</code>；</li>
-<li>判断当前区间的迁移是否结束，结束则 return，未结束 <code>i = n</code> <code>advance = true</code>，下一个循环检查整张表；</li>
-<li>当前桶为空，则插入一个 fwd，<code>advance = casTabAt(tab, i, null, fwd)</code>；</li>
-<li>当前桶已经迁移，<code>advance = true</code>；</li>
-<li>迁移桶内数据：</li>
+<li>while 循环对区间 [bound, i] 进行分配或调整；</li>
+<li>判断当前区间的迁移是否结束；</li>
+<li>当前桶为空，则插入一个 fwd；</li>
+<li>当前桶已经迁移；</li>
+<li>迁移桶内数据。</li>
 </ol>
 </li>
 </ol>
