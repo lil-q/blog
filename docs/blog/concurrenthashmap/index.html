@@ -31,7 +31,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.50813d73475717c0fce5d3e2cbec1d24548cb7c529e244632bebb87aae1a2286.css" integrity="sha256-UIE9c0dXF8D85dPiy&#43;wdJFSMt8Up4kRjK&#43;u4eq4aIoY="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
   
   
    
@@ -61,7 +61,7 @@
       "datePublished": "2021-06-13 16:30:25 \u002b0800 CST",
       "dateModified" : "2021-06-13 16:30:25 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/concurrenthashmap\/",
-      "wordCount" : "3114",
+      "wordCount" : "3376",
       "keywords" : ["Blog"]
     }
   
@@ -232,22 +232,22 @@ static final &lt;K,V&gt; void setTabAt(Node&lt;K,V&gt;[] tab, int i, Node&lt;K,V
 }
 </code></pre>
 <p><code>put()</code> 调用了 <code>putVal()</code>，传入 <code>putVal()</code> 的 onlyIfAbsent 表示是否只有在不存在相应 key 时才加入。可见 <code>put()</code> 始终传入 false，而另一个 public 方法 <code>putIfAbsent()</code> 则始终传入 true。<code>putValue()</code> 首先通过 <code>(hashcode ^ (hashcode &gt;&gt;&gt; 16)) &amp; HASH_BITS</code> 获取 hash 值。然后在一个循环中处理一下四种情况，直到跳出：</p>
-<ol>
-<li>如果 table 未初始化，初始化 table；</li>
-<li>如果 table 已经初始化，但是相应桶为空，直接创建 <em>Node</em> 加入其中，跳出；</li>
-<li>如果 table 已经初始化，且相应桶不为空，但该桶正在迁移（扩容中），当前线程将帮助迁移；</li>
-<li>如果 table 已经初始化，且相应桶不为空，且该桶未在迁移，将键值对加入到桶中，有两种情况：
-<ol>
-<li>桶中是链表，则遍历这个链表：
-<ol>
-<li>若找到相同 key，直接修改 value，跳出；</li>
-<li>若未找到，创建新的 <em>Node</em> 加到尾部，跳出。</li>
-</ol>
+<ul>
+<li>table 未初始化：初始化 table；</li>
+<li>table 已经初始化，但是相应桶为空：直接创建 <em>Node</em> 加入其中，跳出；</li>
+<li>table 已经初始化，且相应桶不为空，但该桶正在迁移：当前线程将帮助迁移；</li>
+<li>table 已经初始化，且相应桶不为空，且该桶未在迁移，将键值对加入桶中：
+<ul>
+<li>桶中是链表，遍历这个链表：
+<ul>
+<li>若找到相同 key：直接修改 value，跳出；</li>
+<li>若未找到：创建新的 <em>Node</em> 加到尾部，跳出。</li>
+</ul>
 </li>
-<li>桶中是红黑树，通过 <em>TreeNode</em> 中的 <code>putTreeValue()</code> 写入，逻辑与上面类似，跳出。</li>
-</ol>
+<li>桶中是红黑树：通过 <em>TreeNode</em> 中 <code>putTreeValue()</code> 写入，逻辑与上面类似，跳出。</li>
+</ul>
 </li>
-</ol>
+</ul>
 <p>在完成上面步骤之后，还会检查 binCount，如果满足转化红黑树的条件则进行转化。</p>
 <pre><code class="language-java">public V put(K key, V value) {
     return putVal(key, value, false);
@@ -469,11 +469,11 @@ public class ConcurrentMapTest {
 <h3 id="31-p-扩容">3.1 P 扩容<a class="anchor" href="#31-p-扩容">#</a></h3>
 <p>从上面的测试例可以看出，P 扩容正好是 C 扩容的四倍，这是巧合吗？上一章节中，我们已经对 <code>addCount()</code> 有了初步的认识，它会先计数，然后根据计数判断是否进行 C 扩容。在具体分析 C 扩容前，先来看看 <code>tryPresize()</code> 是如何实现 P 扩容的，也许能找到他们之间的一些联系。</p>
 <p>首先  <code>tryPresize()</code> 会获得一个扩容要求 c，他是由传入 size 乘以 1.5 倍后向上舍入得到的。例如，初始 table.length=16，传入 size=32，可以得到 c=64。得到 c 后，通过 while 循环不断检验 sizeCtl 是否大于 c，有以下分支：</p>
-<ol>
-<li>如果 table 未初始化：初始化 table；</li>
-<li>如果 sizeCtl &gt;= c：扩容完毕，跳出；</li>
-<li>进行 C 扩容。</li>
-</ol>
+<ul>
+<li>table 未初始化：初始化 table；</li>
+<li>sizeCtl &gt;= c：扩容完毕，跳出；</li>
+<li>其他：进行 C 扩容。</li>
+</ul>
 <p>现在我们知道，P 扩容实际上提供了 table 的初始化（在对空 map 进行 <code>putAll()</code> 时需要）和扩容的终止条件，其余时间都是在循环 C 扩容。上面的例子中，P 扩容后容量是 C 扩容的四倍，说明 P 扩容进行了三次 C 扩容。</p>
 <ol>
 <li>第一次扩容：table.length=32，c=64 &gt; sizeCtl=24；</li>
@@ -534,7 +534,7 @@ private final void tryPresize(int size) {
     }
 }
 </code></pre>
-<h2 id="32-c-扩容">3.2 C 扩容<a class="anchor" href="#32-c-扩容">#</a></h2>
+<h3 id="32-c-扩容">3.2 C 扩容<a class="anchor" href="#32-c-扩容">#</a></h3>
 <p>C 扩容的逻辑相对简单，但要理解它却比较困难，罪魁祸首就是我们老朋友 sizeCtl！</p>
 <p>源码中的注解表示，当多个线程同时进行扩容时，sizeCtl=-(1+N)，其中 N 表示正在扩容的线程数。如果按照这个逻辑，在扩容时，sizeClt 应当是一个比较接近 0 的负数， 但事实上 sizeCtl 通常都是一个非常小的负数。出现这种情况的原因是 sizeCtl 的高 16 位被用来标识 table 了，其低 16 位才标识 1+N。先来看扩容标识 rs 是怎么获得的。</p>
 <pre><code class="language-java">static final int resizeStamp(int n) {
@@ -553,7 +553,7 @@ private final void tryPresize(int size) {
 <p>原子操作成功后，sizeCtl 就变成了一个很小的负数，事实上，我们不应该关注这个值本身的大小，只需要关心其高 16 位和低 16 位的真正含义就可以了。sizeCtl 修改完毕后，<code>transfer(tab, null)</code> 将先创建一个两倍长度的 nextTable，然后开始将 table 上的数据迁移到 nextTable 上。</p>
 <p>这时候其他线程就会觉察到正在迁移（sizeCtl&lt;0）并试图帮助迁移。首先判断是否有资格帮助迁移，以下情况将不予参与扩容并直接跳出：</p>
 <ul>
-<li>(sc &raquo;&gt; RESIZE_STAMP_SHIFT) != rs：扩容标识对不上，说明不是同一个 table，帮不上忙；</li>
+<li>(sc &raquo;&gt; RESIZE_STAMP_SHIFT) != rs：扩容标识对不上，说明不是同一 table，帮不上忙；</li>
 <li>sc == rs + 1：扩容已经结束，收工了；</li>
 <li>sc == rs + MAX_RESIZERS：已经达到最大扩容线程数，人手够了；</li>
 <li>(nt = nextTable) == null：nextTab还没创建，工厂还没建完；</li>
@@ -565,10 +565,10 @@ private final void tryPresize(int size) {
 <p><code>transfer()</code> 非常长，包含了很多逻辑，仔细拆分后能更好理解。我们首先列出总体框架，然后对细节进行推敲。</p>
 <pre><code class="language-java">private final void transfer(Node&lt;K,V&gt;[] tab, Node&lt;K,V&gt;[] nextTab) {
     int n = tab.length, stride;
-    // 根据CPU数确定划分table的步长
+    // 1.根据CPU数确定划分table的步长
     if ((stride = (NCPU &gt; 1) ? (n &gt;&gt;&gt; 3) / NCPU : n) &lt; MIN_TRANSFER_STRIDE)
         stride = MIN_TRANSFER_STRIDE; // subdivide range
-    // 若传入的nextTab为null，则创建nextTable
+    // 2.若传入的nextTab为null，则创建nextTable
     if (nextTab == null) { // initiating
         try {
             Node&lt;K,V&gt;[] nt = (Node&lt;K,V&gt;[])new Node&lt;?,?&gt;[n &lt;&lt; 1];
@@ -584,16 +584,16 @@ private final void tryPresize(int size) {
     ForwardingNode&lt;K,V&gt; fwd = new ForwardingNode&lt;K,V&gt;(nextTab); // 用于标记已处理的空桶
     boolean advance = true;
     boolean finishing = false; // to ensure sweep before committing nextTab
-    // 循环处理，i表示当前处理的桶下标（原table），bound表示分得区间得下界
+    // 3.循环处理，i表示当前处理的桶下标（原table），bound表示分得区间的下界
     for (int i = 0, bound = 0;;) {
         Node&lt;K,V&gt; f; int fh;
         // 领取区间 / 控制桶的序号 i--
         while (advance) {
-            ...
+            ... // 详见3.3.1节
         }
         // 判断是否结束
         if (i &lt; 0 || i &gt;= n || i + n &gt;= nextn) {
-            ...
+            ... // 详见3.3.2节
         }
         // 当前桶为空，插入一个 fwd
         else if ((f = tabAt(tab, i)) == null)
@@ -608,11 +608,11 @@ private final void tryPresize(int size) {
                     Node&lt;K,V&gt; ln, hn;
                     // 处理节点是链表的情况
                     if (fh &gt;= 0) {
-                        ...
+                        ... // 详见3.3.3节
                     }
                     // 处理节点是红黑树的情况
                     else if (f instanceof TreeBin) {
-                        ...
+                        ... // 详见3.3.3节
                     }
                 }
             }
@@ -623,27 +623,108 @@ private final void tryPresize(int size) {
 <p>我们先将 <code>transfer()</code> 拆分为以下几个部分：</p>
 <ol>
 <li>根据 CPU 数确定划分 table 的步长：
-<ol>
+<ul>
 <li>如果是单核 CPU，步长就是 table.length；</li>
-<li>如果是多核 CPU，步长为 <code>max(n &gt;&gt;&gt; 3) / NCPU, MIN_TRANSFER_STRIDE)</code>。</li>
-</ol>
+<li>如果是多核 CPU，步长为 <code>max((n &gt;&gt;&gt; 3) / NCPU, MIN_TRANSFER_STRIDE)</code>。</li>
+</ul>
 </li>
-<li>若传入的 nextTab 为null，则创建 nextTable：
-<ol>
+<li>若传入的 nextTab 为 null，则创建 nextTable：
+<ul>
 <li>将创建的 nextTab 赋给全局变量 nextTable；</li>
 <li>将用于控制扩容区间的分配 transferIndex 初始化为 table.length。</li>
-</ol>
+</ul>
 </li>
 <li>开始循环处理区间内各个桶得迁移，由 advance 控制程序：
-<ol>
-<li>while 循环对区间 [bound, i] 进行分配或调整；</li>
-<li>判断当前区间的迁移是否结束；</li>
-<li>当前桶为空，则插入一个 fwd；</li>
-<li>当前桶已经迁移；</li>
-<li>迁移桶内数据。</li>
-</ol>
+<ul>
+<li>while 循环对区间 [bound, i] 进行分配或调整（&ndash;i）；</li>
+<li>开始下面四个分支：
+<ul>
+<li>i 越界：判断当前区间的迁移是否结束；</li>
+<li>当前桶为空：插入一个 fwd；</li>
+<li>当前桶已经迁移：跳过；</li>
+<li>其他：迁移桶内数据，包括链表和红黑树。</li>
+</ul>
+</li>
+</ul>
 </li>
 </ol>
+<p>首先，根据 CPU 的核心数来划分迁移的步长，步长就是每个线程需要处理的桶个数。如果是单核，由于没有并行能力，线程直接处理整个 table 即可；如果是多线程，通过 (n &raquo;&gt; 3) / NCPU 计算步长，但是必须要大于 MIN_TRANSFER_STRIDE，默认 16。</p>
+<p>接着，如果传入的 nextTab 为 null，就需要创建 nextTable 并赋值给全局变量。同时，将全局变量 transferIndex 设为 table.length，这个变量告诉所有线程迁移进行到了哪个分区。</p>
+<p>最后开始一个循环，每次循环处理一个桶，先对区间进行控制，然后由四个分支处理。这四个分支中，当前桶为空和当前桶已迁移比较简单。</p>
+<p>当前桶为空的情况，会插入一个 <em>ForwardingNode</em> 类的 fwd，它的状态码为 MOVED。当其他线程进行对该桶 <code>putVal()</code> 时，会调用 <code>helpTransfer()</code> 帮助迁移；其他线程对该桶迁移时，则会直接跳过。最后把 advance 设置为插入 fwd 的原子操作的返回值，如果成功了下一个循环将迁移下一个桶或结束，如果失败了下一个循环还会继续处理当前桶。</p>
+<p>当前桶已迁移的情况，直接跳过，将 advance 设置为 true。</p>
+<p>剩下还有三个部分需要继续分析：控制区间、结束条件和迁移数据。</p>
+<h4 id="331-控制区间">3.3.1 控制区间</h4>
+<p>在 <code>for (int i = 0, bound = 0;;)</code> 中初始化了两个变量 bound 和 i，bound 表示区间下界，i 表示当前处理桶的下标。</p>
+<pre><code class="language-java">while (advance) {
+    int nextIndex, nextBound;
+    // 1.选择下一个桶或处理结束信号
+    if (--i &gt;= bound || finishing)
+        advance = false;
+    // 2.没有新的区间可以分配
+    else if ((nextIndex = transferIndex) &lt;= 0) {
+        i = -1;
+        advance = false;
+    }
+    // 3.分配区间
+    else if (U.compareAndSwapInt
+             (this, TRANSFERINDEX, nextIndex,
+              nextBound = (nextIndex &gt; stride ?
+                           nextIndex - stride : 0))) {
+        bound = nextBound;
+        i = nextIndex - 1;
+        advance = false;
+    }
+}
+</code></pre>
+<p>第一次循环前两个分支都不成立，将由分支三分配区间。假设原 table 的长度为 64，步长 strde 为 16，经过区间分配我们可以得到下图。</p>
+<pre><code class="language-txt">|————————————|————————————|————————————|————————————|
+0                                                    transferIndex=64
+1.通过原子操作将transferIndex减stride，将修改后的transferIndex赋值给bound，将修改前的transferIndex赋值给i
+
+|————————————|————————————|————————————|————————————|
+0                                       transferIndex=48
+                                        bound=48    i=63
+2.--i                                        
+
+|————————————|————————————|————————————|————————————|
+0                                       transferIndex=48
+                                        bound=48   i=62 
+</code></pre>
+<p>分配后交由后续代码来迁移 i=63 号桶中的数据，迁移完毕后进入下一个循环，这是会由分支一对 i 自减 1。直到 i 自减后小于 bound，则进行下一次分配。</p>
+<pre><code class="language-txt">|————————————|————————————|————————————|————————————|
+0                                       transferIndex=48
+                                        bound=48   
+                                       i=47 
+3.i&lt;bound，触发下一次分配
+                                        
+|————————————|————————————|————————————|————————————|
+0                          transferIndex=32
+                           bound=32    i=47
+</code></pre>
+<h4 id="332-结束条件">3.3.2 结束条件</h4>
+<pre><code class="language-java">if (i &lt; 0 || i &gt;= n || i + n &gt;= nextn) {
+    int sc;
+    // finishing为true则结束
+    if (finishing) {
+        nextTable = null; // 置空
+        table = nextTab; // 替换
+        sizeCtl = (n &lt;&lt; 1) - (n &gt;&gt;&gt; 1); // sizeCtl设为0.75倍的table.length
+        return;
+    }
+    // finishing为false，但是该线程的任务已经完成，sizeCtl中的线程数减1
+    if (U.compareAndSwapInt(this, SIZECTL, sc = sizeCtl, sc - 1)) {
+        // sizeCtl回到刚开始扩容的状态，说明所有由于迁移的线程都结束工作，直接返回
+        if ((sc - 2) != resizeStamp(n) &lt;&lt; RESIZE_STAMP_SHIFT)
+            return;
+        // finishing置为true
+        finishing = advance = true;
+        // i置为table.length，全部扫描一遍，确定所有桶都已经完成迁移
+        i = n; // recheck before commit
+    }
+}
+</code></pre>
+<h4 id="333-迁移数据">3.3.3 迁移数据</h4>
 <pre><code class="language-java">/**
  * Moves and/or copies the nodes in each bin to new table. See
  * above for explanation.
@@ -924,10 +1005,7 @@ private final void transfer(Node&lt;K,V&gt;[] tab, Node&lt;K,V&gt;[] nextTab) {
     <li><a href="#三扩容">三、扩容</a>
       <ul>
         <li><a href="#31-p-扩容">3.1 P 扩容</a></li>
-      </ul>
-    </li>
-    <li><a href="#32-c-扩容">3.2 C 扩容</a>
-      <ul>
+        <li><a href="#32-c-扩容">3.2 C 扩容</a></li>
         <li><a href="#33-transfer">3.3 transfer</a></li>
       </ul>
     </li>
