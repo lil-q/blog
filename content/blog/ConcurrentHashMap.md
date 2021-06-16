@@ -9,15 +9,15 @@ math: false
 toc: true
 ---
 
-*ConcurrentHashMap* 对读取提供了**完全**的并发支持，对写入提供了**高性能**的并发支持。在读取数据时，*ConcurrentHashMap* 无需上锁；而在写入数据时，也不用对整个 Map 上锁。
+*ConcurrentHashMap*（以下简称CHM） 对读取提供了**完全**的并发支持，对写入提供了**高性能**的并发支持。在读取数据时，*CHM* 无需上锁；而在写入数据时，也不用对整个 Map 上锁。
 
-由于读取数据不上锁，读取时可能与写入发生重叠，*ConcurrentHashMap* 只能反映最近完成的写入所产生的结果。与 volatile 类似，这也是符合 happens-before 原则的：如果通过 *ConcurrentHashMap* 读取到某次写入后的值，那么写入前的程序的执行一定先于读取后的程序。
+由于读取数据不上锁，读取时可能与写入发生重叠，*CHM* 只能反映最近完成的写入所产生的结果。与 volatile 类似，这也是符合 happens-before 原则的：如果通过 *CHM* 读取到某次写入后的值，那么写入前的程序的执行一定先于读取后的程序。
 
-与 *CopyOnWriteArrayList* 相同，*ConcurrentHashMap* 的迭代器在进行迭代时，不会因为写入或删除操作而报出 *ConcurrentModificationException*。但是，每次获得的迭代器只能被一个线程所使用，不应当传送给其他线程。一旦一个迭代器被创建，其状态就是确定的（一个快照），类似 `size()` \ `isEmpty()` \ `containsValue()` 等访问实时数据的函数就不能够用来控制程序了。
+与 *CopyOnWriteArrayList* 相同，*CHM* 的迭代器在进行迭代时，不会因为写入或删除操作而报出 *ConcurrentModificationException*。但是，每次获得的迭代器只能被一个线程所使用，不应当传送给其他线程。一旦一个迭代器被创建，其状态就是确定的（一个快照），类似 `size()` \ `isEmpty()` \ `containsValue()` 等访问实时数据的函数就不能够用来控制程序了。
 
 ## 一、初始化
 
-*ConcurrentHashMap* 中比较重要的成员变量如下： 
+*CHM* 中重要的成员变量如下： 
 
 ```java
 public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
@@ -128,7 +128,7 @@ static class Node<K,V> implements Map.Entry<K,V> {
 
 ## 二、写入
 
-为了尽可能减小锁的粒度，*ConcurrentHashMap* 中引入了 *Unsafe* 提供的硬件支持的原子操作：
+为了尽可能减小锁的粒度，*CHM* 中引入了 *Unsafe* 提供的硬件支持的原子操作：
 
 ```java
 static final <K,V> Node<K,V> tabAt(Node<K,V>[] tab, int i) {
@@ -348,7 +348,7 @@ private final void addCount(long x, int check) {
 
 ## 三、扩容
 
-*ConcurrentHashMap* 的扩容非常有趣，正如上文所说，当前线程如果发现自己要处理的桶正在迁移，并不会干等着，而是利用自己的计算资源帮助完成整个 table 的迁移。
+*CHM* 的扩容非常有趣，正如上文所说，当前线程如果发现自己要处理的桶正在迁移，并不会干等着，而是利用自己的计算资源帮助完成整个 table 的迁移。
 
 另一个有趣的点是，对于同样长度的 table，可能扩容出不同长度的新 table。来看下面一个例子：
 
@@ -592,7 +592,7 @@ private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
      * 当前桶已经迁移：跳过；
      * 其他：迁移桶内数据，包括链表和红黑树。
 
-首先，根据 CPU 的核心数来划分迁移的步长，步长就是每个线程需要处理的桶个数。如果是单核，由于没有并行能力，线程直接处理整个 table 即可；如果是多线程，通过 (n >>> 3) / NCPU 计算步长，但是必须要大于 MIN_TRANSFER_STRIDE，默认 16。
+首先，根据 CPU 的核心数来划分迁移的步长，步长就是每个线程需要处理的桶个数。如果是单核，由于没有并行能力，线程直接处理整个 table 即可；如果是多线程，通过 `(n >>> 3) / NCPU` 计算步长，但是必须要大于 MIN_TRANSFER_STRIDE，默认 16。
 
 接着，如果传入的 nextTab 为 null，就需要创建 nextTable 并赋值给全局变量。同时，将全局变量 transferIndex 设为 table.length，这个变量告诉所有线程迁移进行到了哪个分区。
 

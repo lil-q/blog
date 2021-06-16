@@ -112,11 +112,11 @@
           </header>
           <article class="post__content">
               
-<p><em>ConcurrentHashMap</em> 对读取提供了<strong>完全</strong>的并发支持，对写入提供了<strong>高性能</strong>的并发支持。在读取数据时，<em>ConcurrentHashMap</em> 无需上锁；而在写入数据时，也不用对整个 Map 上锁。</p>
-<p>由于读取数据不上锁，读取时可能与写入发生重叠，<em>ConcurrentHashMap</em> 只能反映最近完成的写入所产生的结果。与 volatile 类似，这也是符合 happens-before 原则的：如果通过 <em>ConcurrentHashMap</em> 读取到某次写入后的值，那么写入前的程序的执行一定先于读取后的程序。</p>
-<p>与 <em>CopyOnWriteArrayList</em> 相同，<em>ConcurrentHashMap</em> 的迭代器在进行迭代时，不会因为写入或删除操作而报出 <em>ConcurrentModificationException</em>。但是，每次获得的迭代器只能被一个线程所使用，不应当传送给其他线程。一旦一个迭代器被创建，其状态就是确定的（一个快照），类似 <code>size()</code> \ <code>isEmpty()</code> \ <code>containsValue()</code> 等访问实时数据的函数就不能够用来控制程序了。</p>
+<p><em>ConcurrentHashMap</em>（以下简称CHM） 对读取提供了<strong>完全</strong>的并发支持，对写入提供了<strong>高性能</strong>的并发支持。在读取数据时，<em>CHM</em> 无需上锁；而在写入数据时，也不用对整个 Map 上锁。</p>
+<p>由于读取数据不上锁，读取时可能与写入发生重叠，<em>CHM</em> 只能反映最近完成的写入所产生的结果。与 volatile 类似，这也是符合 happens-before 原则的：如果通过 <em>CHM</em> 读取到某次写入后的值，那么写入前的程序的执行一定先于读取后的程序。</p>
+<p>与 <em>CopyOnWriteArrayList</em> 相同，<em>CHM</em> 的迭代器在进行迭代时，不会因为写入或删除操作而报出 <em>ConcurrentModificationException</em>。但是，每次获得的迭代器只能被一个线程所使用，不应当传送给其他线程。一旦一个迭代器被创建，其状态就是确定的（一个快照），类似 <code>size()</code> \ <code>isEmpty()</code> \ <code>containsValue()</code> 等访问实时数据的函数就不能够用来控制程序了。</p>
 <h2 id="一初始化">一、初始化<a class="anchor" href="#一初始化">#</a></h2>
-<p><em>ConcurrentHashMap</em> 中比较重要的成员变量如下：</p>
+<p><em>CHM</em> 中重要的成员变量如下：</p>
 <pre><code class="language-java">public class ConcurrentHashMap&lt;K,V&gt; extends AbstractMap&lt;K,V&gt;
     implements ConcurrentMap&lt;K,V&gt;, Serializable {
 
@@ -217,7 +217,7 @@ private static final int tableSizeFor(int c) {
 }
 </code></pre>
 <h2 id="二写入">二、写入<a class="anchor" href="#二写入">#</a></h2>
-<p>为了尽可能减小锁的粒度，<em>ConcurrentHashMap</em> 中引入了 <em>Unsafe</em> 提供的硬件支持的原子操作：</p>
+<p>为了尽可能减小锁的粒度，<em>CHM</em> 中引入了 <em>Unsafe</em> 提供的硬件支持的原子操作：</p>
 <pre><code class="language-java">static final &lt;K,V&gt; Node&lt;K,V&gt; tabAt(Node&lt;K,V&gt;[] tab, int i) {
     return (Node&lt;K,V&gt;)U.getObjectVolatile(tab, ((long)i &lt;&lt; ASHIFT) + ABASE);
 }
@@ -422,7 +422,7 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
 }
 </code></pre>
 <h2 id="三扩容">三、扩容<a class="anchor" href="#三扩容">#</a></h2>
-<p><em>ConcurrentHashMap</em> 的扩容非常有趣，正如上文所说，当前线程如果发现自己要处理的桶正在迁移，并不会干等着，而是利用自己的计算资源帮助完成整个 table 的迁移。</p>
+<p><em>CHM</em> 的扩容非常有趣，正如上文所说，当前线程如果发现自己要处理的桶正在迁移，并不会干等着，而是利用自己的计算资源帮助完成整个 table 的迁移。</p>
 <p>另一个有趣的点是，对于同样长度的 table，可能扩容出不同长度的新 table。来看下面一个例子：</p>
 <pre><code class="language-java">// 测试例
 public class ConcurrentMapTest {
@@ -648,7 +648,7 @@ private final void tryPresize(int size) {
 </ul>
 </li>
 </ol>
-<p>首先，根据 CPU 的核心数来划分迁移的步长，步长就是每个线程需要处理的桶个数。如果是单核，由于没有并行能力，线程直接处理整个 table 即可；如果是多线程，通过 (n &raquo;&gt; 3) / NCPU 计算步长，但是必须要大于 MIN_TRANSFER_STRIDE，默认 16。</p>
+<p>首先，根据 CPU 的核心数来划分迁移的步长，步长就是每个线程需要处理的桶个数。如果是单核，由于没有并行能力，线程直接处理整个 table 即可；如果是多线程，通过 <code>(n &gt;&gt;&gt; 3) / NCPU</code> 计算步长，但是必须要大于 MIN_TRANSFER_STRIDE，默认 16。</p>
 <p>接着，如果传入的 nextTab 为 null，就需要创建 nextTable 并赋值给全局变量。同时，将全局变量 transferIndex 设为 table.length，这个变量告诉所有线程迁移进行到了哪个分区。</p>
 <p>最后开始一个循环，每次循环处理一个桶，先对区间进行控制，然后由四个分支处理。这四个分支中，当前桶为空和当前桶已迁移比较简单。</p>
 <p>当前桶为空的情况，会插入一个 <em>ForwardingNode</em> 类的 fwd，它的状态码为 MOVED。当其他线程进行对该桶 <code>putVal()</code> 时，会调用 <code>helpTransfer()</code> 帮助迁移；其他线程对该桶迁移时，则会直接跳过。最后把 advance 设置为插入 fwd 的原子操作的返回值，如果成功了下一个循环将迁移下一个桶或结束，如果失败了下一个循环还会继续处理当前桶。</p>
