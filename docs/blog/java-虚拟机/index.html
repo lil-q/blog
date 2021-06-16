@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-07-07 11:17:47 \u002b0000 UTC",
       "dateModified" : "2020-07-07 11:17:47 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E8%99%9A%E6%8B%9F%E6%9C%BA\/",
-      "wordCount" : "1105",
+      "wordCount" : "1107",
       "keywords" : ["jvm", "java", "GC", "Blog"]
     }
   
@@ -310,7 +311,11 @@
 <ul>
 <li><strong>private</strong>：不能被继承，只能通过这个类自身的对象来调用；</li>
 <li><strong>final</strong>：可以被继承，但不能被覆写，子类对象调用的是父类中所定义的final方法；</li>
-<li><strong>static</strong>：可以被子类继承，不能被子类重写（覆盖），但是可以被子类<a href="https://blog.csdn.net/zhangjk1993/article/details/24066085">隐藏</a>；</li>
+<li><strong>static</strong>：可以被子类继承，不能被子类重写（覆盖），但是可以被子类<a href="https://blog.csdn.net/zhangjk1993/article/details/24066085" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>隐藏</a>
+；</li>
 <li><strong>构造方法</strong>：不能被继承。</li>
 </ul>
 <p>对于<strong>成员变量</strong>（实例变量和类变量）也是采用静态绑定，但是这样会出现一个问题：子类的对象（由父类的引用 handle）调用到的是父类的成员变量。解决办法是将成员变量封装成方法 getter 形式。这不是多此一举，静态绑定可以在<strong>编译期</strong>就发现程序中的错误，而不是在<strong>运行期</strong>。这样就可以提高程序的运行效率！</p>
@@ -453,7 +458,11 @@ public static void main(String[] args) {
 <p>选择哪种分配方式由 Java 堆是否规整决定，而 Java 堆是否规整又由所采用的垃圾收集器是否带有<strong>空间压缩整理（Compact）的能力</strong>决定。因此，当使用 Serial、ParNew 等带压缩整理过程的收集器时，系统采用的分配算法是指针碰撞，既简单又高效；而当使用 CMS 这种基于清除 （Sweep）算法的收集器时，理论上就只能采用较为复杂的空闲列表来分配内存。</p>
 <h4 id="1-内存布局">1. 内存布局</h4>
 <p>在 HotSpot 虚拟机里，对象在堆内存中的存储布局可以划分为三个部分：<strong>对象头</strong>（Header）、<strong>实例数据</strong>（Instance Data）和<strong>对齐填充</strong>（Padding）。</p>
-<p>对象头里的信息是与对象自身定义的数据无关的额外存储成本，考虑到虚拟机的空间效率，Mark Word 被设计成一个有着动态定义的数据结构，以便在极小的空间内存储尽量多的数据，根据对象的状态复用自己的存储空间。例如在 32 位的 HotSpot 虚拟机中，如对象未被同步锁锁定的状态下，Mark Word 的 32 个比特存储空间中的 25 个比特用于存储对象哈希码，4 个比特用于存储对象分代年 龄，2 个比特用于存储锁标志位，1 个比特固定为 0，其他状态（轻量级锁定、重量级锁定、GC 标记、可偏向）见<a href="https://lil-q.github.io/blog/java-%E5%B9%B6%E5%8F%91/#64-%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81">并发</a>部分。</p>
+<p>对象头里的信息是与对象自身定义的数据无关的额外存储成本，考虑到虚拟机的空间效率，Mark Word 被设计成一个有着动态定义的数据结构，以便在极小的空间内存储尽量多的数据，根据对象的状态复用自己的存储空间。例如在 32 位的 HotSpot 虚拟机中，如对象未被同步锁锁定的状态下，Mark Word 的 32 个比特存储空间中的 25 个比特用于存储对象哈希码，4 个比特用于存储对象分代年 龄，2 个比特用于存储锁标志位，1 个比特固定为 0，其他状态（轻量级锁定、重量级锁定、GC 标记、可偏向）见<a href="https://lil-q.github.io/blog/java-%E5%B9%B6%E5%8F%91/#64-%E8%BD%BB%E9%87%8F%E7%BA%A7%E9%94%81" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>并发</a>
+部分。</p>
 <p>对象头的另外一部分是类型指针，即对象指向它的类型元数据的指针，Java 虚拟机通过这个指针来确定该对象是哪个类的实例。如果对象是一个 Java 数组，那在对象头中还必须有一块用于记录数组长度的数据，因为虚拟机可以通过普通 Java 对象的元数据信息确定 Java 对象的大小，但是如果数组的长度是不确定的，将无法通过元数据中的信息推断出数组的大小。</p>
 <h3 id="52-处理并发情况">5.2 处理并发情况<a class="anchor" href="#52-处理并发情况">#</a></h3>
 <p>对象创建在虚拟机中是非常频繁的行为，即使仅仅修改一个指针所指向的位置，在并发情况下也并不是线程安全的，可能出现正在给对象  A 分配内存，指针还没来得及修改，对象 B 又同时使用了原来的指针来分配内存的情况。解决这个问题有两种可选方案：</p>
@@ -473,12 +482,32 @@ public static void main(String[] args) {
 <p><strong>使用句柄会更加稳定</strong>，因为在对象被移动（垃圾收集时移动对象是非常普遍的行为）时只会改变句柄中的实例数据指针，而 reference 本身不需要被修改。<strong>直接指针会更快</strong>，因为少了一次指针定位的时间开销。</p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E8%99%9A%E6%8B%9F%E6%9C%BA?id=%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B">CyC CS-Notes</a></li>
-<li><a href="https://blog.csdn.net/zhangjk1993/article/details/24066085">Java静态绑定与动态绑定</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/24317613">Java动态绑定机制的内幕</a></li>
-<li><a href="https://www.bilibili.com/video/BV1st4y1Q7zP">JDBC SPI</a></li>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%e8%99%9a%e6%8b%9f%e6%9c%ba?id=%e7%b1%bb%e5%8a%a0%e8%bd%bd%e8%bf%87%e7%a8%8b" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>CyC CS-Notes</a>
+</li>
+<li><a href="https://blog.csdn.net/zhangjk1993/article/details/24066085" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Java静态绑定与动态绑定</a>
+</li>
+<li><a href="https://zhuanlan.zhihu.com/p/24317613" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Java动态绑定机制的内幕</a>
+</li>
+<li><a href="https://www.bilibili.com/video/BV1st4y1Q7zP" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>JDBC SPI</a>
+</li>
 <li>《深入理解java虚拟机》</li>
-<li><a href="https://www.bilibili.com/video/BV13J411g7A1?from=search&amp;seid=1766093195579412541">CMS &amp; G1 垃圾收集器</a></li>
+<li><a href="https://www.bilibili.com/video/BV13J411g7A1?from=search&amp;seid=1766093195579412541" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>CMS &amp; G1 垃圾收集器</a>
+</li>
 </ol>
 
 
@@ -506,7 +535,7 @@ public static void main(String[] args) {
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/%E6%95%B0%E6%8D%AE%E5%BA%93/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >数据库原理</a>
+      <span class="pagination__title" >数据库原理</span>
     </a>
   
 </div>
@@ -523,7 +552,7 @@ public static void main(String[] args) {
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -532,7 +561,7 @@ public static void main(String[] args) {
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -541,7 +570,7 @@ public static void main(String[] args) {
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-10-09 18:17:27 \u002b0800 CST",
       "dateModified" : "2020-10-09 18:17:27 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/redis\/",
-      "wordCount" : "641",
+      "wordCount" : "642",
       "keywords" : ["Redis", "字符串", "列表", "字典", "集合", "有序集合", "跳表", "Blog"]
     }
   
@@ -292,7 +293,11 @@
 <h2 id="五有序集合">五、有序集合<a class="anchor" href="#五有序集合">#</a></h2>
 <p>Redis 使用跳跃表作为有序集合键的底层实现之一，如果一个有序集合包含的元素数量比较多，又或者有序集合中元素的成员（member）是比较长的字符串时， Redis 就会使用跳跃表来作为有序集合键的底层实现。</p>
 <p>跳跃表（skiplist）是一种有序数据结构，它通过在每个节点中维持多个指向其他节点的指针，从而达到快速访问节点的目的。</p>
-<p>跳跃表支持平均 O(logM）、最坏 O(M) 复杂度的节点査找，原理可见 <a href="https://zhuanlan.zhihu.com/p/53975333">[2]</a>，还可以通过顺序性操作来批量处理节点。在大部分情况下，跳跃表的效率可以和平衡树相媲美，并且因为跳跃表的实现比平衡树要来得更为简单，所以有不少程序都使用跳跃表来代替平衡树。</p>
+<p>跳跃表支持平均 O(logM）、最坏 O(M) 复杂度的节点査找，原理可见 <a href="https://zhuanlan.zhihu.com/p/53975333" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[2]</a>
+，还可以通过顺序性操作来批量处理节点。在大部分情况下，跳跃表的效率可以和平衡树相媲美，并且因为跳跃表的实现比平衡树要来得更为简单，所以有不少程序都使用跳跃表来代替平衡树。</p>
 <p>当使用 REDIS_ENCODING_SKIPLIST 编码时， 有序集元素由 <em>redis.h/zset</em> 结构来保存：</p>
 <pre><code class="language-c">typedef struct zset {
 
@@ -309,7 +314,11 @@
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
 <li>黄健宏. Redis设计与实现[M]. 机械工业出版社, 2014.</li>
-<li><a href="https://zhuanlan.zhihu.com/p/53975333">图解跳表</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/53975333" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>图解跳表</a>
+</li>
 </ol>
 
 
@@ -320,7 +329,7 @@
 <ul class="tags__list">
     
     <li class="tag__item">
-        <a class="tag__link" href="https://lil-q.github.io/tags/redis/">redis</a>
+        <a class="tag__link" href="https://lil-q.github.io/tags/redis/">Redis</a>
     </li></ul>
 
  <div class="pagination">
@@ -334,7 +343,7 @@
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/redis2/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >Redis：过期键淘汰策略</a>
+      <span class="pagination__title" >Redis：过期键淘汰策略</span>
     </a>
   
 </div>
@@ -351,7 +360,7 @@
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -360,7 +369,7 @@
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -369,7 +378,7 @@
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

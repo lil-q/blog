@@ -6,7 +6,7 @@
     <description>Recent content in data_structure on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>{year} © lil-q</copyright>
+    <copyright>2019-{year} © lil-q</copyright>
     <lastBuildDate>Thu, 02 Jan 2020 12:54:02 +0000</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/tags/data_structure/index.xml" rel="self" type="application/rss+xml" />
@@ -68,7 +68,7 @@
       
       <guid>https://lil-q.github.io/blog/%E5%A0%86-heap/</guid>
       <description>经过努力，最值总会冒上来的！
-一、定义  通常情况下，使用列表储存堆，堆树是完全二叉树，而二项堆和斐波那契堆不属于二叉树； 堆树中某个节点的值总是不大于或不小于其孩子节点的值； 堆树中每个节点的子树都是堆树 。  当父节点的键值总是大于或等于任何一个子节点的键值时为最大堆。 当父节点的键值总是小于或等于任何一个子节点的键值时为最小堆。 本文以最大堆作为例子，最小堆类似。
+一、定义  通常情况下，使用列表储存堆，堆树是完全二叉树 ，而二项堆和斐波那契堆不属于二叉树； 堆树中某个节点的值总是不大于或不小于其孩子节点的值； 堆树中每个节点的子树都是堆树 。  当父节点的键值总是大于或等于任何一个子节点的键值时为最大堆。 当父节点的键值总是小于或等于任何一个子节点的键值时为最小堆。 本文以最大堆作为例子，最小堆类似。
 二、堆的建立 堆的建立并不建立一个新的树，而是对数组进行原地改动，第一个数（index=0）为完全二叉树的 level 0，即根，第二个数和第三个数为 level 1，以此类推。
 由于数组是升序数组，我们直接得到了最小堆。但是如果要进行升序排序，算法上需要建立最大堆。也就是说，当原数组是升序时，堆排序算法遇到了最坏情况。本文也以这种情况作为例子。
 nums=[1,2,3,4,5]  2.1 堆的维护 上图的根节点是 1，小于子节点，那么这显然违反了最大堆的性质，这时候需要让该元素在最大堆中逐级下降，维护最大堆的性质。处理一次维护的代码如下：

@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-02-22 17:51:07 \u002b0000 UTC",
       "dateModified" : "2020-02-22 17:51:07 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%94\/",
-      "wordCount" : "424",
+      "wordCount" : "425",
       "keywords" : ["OpenCV", "python", "soble", "canny", "scharr", "lapiacian", "Blog"]
     }
   
@@ -168,7 +169,11 @@ cv2.waitKey(0)
 <li>像素值介于两者之间，如果与高于最高阈值的点连接，也算边缘，所以上图中C算，B不算</li>
 </ul>
 <p>Canny推荐的高低阈值比在2:1到3:1之间。</p>
-<p>具体原理请<a href="http://codec.wang/opencv-python-edge-detection/">参考</a>。</p>
+<p>具体原理请<a href="http://codec.wang/opencv-python-edge-detection/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>参考</a>
+。</p>
 <h3 id="阈值分割">阈值分割<a class="anchor" href="#阈值分割">#</a></h3>
 <p>其实很多情况下，阈值分割后再检测边缘，效果会更好：</p>
 <pre><code class="language-python">_, thresh = cv2.threshold(img, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
@@ -179,12 +184,36 @@ cv2.waitKey(0)
 </code></pre>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%B7%AE%E5%88%86">wiki 差分</a></li>
-<li><a href="https://www.jianshu.com/p/2334bee37de5">数字图像 - 边缘检测原理 - Sobel, Laplace, Canny算子</a></li>
-<li><a href="https://blog.csdn.net/zhougynui/article/details/78837198">图像分割之（五）边缘检测Laplace详解</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E7%B4%A2%E8%B2%9D%E7%88%BE%E7%AE%97%E5%AD%90">wiki soble</a></li>
-<li><a href="http://codec.wang/opencv-python-edge-detection/">codec.wang</a></li>
-<li><a href="https://docs.opencv.org/master/d4/d86/group__imgproc__filter.html#gaa13106761eedf14798f37aa2d60404c9">OpenCV</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%e5%b7%ae%e5%88%86" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>wiki 差分</a>
+</li>
+<li><a href="https://www.jianshu.com/p/2334bee37de5" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>数字图像 - 边缘检测原理 - Sobel, Laplace, Canny算子</a>
+</li>
+<li><a href="https://blog.csdn.net/zhougynui/article/details/78837198" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>图像分割之（五）边缘检测Laplace详解</a>
+</li>
+<li><a href="https://zh.wikipedia.org/wiki/%e7%b4%a2%e8%b2%9d%e7%88%be%e7%ae%97%e5%ad%90" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>wiki soble</a>
+</li>
+<li><a href="http://codec.wang/opencv-python-edge-detection/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>codec.wang</a>
+</li>
+<li><a href="https://docs.opencv.org/master/d4/d86/group__imgproc__filter.html#gaa13106761eedf14798f37aa2d60404c9" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>OpenCV</a>
+</li>
 </ol>
 
 
@@ -207,7 +236,7 @@ cv2.waitKey(0)
 <ul class="tags__list">
     
     <li class="tag__item">
-        <a class="tag__link" href="https://lil-q.github.io/tags/opencv/">opencv</a>
+        <a class="tag__link" href="https://lil-q.github.io/tags/opencv/">OpenCV</a>
     </li></ul>
 
  <div class="pagination">
@@ -221,7 +250,7 @@ cv2.waitKey(0)
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >回溯算法</a>
+      <span class="pagination__title" >回溯算法</span>
     </a>
   
 </div>
@@ -238,7 +267,7 @@ cv2.waitKey(0)
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -247,7 +276,7 @@ cv2.waitKey(0)
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -256,7 +285,7 @@ cv2.waitKey(0)
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

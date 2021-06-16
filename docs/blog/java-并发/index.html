@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-04-28 19:37:01 \u002b0000 UTC",
       "dateModified" : "2020-04-28 19:37:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java-%E5%B9%B6%E5%8F%91\/",
-      "wordCount" : "1841",
+      "wordCount" : "1843",
       "keywords" : ["jmm", "java", "concurrency", "Blog"]
     }
   
@@ -549,7 +550,11 @@ public void add() {
 }
 </code></pre>
 <h4 id="3-aba问题">3. ABA问题</h4>
-<p><a href="https://www.zhihu.com/question/23281499">ABA 问题</a>就是如果一个变量初次读取的时候是 A 值，它的值被改成了 B，后来又被改回为 A，那 CAS 操作就会误认为它从来没有被改变过。</p>
+<p><a href="https://www.zhihu.com/question/23281499" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>ABA 问题</a>
+就是如果一个变量初次读取的时候是 A 值，它的值被改成了 B，后来又被改回为 A，那 CAS 操作就会误认为它从来没有被改变过。</p>
 <p>J.U.C 包提供了一个带有标记的原子引用类 <em>AtomicStampedReference</em> 来解决这个问题，它可以通过控制变量值的版本来保证 CAS 的正确性。大部分情况下 ABA 问题不会影响程序并发的正确性，如果需要解决 ABA 问题，<strong>改用传统的互斥同步可能会比原子类更高效</strong>。</p>
 <h3 id="54-无同步方案">5.4 无同步方案<a class="anchor" href="#54-无同步方案">#</a></h3>
 <p>要保证线程安全，并不是一定就要进行同步。如果一个方法本来就不涉及共享数据，那它自然就无须任何同步措施去保证正确性。</p>
@@ -592,7 +597,11 @@ ThreadLocal.ThreadLocalMap threadLocals = null;
 <p>互斥同步对性能最大的影响是<strong>阻塞的实现</strong>，挂起线程和恢复线程的操作都需要转入<strong>内核态</strong>中完成，这些操作给 Java 虚拟机的并发性能带来了很大的压力。在许多应用中，共享数据的锁定状态只会持续很短的一段时间。自旋锁的思想是让一个线程在请求一个共享数据的锁时执行<strong>忙循环</strong>（自旋）一段时间，如果在这段时间内能获得锁，就可以避免进入阻塞状态。</p>
 <p>自旋锁虽然能避免进入阻塞状态从而减少开销，但是它需要进行忙循环操作占用 CPU 时间，它只适用于共享数据的锁定状态很短的场景。因此自旋等待的时间必须有一定的限度，如果自旋超过了限定的次数仍然没有成功获得锁，就应当使用传统的方式去挂起线程，自旋次数的默认值是 10 次。</p>
 <p>在 JDK 1.6 中引入了自适应的自旋锁。自适应意味着自旋的次数不再固定了，而是由前一次在同一个锁上的自旋次数及锁的拥有者的状态来决定。如果在同一个锁对象上，自旋等待刚刚成功获得过锁，并且持有锁的线程正在运行中，那么虚拟机就会认为这次自旋也很有可能再次成功，进而允许自旋等待持续相对更长的时间，比如持续 100 次忙循环。另一方面，如果对于某个锁，自旋很少成功获得过锁，那在以后要获取这个锁时将有可能直接省略掉自旋过程，以避免浪费处理器资源。</p>
-<p>java 中有以下几种实现 <a href="https://zhuanlan.zhihu.com/p/40729293">[11]</a>：</p>
+<p>java 中有以下几种实现 <a href="https://zhuanlan.zhihu.com/p/40729293" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[11]</a>
+：</p>
 <ul>
 <li>
 <p><strong>TicketLock</strong>：主要解决的是公平性的问题。</p>
@@ -703,7 +712,11 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 <li><em>CyclicBarrier</em> 用于一组线程互相等待至某个状态，然后再同时执行，可以重用；</li>
 <li><em>Semaphore</em> 其实和锁有点类似，一般用于控制对某组资源的访问权限。</li>
 </ul>
-<p><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E5%B9%B6%E5%8F%91?id=%E5%85%AB%E3%80%81juc-%E5%85%B6%E5%AE%83%E7%BB%84%E4%BB%B6">其他一些组件</a></p>
+<p><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%e5%b9%b6%e5%8f%91?id=%e5%85%ab%e3%80%81juc-%e5%85%b6%e5%ae%83%e7%bb%84%e4%bb%b6" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>其他一些组件</a>
+</p>
 <h2 id="八多线程开发良好的实践">八、多线程开发良好的实践<a class="anchor" href="#八多线程开发良好的实践">#</a></h2>
 <ul>
 <li>给线程起个有意义的名字，这样可以方便找 Bug。</li>
@@ -717,17 +730,57 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
 <li>《深入理解 Java 虚拟机》</li>
-<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E5%B9%B6%E5%8F%91?id=%E4%B8%80%E3%80%81%E4%BD%BF%E7%94%A8%E7%BA%BF%E7%A8%8B">CyC CS-Notes</a></li>
-<li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1255943750561472">廖雪峰java教程</a></li>
-<li><a href="https://www.cnblogs.com/dolphin0520/p/3920397.html">CountDownLatch、CyclicBarrier 和 Semaphore</a></li>
-<li><a href="https://blog.csdn.net/fuyuwei2015/article/details/72758179">Java线程池(ThreadPoolExecutor)</a></li>
-<li><a href="https://juejin.im/post/6844903634975768590#heading-33">Java面试经典题：线程池专题</a></li>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%e5%b9%b6%e5%8f%91?id=%e4%b8%80%e3%80%81%e4%bd%bf%e7%94%a8%e7%ba%bf%e7%a8%8b" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>CyC CS-Notes</a>
+</li>
+<li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1255943750561472" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>廖雪峰java教程</a>
+</li>
+<li><a href="https://www.cnblogs.com/dolphin0520/p/3920397.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>CountDownLatch、CyclicBarrier 和 Semaphore</a>
+</li>
+<li><a href="https://blog.csdn.net/fuyuwei2015/article/details/72758179" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Java线程池(ThreadPoolExecutor)</a>
+</li>
+<li><a href="https://juejin.im/post/6844903634975768590#heading-33" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Java面试经典题：线程池专题</a>
+</li>
 <li>《Java并发编程实战（Java Concurrency In Practice）》</li>
-<li><a href="http://mageek.cn/archives/99/">为什么要指令重排</a></li>
-<li><a href="http://www.wowotech.net/kernel_synchronization/Why-Memory-Barriers.html">Why Memory Barriers？中文翻译（上）</a></li>
-<li><a href="http://www.wowotech.net/kernel_synchronization/why-memory-barrier-2.html">Why Memory Barriers？中文翻译（下）</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/40729293">自旋锁的几种形式</a></li>
-<li><a href="https://www.uml-diagrams.org/java-thread-uml-state-machine-diagram-example.html">线程状态的转换</a></li>
+<li><a href="http://mageek.cn/archives/99/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>为什么要指令重排</a>
+</li>
+<li><a href="http://www.wowotech.net/kernel_synchronization/Why-Memory-Barriers.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Why Memory Barriers？中文翻译（上）</a>
+</li>
+<li><a href="http://www.wowotech.net/kernel_synchronization/why-memory-barrier-2.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Why Memory Barriers？中文翻译（下）</a>
+</li>
+<li><a href="https://zhuanlan.zhihu.com/p/40729293" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>自旋锁的几种形式</a>
+</li>
+<li><a href="https://www.uml-diagrams.org/java-thread-uml-state-machine-diagram-example.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>线程状态的转换</a>
+</li>
 </ol>
 
 
@@ -755,7 +808,7 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/morris%E7%AE%97%E6%B3%95/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >Morris 算法</a>
+      <span class="pagination__title" >Morris 算法</span>
     </a>
   
 </div>
@@ -772,7 +825,7 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -781,7 +834,7 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -790,7 +843,7 @@ public boolean tryAcquire(int permits, long timeout, TimeUnit unit) throws Inter
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

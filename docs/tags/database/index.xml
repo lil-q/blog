@@ -6,7 +6,7 @@
     <description>Recent content in database on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>{year} © lil-q</copyright>
+    <copyright>2019-{year} © lil-q</copyright>
     <lastBuildDate>Fri, 17 Jul 2020 16:16:51 +0000</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/tags/database/index.xml" rel="self" type="application/rss+xml" />
@@ -28,7 +28,7 @@ ALTER TABLE &#39;table_name&#39; ADD UNIQUE index_name(&#39;col&#39;)；  （3�
 ALTER TABLE &#39;table_name&#39; ADD INDEX index_name(&#39;col&#39;)；  （4）全文索引：用大文本对象的列构建的索引
 ALTER TABLE &#39;table_name&#39; ADD FULLTEXT INDEX ft_index(&#39;col&#39;)；  （5）组合索引：用多个列组合构建的索引，这多个列中的值不允许有空值
 ALTER TABLE &#39;table_name&#39; ADD INDEX index_name(&#39;col1&#39;,&#39;col2&#39;,&#39;col3&#39;)；  1.1 实现原理 1. B+ 数 B 树是一种自平衡的树，能够保持数据有序。当描述一颗 B 树时需要指定它的阶数，阶数表示了一个结点最多有多少个孩子结点，一般用字母 m 表示阶数。当 m 取 2 时，就是我们常见的二叉搜索树。
-B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反，具体请参考 [2]。</description>
+B+ 树与 B 树通常用于数据库和操作系统的文件系统中。特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反，具体请参考 [2] 。</description>
     </item>
     
     <item>

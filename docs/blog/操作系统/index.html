@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-05-10 00:08:33 \u002b0000 UTC",
       "dateModified" : "2020-05-10 00:08:33 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F\/",
-      "wordCount" : "570",
+      "wordCount" : "573",
       "keywords" : ["operating system", "Blog"]
     }
   
@@ -258,7 +259,15 @@ exit section
 <p><strong>（1）关中断</strong></p>
 <p>禁用中断之后，进程（线程）就不会被切换出去，从而保证代码段能执行结束。但坏处也很明显，由于中断被禁用，如果临界区代码一直执行，其他进程就没机会执行。</p>
 <p><strong>（2）原子操作指令</strong></p>
-<p>比较常见的原子操作指令包括 <a href="https://en.wikipedia.org/wiki/Test-and-set">test and set</a>、<a href="https://en.wikipedia.org/wiki/Compare-and-swap">compare and swap</a>。</p>
+<p>比较常见的原子操作指令包括 <a href="https://en.wikipedia.org/wiki/Test-and-set" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>test and set</a>
+、<a href="https://en.wikipedia.org/wiki/Compare-and-swap" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>compare and swap</a>
+。</p>
 <h4 id="2-信号量机制">2. 信号量机制</h4>
 <p>semaphore 由一个<strong>整型变量</strong>（S）和两个<strong>原子操作</strong>组成。S 表示资源的数量，而两个原子操作一般被成为 <em>P</em> 操作和 <em>V</em> 操作（有时也被成为wait、signal）。</p>
 <p><em>P</em> 操作表示申请一个资源，<em>P</em> 操作的定义：S = S - 1，若 S &gt;= 0，则执行 <em>P</em> 操作的线程继续执行；若 S &lt; 0，则置该线程为阻塞状态，并将其插入阻塞队列。伪码如下：</p>
@@ -354,7 +363,11 @@ exit section
 <p><strong>（3）破坏环路等待</strong></p>
 <p>给资源统一编号，进程只能按编号顺序来请求资源。</p>
 <h4 id="2-死锁避免">2. 死锁避免</h4>
-<p>艾兹格·迪杰斯特拉在 1965 年设计的<a href="%5Bhttps://zh.wikipedia.org/wiki/%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95%5D(https://zh.wikipedia.org/wiki/%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95)">银行家算法</a>，通过记录系统中的资源向量、最大需求矩阵、分配矩阵、需求矩阵，以保证系统只在安全状态下进行资源分配，由此来避免死锁。</p>
+<p>艾兹格·迪杰斯特拉在 1965 年设计的<a href="[https://zh.wikipedia.org/wiki/%E9%93%B6%E8%A1%8C%E5%AE%B6%E7%AE%97%E6%B3%95]%28https://zh.wikipedia.org/wiki/%e9%93%b6%e8%a1%8c%e5%ae%b6%e7%ae%97%e6%b3%95%29" 
+  
+  
+>银行家算法</a>
+，通过记录系统中的资源向量、最大需求矩阵、分配矩阵、需求矩阵，以保证系统只在安全状态下进行资源分配，由此来避免死锁。</p>
 <h4 id="3-死锁检测">3. 死锁检测</h4>
 <p>每种类型一个资源的死锁检测算法是通过检测有向图是否存在环来实现，从一个节点出发进行深度优先搜索，对访问过的节点进行标记，如果访问了已经标记的节点，就表示有向图存在环，也就是检测到死锁的发生。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/e1eda3d5-5ec8-4708-8e25-1a04c5e11f48.png" alt=""></p>
@@ -429,12 +442,36 @@ exit section
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/os3.png" style="zoom:150%;" /></p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E8%AE%A1%E7%AE%97%E6%9C%BA%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%20-%20%E6%A6%82%E8%BF%B0">CYC cs-notes</a></li>
-<li><a href="https://www.bilibili.com/video/BV1YE411D7nH?p=4">video</a></li>
-<li><a href="https://blog.csdn.net/justloveyou_/article/details/78304294">操作系统问题集锦</a></li>
-<li><a href="https://www.cnblogs.com/xybaby/p/6516387.html">并发与同步、信号量与管程、生产者消费者问题</a></li>
-<li><a href="https://blog.csdn.net/jankin6/article/details/78179320">操作系统页面置换算法(opt,lru,fifo,clock)实现</a></li>
-<li><a href="https://www.youtube.com/watch?v=IHMrfJVaDzE">上下文切换</a></li>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%e8%ae%a1%e7%ae%97%e6%9c%ba%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%20-%20%e6%a6%82%e8%bf%b0" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>CYC cs-notes</a>
+</li>
+<li><a href="https://www.bilibili.com/video/BV1YE411D7nH?p=4" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>video</a>
+</li>
+<li><a href="https://blog.csdn.net/justloveyou_/article/details/78304294" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>操作系统问题集锦</a>
+</li>
+<li><a href="https://www.cnblogs.com/xybaby/p/6516387.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>并发与同步、信号量与管程、生产者消费者问题</a>
+</li>
+<li><a href="https://blog.csdn.net/jankin6/article/details/78179320" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>操作系统页面置换算法(opt,lru,fifo,clock)实现</a>
+</li>
+<li><a href="https://www.youtube.com/watch?v=IHMrfJVaDzE" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>上下文切换</a>
+</li>
 </ol>
 
 
@@ -459,7 +496,7 @@ exit section
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%88%9B%E5%BB%BA%E5%9E%8B/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >设计模式：创建型</a>
+      <span class="pagination__title" >设计模式：创建型</span>
     </a>
   
 </div>
@@ -476,7 +513,7 @@ exit section
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -485,7 +522,7 @@ exit section
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -494,7 +531,7 @@ exit section
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

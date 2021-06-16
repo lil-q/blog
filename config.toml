@@ -1,13 +1,13 @@
 publishDir = "docs"
 
 # DO NOT REMOVE THIS
-theme = "hugo-theme-codex" 
+theme = "codex" 
 
 # Override these settings with your own
 title = "Homeward"
 languageCode = "en-us"
 baseURL = "https://lil-q.github.io/"
-copyright = "{year} © lil-q"
+copyright = "2019-{year} © lil-q"
 
 # Add your Disqus shortname here.
 # disqusShortname = ""

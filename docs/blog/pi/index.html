@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2021-04-23 16:17:53 \u002b0800 CST",
       "dateModified" : "2021-04-23 16:17:53 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/pi\/",
-      "wordCount" : "1096",
+      "wordCount" : "1103",
       "keywords" : ["Pi", "java", "Blog"]
     }
   
@@ -112,12 +113,24 @@
           </header>
           <article class="post__content">
               
-<p>每年的 3 月 14 日是 Pi Day<a href="https://www.piday.org/">[1]</a>，由 π 的常用近似值 3.14 得来，活动当天，数学家们会一边吃 pie 一边讨论有关 π 的问题。</p>
+<p>每年的 3 月 14 日是 Pi Day<a href="https://www.piday.org/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[1]</a>
+，由 π 的常用近似值 3.14 得来，活动当天，数学家们会一边吃 pie 一边讨论有关 π 的问题。</p>
 <h2 id="一割圆术">一、割圆术<a class="anchor" href="#一割圆术">#</a></h2>
-<p>早在公元前三世纪，古希腊数学家阿基米德分别计算了单位圆的外切正 6 边形和内切正 6 边形的周长，以此来确定 π 的上界和下界。对于其中 $\sqrt{3}$ 的处理，阿基米德采用了如下不等式，却未加解释<a href="https://math.ntnu.edu.tw/~horng/letter/vol4no2f.htm">[2]</a>。</p>
+<p>早在公元前三世纪，古希腊数学家阿基米德分别计算了单位圆的外切正 6 边形和内切正 6 边形的周长，以此来确定 π 的上界和下界。对于其中 $\sqrt{3}$ 的处理，阿基米德采用了如下不等式，却未加解释<a href="https://math.ntnu.edu.tw/~horng/letter/vol4no2f.htm" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[2]</a>
+。</p>
 <p>$$\frac{265}{153}&lt;\sqrt{3}&lt;\frac{1351}{780}$$</p>
 <p>通过这个不等式，避免了开根号的问题。为缩小 π 的范围，阿基米德不断倍增正多边形的边数，当逐步迭代至正 96 边形时，得到 π 介于 $\frac{223}{71} $ 和 $\frac{22}{7} $ 之间。</p>
-<p>同时期，秦始皇统一中国，制定了度量衡标准。又过了五个世纪，魏晋时期的数学家刘徽首创割圆术，为计算圆周率建立了严密的理论和完善的算法。与阿基米德不同，刘徽只考虑圆的内切正多边形，并从面积的角度确定 π 上界<a href="https://zh.wikipedia.org/wiki/%E5%89%B2%E5%9C%86%E6%9C%AF_(%E5%88%98%E5%BE%BD)#%E5%9C%86%E5%91%A8%E7%8E%87%E6%8D%B7%E6%B3%95">[3]</a>。当时采用筹算进行开平方，过程非常繁难，刘徽发明了一种快速算法，该算法对多边形的面积差做了等比近似，从而避免了最后四次最为复杂的开方。当计算至正 3072 边形时可得，π 近似于 3.1416。</p>
+<p>同时期，秦始皇统一中国，制定了度量衡标准。又过了五个世纪，魏晋时期的数学家刘徽首创割圆术，为计算圆周率建立了严密的理论和完善的算法。与阿基米德不同，刘徽只考虑圆的内切正多边形，并从面积的角度确定 π 上界<a href="https://zh.wikipedia.org/wiki/%E5%89%B2%E5%9C%86%E6%9C%AF_%28%E5%88%98%E5%BE%BD%29#%E5%9C%86%E5%91%A8%E7%8E%87%E6%8D%B7%E6%B3%95" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[3]</a>
+。当时采用筹算进行开平方，过程非常繁难，刘徽发明了一种快速算法，该算法对多边形的面积差做了等比近似，从而避免了最后四次最为复杂的开方。当计算至正 3072 边形时可得，π 近似于 3.1416。</p>
 <p>五世纪，祖冲之在刘徽割圆术的基础上，计算得到 π 介于 3.1415926 和 3.1415927 之间。在之后的八百年里，这个结果在世界范围内都是最准确的。此外，祖冲之还通过调日法得出 π 的约率 $\frac{22}{7} $ 和密率 $\frac{355}{113} $，后者在五位数表示的分数中是最接近 π 的。</p>
 <p>在 1630 年，奥地利天文学家克里斯托夫·格林伯格用 $10^{40}$ 边形将 π 计算到第 38 位小数，至今这仍是利用多边形算法可以达到的最准确的结果。</p>
 <h3 id="11-割圆术的计算机实现">1.1 割圆术的计算机实现<a class="anchor" href="#11-割圆术的计算机实现">#</a></h3>
@@ -151,23 +164,43 @@ pi = 3.1415926450 —— 正 24576 边形
 <p>当割圆术难以取得进展时，与 π 相关的无穷级数被发现了。用无穷级数计算 π 有一个很明显的好处，不用再频繁开根号了。以下列举了一些可用于计算 π 无穷级数，他们的迭代速度也不尽相同。</p>
 <ol>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Leibniz_formula_for_pi">A Leibniz formula:</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Leibniz_formula_for_pi" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>A Leibniz formula:</a>
+</p>
 <p>$$\pi \simeq 4\sum_{n=0}^{N} \cfrac {(-1)^n}{2n+1}.$$</p>
 </li>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Bailey%E2%80%93Borwein%E2%80%93Plouffe_formula">Bailey-Borwein-Plouffe series:</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Bailey%e2%80%93Borwein%e2%80%93Plouffe_formula" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Bailey-Borwein-Plouffe series:</a>
+</p>
 <p>$$\pi \simeq \sum_{n = 1}^{N} \left( \frac{1}{16^{n}} \left( \frac{4}{8n+1} - \frac{2}{8n+4} - \frac{1}{8n+5} - \frac{1}{8n+6} \right) \right).$$</p>
 </li>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Approximations_of_%CF%80#Efficient_methods">Ramanujan&rsquo;s formula:</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Approximations_of_%cf%80#Efficient_methods" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Ramanujan&rsquo;s formula:</a>
+</p>
 <p>$$\frac{1}{\pi} \simeq \frac{2\sqrt{2}}{9801} \sum_{n=0}^N \frac{(4n)!(1103+26390n)}{(n!)^4 396^{4n}}.$$</p>
 </li>
 <li>
-<p><a href="https://en.wikipedia.org/wiki/Chudnovsky_algorithm">Chudnovsky brothers&rsquo; formula:</a></p>
+<p><a href="https://en.wikipedia.org/wiki/Chudnovsky_algorithm" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Chudnovsky brothers&rsquo; formula:</a>
+</p>
 <p>$$\frac{1}{\pi} \simeq 12 \sum_{n=0}^N \frac {(-1)^{n}(6n)!(545140134n+13591409)}{(3n)!(n!)^{3}640320^{{3n+3/2}}}.$$</p>
 </li>
 </ol>
-<p>目前，Chudnovsky brothers&rsquo; formula 仍然是迭代最快（相对时间来说）的算法。截至 2020 年，计算机使用该算法将 π 计算到了小数点后 $5\times 10^{13}$ 位<a href="https://www.wikiwand.com/en/Approximations_of_%CF%80#/overview">[4]</a>。</p>
+<p>目前，Chudnovsky brothers&rsquo; formula 仍然是迭代最快（相对时间来说）的算法。截至 2020 年，计算机使用该算法将 π 计算到了小数点后 $5\times 10^{13}$ 位<a href="https://www.wikiwand.com/en/Approximations_of_%CF%80#/overview" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[4]</a>
+。</p>
 <blockquote>
 <p>实际上，Chudnovsky brothers&rsquo; formula 是楚德诺夫斯基兄弟对 Ramanujan&rsquo;s formula 的改进，而 Ramanujan&rsquo;s formula 是由印度天才数学家拉马努金凭借 “敏锐的洞察力” 提出，直到 1987 年才被 Borwein 兄弟证明。</p>
 </blockquote>
@@ -176,9 +209,17 @@ pi = 3.1415926450 —— 正 24576 边形
 <p>数学总是这样，现象如此诡谲，原理却总是质朴。当我们暂时还找不到 π 的原理时，只好继续研究其现象了。</p>
 <h2 id="三在-π-中找到你的生日">三、在 π 中找到你的生日<a class="anchor" href="#三在-π-中找到你的生日">#</a></h2>
 <p>1879 年的 Pi day，爱因斯坦出生了，是否能在 π 的小数部分找到他的生日呢？</p>
-<p>如果将生日按年月日排列组成 8 位数字，如 18790314，然后在 π 中寻找，能找到的概率大概是 0.99995，这是在 π 中各数字完全随机出现的前提下得到的<a href="https://www.angio.net/pi/whynotpi.html">[5]</a>。推广后得到在 n 位精度的 π 中找到 d 位数字的概率：</p>
+<p>如果将生日按年月日排列组成 8 位数字，如 18790314，然后在 π 中寻找，能找到的概率大概是 0.99995，这是在 π 中各数字完全随机出现的前提下得到的<a href="https://www.angio.net/pi/whynotpi.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[5]</a>
+。推广后得到在 n 位精度的 π 中找到 d 位数字的概率：</p>
 <p>$$P  =  1- \left ( 1-0.1^{d}  \right )^{n}  $$</p>
-<p>从 <a href="https://stuff.mit.edu/afs/sipb/contrib/pi/">MIT</a> 可以下载精确到小数点后十亿位的 π，这是一个九百多兆的 pi-billion.txt 文件，里面记录了 “3.” 以及后面的十亿个数字。为了后续计算的方便，这里删去 “3.” 只留下 π 的小数部分。Java 中，<em>String</em> 类用一个字符数组 value 保存数据，所以字符串的最大长度受 value.length 限制。实际测试中，这个值比 Integer.MAX_VALUE 略小一些，十亿这个量级正好小于 Integer.MAX_VALUE。</p>
+<p>从 <a href="https://stuff.mit.edu/afs/sipb/contrib/pi/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>MIT</a>
+ 可以下载精确到小数点后十亿位的 π，这是一个九百多兆的 pi-billion.txt 文件，里面记录了 “3.” 以及后面的十亿个数字。为了后续计算的方便，这里删去 “3.” 只留下 π 的小数部分。Java 中，<em>String</em> 类用一个字符数组 value 保存数据，所以字符串的最大长度受 value.length 限制。实际测试中，这个值比 Integer.MAX_VALUE 略小一些，十亿这个量级正好小于 Integer.MAX_VALUE。</p>
 <p>用朴素的匹配方法可以实现 $O(nm)$ 的复杂度：</p>
 <pre><code class="language-java">static String PI = ... // 省略了 io 读取 PI 的过程，这是一个全局变量，后面还会用到
     
@@ -194,7 +235,11 @@ public static int findBirthday(String str) {
 </code></pre>
 <pre><code class="language-txt">18830020
 </code></pre>
-<p>最后，匹配用时 34ms，在 π 小数点后的第 18830020 位找到了爱因斯坦的生日 18790314。在 <a href="https://www.angio.net/pi/piquery.html">Pi-Search</a> 上可以验证这个答案，或者查找自己的生日。此外，Pi-Search 还提出了一些优化。</p>
+<p>最后，匹配用时 34ms，在 π 小数点后的第 18830020 位找到了爱因斯坦的生日 18790314。在 <a href="https://www.angio.net/pi/piquery.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Pi-Search</a>
+ 上可以验证这个答案，或者查找自己的生日。此外，Pi-Search 还提出了一些优化。</p>
 <h3 id="31-数据压缩">3.1 数据压缩<a class="anchor" href="#31-数据压缩">#</a></h3>
 <p>回头再看那个九百多兆的 pi-billion.txt 文件，它的具体大小是 976563KB，是否还能压缩呢？通过记事本打开这个文件，可以看到编码格式是 UTF-8，也就是说每一个字符（即 π 中的数字）都需要一个字节（8 bit）来记录。 976563KB 就是十亿个字节除以 1024 得到的。</p>
 <p>对于一个数字来说，用一个字节来存放其实浪费了空间，因为 4bit 就足够表示 0~9 这十个数字了。也就是说，一个字节可以存放两个数字——高四位和低四位分别存放一个数字。</p>
@@ -288,7 +333,15 @@ private static boolean match(byte[] pi, byte[] birthday, int i) {
 </code></pre>
 <p>通过对 π 随机位上的测试，优化后的算法大概能提升 10% 左右的性能，并不是很理想。Pi-Searcher 还提到，他们针对现代 CPU 的流水线作业方式对算法进行了改进。比如，连续对四个数进行比较，而不是等待前一个比较出结果后才比较下一个。目前我还无法确定 Java 程序是否会自动优化这些步骤。</p>
 <h3 id="33-降低算法复杂度">3.3 降低算法复杂度<a class="anchor" href="#33-降低算法复杂度">#</a></h3>
-<p>虽然以上改进提升了一些速度，但是匹配模式始终是最朴素的——对 π 上的每一位进行匹配，每次匹配从左到右核对字符串。字符串匹配是一个很常见的问题，目前已经有了很多改进算法，比如 <a href="https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore_string_search_algorithm">Boyer-Moore</a> or <a href="https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm">Knuth-Morris-Pratt</a>，后者就是 KMP 算法。</p>
+<p>虽然以上改进提升了一些速度，但是匹配模式始终是最朴素的——对 π 上的每一位进行匹配，每次匹配从左到右核对字符串。字符串匹配是一个很常见的问题，目前已经有了很多改进算法，比如 <a href="https://en.wikipedia.org/wiki/Boyer%e2%80%93Moore_string_search_algorithm" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Boyer-Moore</a>
+ or <a href="https://en.wikipedia.org/wiki/Knuth%e2%80%93Morris%e2%80%93Pratt_algorithm" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Knuth-Morris-Pratt</a>
+，后者就是 KMP 算法。</p>
 <p>KMP 算法首先要对匹配串进行预处理，找到每个位置上与自己的最长公共前缀。在匹配时，借助公共前缀可以省略一些重复的匹配（比较）。</p>
 <pre><code class="language-java">public static int kmpSearch(String str) {
     // 预处理
@@ -322,19 +375,47 @@ private static int[] kmp(String str) {
 }
 </code></pre>
 <p>测试发现，KMP 算法比基于字符串的朴素算法还要慢 20%。其实这个结果也不意外，这类算法本质上是通过字符串上的一些规律来减少比较次数，而 π 本身没什么规律，算法本身的复杂度反而使其更慢了。</p>
-<p>但是，如果把线性复杂度直接降到对数级，那结果就完全不一样了！这部分内容 Pi-Search 已经完成，借助<a href="https://en.wikipedia.org/wiki/Suffix_array">后缀数组</a>和二分法能把复杂度降低到 $O(log_2n)$，当然也需要付出一些空间代价（保存后缀数组）。具体的做法如下：</p>
+<p>但是，如果把线性复杂度直接降到对数级，那结果就完全不一样了！这部分内容 Pi-Search 已经完成，借助<a href="https://en.wikipedia.org/wiki/Suffix_array" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>后缀数组</a>
+和二分法能把复杂度降低到 $O(log_2n)$，当然也需要付出一些空间代价（保存后缀数组）。具体的做法如下：</p>
 <ul>
 <li>当匹配串长度小于等于 5 时，用改进后的朴素算法。对于五位数，平均匹配到第 100,000 位就能匹配到。</li>
 <li>当匹配串长度大于等于 6 时，采用后缀数组和二分法。匹配串可能会重复出现，要找到最先出现的仍然需要小范围的线性搜索。</li>
 </ul>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://www.piday.org/">piday</a></li>
-<li><a href="https://math.ntnu.edu.tw/~horng/letter/vol4no2f.htm">為什麼是阿基米德開平方法？</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%89%B2%E5%9C%86%E6%9C%AF_(%E5%88%98%E5%BE%BD)#%E5%9C%86%E5%91%A8%E7%8E%87%E6%8D%B7%E6%B3%95">刘徽-wiki</a></li>
-<li><a href="https://www.wikiwand.com/en/Approximations_of_%CF%80#/overview">pi-wiki</a></li>
-<li><a href="https://www.angio.net/pi/whynotpi.html">Probability of Finding Strings In Pi</a></li>
-<li><a href="https://leetcode-cn.com/problems/implement-strstr/solution/shi-xian-strstr-by-leetcode-solution-ds6y/">leetcode 上的 KMP 算法</a></li>
+<li><a href="https://www.piday.org/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>piday</a>
+</li>
+<li><a href="https://math.ntnu.edu.tw/~horng/letter/vol4no2f.htm" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>為什麼是阿基米德開平方法？</a>
+</li>
+<li><a href="https://zh.wikipedia.org/wiki/%E5%89%B2%E5%9C%86%E6%9C%AF_%28%E5%88%98%E5%BE%BD%29#%E5%9C%86%E5%91%A8%E7%8E%87%E6%8D%B7%E6%B3%95" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>刘徽-wiki</a>
+</li>
+<li><a href="https://www.wikiwand.com/en/Approximations_of_%CF%80#/overview" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>pi-wiki</a>
+</li>
+<li><a href="https://www.angio.net/pi/whynotpi.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Probability of Finding Strings In Pi</a>
+</li>
+<li><a href="https://leetcode-cn.com/problems/implement-strstr/solution/shi-xian-strstr-by-leetcode-solution-ds6y/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>leetcode 上的 KMP 算法</a>
+</li>
 </ol>
 
 
@@ -371,7 +452,7 @@ private static int[] kmp(String str) {
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/threadsafety/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >Java 并发：共享对象</a>
+      <span class="pagination__title" >Java 并发：共享对象</span>
     </a>
   
 </div>
@@ -388,7 +469,7 @@ private static int[] kmp(String str) {
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -397,7 +478,7 @@ private static int[] kmp(String str) {
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -406,7 +487,7 @@ private static int[] kmp(String str) {
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

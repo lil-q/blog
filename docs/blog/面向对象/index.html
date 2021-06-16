@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-09-07 18:54:03 \u002b0800 CST",
       "dateModified" : "2020-09-07 18:54:03 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1\/",
-      "wordCount" : "341",
+      "wordCount" : "342",
       "keywords" : ["面向对象", "OOP", "正方形不是长方形", "里氏替换原则", "Blog"]
     }
   
@@ -214,7 +215,11 @@
 </table>
 <p>相互对照可以发现上述对于矩形和正方形的实现是不合理的。首先，由于我们需要对正方形和长方形相互区分，实现多态，矩形这个类就同时包含了正方形和长方形这两个语义，相互耦合，模糊不清，违反了单一功能原则。</p>
 <p>其次，对于矩形而言，长宽是特征属性，也正是长宽的关系决定了矩形是正方形还是长方形。对特征属性不应该设置 <em>setter</em> 方法，这违反了开闭原则。</p>
-<p>最后，子类正方形不能够替代父类矩形使用，违反了里氏替换原则。如果继承的目的是为了多态，而多态的前提就是子类覆盖并重新定义父类的方法，为了符合 LSP，我们应该将父类定义为抽象类，并定义抽象方法，让子类重新定义这些方法。当父类是抽象类时，父类就不能实例化，避免了子类替换父类实例（根本不存在父类实例）时的逻辑不一致<a href="https://www.zhihu.com/question/27191817">[2]</a>。</p>
+<p>最后，子类正方形不能够替代父类矩形使用，违反了里氏替换原则。如果继承的目的是为了多态，而多态的前提就是子类覆盖并重新定义父类的方法，为了符合 LSP，我们应该将父类定义为抽象类，并定义抽象方法，让子类重新定义这些方法。当父类是抽象类时，父类就不能实例化，避免了子类替换父类实例（根本不存在父类实例）时的逻辑不一致<a href="https://www.zhihu.com/question/27191817" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[2]</a>
+。</p>
 <h3 id="23-正方形是抽象矩形">2.3 正方形是抽象矩形<a class="anchor" href="#23-正方形是抽象矩形">#</a></h3>
 <p>怎样才能打破正方形不是矩形的悖论呢？</p>
 <blockquote>
@@ -292,9 +297,21 @@ class Square extends AbstractRectangle implements ClosedFigure {
 <p>问题解决了，以前总是不明白抽象类和接口同时存在的意义，现在终于意识到抽象类是那么重要！</p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3">cyc CS-Notes</a></li>
-<li><a href="https://www.zhihu.com/question/27191817">JAVA中，多态是不是违背了里氏替换原则？</a></li>
-<li><a href="https://www.cnblogs.com/gaochundong/p/open_closed_principle.html">开放封闭原则</a></li>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E6%80%9D%E6%83%B3" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>cyc CS-Notes</a>
+</li>
+<li><a href="https://www.zhihu.com/question/27191817" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>JAVA中，多态是不是违背了里氏替换原则？</a>
+</li>
+<li><a href="https://www.cnblogs.com/gaochundong/p/open_closed_principle.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>开放封闭原则</a>
+</li>
 </ol>
 
 
@@ -319,7 +336,7 @@ class Square extends AbstractRectangle implements ClosedFigure {
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/spring/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >Spring Framework</a>
+      <span class="pagination__title" >Spring Framework</span>
     </a>
   
 </div>
@@ -336,7 +353,7 @@ class Square extends AbstractRectangle implements ClosedFigure {
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -345,7 +362,7 @@ class Square extends AbstractRectangle implements ClosedFigure {
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -354,7 +371,7 @@ class Square extends AbstractRectangle implements ClosedFigure {
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

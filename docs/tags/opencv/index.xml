@@ -6,7 +6,7 @@
     <description>Recent content in OpenCV on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>{year} © lil-q</copyright>
+    <copyright>2019-{year} © lil-q</copyright>
     <lastBuildDate>Sat, 22 Feb 2020 17:51:07 +0000</lastBuildDate>
     
 	<atom:link href="https://lil-q.github.io/tags/opencv/index.xml" rel="self" type="application/rss+xml" />
@@ -59,7 +59,7 @@ x = np.uint8([250]) y = np.uint8([10]) print(cv2.add(x, y)) # 250 + 10 = 260 =&a
       
       <guid>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%BA%8C/</guid>
       <description>一、滤波 滤波是一种卷积操作，常用于图像的预处理。低通滤波器就是允许低频信号通过，在图像中边缘和噪点都相当于高频部分，所以低通滤波器用于去除噪点、平滑和模糊图像。高通滤波器则反之，用来增强图像边缘，进行锐化处理。
- 低通滤波器是模糊 高通滤波器是锐化  常见噪声有椒盐噪声和高斯噪声，椒盐噪声可以理解为斑点，随机出现在图像中的黑点或白点；高斯噪声可以理解为拍摄图片时由于光照等原因造成的噪声。
+ 低通滤波器是模糊 高通滤波器是锐化  常见噪声有椒盐噪声 和高斯噪声 ，椒盐噪声可以理解为斑点，随机出现在图像中的黑点或白点；高斯噪声可以理解为拍摄图片时由于光照等原因造成的噪声。
 1.1 均值滤波 均值滤波是一种最简单的滤波处理，它取的是卷积核区域内元素的均值，用cv2.blur()实现，如3×3的卷积核：
 $$ kernel_{m} = \frac{1}{9}\left[ \begin{matrix} 1 &amp;amp; 1 &amp;amp; 1 \newline 1 &amp;amp; 1 &amp;amp; 1 \newline 1 &amp;amp; 1 &amp;amp; 1 \end{matrix} \right] $$
 img = cv2.imread(&#39;lena.jpg&#39;) blur = cv2.blur(img, (3, 3)) # 均值模糊  1.2 方框滤波 方框滤波跟均值滤波很像，如3×3的滤波核如下：
@@ -72,7 +72,7 @@ $$ kernel_{b} = a\left[ \begin{matrix} 1 &amp;amp; 1 &amp;amp; 1 \newline 1 &amp
       <pubDate>Sun, 09 Feb 2020 15:57:11 +0000</pubDate>
       
       <guid>https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/</guid>
-      <description>18年结束毕业设计之后，对OpenCV接触很少了。那时使用的是C++，借由最近使用python较多，学习OpenCV-python算是一种温故。本文主要参考了OpenCV-Python图像处理教程以及官方文档。
+      <description>18年结束毕业设计之后，对OpenCV接触很少了。那时使用的是C++，借由最近使用python较多，学习OpenCV-python算是一种温故。本文主要参考了OpenCV-Python图像处理教程 以及官方文档 。
 一、图片 需要注意图片的x，y轴排布，三通道以B-G-R排布，灰度图只有一个通道。
 1.1 读取 # 加载灰度图 img = cv2.imread(&#39;lena.jpg&#39;, 0)   参数1：图片的文件名  如果图片放在当前文件夹下，直接写文件名就行了，如&amp;rsquo;lena.jpg&amp;rsquo; 否则需要给出绝对路径，如&amp;rsquo;D:\OpenCVSamples\lena.jpg&amp;rsquo;   参数2：读入方式，省略即采用默认值  cv2.IMREAD_COLOR：彩色图，默认值(1) cv2.IMREAD_GRAYSCALE：灰度图(0) cv2.IMREAD_UNCHANGED：包含透明通道的彩色图(-1)    1.2 显示 # 创建窗口 cv2.namedWindow(&#39;lena2&#39;, cv2.WINDOW_NORMAL)   参数1：窗口名称 参数2：窗口模式  cv2.WINDOW_AUTOSIZE表示窗口大小自适应图片 cv2.WINDOW_NORMAL表示窗口大小可调整    # 显示图片 cv2.imshow(&#39;lena&#39;, img)   参数1：窗口名称 参数2：图片实例  # 保持图片显示 cv2.waitKey(0)    参数：暂停时长，ms
 为0时，表示无限长。

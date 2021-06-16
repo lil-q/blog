@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2021-06-13 16:30:25 \u002b0800 CST",
       "dateModified" : "2021-06-13 16:30:25 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/concurrenthashmap\/",
-      "wordCount" : "3289",
+      "wordCount" : "3293",
       "keywords" : ["Blog"]
     }
   
@@ -240,8 +241,8 @@ static final &lt;K,V&gt; void setTabAt(Node&lt;K,V&gt;[] tab, int i, Node&lt;K,V
 <ul>
 <li>桶中是链表，遍历这个链表：
 <ul>
-<li>若找到相同 key：直接修改 value，跳出；</li>
-<li>若未找到：创建新的 <em>Node</em> 加到尾部，跳出。</li>
+<li>若存在：直接修改 value，跳出；</li>
+<li>若不存在：创建新 <em>Node</em> 加到尾部，跳出。</li>
 </ul>
 </li>
 <li>桶中是红黑树：通过 <em>TreeNode</em> 中 <code>putTreeValue()</code> 写入，逻辑与上面类似，跳出。</li>
@@ -476,9 +477,18 @@ public class ConcurrentMapTest {
 </ul>
 <p>现在我们知道，P 扩容实际上提供了 table 的初始化（在对空 map 进行 <code>putAll()</code> 时需要）和扩容的终止条件，其余时间都是在循环 C 扩容。上面的例子中，P 扩容后容量是 C 扩容的四倍，说明 P 扩容进行了三次 C 扩容。</p>
 <ol>
-<li>第一次扩容：table.length=32，c=64 &gt; sizeCtl=24；</li>
-<li>第二次扩容：table.length=64，c=64 &gt; sizeCtl=48；</li>
-<li>第三次扩容：table.length=128，c=64 &lt; sizeCtl=96，跳出。</li>
+<li>
+<p>第一次扩容：</p>
+<p>table.length=32，c=64 &gt; sizeCtl=24；</p>
+</li>
+<li>
+<p>第二次扩容：</p>
+<p>table.length=64，c=64 &gt; sizeCtl=48；</p>
+</li>
+<li>
+<p>第三次扩容：</p>
+<p>table.length=128，c=64 &lt; sizeCtl=96，跳出。</p>
+</li>
 </ol>
 <p>总结，C 扩容将 table.length 翻倍，而 P 扩容进行若干次 C 扩容，直到满足条件。之所以 P 扩容比 C 扩容大得多，是因为触发 P 扩容时，map 已经察觉到明显的哈希冲突了。</p>
 <pre><code class="language-java">// 注意: 如果是由treeifyBin()调用，传入的size已经是两倍的原table长度
@@ -811,7 +821,7 @@ synchronized (f) {
  [80]: 0101 0000 &amp; 1000 = 0
  [key]                  runBit 
 </code></pre>
-<p>再次遍历所有节点直到 lastRun 为止，不断把节点添加到 ln 和 hn 上。由于遍历顺序和添加节点的顺序相反，最后链表的顺序将会颠倒（除了lastRun之后的）。</p>
+<p>再次遍历所有节点直到 lastRun 为止，不断把节点添加到 ln 和 hn 上。由于遍历顺序和添加节点的顺序相反，最后链表的顺序将会颠倒（除了 lastRun 之后的）。</p>
 <pre><code class="language-txt">  ln                              hn
 | 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |  &lt;-newTable
  [32]   -                        [40]  -
@@ -930,12 +940,36 @@ synchronized (f) {
 </code></pre>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://www.cnblogs.com/zerotomax/p/8687425.html#go7">ConcurrentHashMap 1.8 源码分析</a></li>
-<li><a href="https://blog.csdn.net/Unknownfuture/article/details/105350537">sizeCtl 含义的辨析</a></li>
-<li><a href="https://stackoverflow.com/questions/61722136/java-concurrenthashmap-initialization">initTable 的问题</a></li>
-<li><a href="https://stackoverflow.com/questions/63651473/java-concurrent-hashmap-inittable-why-the-try-finally-block">Java Concurrent Hashmap initTable() Why the try/finally block?</a></li>
-<li><a href="https://stackoverflow.com/questions/47175835/how-does-concurrenthashmap-resizestamp-method-work">How does ConcurrentHashMap resizeStamp method work?</a></li>
-<li><a href="https://stackoverflow.com/questions/53493706/how-the-conditions-sc-rs-1-sc-rs-max-resizers-can-be-achieved-in">关于 sc == rs + 1 || sc == rs + MAX_RESIZERS</a></li>
+<li><a href="https://www.cnblogs.com/zerotomax/p/8687425.html#go7" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>ConcurrentHashMap 1.8 源码分析</a>
+</li>
+<li><a href="https://blog.csdn.net/Unknownfuture/article/details/105350537" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>sizeCtl 含义的辨析</a>
+</li>
+<li><a href="https://stackoverflow.com/questions/61722136/java-concurrenthashmap-initialization" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>initTable 的问题</a>
+</li>
+<li><a href="https://stackoverflow.com/questions/63651473/java-concurrent-hashmap-inittable-why-the-try-finally-block" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Java Concurrent Hashmap initTable() Why the try/finally block?</a>
+</li>
+<li><a href="https://stackoverflow.com/questions/47175835/how-does-concurrenthashmap-resizestamp-method-work" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>How does ConcurrentHashMap resizeStamp method work?</a>
+</li>
+<li><a href="https://stackoverflow.com/questions/53493706/how-the-conditions-sc-rs-1-sc-rs-max-resizers-can-be-achieved-in" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>关于 sc == rs + 1 || sc == rs + MAX_RESIZERS</a>
+</li>
 </ol>
 
 
@@ -978,7 +1012,7 @@ synchronized (f) {
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -987,7 +1021,7 @@ synchronized (f) {
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -996,7 +1030,7 @@ synchronized (f) {
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

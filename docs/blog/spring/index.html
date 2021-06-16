@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-09-09 18:07:37 \u002b0800 CST",
       "dateModified" : "2020-09-09 18:07:37 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/spring\/",
-      "wordCount" : "702",
+      "wordCount" : "703",
       "keywords" : ["spring", "spring boot", "ioc", "aop", "循环依赖", "Blog"]
     }
   
@@ -135,7 +136,11 @@
 <p><strong>依赖注入</strong>（<strong>D</strong>ependency <strong>I</strong>njection，<strong>DI</strong>）指组件之间依赖关系由容器在<strong>运行期</strong>决定，即由容器动态的将某个依赖关系注入到组件之中。依赖注入的目的并非为软件系统带来更多功能，而是为了提升组件重用的频率，并为系统搭建一个灵活、可扩展的平台。通过依赖注入机制，我们只需要通过简单的配置，而无需任何代码就可指定目标需要的资源，完成自身的业务逻辑，而不需要关心具体的资源来自何处，由谁实现。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/spring2.png" style="zoom:150%;" /></p>
 <p>IoC 容器是 Spring 用来实现 IoC 的载体， IoC 容器就像是一个工厂一样，当我们需要创建一个对象的时候，只需要配置好配置文件或注解即可，完全不用考虑对象是如何被创建出来的。</p>
-<p>IoC 的思想最核心的地方在于，资源不是由使用资源的双方来管理，而是由不使用资源的第三方来管理 <a href="https://www.zhihu.com/question/23277575">[3]</a>，这样做带来的好处主要有:</p>
+<p>IoC 的思想最核心的地方在于，资源不是由使用资源的双方来管理，而是由不使用资源的第三方来管理 <a href="https://www.zhihu.com/question/23277575" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[3]</a>
+，这样做带来的好处主要有:</p>
 <ul>
 <li>资源集中管理，实现资源的<strong>可配置</strong>和<strong>易管理</strong>;</li>
 <li>降低了使用资源双方的依赖程度，即<strong>解耦</strong>。</li>
@@ -343,13 +348,37 @@
 </ul>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://spring.io/">故事开始的地方——Spring</a></li>
+<li><a href="https://spring.io/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>故事开始的地方——Spring</a>
+</li>
 <li>《EXPERT ONE ON ONE J2EE DEVELOPMENT WITHOUT EJB》</li>
-<li><a href="https://www.zhihu.com/question/23277575">IoC的优势</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/108198655">Bean 生命周期</a></li>
-<li><a href="https://blog.csdn.net/lisongjia123/article/details/52134396">依赖注入实现原理</a></li>
-<li><a href="https://segmentfault.com/a/1190000015221968">Spring IOC 容器源码分析 - 循环依赖的解决办法</a></li>
-<li><a href="https://huzb.me/2019/03/11/Spring%E6%BA%90%E7%A0%81%E6%B5%85%E6%9E%90%E2%80%94%E2%80%94%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/#3%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98">为什么是三级缓存</a></li>
+<li><a href="https://www.zhihu.com/question/23277575" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>IoC的优势</a>
+</li>
+<li><a href="https://zhuanlan.zhihu.com/p/108198655" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Bean 生命周期</a>
+</li>
+<li><a href="https://blog.csdn.net/lisongjia123/article/details/52134396" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>依赖注入实现原理</a>
+</li>
+<li><a href="https://segmentfault.com/a/1190000015221968" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Spring IOC 容器源码分析 - 循环依赖的解决办法</a>
+</li>
+<li><a href="https://huzb.me/2019/03/11/Spring%E6%BA%90%E7%A0%81%E6%B5%85%E6%9E%90%E2%80%94%E2%80%94%E8%A7%A3%E5%86%B3%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96/#3%E3%80%81%E4%B8%BA%E4%BB%80%E4%B9%88%E6%98%AF%E4%B8%89%E7%BA%A7%E7%BC%93%E5%AD%98" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>为什么是三级缓存</a>
+</li>
 </ol>
 
 
@@ -374,7 +403,7 @@
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/mybatis/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >持久层与持久层框架</a>
+      <span class="pagination__title" >持久层与持久层框架</span>
     </a>
   
 </div>
@@ -391,7 +420,7 @@
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -400,7 +429,7 @@
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -409,7 +438,7 @@
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

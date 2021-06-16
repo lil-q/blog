@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-10-07 20:30:35 \u002b0800 CST",
       "dateModified" : "2020-10-07 20:30:35 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/io%E6%A8%A1%E5%9E%8B\/",
-      "wordCount" : "642",
+      "wordCount" : "643",
       "keywords" : ["I\/O", "BIO", "NIO", "I\/O多路复用", "Blog"]
     }
   
@@ -143,7 +144,11 @@
 <p>当用户进程发出 read 操作时，如果 kernel 中的数据还没有准备好，会立刻返回一个 error。从用户进程角度讲 ，它发起一个 read 操作后，并不需要等待，而是马上就得到了一个结果。用户进程判断结果是一个 error 时，它就知道数据还没有准备好，于是它可以再次发送 read 操作。一旦 kernel 中的数据准备好了，并且又再次收到了用户进程的 system call，那么它马上就将数据拷贝到了用户内存，然后返回。</p>
 <p>nonblocking IO 的特点是用户进程需要<strong>不断的主动询问</strong> kernel 中的数据是否就绪，每次轮询所有 FD（包括没有发生读写事件的 FD）会很浪费 CPU 资源。</p>
 <h3 id="13-io-多路复用">1.3 I/O 多路复用<a class="anchor" href="#13-io-多路复用">#</a></h3>
-<p>2003年，<a href="https://link.zhihu.com/?target=http%3A//www.kegel.com/c10k.html">C10K 问题</a>迅速成为了技术领域迫切需要尝试解决的问题：10K 个 Client 同时连接到一个 Server，如何提供服务？在互联网用户较少的早期，一个网络服务通常不会有太多用户，加之大多数的服务不过是提供一个 HTML，交互较少，所以往往使用的是一个进程服务一个连接的形式；而进程不仅仅存在进程数限制，还存在进程切换和通讯带来的巨大代价。改用一个线程服务一个连接模型，能够一定程度减少部分开销，但也只是勉强够用而已。更好的解决办法在哪里？</p>
+<p>2003年，<a href="https://link.zhihu.com/?target=http%3A//www.kegel.com/c10k.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>C10K 问题</a>
+迅速成为了技术领域迫切需要尝试解决的问题：10K 个 Client 同时连接到一个 Server，如何提供服务？在互联网用户较少的早期，一个网络服务通常不会有太多用户，加之大多数的服务不过是提供一个 HTML，交互较少，所以往往使用的是一个进程服务一个连接的形式；而进程不仅仅存在进程数限制，还存在进程切换和通讯带来的巨大代价。改用一个线程服务一个连接模型，能够一定程度减少部分开销，但也只是勉强够用而已。更好的解决办法在哪里？</p>
 <p>为了解决同步阻塞 I/O 面临的一个链路需要一个线程处理的问题，后来有人对它的线程模型进行了优化——后端通过一个线程池来处理多个客户端的请求接入，形成客户端个数 M：线程池最大线程数 N 的比例关系，其中 M 可以远远大于 N。这是一种伪异步 I/O 通信框架，采用线程池实现，因此避免了为每个请求都创建一个独立线程造成的线程资源耗尽问题。不过因为它的底层仍然是同步阻塞的 BIO 模型，因此无法从根本上解决问题。</p>
 <p>但是如果改成 NIO，那么每个线程都需要不断的主动轮询，这是对 CPU 资源的极大浪费。再重新回想 I/O 的过程，第一部分等待数据就绪的过程和 CPU 关系不大，更加取决于机器缓存大小和网络带宽等，而第二部分拷贝数据需求 CPU 性能。如果让一个额外的线程统一管理其他线程等待数据就绪的过程，也就是说让一个线程完成所有其他线程的主动轮询工作，一次轮询就可以处理多个连接请求，这就是I/O 多路复用（ IO multiplexing）。所以，<strong>多路</strong>指的是多个网络连接，<strong>复用</strong>指的是复用同一个线程。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/after9.9/nio3.png" alt="nonblockingio" style="zoom:150%;" /></p>
@@ -261,12 +266,32 @@ while (true) {
 </ul>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://segmentfault.com/a/1190000003063859">Linux IO模式及 select、poll、epoll详解</a></li>
+<li><a href="https://segmentfault.com/a/1190000003063859" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Linux IO模式及 select、poll、epoll详解</a>
+</li>
 <li>UNIX® Network Programming Volume 1, Third Edition: The Sockets Networking</li>
-<li><a href="https://zhuanlan.zhihu.com/p/204965836">也来说说协程（1）——由来和概念</a></li>
-<li><a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/BIO-NIO-AIO.md">BIO,NIO,AIO 总结</a></li>
-<li><a href="https://juejin.im/post/6844904200141438984">彻底理解 IO多路复用</a></li>
-<li><a href="https://juejin.im/post/6844903954917097486#heading-5">多路复用 I/O 模型详解, 为什么它能支持更高的并发</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/204965836" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>也来说说协程（1）——由来和概念</a>
+</li>
+<li><a href="https://github.com/Snailclimb/JavaGuide/blob/master/docs/java/BIO-NIO-AIO.md" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>BIO,NIO,AIO 总结</a>
+</li>
+<li><a href="https://juejin.im/post/6844904200141438984" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>彻底理解 IO多路复用</a>
+</li>
+<li><a href="https://juejin.im/post/6844903954917097486#heading-5" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>多路复用 I/O 模型详解, 为什么它能支持更高的并发</a>
+</li>
 </ol>
 
 
@@ -291,7 +316,7 @@ while (true) {
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/redis/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >Redis：数据结构</a>
+      <span class="pagination__title" >Redis：数据结构</span>
     </a>
   
 </div>
@@ -308,7 +333,7 @@ while (true) {
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -317,7 +342,7 @@ while (true) {
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -326,7 +351,7 @@ while (true) {
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

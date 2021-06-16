@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-07-17 16:16:51 \u002b0000 UTC",
       "dateModified" : "2020-07-17 16:16:51 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/mysql\/",
-      "wordCount" : "449",
+      "wordCount" : "453",
       "keywords" : ["database", "mysql", "Blog"]
     }
   
@@ -135,7 +136,11 @@
 <h3 id="11-实现原理">1.1 实现原理<a class="anchor" href="#11-实现原理">#</a></h3>
 <h4 id="1-b-数">1. B+ 数</h4>
 <p><strong>B 树</strong>是一种自平衡的树，能够保持数据有序。当描述一颗 B 树时需要指定它的阶数，阶数表示了一个结点最多有多少个孩子结点，一般用字母 m 表示阶数。当 m 取 2 时，就是我们常见的二叉搜索树。</p>
-<p><strong>B+ 树</strong>与 B 树通常用于数据库和操作系统的文件系统中。特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反，具体请参考 <a href="https://www.cnblogs.com/nullzx/p/8729425.html">[2]</a>。</p>
+<p><strong>B+ 树</strong>与 B 树通常用于数据库和操作系统的文件系统中。特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反，具体请参考 <a href="https://www.cnblogs.com/nullzx/p/8729425.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[2]</a>
+。</p>
 <p><strong>（1）B+ 树与 B 树</strong></p>
 <p>B+ 树与 B 树最大的不同是<strong>内部结点不保存数据，只用于索引，所有数据（或者说记录）都保存在叶子结点中</strong>，而叶子节点的高度都是相同的，因此所有数据的查询速度都是一样的，<strong>查询更加稳定</strong>。</p>
 <p>一般来说 B+ Tree 比 B Tree 更适合实现外存的索引结构，因为存储引擎的设计专家巧妙的利用了<strong>外存</strong>（磁盘）的存储结构，操作系统以页（page）为单位管理内存，一页（page）通常默认为 4K，数据库的页通常设置为操作系统页的整数倍，因此<strong>索引结构的节点被设计为一个页的大小</strong>。</p>
@@ -183,7 +188,11 @@
 <pre><code class="language-sql">SELECT film_id, actor_ id FROM sakila.film_actor
 WHERE actor_id = 1 AND film_id = 1;
 </code></pre>
-<p><strong>最左原则</strong>：根据 B+ 树的最右前缀原则，如果 SQL 语句中用到了联合索引中最左边的索引，那么这条 SQL 语句就可以利用这个联合索引去进行匹配，值得注意的是，当遇到范围查询（&gt;、&lt;、between &amp; like）就会停止匹配 <a href="https://www.cnblogs.com/rjzheng/p/12557314.html">[7]</a>。</p>
+<p><strong>最左原则</strong>：根据 B+ 树的最右前缀原则，如果 SQL 语句中用到了联合索引中最左边的索引，那么这条 SQL 语句就可以利用这个联合索引去进行匹配，值得注意的是，当遇到范围查询（&gt;、&lt;、between &amp; like）就会停止匹配 <a href="https://www.cnblogs.com/rjzheng/p/12557314.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[7]</a>
+。</p>
 <h4 id="3-索引列的顺序">3. 索引列的顺序</h4>
 <p>让选择性最强的索引列放在前面。索引的选择性是指：不重复的索引值和记录总数的比值。最大值为 1，此时每个记录都有唯一的索引与其对应。选择性越高，每个记录的区分度越高，查询效率也越高。例如下面显示的结果中 customer_id 的选择性比 staff_id 更高，因此最好把 customer_id 列放在多列索引的前面。</p>
 <pre><code class="language-sql">SELECT COUNT(DISTINCT staff_id)/COUNT(*) AS staff_id_selectivity,
@@ -235,7 +244,11 @@ customer_id_selectivity: 0.0373
 <h3 id="22-sql语句优化">2.2 SQL语句优化<a class="anchor" href="#22-sql语句优化">#</a></h3>
 <ul>
 <li>不使用 Select *，只查询需要的字段，查询所有占用内存；</li>
-<li>使用 LIMIT 语句来限制返回的数据，当<a href="https://hackernoon.com/please-dont-use-offset-and-limit-for-your-pagination-8ux3u4y">数据量很大时避免使用 <code>OFFSET</code></a>；</li>
+<li>使用 LIMIT 语句来限制返回的数据，当<a href="https://hackernoon.com/please-dont-use-offset-and-limit-for-your-pagination-8ux3u4y" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>数据量很大时避免使用 <code>OFFSET</code></a>
+；</li>
 <li>多表连接时，尽量小表驱动大表，即小表 join 大表；</li>
 <li>使用缓存存储过程；</li>
 <li>使用枚举或整数代替字符串类型；</li>
@@ -296,7 +309,11 @@ customer_id_selectivity: 0.0373
 <ul>
 <li>当需要取出<strong>一定范围内</strong>的数据时，用聚簇索引也比用非聚簇索引好；</li>
 <li>当通过聚簇索引查找目标数据时理论上比非聚簇索引要快，因为非聚簇索引定位到对应主键时还要多一次目标记录寻址,即多一次 I/O；</li>
-<li>使用<a href="https://juejin.im/post/6844903967365791752">覆盖索引</a>扫描的查询可以直接使用叶子节点中的主键值。</li>
+<li>使用<a href="https://juejin.im/post/6844903967365791752" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>覆盖索引</a>
+扫描的查询可以直接使用叶子节点中的主键值。</li>
 </ul>
 <h4 id="2-聚簇索引的缺点">2. 聚簇索引的缺点</h4>
 <ul>
@@ -307,13 +324,41 @@ customer_id_selectivity: 0.0373
 </ul>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://www.jianshu.com/p/c82148473235">MySQL索引</a></li>
-<li><a href="https://www.cnblogs.com/nullzx/p/8729425.html">b 树和b+ 树</a></li>
-<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/MySQL?id=%E4%B8%80%E3%80%81%E7%B4%A2%E5%BC%95">CyC CS-Notes</a></li>
-<li><a href="https://www.cnblogs.com/nullzx/p/8729425.html">B树和B+树</a></li>
-<li><a href="https://juejin.im/post/6844903845554814983">聚簇索引 &amp; 非聚簇索引</a></li>
-<li><a href="https://www.jianshu.com/p/f3a1e17a4df6">主键索引 &amp; 非主键索引</a></li>
-<li><a href="https://www.cnblogs.com/rjzheng/p/12557314.html">联合索引</a></li>
+<li><a href="https://www.jianshu.com/p/c82148473235" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>MySQL索引</a>
+</li>
+<li><a href="https://www.cnblogs.com/nullzx/p/8729425.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>b 树和b+ 树</a>
+</li>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/MySQL?id=%e4%b8%80%e3%80%81%e7%b4%a2%e5%bc%95" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>CyC CS-Notes</a>
+</li>
+<li><a href="https://www.cnblogs.com/nullzx/p/8729425.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>B树和B+树</a>
+</li>
+<li><a href="https://juejin.im/post/6844903845554814983" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>聚簇索引 &amp; 非聚簇索引</a>
+</li>
+<li><a href="https://www.jianshu.com/p/f3a1e17a4df6" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>主键索引 &amp; 非主键索引</a>
+</li>
+<li><a href="https://www.cnblogs.com/rjzheng/p/12557314.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>联合索引</a>
+</li>
 </ol>
 
 
@@ -341,7 +386,7 @@ customer_id_selectivity: 0.0373
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/http-restful/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >HTTP &amp; RESTful</a>
+      <span class="pagination__title" >HTTP &amp; RESTful</span>
     </a>
   
 </div>
@@ -358,7 +403,7 @@ customer_id_selectivity: 0.0373
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -367,7 +412,7 @@ customer_id_selectivity: 0.0373
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -376,7 +421,7 @@ customer_id_selectivity: 0.0373
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

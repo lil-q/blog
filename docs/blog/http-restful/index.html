@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-07-23 09:46:01 \u002b0000 UTC",
       "dateModified" : "2020-07-23 09:46:01 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/http-restful\/",
-      "wordCount" : "278",
+      "wordCount" : "279",
       "keywords" : ["Blog"]
     }
   
@@ -119,7 +120,11 @@
 <h3 id="11-uri">1.1 URI<a class="anchor" href="#11-uri">#</a></h3>
 <p><strong>统一资源标识符</strong>（<strong>U</strong>niform <strong>R</strong>esource <strong>I</strong>dentifier，<strong>URI</strong>）是一个用于标识某一互联网资源名称的字符串。URI的最常见的形式是<strong>统一资源定位符</strong>（<strong>U</strong>niform <strong>R</strong>esource <strong>L</strong>ocator，<strong>URL</strong>），经常指定为非正式的网址。更罕见的用法是统一资源名称（<strong>U</strong>niform <strong>R</strong>esource <strong>N</strong>ame，<strong>URN</strong>），其目的是通过提供一种途径。用于在特定的<strong>名字空间</strong>资源的标识，以补充网址。在RESTful架构中 <strong>URI 不应该有动词，动词应该放在HTTP协议中</strong>。</p>
 <p><strong>资源</strong>是一种信息实体，它可以有多种外在表现形式。“资源” 具体呈现出来的形式，叫做它的 &ldquo;表现层&rdquo;（Representation）。URI只代表资源的实体，不代表它的形式。严格地说，有些网址最后的 &ldquo;.html&rdquo; 后缀名是不必要的，因为这个后缀名表示格式，属于 &ldquo;表现层&rdquo; 范畴，而 URI 应该只代表 &ldquo;资源&rdquo; 的<strong>位置</strong>。它的具体表现形式，应该在 HTTP 请求的<strong>头信息</strong>中用 <strong>Accept</strong> 和 <strong>Content-Type</strong> 字段指定，这两个字段才是对 &ldquo;表现层&rdquo; 的描述。</p>
-<p>因为不同的版本，可以理解成同一种资源的不同表现形式，所以应该采用同一个 URI。版本号可以在 HTTP 请求头信息的 Accept 字段中进行区分（参见<a href="http://www.informit.com/articles/article.aspx?p=1566460">Versioning REST Services</a>）：</p>
+<p>因为不同的版本，可以理解成同一种资源的不同表现形式，所以应该采用同一个 URI。版本号可以在 HTTP 请求头信息的 Accept 字段中进行区分（参见<a href="http://www.informit.com/articles/article.aspx?p=1566460" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Versioning REST Services</a>
+）：</p>
 <h3 id="12-如何理解-restful">1.2 如何理解 RESTful<a class="anchor" href="#12-如何理解-restful">#</a></h3>
 <p>REST 本身受 Web 技术的影响很深，可以借助 WEB 来理解 RESTful。网站是采用<strong>客户端/服务器</strong>模式，建立在分布式体系上，通过互联网通信，具有高延时（high latency）、高并发等特点的一种软件。<strong>表现层</strong>（Representation）的含义是把<strong>资源</strong>具体的形式呈现出来。表现层上的网站交互就是客户端获取或修改服务器端储存的资源，而这些获取或修改的操作就是资源的状态转换。具体的实现很简单</p>
 <ul>
@@ -271,12 +276,32 @@ Accept: application/json
 <p>API 的使用者未必知道，URL 是怎么设计的。一个解决方法就是，在回应中，给出相关链接，便于下一步操作。这样的话，用户只要记住一个 URL，就可以发现其他的 URL。这种方法叫做 HATEOAS。</p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="http://restful.p2hp.com/">RESTful 中文网</a></li>
-<li><a href="https://www.ruanyifeng.com/blog/2011/09/restful.html">阮一峰-理解RESTful架构</a></li>
-<li><a href="https://www.ruanyifeng.com/blog/2018/10/restful-api-best-practices.html">阮一峰-RESTful API 最佳实践</a></li>
+<li><a href="http://restful.p2hp.com/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>RESTful 中文网</a>
+</li>
+<li><a href="https://www.ruanyifeng.com/blog/2011/09/restful.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>阮一峰-理解RESTful架构</a>
+</li>
+<li><a href="https://www.ruanyifeng.com/blog/2018/10/restful-api-best-practices.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>阮一峰-RESTful API 最佳实践</a>
+</li>
 <li>上野宣. 图解 HTTP[M]. 人民邮电出版社, 2014.</li>
-<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/HTTP?id=%E5%9B%9B%E3%80%81http-%E9%A6%96%E9%83%A8">HTTP 首部字段</a></li>
-<li><a href="https://developer.ibm.com/zh/technologies/spring/articles/j-lo-springhateoas">HATEOAS</a></li>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/HTTP?id=%e5%9b%9b%e3%80%81http-%e9%a6%96%e9%83%a8" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>HTTP 首部字段</a>
+</li>
+<li><a href="https://developer.ibm.com/zh/technologies/spring/articles/j-lo-springhateoas" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>HATEOAS</a>
+</li>
 </ol>
 
 
@@ -301,7 +326,7 @@ Accept: application/json
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >面向对象</a>
+      <span class="pagination__title" >面向对象</span>
     </a>
   
 </div>
@@ -318,7 +343,7 @@ Accept: application/json
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -327,7 +352,7 @@ Accept: application/json
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -336,7 +361,7 @@ Accept: application/json
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

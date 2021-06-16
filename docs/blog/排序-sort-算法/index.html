@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2019-11-16 19:34:55 \u002b0000 UTC",
       "dateModified" : "2019-11-16 19:34:55 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%8E%92%E5%BA%8F-sort-%E7%AE%97%E6%B3%95\/",
-      "wordCount" : "1001",
+      "wordCount" : "1006",
       "keywords" : ["sort", "排序", "算法", "Blog"]
     }
   
@@ -121,7 +122,11 @@
 <li><strong>稳定性</strong>： 稳定排序算法会让原本有相等键值的纪录维持相对次序。也就是如果一个排序算法是<strong>稳定</strong>的，当有两个相等键值的纪录 <strong>R</strong> 和 <strong>S</strong>，且在原本的列表中 <strong>R</strong> 出现在 <strong>S</strong> 之前，在排序过的列表中 <strong>R</strong> 也将会是在 <strong>S</strong> 之前。</li>
 <li><strong>依据排序的方法</strong>：插入、交换、选择、合并等等。</li>
 </ul>
-<p>本文介绍了以下几种排序，推荐<strong>可视化网站 <a href="https://visualgo.net/zh/sorting">visualgo</a></strong>，下文代码都采用数组作为输入。</p>
+<p>本文介绍了以下几种排序，推荐<strong>可视化网站 <a href="https://visualgo.net/zh/sorting" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>visualgo</a>
+</strong>，下文代码都采用数组作为输入。</p>
 <br>
 <table>
 <thead>
@@ -244,7 +249,11 @@
                 nums[j],nums[j+1]=nums[j+1],nums[j]
     return nums
 </code></pre>
-<p>但是，该算法的最优时间复杂度并不是 $O(n)$，而是 $O(n^2)$ <a href="https://www.cnblogs.com/melon-h/archive/2012/09/20/2694941.html">[5]</a>。需改写才能实现最优理想状态：</p>
+<p>但是，该算法的最优时间复杂度并不是 $O(n)$，而是 $O(n^2)$ <a href="https://www.cnblogs.com/melon-h/archive/2012/09/20/2694941.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[5]</a>
+。需改写才能实现最优理想状态：</p>
 <pre><code class="language-python">def bubble_sorted(nums):
     size = len(nums)
     for i in range(size-1):
@@ -305,7 +314,11 @@
 </code></pre>
 <h2 id="堆排序">堆排序<a class="anchor" href="#堆排序">#</a></h2>
 <p>数据分区：（最大堆，有序区）。<br>
-从堆顶把根卸出来放在有序区之前，再恢复堆。 <a href="https://lil-q.github.io/blog/%E5%A0%86-heap/">关于堆</a></p>
+从堆顶把根卸出来放在有序区之前，再恢复堆。 <a href="https://lil-q.github.io/blog/%E5%A0%86-heap/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>关于堆</a>
+</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/sort/Sorting_heapsort_anim.gif" alt="heap" style="zoom:50%;" /></p>
 <p><strong>流程</strong></p>
 <ol>
@@ -373,7 +386,11 @@ def merge_sort(L):
     right = merge_sort(right)
     return merge(left, right)
 </code></pre>
-<p>时间复杂度是 O(nlogn)，归并的空间复杂度为临时的数组和递归时压入栈的数据占用的空间：n + logn，所以空间复杂度为: O(n) <a href="https://blog.csdn.net/YuZhiHui_No1/article/details/44223225">[6]</a>。</p>
+<p>时间复杂度是 O(nlogn)，归并的空间复杂度为临时的数组和递归时压入栈的数据占用的空间：n + logn，所以空间复杂度为: O(n) <a href="https://blog.csdn.net/YuZhiHui_No1/article/details/44223225" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[6]</a>
+。</p>
 <p><strong>迭代法（Bottom-up）</strong></p>
 <p>重写 <code>merge()</code>，实现 $O(1)$：</p>
 <pre><code class="language-python">def merge_iter(nums,l1,l2,r2):
@@ -390,7 +407,11 @@ def merge_sort(L):
 			nums[tmp_r1+1]=tmp
 		r2-=1
 </code></pre>
-<p>这里参考了<a href="https://leetcode-cn.com/problems/merge-sorted-array/solution/he-bing-liang-ge-you-xu-shu-zu-by-leetcode/">leetcode 88.合并两个有序数组</a>，采用双指针从后往前合并两个有序数组（其实也就是一个数组切片的前一半和后一半），实现了空间复杂度 O(1)。</p>
+<p>这里参考了<a href="https://leetcode-cn.com/problems/merge-sorted-array/solution/he-bing-liang-ge-you-xu-shu-zu-by-leetcode/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>leetcode 88.合并两个有序数组</a>
+，采用双指针从后往前合并两个有序数组（其实也就是一个数组切片的前一半和后一半），实现了空间复杂度 O(1)。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/merge.jpg" alt="merge"></p>
 <p><strong>方法一：使用生成器</strong></p>
 <pre><code class="language-python"># 生成器产生2的幂
@@ -448,7 +469,11 @@ def quick_sorted(nums):
             right.append(num)
     return quick_sorted(left) + mid + quick_sorted(right)
 </code></pre>
-<p>需要 ${\Omega (n)}$ 的额外存储空间，也就跟归并排序一样不好。额外需要的存储空间，在实际实现时，也会极度影响速度和缓存的性能 。下面是原地排序的代码， 平均可以达到 $O(\log n)$ 的空间复杂度 <a href="https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F#Python%E5%8E%9F%E5%9C%B0%E6%8E%92%E5%BA%8F%E7%89%88%E6%9C%AC">[7]</a>。</p>
+<p>需要 ${\Omega (n)}$ 的额外存储空间，也就跟归并排序一样不好。额外需要的存储空间，在实际实现时，也会极度影响速度和缓存的性能 。下面是原地排序的代码， 平均可以达到 $O(\log n)$ 的空间复杂度 <a href="https://zh.wikipedia.org/wiki/%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f#Python%e5%8e%9f%e5%9c%b0%e6%8e%92%e5%ba%8f%e7%89%88%e6%9c%ac" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[7]</a>
+。</p>
 <pre><code class="language-python">def quick_sorted_inp(nums, first, last):
     if first &gt;= last:
         return
@@ -499,7 +524,11 @@ def quick_sorted(nums):
         gap = gap // 2
     return nums
 </code></pre>
-<p>实际上使用 1，2，4，8&hellip; 的增量序列有时会在 gap = 1 时浪费很多时间，<em>Mark Allen Weiss</em> 指出，最好的增量序列是 <em>Sedgewick</em> 提出的 (1, 5, 19, 41, 109,&hellip;)，该序列的项来自 9 * 4^i - 9 * 2^i + 1 和 4^i - 3 * 2^i + 1 这两个算式。<a href="https://blog.csdn.net/u013630349/article/details/48250109">使用 Sedgewick增量 的希尔排序的完整C语言程序</a></p>
+<p>实际上使用 1，2，4，8&hellip; 的增量序列有时会在 gap = 1 时浪费很多时间，<em>Mark Allen Weiss</em> 指出，最好的增量序列是 <em>Sedgewick</em> 提出的 (1, 5, 19, 41, 109,&hellip;)，该序列的项来自 9 * 4^i - 9 * 2^i + 1 和 4^i - 3 * 2^i + 1 这两个算式。<a href="https://blog.csdn.net/u013630349/article/details/48250109" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>使用 Sedgewick增量 的希尔排序的完整C语言程序</a>
+</p>
 <h2 id="计数排序">计数排序<a class="anchor" href="#计数排序">#</a></h2>
 <p>计数排序不是基于比较的排序算法，其核心在于将输入的数据值转化为键存储在额外开辟的数组空间中。作为一种线性时间复杂度的排序，计数排序要求输入的数据必须是有确定范围的整数。</p>
 <p><strong>流程</strong></p>
@@ -603,13 +632,41 @@ def insertion_sorted(nums):
 <p>桶排序、基数排序和计数排序都属于非比较类排序，其中计数排序和基数排序都用到了桶排序的思想。计数排序一共分了 0，1，2, &hellip;, maxValue 一共 maxValue + 1 个桶，每个桶表示一个数；而基数排序则分了十个桶，从第一位开始递归桶排序。冒泡排序，选择排序，插入排序都是比较两个数然后交换。堆排序，归并排序，快速排序则是运用了分治的思想。</p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://github.com/lil-q/sorting-algorithm-python"><strong>完整代码</strong></a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E6%8E%92%E5%BA%8F%E7%AE%97%E6%B3%95">wiki</a></li>
-<li><a href="https://github.com/amusi/Deep-Learning-Interview-Book/blob/master/docs/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E7%AE%97%E6%B3%95.md">数据结构与算法</a></li>
-<li><a href="https://www.cnblogs.com/onepixel/p/7674659.html">十种排序算法</a></li>
-<li><a href="https://www.cnblogs.com/melon-h/archive/2012/09/20/2694941.html">冒泡排序最佳情况的时间复杂度，为什么是O(n)</a></li>
-<li><a href="https://blog.csdn.net/YuZhiHui_No1/article/details/44223225">归并算法复杂度</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%BF%AB%E9%80%9F%E6%8E%92%E5%BA%8F#Python%E5%8E%9F%E5%9C%B0%E6%8E%92%E5%BA%8F%E7%89%88%E6%9C%AC">快速排序 python 原地</a></li>
+<li><a href="https://github.com/lil-q/sorting-algorithm-python" 
+  
+   target="_blank" rel="noreferrer noopener" 
+><strong>完整代码</strong></a>
+</li>
+<li><a href="https://zh.wikipedia.org/wiki/%e6%8e%92%e5%ba%8f%e7%ae%97%e6%b3%95" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>wiki</a>
+</li>
+<li><a href="https://github.com/amusi/Deep-Learning-Interview-Book/blob/master/docs/%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e4%b8%8e%e7%ae%97%e6%b3%95.md" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>数据结构与算法</a>
+</li>
+<li><a href="https://www.cnblogs.com/onepixel/p/7674659.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>十种排序算法</a>
+</li>
+<li><a href="https://www.cnblogs.com/melon-h/archive/2012/09/20/2694941.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>冒泡排序最佳情况的时间复杂度，为什么是O(n)</a>
+</li>
+<li><a href="https://blog.csdn.net/YuZhiHui_No1/article/details/44223225" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>归并算法复杂度</a>
+</li>
+<li><a href="https://zh.wikipedia.org/wiki/%e5%bf%ab%e9%80%9f%e6%8e%92%e5%ba%8f#Python%e5%8e%9f%e5%9c%b0%e6%8e%92%e5%ba%8f%e7%89%88%e6%9c%ac" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>快速排序 python 原地</a>
+</li>
 </ol>
 
 
@@ -641,7 +698,7 @@ def insertion_sorted(nums):
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/%E5%A0%86-heap/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >堆</a>
+      <span class="pagination__title" >堆</span>
     </a>
   
 </div>
@@ -658,7 +715,7 @@ def insertion_sorted(nums):
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -667,7 +724,7 @@ def insertion_sorted(nums):
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -676,7 +733,7 @@ def insertion_sorted(nums):
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

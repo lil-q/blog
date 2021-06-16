@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2019-12-04 21:53:50 \u002b0000 UTC",
       "dateModified" : "2019-12-04 21:53:50 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%A0%91-tree\/",
-      "wordCount" : "780",
+      "wordCount" : "781",
       "keywords" : ["tree", "BST", "二叉搜索树", "Blog"]
     }
   
@@ -324,7 +325,11 @@ def postorderTraversalIter(root):
         else:
             print('#', end = ' ')
 </code></pre>
-<p>而仅根据（带空指针的）中序遍历，是不能重建二叉树的。比如，上面这棵树的中序遍历为 <em>#2#1#3#4#</em>。事实上可以证明，任何一棵二叉树的中序遍历结果，都会是空指针与树中结点交替出现的形式，所以空指针没有提供任何额外的信息。<a href="https://zhuanlan.zhihu.com/p/26418233">原文</a></p>
+<p>而仅根据（带空指针的）中序遍历，是不能重建二叉树的。比如，上面这棵树的中序遍历为 <em>#2#1#3#4#</em>。事实上可以证明，任何一棵二叉树的中序遍历结果，都会是空指针与树中结点交替出现的形式，所以空指针没有提供任何额外的信息。<a href="https://zhuanlan.zhihu.com/p/26418233" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>原文</a>
+</p>
 <h2 id="三二叉搜索树">三、二叉搜索树<a class="anchor" href="#三二叉搜索树">#</a></h2>
 <p><strong>二叉查找树</strong>（Binary Search Tree），也称为<strong>二叉搜索树</strong>、<strong>有序二叉树</strong>（ordered binary tree）或<strong>排序二叉树</strong>（sorted binary tree），是指一棵空树或者具有下列性质的二叉树：</p>
 <ul>
@@ -379,7 +384,11 @@ def postorderTraversalIter(root):
 <li>查找右子树</li>
 </ol>
 <h3 id="33-删除节点">3.3 删除节点<a class="anchor" href="#33-删除节点">#</a></h3>
-<p>这里给出递归的方式。递归的好处在于不用考虑寻找父节点以及待删除结点到底是父节点的左子节点还是右子节点（<a href="https://leetcode-cn.com/problems/delete-node-in-a-bst/solution/pythonchang-gui-jie-fa-by-lil-q/">leetcode 450 非递归，较为复杂的解法</a>）。</p>
+<p>这里给出递归的方式。递归的好处在于不用考虑寻找父节点以及待删除结点到底是父节点的左子节点还是右子节点（<a href="https://leetcode-cn.com/problems/delete-node-in-a-bst/solution/pythonchang-gui-jie-fa-by-lil-q/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>leetcode 450 非递归，较为复杂的解法</a>
+）。</p>
 <p>在二叉查找树删去一个结点，分三种情况讨论：</p>
 <ul>
 <li>若待删除结点 p 为叶子结点，即 PL（左子树）和 PR（右子树）均为空树。由于删去叶子结点不破坏整棵树的结构，则只需修改其双亲结点的指针即可。</li>
@@ -425,7 +434,11 @@ def postorderTraversalIter(root):
 <p><strong>B 树</strong>（B-tree）是一种自平衡的树，能够保持数据有序。这种数据结构能够让查找数据、顺序访问、插入数据及删除的动作，都在对数时间内完成。B 树，概括来说是一个一般化的二叉查找树（binary search tree）一个节点可以拥有 2 个以上的子节点。与自平衡二叉查找树不同，B树适用于读写相对大的数据块的存储系统，例如磁盘。B 树减少定位记录时所经历的中间过程，从而加快存取速度。B 树这种数据结构可以用来描述外部存储。这种数据结构常被应用在数据库和文件系统的实现上。</p>
 <p><strong>B+ 树</strong>是一种树数据结构，通常用于数据库和操作系统的文件系统中。B+ 树的特点是能够保持数据稳定有序，其插入与修改拥有较稳定的对数时间复杂度。B+ 树元素自底向上插入，这与二叉树恰好相反。</p>
 <p>B+ 树与 B 树最大的不同是内部结点不保存数据，只用于索引，所有数据（或者说记录）都保存在叶子结点中。</p>
-<p>请参考<a href="https://www.cnblogs.com/nullzx/p/8729425.html">这篇文章</a></p>
+<p>请参考<a href="https://www.cnblogs.com/nullzx/p/8729425.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>这篇文章</a>
+</p>
 <h2 id="六avl-树">六、AVL 树<a class="anchor" href="#六avl-树">#</a></h2>
 <p><strong>AVL 树</strong>是最早被发明的自平衡二叉查找树。在 AVL 树中，任一节点对应的两棵子树的最大高度差为 1，因此它也被称为高度平衡树。查找、插入和删除在平均和最坏情况下的时间复杂度都是 O(log n)。增加和删除元素的操作则可能需要借由一次或多次树旋转，以实现树的重新平衡。</p>
 <p>节点的<strong>平衡因子</strong>是它的左子树的高度减去它的右子树的高度（有时相反）。带有平衡因子 1、0 或  -1 的节点被认为是平衡的。带有平衡因子 -2 或 2 的节点被认为是不平衡的，并需要重新平衡这个树。平衡因子可以直接存储在每个节点中，或从可能存储在节点中的子树高度计算出来。</p>
@@ -456,14 +469,46 @@ def postorderTraversalIter(root):
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/330px-TreapAlphaKey.svg.png" alt="treap" style="zoom: 33%;" /></p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://github.com/lil-q/data-structures-python/tree/master/Tree">完整测试代码地址</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E6%A0%91_(%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84)">wiki</a></li>
-<li><a href="https://leetcode-cn.com/problems/binary-tree-inorder-traversal/solution/die-dai-he-di-gui-by-powcai/">二叉树遍历</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/26418233">二叉树怎样序列化才能重建</a></li>
-<li><a href="https://python123.io/index/topics/data_structure/binary_tree">Python 数据结构入门 - 二叉搜索树</a></li>
-<li><a href="https://leetcode-cn.com/problems/implement-trie-prefix-tree/solution/pythonjian-dan-shi-xian-by-powcai/">trie</a></li>
-<li><a href="https://blog.csdn.net/asdfsadfasdfsa/article/details/86500552">2-3-4树到红黑树</a></li>
-<li><a href="https://www.zhihu.com/question/19856999">红黑树比平衡树高效在哪？</a></li>
+<li><a href="https://github.com/lil-q/data-structures-python/tree/master/Tree" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>完整测试代码地址</a>
+</li>
+<li><a href="https://zh.wikipedia.org/wiki/%e6%a0%91_%28%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%29" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>wiki</a>
+</li>
+<li><a href="https://leetcode-cn.com/problems/binary-tree-inorder-traversal/solution/die-dai-he-di-gui-by-powcai/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>二叉树遍历</a>
+</li>
+<li><a href="https://zhuanlan.zhihu.com/p/26418233" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>二叉树怎样序列化才能重建</a>
+</li>
+<li><a href="https://python123.io/index/topics/data_structure/binary_tree" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Python 数据结构入门 - 二叉搜索树</a>
+</li>
+<li><a href="https://leetcode-cn.com/problems/implement-trie-prefix-tree/solution/pythonjian-dan-shi-xian-by-powcai/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>trie</a>
+</li>
+<li><a href="https://blog.csdn.net/asdfsadfasdfsa/article/details/86500552" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>2-3-4树到红黑树</a>
+</li>
+<li><a href="https://www.zhihu.com/question/19856999" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>红黑树比平衡树高效在哪？</a>
+</li>
 </ol>
 
 
@@ -488,7 +533,7 @@ def postorderTraversalIter(root):
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/%E5%9B%BE-graph/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >图论</a>
+      <span class="pagination__title" >图论</span>
     </a>
   
 </div>
@@ -505,7 +550,7 @@ def postorderTraversalIter(root):
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -514,7 +559,7 @@ def postorderTraversalIter(root):
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -523,7 +568,7 @@ def postorderTraversalIter(root):
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

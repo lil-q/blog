@@ -6,7 +6,7 @@
     <description>Recent content in Categories on Homeward</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <copyright>{year} © lil-q</copyright>
+    <copyright>2019-{year} © lil-q</copyright>
     
 	<atom:link href="https://lil-q.github.io/categories/index.xml" rel="self" type="application/rss+xml" />
     

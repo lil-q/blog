@@ -152,8 +152,8 @@ static final <K,V> void setTabAt(Node<K,V>[] tab, int i, Node<K,V> v) {
 * table 已经初始化，且相应桶不为空，但该桶正在迁移：当前线程将帮助迁移；
 * table 已经初始化，且相应桶不为空，且该桶未在迁移，将键值对加入桶中：
   * 桶中是链表，遍历这个链表：
-    * 若找到相同 key：直接修改 value，跳出；
-    * 若未找到：创建新的 *Node* 加到尾部，跳出。
+    * 若存在：直接修改 value，跳出；
+    * 若不存在：创建新 *Node* 加到尾部，跳出。
   * 桶中是红黑树：通过 *TreeNode* 中 `putTreeValue()` 写入，逻辑与上面类似，跳出。
 
 在完成上面步骤之后，还会检查 binCount，如果满足转化红黑树的条件则进行转化。
@@ -411,9 +411,17 @@ public class ConcurrentMapTest {
 
 现在我们知道，P 扩容实际上提供了 table 的初始化（在对空 map 进行 `putAll()` 时需要）和扩容的终止条件，其余时间都是在循环 C 扩容。上面的例子中，P 扩容后容量是 C 扩容的四倍，说明 P 扩容进行了三次 C 扩容。
 
-1. 第一次扩容：table.length=32，c=64 > sizeCtl=24；
-2. 第二次扩容：table.length=64，c=64 > sizeCtl=48；
-3. 第三次扩容：table.length=128，c=64 < sizeCtl=96，跳出。
+1. 第一次扩容：
+
+   table.length=32，c=64 > sizeCtl=24；
+
+2. 第二次扩容：
+
+   table.length=64，c=64 > sizeCtl=48；
+
+3. 第三次扩容：
+
+   table.length=128，c=64 < sizeCtl=96，跳出。
 
 总结，C 扩容将 table.length 翻倍，而 P 扩容进行若干次 C 扩容，直到满足条件。之所以 P 扩容比 C 扩容大得多，是因为触发 P 扩容时，map 已经察觉到明显的哈希冲突了。
 
@@ -771,7 +779,7 @@ synchronized (f) {
  [key]                  runBit 
 ```
 
-再次遍历所有节点直到 lastRun 为止，不断把节点添加到 ln 和 hn 上。由于遍历顺序和添加节点的顺序相反，最后链表的顺序将会颠倒（除了lastRun之后的）。
+再次遍历所有节点直到 lastRun 为止，不断把节点添加到 ln 和 hn 上。由于遍历顺序和添加节点的顺序相反，最后链表的顺序将会颠倒（除了 lastRun 之后的）。
 
 ```txt
   ln                              hn

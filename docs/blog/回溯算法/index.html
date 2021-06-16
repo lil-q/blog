@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-03-08 13:12:02 \u002b0000 UTC",
       "dateModified" : "2020-03-08 13:12:02 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E5%9B%9E%E6%BA%AF%E7%AE%97%E6%B3%95\/",
-      "wordCount" : "1264",
+      "wordCount" : "1270",
       "keywords" : ["backtracking", "回溯算法", "备忘录", "Blog"]
     }
   
@@ -127,7 +128,11 @@
 </ul>
 <p>在最坏的情况下，回溯法会导致一次<strong>复杂度</strong>为<strong>指数时间</strong>的计算。</p>
 <h2 id="典型的回溯">典型的回溯<a class="anchor" href="#典型的回溯">#</a></h2>
-<p><a href="https://leetcode-cn.com/problems/permutations/">leetcode 46. 全排列</a>：给定一个<strong>没有重复</strong>数字的序列，返回其所有可能的全排列。</p>
+<p><a href="https://leetcode-cn.com/problems/permutations/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>leetcode 46. 全排列</a>
+：给定一个<strong>没有重复</strong>数字的序列，返回其所有可能的全排列。</p>
 <p><strong>示例:</strong></p>
 <pre><code class="language-txt">输入: [1,2,3]
 输出:
@@ -178,12 +183,24 @@
 <li><strong>终止条件</strong>：所有数都已遍历，或者临时数组长度等于原数组</li>
 </ul>
 <h2 id="八皇后问题">八皇后问题<a class="anchor" href="#八皇后问题">#</a></h2>
-<p>在经典的教科书中，<a href="https://zh.wikipedia.org/wiki/%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98"><strong>八皇后问题</strong></a>展示了回溯法的用例。</p>
+<p>在经典的教科书中，<a href="https://zh.wikipedia.org/wiki/%e5%85%ab%e7%9a%87%e5%90%8e%e9%97%ae%e9%a2%98" 
+  
+   target="_blank" rel="noreferrer noopener" 
+><strong>八皇后问题</strong></a>
+展示了回溯法的用例。</p>
 <p><strong>八皇后问题</strong>是一个以国际象棋为背景的问题：如何能够在8×8的国际象棋棋盘上放置八个皇后，使得任何一个皇后都无法直接吃掉其他的皇后？为了达到此目的，任两个皇后都不能处于同一条横行、纵行或斜线上。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/2020-03-08%20142051.png" alt=""></p>
-<p>上图就是其中的一个解，八个皇后在8x8棋盘上共有4,426,165,368（$\binom{64}{8}$）种摆放方法，但只有92个<strong>互不相同</strong>的解。如果将旋转和对称的解归为一种的话，则一共有12个独立解。<a href="https://zh.wikipedia.org/wiki/%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98">wiki有完整解</a></p>
+<p>上图就是其中的一个解，八个皇后在8x8棋盘上共有4,426,165,368（$\binom{64}{8}$）种摆放方法，但只有92个<strong>互不相同</strong>的解。如果将旋转和对称的解归为一种的话，则一共有12个独立解。<a href="https://zh.wikipedia.org/wiki/%e5%85%ab%e7%9a%87%e5%90%8e%e9%97%ae%e9%a2%98" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>wiki有完整解</a>
+</p>
 <h3 id="n皇后">N皇后<a class="anchor" href="#n皇后">#</a></h3>
-<p><a href="https://leetcode-cn.com/problems/n-queens/">leetcode 51. N皇后</a>是八皇后问题的推广：如何将 <em>n</em> 个皇后放置在 <em>n</em>×<em>n</em> 的棋盘上，并且使皇后彼此之间不能相互攻击。</p>
+<p><a href="https://leetcode-cn.com/problems/n-queens/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>leetcode 51. N皇后</a>
+是八皇后问题的推广：如何将 <em>n</em> 个皇后放置在 <em>n</em>×<em>n</em> 的棋盘上，并且使皇后彼此之间不能相互攻击。</p>
 <p>给定一个整数 n，返回所有不同的 n 皇后问题的解决方案。</p>
 <p>每一种解法包含一个明确的 n 皇后问题的棋子放置方案，该方案中 &lsquo;Q&rsquo; 和 &lsquo;.&rsquo; 分别代表了皇后和空位。</p>
 <p>示例:</p>
@@ -258,7 +275,11 @@
 </blockquote>
 <p>代码中我们用<code>visited_u</code>记录主对角线，用<code>visited_d</code>记录次对角线。</p>
 <h2 id="回溯算法的一些细节">回溯算法的一些细节<a class="anchor" href="#回溯算法的一些细节">#</a></h2>
-<p><a href="https://leetcode-cn.com/problems/regular-expression-matching/"><strong>leetcode 10. 正则表达式匹配</strong></a></p>
+<p><a href="https://leetcode-cn.com/problems/regular-expression-matching/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+><strong>leetcode 10. 正则表达式匹配</strong></a>
+</p>
 <p>给你一个字符串 s 和一个字符规律 p，请你来实现一个支持 &lsquo;.&rsquo; 和 &lsquo;*&rsquo; 的正则表达式匹配。</p>
 <blockquote>
 <p>&lsquo;.&rsquo; 匹配任意单个字符
@@ -301,7 +322,11 @@ p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。</
 <p>注意：一般这类判断是否可行的题都是判断成功<code>return True</code>，判断失败就继续运行，但是这里可以写<code>return False</code>。原因在于错误的分支被<code>or</code> 语句截断了。</p>
 </blockquote>
 <p>没有<strong>执行</strong>和<strong>撤销</strong>的过程，因为参数直接传入递归函数，对当前函数内不产生影响。下面一个例子也是这种情况。</p>
-<p><a href="https://leetcode-cn.com/problems/generate-parentheses/">leetcode 22. 括号生成</a>：给出 <em>n</em> 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且<strong>有效的</strong>括号组合。</p>
+<p><a href="https://leetcode-cn.com/problems/generate-parentheses/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>leetcode 22. 括号生成</a>
+：给出 <em>n</em> 代表生成括号的对数，请你写出一个函数，使其能够生成所有可能的并且<strong>有效的</strong>括号组合。</p>
 <pre><code class="language-python">class Solution:
     def generateParenthesis(self, n: int) -&gt; List[str]:
         res = []
@@ -318,7 +343,11 @@ p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。</
         backtrack(n, n, '')
         return res
 </code></pre>
-<p><a href="https://leetcode-cn.com/problems/combination-sum-ii/"><strong>leetcode 40. 组合总和 II</strong></a></p>
+<p><a href="https://leetcode-cn.com/problems/combination-sum-ii/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+><strong>leetcode 40. 组合总和 II</strong></a>
+</p>
 <p>给定一个数组 <code>candidates</code> 和一个目标数 <code>target</code> ，找出 <code>candidates</code> 中所有可以使数字和为 <code>target</code> 的组合。</p>
 <p><strong>说明：</strong></p>
 <ul>
@@ -366,7 +395,11 @@ p 可能为空，且只包含从 a-z 的小写字母，以及字符 . 和 *。</
 <p>简单回溯法的时间复杂度通常是指数级别的。比如正则表达式使用回溯法求解的时间复杂度为 $O\left ( (T+P)2^{T+\frac{P}{2}} \right )$，<code>T</code> 和 <code>P</code> 分别表示匹配串和模式串的长度，<code>2</code>则是因为当出现<code>*</code>时，我们分两步试错。</p>
 <p>N皇后问题的时间复杂度为 $O\left ( N！ \right )$，假设N足够大，第一个皇后有<code>N</code>种可能，第二个有<code>N-2</code>或<code>N-3</code>种可能，第三个有<code>N-4</code>、<code>N-5</code>或<code>N-6</code>种可能&hellip;&hellip;总的来说时间复杂度是 $O\left ( N！ \right )$。</p>
 <p>实际上，回溯法的很多递归都是重复的，引用备忘录可以在递归到重复的情况时，直接读取备忘录中的值，而不再执行一次深度可能很深的递归。下面是备忘录的一个例子：</p>
-<p><a href="https://leetcode-cn.com/problems/wildcard-matching/"><strong>leetcode 44. 通配符匹配</strong></a></p>
+<p><a href="https://leetcode-cn.com/problems/wildcard-matching/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+><strong>leetcode 44. 通配符匹配</strong></a>
+</p>
 <p>给定一个字符串 (s) 和一个字符模式 (p) ，实现一个支持 &lsquo;?&rsquo; 和 &lsquo;*&rsquo; 的通配符匹配。</p>
 <blockquote>
 <p>&lsquo;?&rsquo; 可以匹配任何单个字符。
@@ -413,7 +446,11 @@ p = &quot;a&quot;
 
         return backtrack(0, 0)
 </code></pre>
-<p>除了自己创建备忘录，还可以使用python中的装饰器<a href="https://docs.python.org/zh-cn/3/library/functools.html#functools.lru_cache">@functools.lru_cache()</a>将函数值存在缓存中。</p>
+<p>除了自己创建备忘录，还可以使用python中的装饰器<a href="https://docs.python.org/zh-cn/3/library/functools.html#functools.lru_cache" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>@functools.lru_cache()</a>
+将函数值存在缓存中。</p>
 <pre><code class="language-python">import functools
 class Solution:
     def isMatch(self, s: str, p: str) -&gt; bool:
@@ -441,7 +478,11 @@ class Solution:
 </code></pre>
 <h2 id="剪枝">剪枝<a class="anchor" href="#剪枝">#</a></h2>
 <p><strong>剪枝</strong>，顾名思义，就是删去一些不重要或无用的节点，来减小计算或搜索的复杂度。使用备忘录其实也可以看成剪枝，因为重复的计算是无意义的。对于特定的问题，可以之间从算法的角度剪枝，如下面的例子：</p>
-<p><a href="https://leetcode-cn.com/problems/permutation-sequence/"><strong>leetcode 60. 第k个排列</strong></a></p>
+<p><a href="https://leetcode-cn.com/problems/permutation-sequence/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+><strong>leetcode 60. 第k个排列</strong></a>
+</p>
 <p>给出集合 [1,2,3,…,n]，其所有元素共有 n! 种排列。</p>
 <p>按大小顺序列出所有排列情况，并一一标记，当 n = 3 时, 所有排列如下：</p>
 <ol>
@@ -488,7 +529,11 @@ class Solution:
 
         return backtrack(k, n - 1, set(), '')
 </code></pre>
-<p>这道题通过剪枝甚至已经不需要回溯到之前的状态，通过递归直接就得到答案了。那也许意味着，有更直接的解法。实际上，这正是<a href="https://baike.baidu.com/item/%E5%BA%B7%E6%89%98%E5%B1%95%E5%BC%80">康托展开</a>的原理。</p>
+<p>这道题通过剪枝甚至已经不需要回溯到之前的状态，通过递归直接就得到答案了。那也许意味着，有更直接的解法。实际上，这正是<a href="https://baike.baidu.com/item/%e5%ba%b7%e6%89%98%e5%b1%95%e5%bc%80" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>康托展开</a>
+的原理。</p>
 <pre><code class="language-python">class Solution(object):
     def getPermutation(self, n, k):
         res = ''
@@ -566,8 +611,16 @@ public class Main {
 </code></pre>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98">wiki-8queen</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%9B%9E%E6%BA%AF%E6%B3%95">wiki-backtrack</a></li>
+<li><a href="https://zh.wikipedia.org/wiki/%e5%85%ab%e7%9a%87%e5%90%8e%e9%97%ae%e9%a2%98" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>wiki-8queen</a>
+</li>
+<li><a href="https://zh.wikipedia.org/wiki/%e5%9b%9e%e6%ba%af%e6%b3%95" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>wiki-backtrack</a>
+</li>
 </ol>
 
 
@@ -604,7 +657,7 @@ public class Main {
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >Java：基础</a>
+      <span class="pagination__title" >Java：基础</span>
     </a>
   
 </div>
@@ -621,7 +674,7 @@ public class Main {
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -630,7 +683,7 @@ public class Main {
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -639,7 +692,7 @@ public class Main {
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

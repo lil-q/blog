@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-02-01 22:41:13 \u002b0000 UTC",
       "dateModified" : "2020-02-01 22:41:13 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E5%8F%AF%E8%A7%86%E5%8C%96%E5%9C%B0%E5%9B%BE\/",
-      "wordCount" : "272",
+      "wordCount" : "276",
       "keywords" : ["Visualization", "可视化", "Blog"]
     }
   
@@ -113,7 +114,15 @@
           <article class="post__content">
               
 <h2 id="数据的获取">数据的获取<a class="anchor" href="#数据的获取">#</a></h2>
-<p>在学习<a href="https://blog.csdn.net/xufive/article/details/104093197">该博客</a>的数据爬取时发现数据似乎已经不再更新，所以重新在<a href="https://news.qq.com/zt2020/page/feiyan.htm?from=timeline&amp;isappinstalled=0">腾讯新闻网站</a>搜索相关数据。</p>
+<p>在学习<a href="https://blog.csdn.net/xufive/article/details/104093197" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>该博客</a>
+的数据爬取时发现数据似乎已经不再更新，所以重新在<a href="https://news.qq.com/zt2020/page/feiyan.htm?from=timeline&amp;isappinstalled=0" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>腾讯新闻网站</a>
+搜索相关数据。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/213627.png" alt="shuju" style="zoom:150%;" /></p>
 <p>使用<code>time</code>、<code>json</code>和<code>requests</code>获取数据。</p>
 <pre><code class="language-python">import time, json, requests
@@ -159,7 +168,15 @@ print(data)
     return areaData, lastUpdateTime
 </code></pre>
 <h2 id="数据可视化">数据可视化<a class="anchor" href="#数据可视化">#</a></h2>
-<p>这里使用的是<a href="https://pyecharts.org/#/zh-cn/quickstart">pyecharts v1</a>，似乎腾讯新闻也是用的这个包。由于湖北人数远高于其他省份，<a href="https://zhuanlan.zhihu.com/p/104026698">使用连续型的视觉映射效果不好</a>，这里采用了分段式的，可以以10的整数幂为界限传入<code>pieces</code>，<code>time</code>参数即之前得到的最近更新时间。</p>
+<p>这里使用的是<a href="https://pyecharts.org/#/zh-cn/quickstart" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>pyecharts v1</a>
+，似乎腾讯新闻也是用的这个包。由于湖北人数远高于其他省份，<a href="https://zhuanlan.zhihu.com/p/104026698" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>使用连续型的视觉映射效果不好</a>
+，这里采用了分段式的，可以以10的整数幂为界限传入<code>pieces</code>，<code>time</code>参数即之前得到的最近更新时间。</p>
 <pre><code class="language-python">def map_visualmap(time, pieces) -&gt; Map:
     c = (
         Map()
@@ -235,7 +252,7 @@ map1.render()
 <ul class="tags__list">
     
     <li class="tag__item">
-        <a class="tag__link" href="https://lil-q.github.io/tags/visualization/">visualization</a>
+        <a class="tag__link" href="https://lil-q.github.io/tags/visualization/">Visualization</a>
     </li></ul>
 
  <div class="pagination">
@@ -249,7 +266,7 @@ map1.render()
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/opencv-python%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >OpenCV-python：基础</a>
+      <span class="pagination__title" >OpenCV-python：基础</span>
     </a>
   
 </div>
@@ -266,7 +283,7 @@ map1.render()
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -275,7 +292,7 @@ map1.render()
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -284,7 +301,7 @@ map1.render()
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-04-02 15:37:30 \u002b0000 UTC",
       "dateModified" : "2020-04-02 15:37:30 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/java%E5%9F%BA%E7%A1%80%E4%BA%94\/",
-      "wordCount" : "2370",
+      "wordCount" : "2372",
       "keywords" : ["java", "Map", "HashMap", "concurrentHashMap", "Blog"]
     }
   
@@ -204,7 +205,11 @@ public int hashCode() {
 <li>如果 a &gt; b，则返回正数，通常是 1。</li>
 </ul>
 <p><em>TreeMap</em> 内部根据比较结果对 <em>key</em> 进行排序。要严格按照 <code>compare()</code> 规范实现比较逻辑，否则，<em>TreeMap</em> 将不能正常工作。</p>
-<p><a href="https://www.nowcoder.com/practice/46e837a4ea9144f5ad2021658cb54c4d?tpId=98&amp;tqId=32824&amp;tPage=1&amp;rp=1&amp;ru=/ta/2019test&amp;qru=/ta/2019test/question-ranking">nowcoder面试题 找工作</a></p>
+<p><a href="https://www.nowcoder.com/practice/46e837a4ea9144f5ad2021658cb54c4d?tpId=98&amp;tqId=32824&amp;tPage=1&amp;rp=1&amp;ru=/ta/2019test&amp;qru=/ta/2019test/question-ranking" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>nowcoder面试题 找工作</a>
+</p>
 <pre><code class="language-java">import java.util.*;
 
 public class Main {
@@ -405,7 +410,11 @@ i = (n - 1) &amp; hash;
 <pre><code class="language-java">static final int TREEIFY_THRESHOLD = 8;
 static final int UNTREEIFY_THRESHOLD = 6;
 </code></pre>
-<p>源码中对 <em>TREEIFY_THRESHOLD</em> 默认是 8 的原因解释如下。在完全随机且加载因子默认为 0.75 的情况下，根据泊松分布，一个桶内出现 8 个 <em>Node</em> 的概率只有 <a href="https://zhuanlan.zhihu.com/p/263523069">0.00000006</a>。</p>
+<p>源码中对 <em>TREEIFY_THRESHOLD</em> 默认是 8 的原因解释如下。在完全随机且加载因子默认为 0.75 的情况下，根据泊松分布，一个桶内出现 8 个 <em>Node</em> 的概率只有 <a href="https://zhuanlan.zhihu.com/p/263523069" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>0.00000006</a>
+。</p>
 <blockquote>
 <p>Because TreeNodes are about twice the size of regular nodes, we use them only when bins contain enough nodes to warrant use (see TREEIFY_THRESHOLD). And when they become too small (due to removal or resizing) they are converted back to plain bins.  In usages with well-distributed user hashCodes, tree bins are rarely used. Ideally, under random hashCodes, the frequency of nodes in bins follows a Poisson distribution with a parameter of about 0.5 on average for the default resizing threshold of 0.75, although with a large variance because of resizing granularity. Ignoring variance, the expected occurrences of list size k are (exp(-0.5) * pow(0.5, k) / factorial(k)).</p>
 </blockquote>
@@ -560,7 +569,11 @@ new capacity : 00100000
 <p><em>ConcurrentHashMap</em> 在执行 <code>size()</code> 操作时先尝试不加锁，如果连续两次不加锁操作得到的结果一致，那么可以认为这个结果是正确的。尝试次数使用 <em>RETRIES_BEFORE_LOCK</em> 定义，该值为 2，<em>retries</em> 初始值为 -1，因此尝试次数为 3。如果尝试的次数超过 3 次，就需要对每个 <em>Segment</em> 加锁。</p>
 <h3 id="33-jdk-18-的改动">3.3 JDK 1.8 的改动<a class="anchor" href="#33-jdk-18-的改动">#</a></h3>
 <p>JDK 1.7 使用分段锁机制来实现并发更新操作，核心类为 <em>Segment</em>，它继承自重入锁 <em>ReentrantLock</em>，并发度与 <em>Segment</em> 数量相等。</p>
-<p>JDK 1.8 使用了 <strong>CAS</strong> 操作来支持更高的并发度，在 CAS 操作失败时使用内置锁 <em>synchronized</em>，并且 JDK 1.8 的实现也在链表过长时会转换为<strong>红黑树</strong>。具体实现是当数组长度还未达到 64 个时，优先数组的扩容，否则选择链表转为红黑树 <a href="https://my.oschina.net/pingpangkuangmo/blog/817973#h2_17">[]</a>。</p>
+<p>JDK 1.8 使用了 <strong>CAS</strong> 操作来支持更高的并发度，在 CAS 操作失败时使用内置锁 <em>synchronized</em>，并且 JDK 1.8 的实现也在链表过长时会转换为<strong>红黑树</strong>。具体实现是当数组长度还未达到 64 个时，优先数组的扩容，否则选择链表转为红黑树 <a href="https://my.oschina.net/pingpangkuangmo/blog/817973#h2_17" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>[]</a>
+。</p>
 <h4 id="1-读不加锁">1. 读不加锁</h4>
 <p>我们通常使用读写锁来保护对一堆数据的读写操作。读时加读锁，写时加写锁。 <em>ConcurrentHashMap</em> 对数据的写操作是不需要分 2 次写的（没有中间状态），读操作也是不需要 2 次读取的。假如一个写操作需要分多次写，必然会有中间状态，如果读不加锁，那么可能就会读到中间状态，那就不对了。</p>
 <p>虽然 <em>ConcurrentHashMap</em> 的读不需要锁，但是需要保证能读到最新数据，所以必须加 <em><strong>volatile</strong></em>。</p>
@@ -713,12 +726,36 @@ referent = null;
 <p>Java 的集合类定义在 java.util 包中，支持泛型。Java 集合使用统一的 <em>Iterator</em> 遍历，尽量不要使用遗留接口。</p>
 <h1 id="参考">参考</h1>
 <ol>
-<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E5%AE%B9%E5%99%A8">CyC CS-Notes</a></li>
-<li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1265118019954528">廖雪峰 Java 教程</a></li>
-<li><a href="https://my.oschina.net/pingpangkuangmo/blog/817973#h2_17">JDK 1.8 的 HashMap 和 ConcurrentHashMap</a></li>
-<li><a href="https://juejin.im/entry/5a085809f265da430c114c8b">Java 中的 WeakHashMap</a></li>
-<li><a href="https://stackoverflow.com/questions/7136620/weak-references-how-useful-are-they">Weak references - how useful are they?</a></li>
-<li><a href="https://zhuanlan.zhihu.com/p/86072774">AQS</a></li>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%e5%ae%b9%e5%99%a8" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>CyC CS-Notes</a>
+</li>
+<li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1265118019954528" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>廖雪峰 Java 教程</a>
+</li>
+<li><a href="https://my.oschina.net/pingpangkuangmo/blog/817973#h2_17" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>JDK 1.8 的 HashMap 和 ConcurrentHashMap</a>
+</li>
+<li><a href="https://juejin.im/entry/5a085809f265da430c114c8b" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Java 中的 WeakHashMap</a>
+</li>
+<li><a href="https://stackoverflow.com/questions/7136620/weak-references-how-useful-are-they" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Weak references - how useful are they?</a>
+</li>
+<li><a href="https://zhuanlan.zhihu.com/p/86072774" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>AQS</a>
+</li>
 </ol>
 
 
@@ -746,7 +783,7 @@ referent = null;
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/%E8%B4%AA%E5%BF%83%E7%AE%97%E6%B3%95/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >贪心算法</a>
+      <span class="pagination__title" >贪心算法</span>
     </a>
   
 </div>
@@ -763,7 +800,7 @@ referent = null;
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -772,7 +809,7 @@ referent = null;
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -781,7 +818,7 @@ referent = null;
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

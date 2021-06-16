@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2019-12-27 17:53:49 \u002b0000 UTC",
       "dateModified" : "2019-12-27 17:53:49 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E5%9B%BE-graph\/",
-      "wordCount" : "1344",
+      "wordCount" : "1353",
       "keywords" : ["graph", "Dijkstra", "Floyd-Warshall", "Prim", "Kruskal", "Blog"]
     }
   
@@ -165,13 +166,37 @@
 <h2 id="三图的遍历">三、图的遍历<a class="anchor" href="#三图的遍历">#</a></h2>
 <p><strong>图的遍历</strong>问题分为四类：</p>
 <ul>
-<li>遍历完所有的<strong>边</strong>而不能有重复，即所谓“欧拉路径问题”（又名<a href="https://zh.wikipedia.org/wiki/%E4%B8%80%E7%AC%94%E7%94%BB%E9%97%AE%E9%A2%98">一笔画问题</a>）；</li>
-<li>遍历完所有的<strong>顶点</strong>而没有重复，即所谓“<a href="https://zh.wikipedia.org/wiki/%E5%93%88%E5%AF%86%E9%A0%93%E8%B7%AF%E5%BE%91%E5%95%8F%E9%A1%8C">哈密顿路径问题</a>”。</li>
-<li>遍历完所有的<strong>边</strong>而可以有重复，即所谓“<a href="https://zh.wikipedia.org/wiki/%E4%B8%AD%E5%9B%BD%E9%82%AE%E9%80%92%E5%91%98%E9%97%AE%E9%A2%98">中国邮递员问题</a>”；</li>
-<li>遍历完所有的<strong>顶点</strong>而可以重复，即所谓“<a href="https://zh.wikipedia.org/wiki/%E6%97%85%E8%A1%8C%E6%8E%A8%E9%94%80%E5%91%98%E9%97%AE%E9%A2%98">旅行推销员问题</a>”。</li>
+<li>遍历完所有的<strong>边</strong>而不能有重复，即所谓“欧拉路径问题”（又名<a href="https://zh.wikipedia.org/wiki/%e4%b8%80%e7%ac%94%e7%94%bb%e9%97%ae%e9%a2%98" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>一笔画问题</a>
+）；</li>
+<li>遍历完所有的<strong>顶点</strong>而没有重复，即所谓“<a href="https://zh.wikipedia.org/wiki/%e5%93%88%e5%af%86%e9%a0%93%e8%b7%af%e5%be%91%e5%95%8f%e9%a1%8c" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>哈密顿路径问题</a>
+”。</li>
+<li>遍历完所有的<strong>边</strong>而可以有重复，即所谓“<a href="https://zh.wikipedia.org/wiki/%e4%b8%ad%e5%9b%bd%e9%82%ae%e9%80%92%e5%91%98%e9%97%ae%e9%a2%98" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>中国邮递员问题</a>
+”；</li>
+<li>遍历完所有的<strong>顶点</strong>而可以重复，即所谓“<a href="https://zh.wikipedia.org/wiki/%e6%97%85%e8%a1%8c%e6%8e%a8%e9%94%80%e5%91%98%e9%97%ae%e9%a2%98" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>旅行推销员问题</a>
+”。</li>
 </ul>
 <p>对于第一和第三类问题已经得到了完满的解决，而第二和第四类问题则只得到了部分解决。</p>
-<p>第一类问题就是研究所谓的<a href="https://zh.wikipedia.org/wiki/%E6%AC%A7%E6%8B%89%E5%9B%BE">欧拉图</a>的性质，而第二类问题则是研究所谓的<a href="https://zh.wikipedia.org/wiki/%E5%93%88%E5%AF%86%E9%A1%BF%E5%9B%BE">哈密顿图</a>的性质。</p>
+<p>第一类问题就是研究所谓的<a href="https://zh.wikipedia.org/wiki/%e6%ac%a7%e6%8b%89%e5%9b%be" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>欧拉图</a>
+的性质，而第二类问题则是研究所谓的<a href="https://zh.wikipedia.org/wiki/%e5%93%88%e5%af%86%e9%a1%bf%e5%9b%be" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>哈密顿图</a>
+的性质。</p>
 <p>图的遍历方法有深度优先搜索法和广度(宽度)优先搜索法。以下图为例。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/graph1.png" alt="graph" style="zoom:67%;" /></p>
 <p>建立邻接表：</p>
@@ -362,7 +387,15 @@ if __name__ == '__main__':
 <p><strong>流程</strong></p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/1920px-Floyd-Warshall_example.svg.png" alt="graphh"></p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/2019-12-30%20224429.png" alt="gg" style="zoom:150%;" /></p>
-<p>Floyd-Warshall算法的<a href="https://zh.wikipedia.org/wiki/%E6%97%B6%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">时间复杂度</a>为 $O(N^{3})$，<a href="https://zh.wikipedia.org/wiki/%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6">空间复杂度</a>为 $O(N^{2})$。</p>
+<p>Floyd-Warshall算法的<a href="https://zh.wikipedia.org/wiki/%e6%97%b6%e9%97%b4%e5%a4%8d%e6%9d%82%e5%ba%a6" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>时间复杂度</a>
+为 $O(N^{3})$，<a href="https://zh.wikipedia.org/wiki/%e7%a9%ba%e9%97%b4%e5%a4%8d%e6%9d%82%e5%ba%a6" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>空间复杂度</a>
+为 $O(N^{2})$。</p>
 <p><strong>代码</strong></p>
 <pre><code class="language-python">def floyd(graph):
     length = len(graph)
@@ -469,7 +502,11 @@ if __name__ == '__main__':
 <pre><code class="language-python">path: [('A', 'C'), ('C', 'G'), ('G', 'D'), ('G', 'F'), ('A', 'B'), ('B', 'E')]
 </code></pre>
 <h3 id="52-kruskal算法">5.2 Kruskal算法<a class="anchor" href="#52-kruskal算法">#</a></h3>
-<p><strong>Kruskal算法</strong>是一种用来查找最小生成树的算法，由Joseph Kruskal在1956年发表。基于<a href="https://lil-q.github.io/2020/01/02/%E6%9F%A5%E5%B9%B6%E9%9B%86-union-find-algorithm/">并查集</a>的数据结构。</p>
+<p><strong>Kruskal算法</strong>是一种用来查找最小生成树的算法，由Joseph Kruskal在1956年发表。基于<a href="https://lil-q.github.io/2020/01/02/%E6%9F%A5%E5%B9%B6%E9%9B%86-union-find-algorithm/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>并查集</a>
+的数据结构。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/383px-MST_kruskal_en.gif" alt="kru" style="zoom:67%;" /></p>
 <p><strong>流程</strong></p>
 <ol>
@@ -515,14 +552,46 @@ def kruskal(graph):
 </code></pre>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://github.com/lil-q/data-structures-python/tree/master/Graph"><strong>完整测试代码地址</strong></a></li>
-<li><a href="https://www.cnblogs.com/skywang12345/p/3691463.html">图的理论基础</a></li>
-<li><a href="https://zh.wikipedia.org/wiki/%E5%9B%BE_(%E6%95%B0%E5%AD%A6)">wiki-graph</a></li>
-<li><a href="https://oi-wiki.org/graph/">oi-wiki</a></li>
-<li><a href="http://data.biancheng.net/view/202.html">生成树（生成森林）详解</a></li>
-<li><a href="https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs">Representing graphs</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Floyd%E2%80%93Warshall_algorithm">wiki-Floyd–Warshall</a></li>
-<li><a href="https://leetcode-cn.com/problems/course-schedule/">一个小练习😀</a></li>
+<li><a href="https://github.com/lil-q/data-structures-python/tree/master/Graph" 
+  
+   target="_blank" rel="noreferrer noopener" 
+><strong>完整测试代码地址</strong></a>
+</li>
+<li><a href="https://www.cnblogs.com/skywang12345/p/3691463.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>图的理论基础</a>
+</li>
+<li><a href="https://zh.wikipedia.org/wiki/%e5%9b%be_%28%e6%95%b0%e5%ad%a6%29" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>wiki-graph</a>
+</li>
+<li><a href="https://oi-wiki.org/graph/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>oi-wiki</a>
+</li>
+<li><a href="http://data.biancheng.net/view/202.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>生成树（生成森林）详解</a>
+</li>
+<li><a href="https://www.khanacademy.org/computing/computer-science/algorithms/graph-representation/a/representing-graphs" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Representing graphs</a>
+</li>
+<li><a href="https://en.wikipedia.org/wiki/Floyd%e2%80%93Warshall_algorithm" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>wiki-Floyd–Warshall</a>
+</li>
+<li><a href="https://leetcode-cn.com/problems/course-schedule/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>一个小练习😀</a>
+</li>
 </ol>
 
 
@@ -559,7 +628,7 @@ def kruskal(graph):
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/%E6%9F%A5%E5%B9%B6%E9%9B%86-union-find-algorithm/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >查并集</a>
+      <span class="pagination__title" >查并集</span>
     </a>
   
 </div>
@@ -576,7 +645,7 @@ def kruskal(graph):
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -585,7 +654,7 @@ def kruskal(graph):
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -594,7 +663,7 @@ def kruskal(graph):
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

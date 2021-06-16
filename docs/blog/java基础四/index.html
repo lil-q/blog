@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -617,7 +618,11 @@ private E get(Object[] a, int index) {
 <li>取栈顶元素但不弹出：<code>peek(E)</code>。</li>
 </ul>
 <p>用 <em>Deque</em> 可以实现 Stack 的功能，注意只调用<code>push()</code>/<code>pop()</code>/<code>peek()</code>方法，避免调用 <em>Deque</em> 的其他方法。实际上，以上都是对队首进行操作而不是队尾。</p>
-<p><a href="https://leetcode-cn.com/problems/remove-duplicate-letters/">leetcode 316. 去除重复字母</a></p>
+<p><a href="https://leetcode-cn.com/problems/remove-duplicate-letters/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>leetcode 316. 去除重复字母</a>
+</p>
 <pre><code class="language-java">class Solution {
     public String removeDuplicateLetters(String s) {
         LinkedList&lt;Character&gt; stack = new LinkedList&lt;&gt;();
@@ -683,12 +688,36 @@ private E get(Object[] a, int index) {
 <p>常见的 topK 问题使用最小堆来解决，相反的求最小的若干数则用最大堆。</p>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%E5%AE%B9%E5%99%A8">CyC CS-Notes</a></li>
-<li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1265112034799552">lxf-wiki</a></li>
-<li><a href="https://stackoverflow.com/questions/29574436/what-does-java-util-arraysarraylist-mean">Array.asList() and List.of()</a></li>
-<li><a href="https://majing.io/posts/10000001141158">hashCode()实现</a></li>
-<li><a href="https://baijiahao.baidu.com/s?id=1638201147057831295&amp;wfr=spider&amp;for=pc">fail-fast</a></li>
-<li><a href="https://www.cnblogs.com/vinozly/p/5171227.html">Serializable</a></li>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/Java%20%e5%ae%b9%e5%99%a8" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>CyC CS-Notes</a>
+</li>
+<li><a href="https://www.liaoxuefeng.com/wiki/1252599548343744/1265112034799552" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>lxf-wiki</a>
+</li>
+<li><a href="https://stackoverflow.com/questions/29574436/what-does-java-util-arraysarraylist-mean" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Array.asList() and List.of()</a>
+</li>
+<li><a href="https://majing.io/posts/10000001141158" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>hashCode()实现</a>
+</li>
+<li><a href="https://baijiahao.baidu.com/s?id=1638201147057831295&amp;wfr=spider&amp;for=pc" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>fail-fast</a>
+</li>
+<li><a href="https://www.cnblogs.com/vinozly/p/5171227.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Serializable</a>
+</li>
 </ol>
 
 
@@ -716,7 +745,7 @@ private E get(Object[] a, int index) {
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/java%E5%9F%BA%E7%A1%80%E4%BA%94/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >Java：Map</a>
+      <span class="pagination__title" >Java：Map</span>
     </a>
   
 </div>
@@ -733,7 +762,7 @@ private E get(Object[] a, int index) {
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -742,7 +771,7 @@ private E get(Object[] a, int index) {
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -751,7 +780,7 @@ private E get(Object[] a, int index) {
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>

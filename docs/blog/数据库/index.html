@@ -17,6 +17,7 @@
 
   <link rel="shortcut icon" type="image/png" href="/favicon.ico" />
 
+
   
   
     
@@ -28,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.4a5aa0649b8a0efeb31db5e96d7a85382af4ceeba021b2001545f61240a43d9c.css" integrity="sha256-SlqgZJuKDv6zHbXpbXqFOCr0zuugIbIAFUX2EkCkPZw="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b60e0932fe1c50c3d7c5b4f83ee9e4592363654d0f2abf05bbd0678d5b8a214c.css" integrity="sha256-tg4JMv4cUMPXxbT4PunkWSNjZU0PKr8Fu9BnjVuKIUw="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.c5ef497d90dc0c27f701423d4e325f3554e96d4e1abff4d3ee7837902f51c1bb.css" integrity="sha256-xe9JfZDcDCf3AUI9TjJfNVTpbU4av/TT7ng3kC9Rwbs="/>
@@ -61,7 +62,7 @@
       "datePublished": "2020-07-16 20:30:14 \u002b0000 UTC",
       "dateModified" : "2020-07-16 20:30:14 \u002b0000 UTC",
       "url" : "https:\/\/lil-q.github.io\/blog\/%E6%95%B0%E6%8D%AE%E5%BA%93\/",
-      "wordCount" : "467",
+      "wordCount" : "468",
       "keywords" : ["Blog"]
     }
   
@@ -253,7 +254,11 @@
 <p>在二级的基础上，要求读取数据 A 时必须加 S 锁，直到事务结束了才能释放 S 锁。</p>
 <p>可以解决不可重复读的问题，因为读 A 时，其它事务不能对 A 加 X 锁，从而避免了在读的期间数据发生改变。</p>
 <p><img src="https://qttblog.oss-cn-hangzhou.aliyuncs.com/june/sql1.png" alt=""></p>
-<p><strong>注意</strong>：三级封锁协议仍存在幻影数据行问题。<a href="https://cyc2018.github.io/CS-Notes/#/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86?id=%E5%85%AD%E3%80%81next-key-locks">Next-Key Locks</a>可以解决这个问题。</p>
+<p><strong>注意</strong>：三级封锁协议仍存在幻影数据行问题。<a href="https://cyc2018.github.io/CS-Notes/#/notes/%e6%95%b0%e6%8d%ae%e5%ba%93%e7%b3%bb%e7%bb%9f%e5%8e%9f%e7%90%86?id=%e5%85%ad%e3%80%81next-key-locks" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>Next-Key Locks</a>
+可以解决这个问题。</p>
 <h4 id="2-两段锁协议">2. 两段锁协议</h4>
 <p>加锁和解锁分为两个阶段进行。</p>
 <p>可串行化调度是指，通过并发控制，使得并发执行的事务结果与某个串行执行的事务结果相同。串行执行的事务互不干扰，不会出现并发一致性问题。</p>
@@ -383,10 +388,26 @@ SELECT * FROM table WHERE ? for update;
 </ul>
 <h2 id="参考">参考<a class="anchor" href="#参考">#</a></h2>
 <ol>
-<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B3%BB%E7%BB%9F%E5%8E%9F%E7%90%86">CYC CS-Notes</a></li>
-<li><a href="https://draveness.me/mysql-transaction/">ACID 实现原理</a></li>
-<li><a href="http://www.cs.sjtu.edu.cn/~li-fang/lecture11%20for2.pdf">sjtu-pdf</a></li>
-<li><a href="https://www.cnblogs.com/geaozhang/p/6792369.html">深入解析MySQL视图VIEW</a></li>
+<li><a href="https://cyc2018.github.io/CS-Notes/#/notes/%e6%95%b0%e6%8d%ae%e5%ba%93%e7%b3%bb%e7%bb%9f%e5%8e%9f%e7%90%86" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>CYC CS-Notes</a>
+</li>
+<li><a href="https://draveness.me/mysql-transaction/" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>ACID 实现原理</a>
+</li>
+<li><a href="http://www.cs.sjtu.edu.cn/~li-fang/lecture11%20for2.pdf" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>sjtu-pdf</a>
+</li>
+<li><a href="https://www.cnblogs.com/geaozhang/p/6792369.html" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>深入解析MySQL视图VIEW</a>
+</li>
 </ol>
 
 
@@ -411,7 +432,7 @@ SELECT * FROM table WHERE ? for update;
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/mysql/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >MySQL</a>
+      <span class="pagination__title" >MySQL</span>
     </a>
   
 </div>
@@ -428,7 +449,7 @@ SELECT * FROM table WHERE ? for update;
   
      
     
-      <a class="social-icons__link" title="GitHub"
+      <a class="social-icons__link" rel="me" title="GitHub"
          href="https://github.com/lil-q"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/github.svg')"></div>
@@ -437,7 +458,7 @@ SELECT * FROM table WHERE ? for update;
   
      
     
-      <a class="social-icons__link" title="Email"
+      <a class="social-icons__link" rel="me" title="Email"
          href="mailto:qitiantianc137@outlook.com"
          target="_blank" rel="noopener">
         <div class="social-icons__icon" style="background-image: url('https://lil-q.github.io/svg/email.svg')"></div>
@@ -446,7 +467,7 @@ SELECT * FROM table WHERE ? for update;
      
 </div>
 
-            <p>2021 © lil-q</p>
+            <p>2019-2021 © lil-q</p>
           </footer>
           </div>
       </div>
