@@ -62,7 +62,7 @@
       "datePublished": "2021-06-13 16:30:25 \u002b0800 CST",
       "dateModified" : "2021-06-13 16:30:25 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/concurrenthashmap\/",
-      "wordCount" : "3293",
+      "wordCount" : "4208",
       "keywords" : ["Blog"]
     }
   
@@ -117,7 +117,7 @@
 <p>由于读取数据不上锁，读取时可能与写入发生重叠，<em>CHM</em> 只能反映最近完成的写入所产生的结果。与 volatile 类似，这也是符合 happens-before 原则的：如果通过 <em>CHM</em> 读取到某次写入后的值，那么写入前的程序的执行一定先于读取后的程序。</p>
 <p>与 <em>CopyOnWriteArrayList</em> 相同，<em>CHM</em> 的迭代器在进行迭代时，不会因为写入或删除操作而报出 <em>ConcurrentModificationException</em>。但是，每次获得的迭代器只能被一个线程所使用，不应当传送给其他线程。一旦一个迭代器被创建，其状态就是确定的（一个快照），类似 <code>size()</code> \ <code>isEmpty()</code> \ <code>containsValue()</code> 等访问实时数据的函数就不能够用来控制程序了。</p>
 <h2 id="一初始化">一、初始化<a class="anchor" href="#一初始化">#</a></h2>
-<p><em>CHM</em> 中重要的成员变量如下：</p>
+<p><em>CHM</em> 中比较重要的成员变量如下：</p>
 <pre><code class="language-java">public class ConcurrentHashMap&lt;K,V&gt; extends AbstractMap&lt;K,V&gt;
     implements ConcurrentMap&lt;K,V&gt;, Serializable {
 
@@ -668,15 +668,15 @@ private final void tryPresize(int size) {
 <p>在 <code>for (int i = 0, bound = 0;;)</code> 中初始化了两个变量 bound 和 i，bound 表示区间下界，i 表示当前处理桶的下标。</p>
 <pre><code class="language-java">while (advance) {
     int nextIndex, nextBound;
-    // 1.选择下一个桶或处理结束信号
+    // 选择下一个桶或处理结束信号
     if (--i &gt;= bound || finishing)
         advance = false;
-    // 2.没有新的区间可以分配
+    // 没有新的区间可以分配
     else if ((nextIndex = transferIndex) &lt;= 0) {
         i = -1;
         advance = false;
     }
-    // 3.分配区间
+    // 分配区间
     else if (U.compareAndSwapInt
              (this, TRANSFERINDEX, nextIndex,
               nextBound = (nextIndex &gt; stride ?
@@ -722,19 +722,19 @@ private final void tryPresize(int size) {
 <p>判断结束条件围绕 finishing 变量展开，当 i 小于 0 时，当前线程已经完成了 table 最后的一个区间，对 finishing 进行判断：</p>
 <ul>
 <li>finishing 为 true：
-<ol>
+<ul>
 <li>全局变量 nextTable 置空；</li>
 <li>替换 table；</li>
 <li>设置 sizeCtl。</li>
-</ol>
+</ul>
 </li>
 <li>finishing 为 false：
-<ol>
+<ul>
 <li>原子操作对 sizeCtl 中的线程数减 1；</li>
 <li>判断是否所有线程都结束工作，否则返回，是则继续；</li>
 <li>finishing 置 true。</li>
 <li>i 置 taable.length，下一个循环开始全局检查。</li>
-</ol>
+</ul>
 </li>
 </ul>
 <pre><code class="language-java">// i&lt;0时，已经完成扩容，暂不知道(i&gt;=n || i+n&gt;=nextn)的含义
@@ -886,6 +886,259 @@ synchronized (f) {
 }
 </code></pre>
 <h2 id="四计数">四、计数<a class="anchor" href="#四计数">#</a></h2>
+<p>通过 <code>size()</code> 可以获得当前键值对的数量，<code>size()</code> 将 <code>sumCount()</code> 获得的 long 类型的值转化为 int 返回。</p>
+<p><code>sumCount()</code> 则计算 baseCount 字段与 counterCells 数组中所有非空元素的记录值的和。</p>
+<pre><code class="language-java">// 未发生争用前都用它计数
+private transient volatile long baseCount;
+
+// 用于同步counterCells数组结构修改的乐观锁资源
+private transient volatile int cellsBusy;
+
+// 支持多个线程同时通过counterCells中的多个元素计数
+private transient volatile CounterCell[] counterCells;
+
+public int size() {
+    long n = sumCount();
+    return ((n &lt; 0L) ? 0 : 
+            (n &gt; (long)Integer.MAX_VALUE) ? Integer.MAX_VALUE : 
+            (int)n); 
+}
+
+// 计算 baseCount 字段与所有 counterCells 数组的非空元素的和
+final long sumCount() {
+    CounterCell[] as = counterCells; CounterCell a;
+    long sum = baseCount;
+    if (as != null) {
+        for (int i = 0; i &lt; as.length; ++i) {
+            if ((a = as[i]) != null)
+                sum += a.value;
+        }
+    }
+    return sum;
+}
+</code></pre>
+<p>由此我们可以推断，<em>CHM</em> 将键值对数量保存在全局变量 baseCount 和 <em>CounterCell</em> 数组 counterCells 中。<em>CounterCell</em> 是 <em>CHM</em> 的静态内部类，结构很简单，仅仅保存一个 volatile 修饰的 long 值。因此，每一个 <em>CounterCell</em> 对象占用空间都很小，当一个 <em>CounterCell</em> 数组创建时，其中的多个元素可能处在同一缓存行内，这会导致一种伪共享的现象，极大降低并发效率。</p>
+<p><code>@sun.misc.Contended</code> 的作用就是保证修饰对象不会出现伪共享，原理是在对象或字段的前后各增加 128 字节大小的 padding，使用 2 倍于大多数硬件缓存行的大小来避免相邻扇区预取导致的伪共享冲突。</p>
+<pre><code class="language-java">@sun.misc.Contended static final class CounterCell {
+    volatile long value;
+    CounterCell(long x) { value = x; }
+}
+</code></pre>
+<p>那么键值对的数量是如何保存到 baseCount 和 counterCells 中的呢?</p>
+<p>在第二章中，我们介绍了 <code>addCount()</code>，它会先对 <em>CHM</em> 中所有键值对计数，然后考虑是否扩容。现在我们来看看它是如何计数的。</p>
+<pre><code class="language-java">private final void addCount(long x, int check) {
+    CounterCell[] as; long b, s;
+    // 第一层if
+    if ((as = counterCells) != null ||
+        !U.compareAndSwapLong(this, BASECOUNT, b = baseCount, s = b + x)) {
+        CounterCell a; long v; int m;
+        boolean uncontended = true;
+        // 第二层if
+        if (as == null || (m = as.length - 1) &lt; 0 ||
+            (a = as[ThreadLocalRandom.getProbe() &amp; m]) == null ||
+            !(uncontended =
+              U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {
+            fullAddCount(x, uncontended);
+            return;
+        }
+        if (check &lt;= 1)
+            return;
+        s = sumCount();
+    }
+    if (check &gt;= 0) {
+        ...
+    }
+}
+</code></pre>
+<p><code>addCount()</code> 中有两层 if，其中蕴含了非常巧妙的设计，第一层：</p>
+<ul>
+<li>counterCells 不为空：跳转第二层 if；</li>
+<li>counterCells 为空：不着急创建 counterCells，先用原子操作增加 baseCount：
+<ul>
+<li>成功：结束计数；</li>
+<li>失败：跳转第二层 if。</li>
+</ul>
+</li>
+</ul>
+<p>第二层 if 就是用来创建 counterCells 以及使用它来计数的：</p>
+<ul>
+<li>counterCells 为空或 counterCells[probe] 为空：调用 <code> fullAddCount(x, true)</code>；</li>
+<li>counterCells[probe] 已经创建：原子操作增加其 value 值：
+<ul>
+<li>成功：结束计数；</li>
+<li>失败：调用 <code> fullAddCount(x, false)</code>。</li>
+</ul>
+</li>
+</ul>
+<p>probe 可以理解为每个线程特有的哈希值（不同在于 probe 是可变的）与 counterCells.length - 1 的位与，目的是为了让每个线程都拥有属于自己的 counterCell，这样每个线程增加计数时就不会线程冲突了。由此可见 counterCells 本身就是一个小的哈希表，当 counterCells 为空或 counterCells[probe] 为空时，就需要 <code>fullAddCount(x, uncontended)</code> 来创建，测试 uncontended 为 true。</p>
+<p>不幸的是，既然是哈希表，就存在哈希冲突。如果原子操作争用 counterCells[probe]（线程冲突），就需要 <code>fullAddCount(x, uncontended)</code> 解决哈希冲突和线程冲突，此时 uncontended 为 false。也就是说，这里的冲突包含两种含义：线程的哈希冲突和线程的竞争冲突。</p>
+<h3 id="41-fulladdcount">4.1 fullAddCount<a class="anchor" href="#41-fulladdcount">#</a></h3>
+<p><code>fullAddCount()</code> 可真是全能，来看看它是如何实现的。依旧，先理清框架，再探究细节。</p>
+<pre><code class="language-java">private final void fullAddCount(long x, boolean wasUncontended) {
+    int h;
+    // 判断线程哈希值是否初始化
+    if ((h = ThreadLocalRandom.getProbe()) == 0) {
+        ThreadLocalRandom.localInit(); // force initialization
+        h = ThreadLocalRandom.getProbe();
+        wasUncontended = true; // 重新假设未发生争用
+    }
+    boolean collide = false; // 是否要给counterCells扩容的标志
+    for (;;) {
+        CounterCell[] as; CounterCell a; int n; long v;
+        // 1.counterCells非空且长度大于0，用它来计数
+        if ((as = counterCells) != null &amp;&amp; (n = as.length) &gt; 0) {
+            ... // 详见4.2节
+        }
+        // 2.counterCells为空或长度为0，初始化counterCells
+        else if (cellsBusy == 0 &amp;&amp; counterCells == as &amp;&amp;
+                 U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+            // 获取cellsBusy锁
+            boolean init = false;
+            try { // Initialize table
+                if (counterCells == as) {
+                    CounterCell[] rs = new CounterCell[2]; // 初始长度为2
+                    rs[h &amp; 1] = new CounterCell(x);
+                    counterCells = rs;
+                    init = true;
+                }
+            } finally {
+                cellsBusy = 0;
+            }
+            if (init)
+                break;
+        }
+        // 3.counterCells为空或长度为0，并且获取cellsBusy锁失败，则会再次尝试将x累加到baseCount
+        else if (U.compareAndSwapLong(this, BASECOUNT, v = baseCount, v + x))
+            break; // Fall back on using base
+    } 
+}
+</code></pre>
+<p>首先判断线程哈希值是否初始化，若未初始化，则通过 <code>ThreadLocalRandom.localInit()</code> 强制初始化。</p>
+<p>魔术 0x9e3779b9 是黄金分割比与 2^32 的乘积，使用它能够有效分散哈希分布。</p>
+<pre><code class="language-java">private static final int PROBE_INCREMENT = 0x9e3779b9; // 魔数
+private static final AtomicInteger probeGenerator = new AtomicInteger(); // 竞争不激烈，可用原子类
+
+static final void localInit() {
+    int p = probeGenerator.addAndGet(PROBE_INCREMENT); // 每次累加魔数
+    int probe = (p == 0) ? 1 : p; // skip 0
+    long seed = mix64(seeder.getAndAdd(SEEDER_INCREMENT));
+    Thread t = Thread.currentThread();
+    UNSAFE.putLong(t, SEED, seed);
+    UNSAFE.putInt(t, PROBE, probe); // 写回
+}
+</code></pre>
+<p>初始化后，将 wasUncontended 置为 true，由于 probe 改变了，可以假设未发生争用。</p>
+<p>接着是一个复杂的循环，但是总体框架是清晰的：</p>
+<ol>
+<li>counterCells 非空且长度大于 0：用它来计数；</li>
+<li>counterCells 为空或长度为 0，初始化 counterCells；</li>
+<li>counterCells 为空或长度为 0，并且获取 cellsBusy 锁失败：再次尝试将 x 累加到 baseCount。</li>
+</ol>
+<p>第二个和第三个分支比较好理解，关键在于第一个分支如何用 counterCells 计数，又是如何处理 counterCells 哈希冲突的。</p>
+<h3 id="42-countercells">4.2 counterCells<a class="anchor" href="#42-countercells">#</a></h3>
+<p>循环：</p>
+<ol>
+<li>counterCells[probe] 为空，插入新的 <em>CounterCell</em> 对象：
+<ul>
+<li>创建成功：已记录 x，跳出；</li>
+<li>创建失败：进入下一个循环。</li>
+</ul>
+</li>
+<li>若 wasUncontended 为 false，存在竞争：
+<ul>
+<li>wasUncontended 置为 true；</li>
+<li>执行线程 rehash，进入下一个循环。</li>
+</ul>
+</li>
+<li>若成功通过 CAS 将 x 累加进 counterCells[probe]：跳出。</li>
+<li>若 counterCells 正在扩容或长度大于等于处理器数：
+<ul>
+<li>collide 置为 false，无法扩容；</li>
+<li>执行线程 rehash，进入下一个循环。</li>
+</ul>
+</li>
+<li>若 collide 为 false：
+<ul>
+<li>collide 置为 true，下一轮第三步继续失败将进行扩容；</li>
+<li>执行线程 rehash，进入下一个循环。</li>
+</ul>
+</li>
+<li>若 collide 为 true：
+<ul>
+<li>尝试给 counterCells 扩容；</li>
+<li>进入下一个循环。</li>
+</ul>
+</li>
+</ol>
+<p>以上就是 counterCells 计数的流程，有几个点需要说明：</p>
+<ul>
+<li>就算进行了线程 rehash 也没法保证一定不会哈希冲突，但是如果传入值 wasUncontended 明确表示存在哈希冲突和线程冲突并存，第二步还是会主动线程 rehash。</li>
+<li>第一步和第二步都只会执行一次，之后的每一次循环都会尝试第三步通过 CAS 将 x 累加进 counterCells[probe]。</li>
+<li>并不是第三步失败，就立即扩容，两者之间还是会多次尝试第三步 CAS。</li>
+<li>如果不能扩容，就会在第三步和第四步间来回执行，直到线程 rehash 后第三步 CAS 成功为止。</li>
+</ul>
+<pre><code class="language-java">if ((as = counterCells) != null &amp;&amp; (n = as.length) &gt; 0) {
+	// 1.counterCells[probe]为空，插入新的CounterCell
+    if ((a = as[(n - 1) &amp; h]) == null) {
+        if (cellsBusy == 0) {            // Try to attach new Cell
+            // 乐观地提前创建了value=x的CounterCell
+            CounterCell r = new CounterCell(x); // Optimistic create
+            if (cellsBusy == 0 &amp;&amp; // CAS获取cellsBusy锁
+                U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+                boolean created = false;
+                try { // Recheck under lock
+                    CounterCell[] rs; int m, j;
+                    // 判断有没有被其它线程初始化
+                    if ((rs = counterCells) != null &amp;&amp;
+                        (m = rs.length) &gt; 0 &amp;&amp;
+                        rs[j = (m - 1) &amp; h] == null) {
+                        rs[j] = r;
+                        created = true;
+                    }
+                } finally {
+                    cellsBusy = 0; // 释放cellsBusy锁，赋值本身具有原子性
+                }
+                if (created) // 初始化元素成功，直接退出循环
+                    break;
+                continue; // Slot is now non-empty
+            }
+        }
+        collide = false;
+    }
+    // 2.wasUncontended为false，存在竞争，线程rehash
+    else if (!wasUncontended)       // CAS already known to fail
+        wasUncontended = true;      // Continue after rehash（指的是更改当前线程的哈希值）
+    // 3.尝试将x累加进数组元素
+    else if (U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))
+        break;
+    // 4.判断counterCells是否正在扩容，或数组长度是否大于等于处理器数
+    else if (counterCells != as || n &gt;= NCPU)
+        collide = false;            // At max size or stale
+    // 5.如果数组没有在扩容，且数组长度小于处理器数
+    // 此时，如果collide为false，则把它变成true
+    // 在下一轮循环中，如果CAS累加value继续失败，就会触发counterCells扩容
+    else if (!collide)
+        collide = true;
+    // 6.如果collide为true，则尝试给counterCells数组扩容
+    else if (cellsBusy == 0 &amp;&amp;
+             U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+        try {
+            if (counterCells == as) {// Expand table unless stale
+                CounterCell[] rs = new CounterCell[n &lt;&lt; 1];
+                for (int i = 0; i &lt; n; ++i)
+                    rs[i] = as[i];
+                counterCells = rs;
+            }
+        } finally {
+            cellsBusy = 0;
+        }
+        collide = false;
+        continue; // Retry with expanded table
+    }
+    // 更改当前线程的哈希值，未continue得分支都会执行
+    h = ThreadLocalRandom.advanceProbe(h); 
+}
+</code></pre>
 <h2 id="五读取">五、读取<a class="anchor" href="#五读取">#</a></h2>
 <p>既然采用了 COW 的思想，读取总是比写入简单得多。</p>
 <pre><code class="language-java">    public V get(Object key) {
@@ -969,6 +1222,16 @@ synchronized (f) {
   
    target="_blank" rel="noreferrer noopener" 
 >关于 sc == rs + 1 || sc == rs + MAX_RESIZERS</a>
+</li>
+<li><a href="https://www.jianshu.com/p/971ee45597ac" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>ConcurrentHashMap 1.8 计算 size 的方式</a>
+</li>
+<li><a href="https://www.jianshu.com/p/c3c108c3dcfd" 
+  
+   target="_blank" rel="noreferrer noopener" 
+>伪共享</a>
 </li>
 </ol>
 
@@ -1054,7 +1317,12 @@ synchronized (f) {
         <li><a href="#33-transfer">3.3 transfer</a></li>
       </ul>
     </li>
-    <li><a href="#四计数">四、计数</a></li>
+    <li><a href="#四计数">四、计数</a>
+      <ul>
+        <li><a href="#41-fulladdcount">4.1 fullAddCount</a></li>
+        <li><a href="#42-countercells">4.2 counterCells</a></li>
+      </ul>
+    </li>
     <li><a href="#五读取">五、读取</a></li>
     <li><a href="#参考">参考</a></li>
   </ul>

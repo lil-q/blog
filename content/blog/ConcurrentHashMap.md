@@ -17,7 +17,7 @@ toc: true
 
 ## 一、初始化
 
-*CHM* 中重要的成员变量如下： 
+*CHM* 中比较重要的成员变量如下： 
 
 ```java
 public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
@@ -619,15 +619,15 @@ private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
 ```java
 while (advance) {
     int nextIndex, nextBound;
-    // 1.选择下一个桶或处理结束信号
+    // 选择下一个桶或处理结束信号
     if (--i >= bound || finishing)
         advance = false;
-    // 2.没有新的区间可以分配
+    // 没有新的区间可以分配
     else if ((nextIndex = transferIndex) <= 0) {
         i = -1;
         advance = false;
     }
-    // 3.分配区间
+    // 分配区间
     else if (U.compareAndSwapInt
              (this, TRANSFERINDEX, nextIndex,
               nextBound = (nextIndex > stride ?
@@ -677,14 +677,14 @@ while (advance) {
 判断结束条件围绕 finishing 变量展开，当 i 小于 0 时，当前线程已经完成了 table 最后的一个区间，对 finishing 进行判断：
 
 * finishing 为 true：
-  1. 全局变量 nextTable 置空；
-  2. 替换 table；
-  3. 设置 sizeCtl。
+  * 全局变量 nextTable 置空；
+  * 替换 table；
+  * 设置 sizeCtl。
 * finishing 为 false：
-  1. 原子操作对 sizeCtl 中的线程数减 1；
-  2. 判断是否所有线程都结束工作，否则返回，是则继续；
-  3. finishing 置 true。
-  4. i 置 taable.length，下一个循环开始全局检查。
+  * 原子操作对 sizeCtl 中的线程数减 1；
+  * 判断是否所有线程都结束工作，否则返回，是则继续；
+  * finishing 置 true。
+  * i 置 taable.length，下一个循环开始全局检查。
 
 ```java
 // i<0时，已经完成扩容，暂不知道(i>=n || i+n>=nextn)的含义
@@ -852,7 +852,264 @@ synchronized (f) {
 
 ## 四、计数
 
+通过 `size()` 可以获得当前键值对的数量，`size()` 将 `sumCount()` 获得的 long 类型的值转化为 int 返回。
 
+`sumCount()` 则计算 baseCount 字段与 counterCells 数组中所有非空元素的记录值的和。
+
+```java
+// 未发生争用前都用它计数
+private transient volatile long baseCount;
+
+// 用于同步counterCells数组结构修改的乐观锁资源
+private transient volatile int cellsBusy;
+
+// 支持多个线程同时通过counterCells中的多个元素计数
+private transient volatile CounterCell[] counterCells;
+
+public int size() {
+    long n = sumCount();
+    return ((n < 0L) ? 0 : 
+            (n > (long)Integer.MAX_VALUE) ? Integer.MAX_VALUE : 
+            (int)n); 
+}
+
+// 计算 baseCount 字段与所有 counterCells 数组的非空元素的和
+final long sumCount() {
+    CounterCell[] as = counterCells; CounterCell a;
+    long sum = baseCount;
+    if (as != null) {
+        for (int i = 0; i < as.length; ++i) {
+            if ((a = as[i]) != null)
+                sum += a.value;
+        }
+    }
+    return sum;
+}
+```
+
+由此我们可以推断，*CHM* 将键值对数量保存在全局变量 baseCount 和 *CounterCell* 数组 counterCells 中。*CounterCell* 是 *CHM* 的静态内部类，结构很简单，仅仅保存一个 volatile 修饰的 long 值。因此，每一个 *CounterCell* 对象占用空间都很小，当一个 *CounterCell* 数组创建时，其中的多个元素可能处在同一缓存行内，这会导致一种伪共享的现象，极大降低并发效率。
+
+`@sun.misc.Contended` 的作用就是保证修饰对象不会出现伪共享，原理是在对象或字段的前后各增加 128 字节大小的 padding，使用 2 倍于大多数硬件缓存行的大小来避免相邻扇区预取导致的伪共享冲突。
+
+```java
+@sun.misc.Contended static final class CounterCell {
+    volatile long value;
+    CounterCell(long x) { value = x; }
+}
+```
+
+那么键值对的数量是如何保存到 baseCount 和 counterCells 中的呢?
+
+在第二章中，我们介绍了 `addCount()`，它会先对 *CHM* 中所有键值对计数，然后考虑是否扩容。现在我们来看看它是如何计数的。
+
+```java
+private final void addCount(long x, int check) {
+    CounterCell[] as; long b, s;
+    // 第一层if
+    if ((as = counterCells) != null ||
+        !U.compareAndSwapLong(this, BASECOUNT, b = baseCount, s = b + x)) {
+        CounterCell a; long v; int m;
+        boolean uncontended = true;
+        // 第二层if
+        if (as == null || (m = as.length - 1) < 0 ||
+            (a = as[ThreadLocalRandom.getProbe() & m]) == null ||
+            !(uncontended =
+              U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))) {
+            fullAddCount(x, uncontended);
+            return;
+        }
+        if (check <= 1)
+            return;
+        s = sumCount();
+    }
+    if (check >= 0) {
+        ...
+    }
+}
+```
+
+`addCount()` 中有两层 if，其中蕴含了非常巧妙的设计，第一层：
+
+* counterCells 不为空：跳转第二层 if；
+* counterCells 为空：不着急创建 counterCells，先用原子操作增加 baseCount：
+  * 成功：结束计数；
+  * 失败：跳转第二层 if。
+
+第二层 if 就是用来创建 counterCells 以及使用它来计数的：
+
+* counterCells 为空或 counterCells[probe] 为空：调用 ` fullAddCount(x, true)`；
+* counterCells[probe] 已经创建：原子操作增加其 value 值：
+  * 成功：结束计数；
+  * 失败：调用 ` fullAddCount(x, false)`。
+
+probe 可以理解为每个线程特有的哈希值（不同在于 probe 是可变的）与 counterCells.length - 1 的位与，目的是为了让每个线程都拥有属于自己的 counterCell，这样每个线程增加计数时就不会线程冲突了。由此可见 counterCells 本身就是一个小的哈希表，当 counterCells 为空或 counterCells[probe] 为空时，就需要 `fullAddCount(x, uncontended)` 来创建，测试 uncontended 为 true。
+
+不幸的是，既然是哈希表，就存在哈希冲突。如果原子操作争用 counterCells[probe]（线程冲突），就需要 `fullAddCount(x, uncontended)` 解决哈希冲突和线程冲突，此时 uncontended 为 false。也就是说，这里的冲突包含两种含义：线程的哈希冲突和线程的竞争冲突。
+
+### 4.1 fullAddCount
+
+`fullAddCount()` 可真是全能，来看看它是如何实现的。依旧，先理清框架，再探究细节。
+
+```java
+private final void fullAddCount(long x, boolean wasUncontended) {
+    int h;
+    // 判断线程哈希值是否初始化
+    if ((h = ThreadLocalRandom.getProbe()) == 0) {
+        ThreadLocalRandom.localInit(); // force initialization
+        h = ThreadLocalRandom.getProbe();
+        wasUncontended = true; // 重新假设未发生争用
+    }
+    boolean collide = false; // 是否要给counterCells扩容的标志
+    for (;;) {
+        CounterCell[] as; CounterCell a; int n; long v;
+        // 1.counterCells非空且长度大于0，用它来计数
+        if ((as = counterCells) != null && (n = as.length) > 0) {
+            ... // 详见4.2节
+        }
+        // 2.counterCells为空或长度为0，初始化counterCells
+        else if (cellsBusy == 0 && counterCells == as &&
+                 U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+            // 获取cellsBusy锁
+            boolean init = false;
+            try { // Initialize table
+                if (counterCells == as) {
+                    CounterCell[] rs = new CounterCell[2]; // 初始长度为2
+                    rs[h & 1] = new CounterCell(x);
+                    counterCells = rs;
+                    init = true;
+                }
+            } finally {
+                cellsBusy = 0;
+            }
+            if (init)
+                break;
+        }
+        // 3.counterCells为空或长度为0，并且获取cellsBusy锁失败，则会再次尝试将x累加到baseCount
+        else if (U.compareAndSwapLong(this, BASECOUNT, v = baseCount, v + x))
+            break; // Fall back on using base
+    } 
+}
+```
+
+首先判断线程哈希值是否初始化，若未初始化，则通过 `ThreadLocalRandom.localInit()` 强制初始化。
+
+魔术 0x9e3779b9 是黄金分割比与 2^32 的乘积，使用它能够有效分散哈希分布。
+
+```java
+private static final int PROBE_INCREMENT = 0x9e3779b9; // 魔数
+private static final AtomicInteger probeGenerator = new AtomicInteger(); // 竞争不激烈，可用原子类
+
+static final void localInit() {
+    int p = probeGenerator.addAndGet(PROBE_INCREMENT); // 每次累加魔数
+    int probe = (p == 0) ? 1 : p; // skip 0
+    long seed = mix64(seeder.getAndAdd(SEEDER_INCREMENT));
+    Thread t = Thread.currentThread();
+    UNSAFE.putLong(t, SEED, seed);
+    UNSAFE.putInt(t, PROBE, probe); // 写回
+}
+```
+
+初始化后，将 wasUncontended 置为 true，由于 probe 改变了，可以假设未发生争用。
+
+接着是一个复杂的循环，但是总体框架是清晰的：
+
+1. counterCells 非空且长度大于 0：用它来计数；
+2. counterCells 为空或长度为 0，初始化 counterCells；
+3. counterCells 为空或长度为 0，并且获取 cellsBusy 锁失败：再次尝试将 x 累加到 baseCount。
+
+第二个和第三个分支比较好理解，关键在于第一个分支如何用 counterCells 计数，又是如何处理 counterCells 哈希冲突的。
+
+### 4.2 counterCells
+
+循环：
+
+1. counterCells[probe] 为空，插入新的 *CounterCell* 对象：
+   * 创建成功：已记录 x，跳出；
+   * 创建失败：进入下一个循环。
+2. 若 wasUncontended 为 false，存在竞争：
+   * wasUncontended 置为 true；
+   * 执行线程 rehash，进入下一个循环。
+3. 若成功通过 CAS 将 x 累加进 counterCells[probe]：跳出。
+4. 若 counterCells 正在扩容或长度大于等于处理器数：
+   * collide 置为 false，无法扩容；
+   * 执行线程 rehash，进入下一个循环。
+5. 若 collide 为 false：
+   * collide 置为 true，下一轮第三步继续失败将进行扩容；
+   * 执行线程 rehash，进入下一个循环。
+6. 若 collide 为 true：
+   * 尝试给 counterCells 扩容；
+   * 进入下一个循环。
+
+以上就是 counterCells 计数的流程，有几个点需要说明：
+
+* 就算进行了线程 rehash 也没法保证一定不会哈希冲突，但是如果传入值 wasUncontended 明确表示存在哈希冲突和线程冲突并存，第二步还是会主动线程 rehash。
+* 第一步和第二步都只会执行一次，之后的每一次循环都会尝试第三步通过 CAS 将 x 累加进 counterCells[probe]。
+* 并不是第三步失败，就立即扩容，两者之间还是会多次尝试第三步 CAS。
+* 如果不能扩容，就会在第三步和第四步间来回执行，直到线程 rehash 后第三步 CAS 成功为止。
+
+```java
+if ((as = counterCells) != null && (n = as.length) > 0) {
+	// 1.counterCells[probe]为空，插入新的CounterCell
+    if ((a = as[(n - 1) & h]) == null) {
+        if (cellsBusy == 0) {            // Try to attach new Cell
+            // 乐观地提前创建了value=x的CounterCell
+            CounterCell r = new CounterCell(x); // Optimistic create
+            if (cellsBusy == 0 && // CAS获取cellsBusy锁
+                U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+                boolean created = false;
+                try { // Recheck under lock
+                    CounterCell[] rs; int m, j;
+                    // 判断有没有被其它线程初始化
+                    if ((rs = counterCells) != null &&
+                        (m = rs.length) > 0 &&
+                        rs[j = (m - 1) & h] == null) {
+                        rs[j] = r;
+                        created = true;
+                    }
+                } finally {
+                    cellsBusy = 0; // 释放cellsBusy锁，赋值本身具有原子性
+                }
+                if (created) // 初始化元素成功，直接退出循环
+                    break;
+                continue; // Slot is now non-empty
+            }
+        }
+        collide = false;
+    }
+    // 2.wasUncontended为false，存在竞争，线程rehash
+    else if (!wasUncontended)       // CAS already known to fail
+        wasUncontended = true;      // Continue after rehash（指的是更改当前线程的哈希值）
+    // 3.尝试将x累加进数组元素
+    else if (U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))
+        break;
+    // 4.判断counterCells是否正在扩容，或数组长度是否大于等于处理器数
+    else if (counterCells != as || n >= NCPU)
+        collide = false;            // At max size or stale
+    // 5.如果数组没有在扩容，且数组长度小于处理器数
+    // 此时，如果collide为false，则把它变成true
+    // 在下一轮循环中，如果CAS累加value继续失败，就会触发counterCells扩容
+    else if (!collide)
+        collide = true;
+    // 6.如果collide为true，则尝试给counterCells数组扩容
+    else if (cellsBusy == 0 &&
+             U.compareAndSwapInt(this, CELLSBUSY, 0, 1)) {
+        try {
+            if (counterCells == as) {// Expand table unless stale
+                CounterCell[] rs = new CounterCell[n << 1];
+                for (int i = 0; i < n; ++i)
+                    rs[i] = as[i];
+                counterCells = rs;
+            }
+        } finally {
+            cellsBusy = 0;
+        }
+        collide = false;
+        continue; // Retry with expanded table
+    }
+    // 更改当前线程的哈希值，未continue得分支都会执行
+    h = ThreadLocalRandom.advanceProbe(h); 
+}
+```
 
 ## 五、读取
 
@@ -921,4 +1178,6 @@ Node<K,V> find(int h, Object k) {
 4. [Java Concurrent Hashmap initTable() Why the try/finally block?](https://stackoverflow.com/questions/63651473/java-concurrent-hashmap-inittable-why-the-try-finally-block)
 5. [How does ConcurrentHashMap resizeStamp method work?](https://stackoverflow.com/questions/47175835/how-does-concurrenthashmap-resizestamp-method-work)
 6. [关于 sc == rs + 1 || sc == rs + MAX_RESIZERS](https://stackoverflow.com/questions/53493706/how-the-conditions-sc-rs-1-sc-rs-max-resizers-can-be-achieved-in)
+7. [ConcurrentHashMap 1.8 计算 size 的方式](https://www.jianshu.com/p/971ee45597ac)
+8. [伪共享](https://www.jianshu.com/p/c3c108c3dcfd)
 
