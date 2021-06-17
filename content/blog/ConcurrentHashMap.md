@@ -185,7 +185,8 @@ final V putVal(K key, V value, boolean onlyIfAbsent) {
                 if (tabAt(tab, i) == f) { // 上锁和检查头节点是否有变
                     if (fh >= 0) { // 大于等于0，则为链表
                         binCount = 1;
-                        for (Node<K,V> e = f;; ++binCount) { // 遍历同时记录binCount
+                        // 遍历同时记录binCount
+                        for (Node<K,V> e = f;; ++binCount) { 
                             K ek;
                             if (e.hash == hash &&
                                 ((ek = e.key) == key ||
@@ -324,7 +325,7 @@ private final void addCount(long x, int check) {
     // 判断是否C扩容
     if (check >= 0) { 
         Node<K,V>[] tab, nt; int n, sc;
-        // 满足三个条件则C扩容：1.键值对数达到sizeCtl；2.table非空；3.table长度非最大值
+        // 满足三个条件则C扩容：1.size达到sizeCtl；2.table非空；3.table长度非最大值
         while (s >= (long)(sc = sizeCtl) && (tab = table) != null &&
                (n = tab.length) < MAXIMUM_CAPACITY) {
             // 以下为C扩容，和tryPresize()中的一个分支完全一致
@@ -536,7 +537,8 @@ private final void transfer(Node<K,V>[] tab, Node<K,V>[] nextTab) {
         transferIndex = n; // 用于控制扩容区间的分配
     }
     int nextn = nextTab.length;
-    ForwardingNode<K,V> fwd = new ForwardingNode<K,V>(nextTab); // 用于标记已处理的空桶
+    // 用于标记已处理的空桶
+    ForwardingNode<K,V> fwd = new ForwardingNode<K,V>(nextTab); 
     boolean advance = true;
     boolean finishing = false; // to ensure sweep before committing nextTab
     // 3.循环处理，i表示当前处理的桶下标（原table），bound表示分得区间的下界
@@ -691,7 +693,8 @@ if (i < 0 || i >= n || i + n >= nextn) {
     }
     // finishing为false，但是该线程的任务已经完成，sizeCtl中的线程数减1
     if (U.compareAndSwapInt(this, SIZECTL, sc = sizeCtl, sc - 1)) {
-        // 判断sizeCtl是否回到刚开始扩容的状态，是则说明所有用于迁移的线程都结束工作，否则直接返回
+        // 判断sizeCtl是否回到刚开始扩容的状态
+        // 是则说明所有用于迁移的线程都结束工作，否则直接返回
         if ((sc - 2) != resizeStamp(n) << RESIZE_STAMP_SHIFT)
             return;
         // finishing置为true
@@ -716,7 +719,8 @@ synchronized (f) {
             // 决定移动到低位桶还是高位桶
             int runBit = fh & n;
             Node<K,V> lastRun = f;
-            // 找到最后将迁移到同一个桶的所有节点，这部分不需要创建新的节点，而是直接迁移
+            // 找到最后将迁移到同一个桶的所有节点，
+            // 这部分不需要创建新的节点，而是直接迁移
             for (Node<K,V> p = f.next; p != null; p = p.next) {
                 int b = p.hash & n;
                 if (b != runBit) {
@@ -758,7 +762,7 @@ synchronized (f) {
 我们以长度为 8 的 table 为例，在 table 的第一个桶内插入了 9 条数据，这时候触发了扩容。用 [key] 表示这些 key 的值，并求得每一个节点的 runBit。对这些节点遍历，找到 lastRun 的位置。
 
 ```txt
-| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |  <-table
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 |  table
  [0] : 0000 0000 & 1000 = 0 
  [8] : 0000 1000 & 1000 = 8
  [16]: 0001 0000 & 1000 = 0
@@ -775,7 +779,7 @@ synchronized (f) {
 
 ```txt
   ln                              hn
-| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |  <-newTable
+| 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15 |  newTable
  [32]   -                        [40]  -
  [16]   -                        [24]  -
  [0]   <- reversed               [8]  <- reversed 
@@ -976,7 +980,8 @@ private final void fullAddCount(long x, boolean wasUncontended) {
             if (init)
                 break;
         }
-        // 3.counterCells为空或长度为0，并且获取cellsBusy锁失败，则会再次尝试将x累加到baseCount
+        // 3.counterCells为空或长度为0，并且获取cellsBusy锁失败
+        // 则会再次尝试将x累加到baseCount
         else if (U.compareAndSwapLong(this, BASECOUNT, v = baseCount, v + x))
             break; // Fall back on using base
     } 
@@ -989,7 +994,8 @@ private final void fullAddCount(long x, boolean wasUncontended) {
 
 ```java
 private static final int PROBE_INCREMENT = 0x9e3779b9; // 魔数
-private static final AtomicInteger probeGenerator = new AtomicInteger(); // 竞争不激烈，可用原子类
+// 竞争不激烈，可用原子类
+private static final AtomicInteger probeGenerator = new AtomicInteger(); 
 
 static final void localInit() {
     int p = probeGenerator.addAndGet(PROBE_INCREMENT); // 每次累加魔数
@@ -1070,7 +1076,7 @@ if ((as = counterCells) != null && (n = as.length) > 0) {
     }
     // 2.wasUncontended为false，存在竞争，线程rehash
     else if (!wasUncontended)       // CAS already known to fail
-        wasUncontended = true;      // Continue after rehash（指的是更改当前线程的哈希值）
+        wasUncontended = true;      // Continue after rehash（线程哈希）
     // 3.尝试将x累加进数组元素
     else if (U.compareAndSwapLong(a, CELLVALUE, v = a.value, v + x))
         break;
