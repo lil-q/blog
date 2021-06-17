@@ -412,9 +412,7 @@ public class ConcurrentMapTest {
 现在我们知道，P 扩容实际上提供了 table 的初始化（在对空 map 进行 `putAll()` 时需要）和扩容的终止条件，其余时间都是在循环 C 扩容。上面的例子中，P 扩容后容量是 C 扩容的四倍，说明 P 扩容进行了三次 C 扩容。
 
 1. table.length=32，c=64 > sizeCtl=24；
-
 2. table.length=64，c=64 > sizeCtl=48；
-
 3. table.length=128，c=64 < sizeCtl=96，跳出。
 
 总结，C 扩容将 table.length 翻倍，而 P 扩容进行若干次 C 扩容，直到满足条件。之所以 P 扩容比 C 扩容大得多，是因为触发 P 扩容时，map 已经察觉到明显的哈希冲突了。
@@ -846,7 +844,7 @@ synchronized (f) {
 
 ## 四、计数
 
-通过 `size()` 可以获得当前键值对的数量，`size()` 将 `sumCount()` 获得的 long 类型的值转化为 int 返回。
+通过 `size()` 可以获得当前键值对的数量，它将 `sumCount()` 获得的 long 类型的值转化为 int 返回。
 
 `sumCount()` 则计算 baseCount 字段与 counterCells 数组中所有非空元素的记录值的和。
 

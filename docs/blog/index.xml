@@ -13,12 +13,13 @@
     
     
     <item>
-      <title>BuildBlock</title>
+      <title>Java 并发：BlockingQueue</title>
       <link>https://lil-q.github.io/blog/buildblock/</link>
       <pubDate>Thu, 17 Jun 2021 13:14:27 +0800</pubDate>
       
       <guid>https://lil-q.github.io/blog/buildblock/</guid>
-      <description></description>
+      <description>BlockingQueue 阻塞队列支持多个线程同时对其入队和出队。
+   方法 操作成功 操作失败     add(E e) 返回 true 抛出异常   put(E e) void 一直阻塞   offer(E e) 返回 true 返回 false   offer(E e, long timeout, TimeUnit unit) 返回 true 等待 timeout 后返回 false    生产者-消费者模式的本质就是用缓存区将生产和消费解耦，提高并发效率。</description>
     </item>
     
     <item>

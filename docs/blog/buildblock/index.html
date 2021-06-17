@@ -2,7 +2,7 @@
 <html lang="en-us">
 
 <head>
-  <title>BuildBlock | Homeward</title>
+  <title>Java 并发：BlockingQueue | Homeward</title>
 
   <meta charset="UTF-8">
   <meta name="language" content="en">
@@ -32,7 +32,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.400265c323f494e32126fcb28ee4a05b7ba081a303db212255f4debe5c212fdb.css" integrity="sha256-QAJlwyP0lOMhJvyyjuSgW3uggaMD2yEiVfTevlwhL9s="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.e5f4131a78a2c54d461c7280ad6af3b12e08de11172a925616e18ae8f5abdddf.css" integrity="sha256-5fQTGniixU1GHHKArWrzsS4I3hEXKpJWFuGK6PWr3d8="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.8825917f684515ceb669a138cb3ca801b73189b31711978ff69d9688c27216d1.css" integrity="sha256-iCWRf2hFFc62aaE4yzyoAbcxibMXEZeP9p2WiMJyFtE="/>
   
   
    
@@ -49,8 +49,8 @@
             "@id": "https:\/\/lil-q.github.io\/"
       },
       "articleSection" : "blog",
-      "name" : "BuildBlock",
-      "headline" : "BuildBlock",
+      "name" : "Java 并发：BlockingQueue",
+      "headline" : "Java 并发：BlockingQueue",
       "description" : "",
       "inLanguage" : "en-US",
       "author" : "",
@@ -62,7 +62,7 @@
       "datePublished": "2021-06-17 13:14:27 \u002b0800 CST",
       "dateModified" : "2021-06-17 13:14:27 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/buildblock\/",
-      "wordCount" : "0",
+      "wordCount" : "33",
       "keywords" : ["java", "concurrency", "Blog"]
     }
   
@@ -108,11 +108,45 @@
       <div class="post__container">
         <div class="post">
           <header class="post__header">
-            <h1 id="post__title">BuildBlock</h1>
+            <h1 id="post__title">Java 并发：BlockingQueue</h1>
             <time datetime="2021-06-17 13:14:27 &#43;0800 CST" class="post__date">Jun 17 2021</time> 
           </header>
           <article class="post__content">
               
+<p><em>BlockingQueue</em> 阻塞队列支持多个线程同时对其入队和出队。</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>操作成功</th>
+<th align="center">操作失败</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>add(E e)</td>
+<td>返回 true</td>
+<td align="center">抛出异常</td>
+</tr>
+<tr>
+<td>put(E e)</td>
+<td>void</td>
+<td align="center">一直阻塞</td>
+</tr>
+<tr>
+<td>offer(E e)</td>
+<td>返回 true</td>
+<td align="center">返回 false</td>
+</tr>
+<tr>
+<td>offer(E e, long timeout, TimeUnit unit)</td>
+<td>返回 true</td>
+<td align="center">等待 timeout 后返回 false</td>
+</tr>
+</tbody>
+</table>
+<p>生产者-消费者模式的本质就是用<strong>缓存区</strong>将生产和消费<strong>解耦</strong>，提高并发效率。</p>
 
 
               

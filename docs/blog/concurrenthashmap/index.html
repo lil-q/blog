@@ -32,7 +32,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.400265c323f494e32126fcb28ee4a05b7ba081a303db212255f4debe5c212fdb.css" integrity="sha256-QAJlwyP0lOMhJvyyjuSgW3uggaMD2yEiVfTevlwhL9s="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.e5f4131a78a2c54d461c7280ad6af3b12e08de11172a925616e18ae8f5abdddf.css" integrity="sha256-5fQTGniixU1GHHKArWrzsS4I3hEXKpJWFuGK6PWr3d8="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.8825917f684515ceb669a138cb3ca801b73189b31711978ff69d9688c27216d1.css" integrity="sha256-iCWRf2hFFc62aaE4yzyoAbcxibMXEZeP9p2WiMJyFtE="/>
   
   
    
@@ -62,7 +62,7 @@
       "datePublished": "2021-06-13 16:30:25 \u002b0800 CST",
       "dateModified" : "2021-06-13 16:30:25 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/concurrenthashmap\/",
-      "wordCount" : "4206",
+      "wordCount" : "4205",
       "keywords" : ["Blog"]
     }
   
@@ -477,15 +477,9 @@ public class ConcurrentMapTest {
 </ul>
 <p>现在我们知道，P 扩容实际上提供了 table 的初始化（在对空 map 进行 <code>putAll()</code> 时需要）和扩容的终止条件，其余时间都是在循环 C 扩容。上面的例子中，P 扩容后容量是 C 扩容的四倍，说明 P 扩容进行了三次 C 扩容。</p>
 <ol>
-<li>
-<p>table.length=32，c=64 &gt; sizeCtl=24；</p>
-</li>
-<li>
-<p>table.length=64，c=64 &gt; sizeCtl=48；</p>
-</li>
-<li>
-<p>table.length=128，c=64 &lt; sizeCtl=96，跳出。</p>
-</li>
+<li>table.length=32，c=64 &gt; sizeCtl=24；</li>
+<li>table.length=64，c=64 &gt; sizeCtl=48；</li>
+<li>table.length=128，c=64 &lt; sizeCtl=96，跳出。</li>
 </ol>
 <p>总结，C 扩容将 table.length 翻倍，而 P 扩容进行若干次 C 扩容，直到满足条件。之所以 P 扩容比 C 扩容大得多，是因为触发 P 扩容时，map 已经察觉到明显的哈希冲突了。</p>
 <pre><code class="language-java">// 注意: 如果是由treeifyBin()调用，传入的size已经是两倍的原table长度
@@ -883,7 +877,7 @@ synchronized (f) {
 }
 </code></pre>
 <h2 id="四计数">四、计数<a class="anchor" href="#四计数">#</a></h2>
-<p>通过 <code>size()</code> 可以获得当前键值对的数量，<code>size()</code> 将 <code>sumCount()</code> 获得的 long 类型的值转化为 int 返回。</p>
+<p>通过 <code>size()</code> 可以获得当前键值对的数量，它将 <code>sumCount()</code> 获得的 long 类型的值转化为 int 返回。</p>
 <p><code>sumCount()</code> 则计算 baseCount 字段与 counterCells 数组中所有非空元素的记录值的和。</p>
 <pre><code class="language-java">// 未发生争用前都用它计数
 private transient volatile long baseCount;
@@ -1260,7 +1254,7 @@ static final void localInit() {
   
     <a class="pagination__item" href="https://lil-q.github.io/blog/buildblock/">
       <span class="pagination__label">Next Post</span>
-      <span class="pagination__title" >BuildBlock</span>
+      <span class="pagination__title" >Java 并发：BlockingQueue</span>
     </a>
   
 </div>
