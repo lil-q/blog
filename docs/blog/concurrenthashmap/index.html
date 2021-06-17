@@ -62,7 +62,7 @@
       "datePublished": "2021-06-13 16:30:25 \u002b0800 CST",
       "dateModified" : "2021-06-13 16:30:25 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/concurrenthashmap\/",
-      "wordCount" : "4208",
+      "wordCount" : "4205",
       "keywords" : ["Blog"]
     }
   
@@ -446,7 +446,7 @@ public class ConcurrentMapTest {
             map2.put(i * 16, i); // key不同
             int length;
             if ((length = getLength(map2)) != DEFAULT_CAPACITY) {
-                System.out.printf(&quot;第%d次插入后map1扩容：%d\n&quot;, i + 1, length);
+                System.out.printf(&quot;第%d次插入后map2扩容：%d\n&quot;, i + 1, length);
                 break;
             }
         }
@@ -464,7 +464,7 @@ public class ConcurrentMapTest {
 
 </code></pre>
 <pre><code class="language-txt">第12次插入后map1扩容：32
-第9次插入后map1扩容：128
+第9次插入后map2扩容：128
 </code></pre>
 <p>上面两个 map 扩容后出现了不同的容量，这是因为两者触发了不同的扩容机制。map1 中每次插入的 key 为 1、2、3 等，由于 <em>Integer</em> 的 hashcode 等于其自身的开箱值，可以确保 map1 中的键值对是均匀分布的。因此，导致 map1 扩容的原因是键值对的数量达到sizeCtl（12）。map2 中每次插入的是 16 的倍数，所以每次插入的键值对都放进了第一个桶内，这导致第一个桶的链表越来越长，当长度大于 TREEIFY_THRESHOLD（8）时，触发了 <code>treeifyBin()</code>，根据 <code>treeifyBin()</code> 的逻辑，map2 当前容量小于 MIN_TREEIFY_CAPACITY（64），优先通过 <code>tryPresize()</code> 进行 P 扩容。</p>
 <h3 id="31-p-扩容">3.1 P 扩容<a class="anchor" href="#31-p-扩容">#</a></h3>
@@ -478,15 +478,12 @@ public class ConcurrentMapTest {
 <p>现在我们知道，P 扩容实际上提供了 table 的初始化（在对空 map 进行 <code>putAll()</code> 时需要）和扩容的终止条件，其余时间都是在循环 C 扩容。上面的例子中，P 扩容后容量是 C 扩容的四倍，说明 P 扩容进行了三次 C 扩容。</p>
 <ol>
 <li>
-<p>第一次扩容：</p>
 <p>table.length=32，c=64 &gt; sizeCtl=24；</p>
 </li>
 <li>
-<p>第二次扩容：</p>
 <p>table.length=64，c=64 &gt; sizeCtl=48；</p>
 </li>
 <li>
-<p>第三次扩容：</p>
 <p>table.length=128，c=64 &lt; sizeCtl=96，跳出。</p>
 </li>
 </ol>
@@ -970,7 +967,7 @@ final long sumCount() {
 </ul>
 </li>
 </ul>
-<p>probe 可以理解为每个线程特有的哈希值（不同在于 probe 是可变的）与 counterCells.length - 1 的位与，目的是为了让每个线程都拥有属于自己的 counterCell，这样每个线程增加计数时就不会线程冲突了。由此可见 counterCells 本身就是一个小的哈希表，当 counterCells 为空或 counterCells[probe] 为空时，就需要 <code>fullAddCount(x, uncontended)</code> 来创建，测试 uncontended 为 true。</p>
+<p>probe 可以理解为每个线程特有的哈希值（不同在于 probe 是可变的）与 counterCells.length - 1 的位与，目的是为了让每个线程都拥有属于自己的 counterCell，这样每个线程增加计数时就不会线程冲突了。由此可见 counterCells 本身就是一个小的哈希表，当 counterCells 为空或 counterCells[probe] 为空时，就需要 <code>fullAddCount(x, uncontended)</code> 来创建，此时 uncontended 为 true。</p>
 <p>不幸的是，既然是哈希表，就存在哈希冲突。如果原子操作争用 counterCells[probe]（线程冲突），就需要 <code>fullAddCount(x, uncontended)</code> 解决哈希冲突和线程冲突，此时 uncontended 为 false。也就是说，这里的冲突包含两种含义：线程的哈希冲突和线程的竞争冲突。</p>
 <h3 id="41-fulladdcount">4.1 fullAddCount<a class="anchor" href="#41-fulladdcount">#</a></h3>
 <p><code>fullAddCount()</code> 可真是全能，来看看它是如何实现的。依旧，先理清框架，再探究细节。</p>

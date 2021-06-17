@@ -374,7 +374,7 @@ public class ConcurrentMapTest {
             map2.put(i * 16, i); // key不同
             int length;
             if ((length = getLength(map2)) != DEFAULT_CAPACITY) {
-                System.out.printf("第%d次插入后map1扩容：%d\n", i + 1, length);
+                System.out.printf("第%d次插入后map2扩容：%d\n", i + 1, length);
                 break;
             }
         }
@@ -394,7 +394,7 @@ public class ConcurrentMapTest {
 
 ```txt
 第12次插入后map1扩容：32
-第9次插入后map1扩容：128
+第9次插入后map2扩容：128
 ```
 
 上面两个 map 扩容后出现了不同的容量，这是因为两者触发了不同的扩容机制。map1 中每次插入的 key 为 1、2、3 等，由于 *Integer* 的 hashcode 等于其自身的开箱值，可以确保 map1 中的键值对是均匀分布的。因此，导致 map1 扩容的原因是键值对的数量达到sizeCtl（12）。map2 中每次插入的是 16 的倍数，所以每次插入的键值对都放进了第一个桶内，这导致第一个桶的链表越来越长，当长度大于 TREEIFY_THRESHOLD（8）时，触发了 `treeifyBin()`，根据 `treeifyBin()` 的逻辑，map2 当前容量小于 MIN_TREEIFY_CAPACITY（64），优先通过 `tryPresize()` 进行 P 扩容。
@@ -411,17 +411,11 @@ public class ConcurrentMapTest {
 
 现在我们知道，P 扩容实际上提供了 table 的初始化（在对空 map 进行 `putAll()` 时需要）和扩容的终止条件，其余时间都是在循环 C 扩容。上面的例子中，P 扩容后容量是 C 扩容的四倍，说明 P 扩容进行了三次 C 扩容。
 
-1. 第一次扩容：
+1. table.length=32，c=64 > sizeCtl=24；
 
-   table.length=32，c=64 > sizeCtl=24；
+2. table.length=64，c=64 > sizeCtl=48；
 
-2. 第二次扩容：
-
-   table.length=64，c=64 > sizeCtl=48；
-
-3. 第三次扩容：
-
-   table.length=128，c=64 < sizeCtl=96，跳出。
+3. table.length=128，c=64 < sizeCtl=96，跳出。
 
 总结，C 扩容将 table.length 翻倍，而 P 扩容进行若干次 C 扩容，直到满足条件。之所以 P 扩容比 C 扩容大得多，是因为触发 P 扩容时，map 已经察觉到明显的哈希冲突了。
 
@@ -942,7 +936,7 @@ private final void addCount(long x, int check) {
   * 成功：结束计数；
   * 失败：调用 ` fullAddCount(x, false)`。
 
-probe 可以理解为每个线程特有的哈希值（不同在于 probe 是可变的）与 counterCells.length - 1 的位与，目的是为了让每个线程都拥有属于自己的 counterCell，这样每个线程增加计数时就不会线程冲突了。由此可见 counterCells 本身就是一个小的哈希表，当 counterCells 为空或 counterCells[probe] 为空时，就需要 `fullAddCount(x, uncontended)` 来创建，测试 uncontended 为 true。
+probe 可以理解为每个线程特有的哈希值（不同在于 probe 是可变的）与 counterCells.length - 1 的位与，目的是为了让每个线程都拥有属于自己的 counterCell，这样每个线程增加计数时就不会线程冲突了。由此可见 counterCells 本身就是一个小的哈希表，当 counterCells 为空或 counterCells[probe] 为空时，就需要 `fullAddCount(x, uncontended)` 来创建，此时 uncontended 为 true。
 
 不幸的是，既然是哈希表，就存在哈希冲突。如果原子操作争用 counterCells[probe]（线程冲突），就需要 `fullAddCount(x, uncontended)` 解决哈希冲突和线程冲突，此时 uncontended 为 false。也就是说，这里的冲突包含两种含义：线程的哈希冲突和线程的竞争冲突。
 
