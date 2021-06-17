@@ -62,7 +62,7 @@
       "datePublished": "2021-06-13 16:30:25 \u002b0800 CST",
       "dateModified" : "2021-06-13 16:30:25 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/concurrenthashmap\/",
-      "wordCount" : "4205",
+      "wordCount" : "4206",
       "keywords" : ["Blog"]
     }
   
@@ -1035,7 +1035,7 @@ static final void localInit() {
 <h3 id="42-countercells">4.2 counterCells<a class="anchor" href="#42-countercells">#</a></h3>
 <p>循环：</p>
 <ol>
-<li>counterCells[probe] 为空，插入新的 <em>CounterCell</em> 对象：
+<li>若 counterCells[probe] 为空，插入新的 <em>CounterCell</em> 对象：
 <ul>
 <li>创建成功：已记录 x，跳出；</li>
 <li>创建失败：进入下一个循环。</li>

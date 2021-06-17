@@ -1017,7 +1017,7 @@ static final void localInit() {
 
 循环：
 
-1. counterCells[probe] 为空，插入新的 *CounterCell* 对象：
+1. 若 counterCells[probe] 为空，插入新的 *CounterCell* 对象：
    * 创建成功：已记录 x，跳出；
    * 创建失败：进入下一个循环。
 2. 若 wasUncontended 为 false，存在竞争：
