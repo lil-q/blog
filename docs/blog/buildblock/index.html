@@ -62,7 +62,7 @@
       "datePublished": "2021-06-17 13:14:27 \u002b0800 CST",
       "dateModified" : "2021-06-17 13:14:27 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/buildblock\/",
-      "wordCount" : "96",
+      "wordCount" : "98",
       "keywords" : ["java", "concurrency", "Blog"]
     }
   
@@ -177,6 +177,7 @@ BlockingQueue&lt;String&gt; blockingQueue = new LinkedBlockingQueue&lt;&gt;(10);
 </tbody>
 </table>
 <p><code>take()</code> 属于阻塞调用，直到出队成功才会返回，如果其他线程正在处理队列或者队列为空，将一直阻塞。</p>
+<p><em>BlockingQueue</em> 常见的应用场景就是生产者-消费者模式。</p>
 <p>生产者-消费者模式的本质就是用<strong>缓存区</strong>将生产和消费<strong>解耦</strong>，提高并发效率。</p>
 
 
