@@ -29,7 +29,7 @@
   
   
     
-    <link type="text/css" rel="stylesheet" href="/css/post.min.400265c323f494e32126fcb28ee4a05b7ba081a303db212255f4debe5c212fdb.css" integrity="sha256-QAJlwyP0lOMhJvyyjuSgW3uggaMD2yEiVfTevlwhL9s="/>
+    <link type="text/css" rel="stylesheet" href="/css/post.min.b8e32aa126e22d34496b3536ea1e99365b876146f9b0cfa48e1c4c0f29cd7e50.css" integrity="sha256-uOMqoSbiLTRJazU26h6ZNluHYUb5sM&#43;kjhxMDynNflA="/>
   
     
     <link type="text/css" rel="stylesheet" href="/css/custom.min.8825917f684515ceb669a138cb3ca801b73189b31711978ff69d9688c27216d1.css" integrity="sha256-iCWRf2hFFc62aaE4yzyoAbcxibMXEZeP9p2WiMJyFtE="/>
@@ -62,7 +62,7 @@
       "datePublished": "2021-06-17 13:14:27 \u002b0800 CST",
       "dateModified" : "2021-06-17 13:14:27 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/buildblock\/",
-      "wordCount" : "33",
+      "wordCount" : "96",
       "keywords" : ["java", "concurrency", "Blog"]
     }
   
@@ -113,7 +113,13 @@
           </header>
           <article class="post__content">
               
-<p><em>BlockingQueue</em> 阻塞队列支持多个线程同时对其入队和出队。</p>
+<p><em>BlockingQueue</em> 阻塞队列接口是支持多个线程并发处理的先入后出队列。类似于 <em>List</em>，它有两个常用的实现类 <em>ArrayBlockingQueue</em> 和 <em>LinkedBlockingQueue</em>。</p>
+<pre><code class="language-java">// 容量无上限
+BlockingQueue&lt;String&gt; blockingQueue = new ArrayBlockingQueue&lt;&gt;(); 
+// 容量上限10
+BlockingQueue&lt;String&gt; blockingQueue = new LinkedBlockingQueue&lt;&gt;(10); 
+</code></pre>
+<p>将元素 e 入队有以下方法：</p>
 <br>
 <table>
 <thead>
@@ -125,14 +131,14 @@
 </thead>
 <tbody>
 <tr>
-<td>add(E e)</td>
-<td>返回 true</td>
-<td align="center">抛出异常</td>
-</tr>
-<tr>
 <td>put(E e)</td>
 <td>void</td>
 <td align="center">一直阻塞</td>
+</tr>
+<tr>
+<td>add(E e)</td>
+<td>返回 true</td>
+<td align="center">抛出异常</td>
 </tr>
 <tr>
 <td>offer(E e)</td>
@@ -146,6 +152,31 @@
 </tr>
 </tbody>
 </table>
+<p><code>put(E e)</code> 属于阻塞调用，直到入队成功才会返回；与之相对的，调用 <code>add(E e)</code> 和 <code>offer(E e)</code> 时，不管入队成功与否都会立刻返回，而不会等待。这里的等待有两种可能：当前有其他线程正在处理队列，需要等待争用；或者队列已满，需要等待其他线程出队。还有一个比较折中的办法就是调用 <code>offer(E e, long timeout, TimeUnit unit)</code>，它会等待 timeout 的时间，还是无法入队就返回 false，其中 unit 是指定的时间单位。</p>
+<p>出队获得元素 e 有以下方法：</p>
+<br>
+<table>
+<thead>
+<tr>
+<th>方法</th>
+<th>操作成功</th>
+<th>操作失败</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>take()</td>
+<td>返回 e</td>
+<td>一直阻塞</td>
+</tr>
+<tr>
+<td>poll(long timeout, TimeUnit unit)</td>
+<td>返回 e</td>
+<td>等待 timeout 后返回 null</td>
+</tr>
+</tbody>
+</table>
+<p><code>take()</code> 属于阻塞调用，直到出队成功才会返回，如果其他线程正在处理队列或者队列为空，将一直阻塞。</p>
 <p>生产者-消费者模式的本质就是用<strong>缓存区</strong>将生产和消费<strong>解耦</strong>，提高并发效率。</p>
 
 

@@ -16,14 +16,13 @@ pre[class*="language-"] {
 .token.doctype,
 .token.cdata,
 .token.plain-text {
-  color: #6a737d;
+  color: #998;
 }
 
 .token.atrule,
 .token.attr-value,
-.token.keyword,
-.token.operator {
-  color: #d73a49;
+.token.keyword {
+  color: #900;
 }
 
 .token.property,
@@ -47,7 +46,7 @@ pre[class*="language-"] {
 
 .token.function,
 .token.class-name {
-  color: #6f42c1;
+  color: #458;
 }
 
 /* language-specific */
