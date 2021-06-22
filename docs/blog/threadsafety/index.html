@@ -32,7 +32,7 @@
     <link type="text/css" rel="stylesheet" href="/css/post.min.b8e32aa126e22d34496b3536ea1e99365b876146f9b0cfa48e1c4c0f29cd7e50.css" integrity="sha256-uOMqoSbiLTRJazU26h6ZNluHYUb5sM&#43;kjhxMDynNflA="/>
   
     
-    <link type="text/css" rel="stylesheet" href="/css/custom.min.8825917f684515ceb669a138cb3ca801b73189b31711978ff69d9688c27216d1.css" integrity="sha256-iCWRf2hFFc62aaE4yzyoAbcxibMXEZeP9p2WiMJyFtE="/>
+    <link type="text/css" rel="stylesheet" href="/css/custom.min.e5f4131a78a2c54d461c7280ad6af3b12e08de11172a925616e18ae8f5abdddf.css" integrity="sha256-5fQTGniixU1GHHKArWrzsS4I3hEXKpJWFuGK6PWr3d8="/>
   
   
    
@@ -62,7 +62,7 @@
       "datePublished": "2021-06-07 16:27:42 \u002b0800 CST",
       "dateModified" : "2021-06-07 16:27:42 \u002b0800 CST",
       "url" : "https:\/\/lil-q.github.io\/blog\/threadsafety\/",
-      "wordCount" : "282",
+      "wordCount" : "283",
       "keywords" : ["java", "concurrency", "Blog"]
     }
   
@@ -191,7 +191,7 @@ public void initialize() {
 <p>一个对象只有通过<strong>构造函数返回后才处于可预测、稳定的状态</strong>。所以要避免在构造函数中 this 引用的逸出，即使 this 引用是在构造函数最后一行发布的。</p>
 <p>导致 this 引用逸出的一个常见错误就是在构造函数中启动一个线程。当对象在构造函数中创建一个线程，由于 <code>Thread</code> 或 <code>Runnable</code> 是对象类的内部类，this 引用几乎总是被新线程共享，导致逸出。正确的做法是在构造函数中创建线程，并不要启动它，而是把启动的过程放在类似 <code>start()</code> 或 <code>initialize()</code> 方法中。</p>
 <h2 id="二线程封闭">二、线程封闭<a class="anchor" href="#二线程封闭">#</a></h2>
-<p>对一些简单的常见，实际上并不需要共享数据，这时候可以采用<strong>线程封闭</strong>的方式。如果数据只在单线程中被访问，就不需要任何同步了。这在 Swing 和 JDBC 中都有应用。</p>
+<p>对一些简单的常见，实际上并不需要共享数据，这时候可以采用<strong>线程封闭</strong>（thread confinement）的方式。如果数据只在单线程中被访问，就不需要任何同步了。这在 Swing 和 JDBC 中都有应用。</p>
 <p>利用 volatile 可以实现一种 Ad-hoc（不那么严格的）线程封闭，比如下面用于实现顺序打印的程序：</p>
 <pre><code class="language-java">class Foo {
     

@@ -5,6 +5,7 @@ slug: ""
 description: ""
 keywords: [java, concurrency]
 tags: [java, concurrency]
+draft: true
 math: false
 toc: true
 ---
@@ -42,7 +43,21 @@ BlockingQueue<String> blockingQueue = new LinkedBlockingQueue<>(10);
 
 `take()` 属于阻塞调用，直到出队成功才会返回，如果其他线程正在处理队列或者队列为空，将一直阻塞。
 
+## 一、生产者-消费者模式
+
 *BlockingQueue* 常见的应用场景就是生产者-消费者模式。
 
-生产者-消费者模式的本质就是用**缓存区**将生产和消费**解耦**，提高并发效率。
+
+
+### 1.1 广义的线程限制
+
+
+
+生产者-消费者模式中使用 *BlockingQueue* 的本质就是利用**缓存区**将生产和消费**解耦**，提高并发效率。
+
+
+
+## 参考
+
+
 
